@@ -1,5 +1,5 @@
 #include "pch.h"
-//#include "..\coop\MemoryManagement.h"
+#include "..\coop\memoryManagement.h"
 
 TEST(TestCaseName, TestName) {
   EXPECT_EQ(1, 1);

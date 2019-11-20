@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <cstdlib>
 typedef struct malloc
 {
 	char* startAdress;
@@ -11,6 +11,20 @@ typedef struct heap {
 	MallocNode * head;
 	MallocNode* tail;
 }Heap;
+MallocNode * findTheLastAlloc(Heap *h)
+{
+	MallocNode *ptr = h->head;
+	for (; ptr->next!= NULL; ptr = ptr->next);
+	return ptr;
+}
+MallocNode * findSomeAlloc(Heap *h,char * str)
+{
+	MallocNode *ptr = h->head;
+	for (; ptr->next != NULL&&ptr!=str; ptr = ptr->next);
+	if (ptr != NULL)
+		return ptr;
+	return NULL;
+}
 char * myMalloc(Heap * h,int size)
 {
 	char* temp = h->buffer;
@@ -31,7 +45,8 @@ char * myMalloc(Heap * h,int size)
 				 h->head =ptr;
 			else
 			{
-
+				MallocNode *last= findTheLastAlloc(h);
+				last->next = returnValue;
 			}
 			
 			return returnValue;
@@ -40,9 +55,13 @@ char * myMalloc(Heap * h,int size)
 	}
 	return NULL;
 }
-char* myFree(Heap * h, int location,int size)
+void myFree(Heap * h,char *str)
 {
-
+	MallocNode *toDelete = findSomeAlloc(h, str);
+	for (int i = 0; i < toDelete->size; i++)
+	{
+		str[i] = "";
+	}
 }
 void main()
 {
@@ -52,5 +71,5 @@ void main()
 	h->buffSize = 10240;
 	h->tail = h->head=NULL;
 	char *str= myMalloc(h, 40);
-	myFree()
+	myFree(h, str);
 }
