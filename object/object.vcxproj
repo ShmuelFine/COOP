@@ -134,9 +134,12 @@
     <ClCompile Include="ObjectTest.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="A.h" />
+    <ClInclude Include="B.h" />
     <ClInclude Include="Cache.h" />
     <ClInclude Include="ExportDefs.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Inherit.h" />
     <ClInclude Include="Mat.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="ObjectTest.h" />

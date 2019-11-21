@@ -33,6 +33,7 @@ END_DEF(Mat)
 
 
 FUNCTIONS(Mat)
+//FUNCTION_PTR(Mat, Print, int i, int j);
 END_FUNCTIONS(Mat)
 
 DEF_INIT_CLASS(Mat);
