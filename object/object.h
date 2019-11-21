@@ -53,9 +53,9 @@ void (*_dtor)(name * _this);
 
 
 #define END_FUNCTIONS(name) }name ##VirtualTalbe;      \
-GMED_API extern name ##VirtualTalbe name ##VTable;
+COOP_API extern name ##VirtualTalbe name ##VTable;
 
-#define DEF_INIT_CLASS(type) GMED_API void type ##_init();
+#define DEF_INIT_CLASS(type) COOP_API void type ##_init();
 #define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__) 
 #define FUNCTION_H(type,functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__);
 #define FUNCTION_IMPL(type, functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__)
@@ -65,7 +65,7 @@ name ##VTable._ctor = __ctor__ ##name;  \
 name ##VTable._dtor = __dtor__ ##name; 
 
 #define INIT_CLASS(type)                        \
-GMED_API type ##VirtualTable type ##VTable;     \
+COOP_API type ##VirtualTable type ##VTable;     \
 	void type ##_init(){                        \
 	ATTACH_TORs_ToClass(type);              
 

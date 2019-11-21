@@ -110,7 +110,7 @@ void Cache_AllocateCache(Cache* c, int newSize)
 	if (c->size == newSize)
 		return;
 	
-	Cache_AllocateCacheFromExisingBuf(c, malloc(sizeof(char) * newSize), newSize);
+	Cache_AllocateCacheFromExisingBuf(c, (char *)malloc(sizeof(char) * newSize), newSize);
 }
 
 

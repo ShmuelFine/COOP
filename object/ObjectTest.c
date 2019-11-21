@@ -61,7 +61,7 @@ int LOCAL_SCOPE_END__WhenDefiningObjectOutside_thenDoesntFreeThem()
 	return 1;
 }
 
-GMED_API int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsntFreedYet()
+COOP_API int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsntFreedYet()
 {
 	//Arrange 
 	Cache_Init(&TheGlobalCache);
@@ -97,7 +97,7 @@ GMED_API int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsn
 	return 1;
 }
 
-GMED_API int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash()
+COOP_API int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash()
 {
 	//Arrange 
 	Cache_Init(&TheGlobalCache);

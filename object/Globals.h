@@ -4,8 +4,8 @@
 #include "Cache.h"
 #include "ExportDefs.h"
 
-GMED_API extern Cache TheGlobalCache;
-//GMED_API extern Cache TheGlobalConsistantMatsMetadata;
+COOP_API extern Cache TheGlobalCache;
+COOP_API extern Cache TheGlobalConsistantMatsMetadata;
 
 
 #endif

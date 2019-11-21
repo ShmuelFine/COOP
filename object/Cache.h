@@ -23,17 +23,17 @@ typedef struct {
 	int nextFreeBlock;
 }Cache;
 
-GMED_API void Cache_Init(Cache* c);
-GMED_API void Cache_Destroy(Cache* c);
-GMED_API void Cache_AllocateCache(Cache* c, int newSize);
-GMED_API void Cache_AllocateCacheFromExisingBuf(Cache* c, char * cacheMemroy, int newSize);
+COOP_API void Cache_Init(Cache* c);
+COOP_API void Cache_Destroy(Cache* c);
+COOP_API void Cache_AllocateCache(Cache* c, int newSize);
+COOP_API void Cache_AllocateCacheFromExisingBuf(Cache* c, char * cacheMemroy, int newSize);
 
 
-GMED_API Block* Cache_getAvailableBlock(Cache* c);
-GMED_API Block* Cache_FindBlockByName(Cache* c, const char* name);
-GMED_API Block* Cache_Fetch(Cache* c, const char* block_name, int block_size);
-GMED_API Block* Cache_Fetch_Assert(Cache* c, const char* block_name, int block_size);
-GMED_API void Cache_DeleteBlock(Cache* c, Block* toDelete);
-GMED_API void Cache_RemoveBlock(Cache* c, Block* toDelete);
-GMED_API void Cache_RemoveBlockByName(Cache* c, const char* block_name);
-GMED_API unsigned long Cache_GetAllocAmount(Cache* c);
+COOP_API Block* Cache_getAvailableBlock(Cache* c);
+COOP_API Block* Cache_FindBlockByName(Cache* c, const char* name);
+COOP_API Block* Cache_Fetch(Cache* c, const char* block_name, int block_size);
+COOP_API Block* Cache_Fetch_Assert(Cache* c, const char* block_name, int block_size);
+COOP_API void Cache_DeleteBlock(Cache* c, Block* toDelete);
+COOP_API void Cache_RemoveBlock(Cache* c, Block* toDelete);
+COOP_API void Cache_RemoveBlockByName(Cache* c, const char* block_name);
+COOP_API unsigned long Cache_GetAllocAmount(Cache* c);
