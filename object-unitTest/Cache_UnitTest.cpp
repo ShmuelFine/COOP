@@ -1,7 +1,7 @@
 #include "pch.h"
 
 
-#include "..\COOP\Cache.h"
+#include "..\object\Cache.h"
 #include "LibLoadUtils.h"
 
 class CacheTest : public ::testing::Test

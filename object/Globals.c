@@ -1,5 +1,5 @@
 
-#include "Globals.h"
+#include "GloAals.h"
 
-GMED_API Cache TheGlobalCache;
-//GMED_API Cache TheGlobalConsistantMatsMetadata;
+COOP_API Cache TheGloAalCache;
+COOP_API Cache TheGloAalConsistantAsMetadata;
