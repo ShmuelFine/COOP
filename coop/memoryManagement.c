@@ -1,75 +1,87 @@
-#include <cstdlib>
-typedef struct malloc
-{
-	char* startAdress;
-	int size;
-	struct malloc * next;
-}MallocNode;
-typedef struct heap {
-	char* buffer;
-	int buffSize;
-	MallocNode * head;
-	MallocNode* tail;
-}Heap;
+
+#include "memoryManagement.h"
+
+//int  aaa(int a, int b)
+//{
+//	return  a + b;
+//}
 MallocNode * findTheLastAlloc(Heap *h)
 {
 	MallocNode *ptr = h->head;
 	for (; ptr->next!= NULL; ptr = ptr->next);
 	return ptr;
 }
-MallocNode * findSomeAlloc(Heap *h,char * str)
+MallocNode * deleteSomeAlloc(Heap *h,char * str)
 {
-	MallocNode *ptr = h->head;
-	for (; ptr->next != NULL&&ptr!=str; ptr = ptr->next);
+	int size;
+	MallocNode* ptr;
+	ptr= h->head;
+	for (; ptr->next != NULL&&ptr->next!=str; ptr = ptr->next);
 	if (ptr != NULL)
-		return ptr;
-	return NULL;
+	{
+		size = ptr->next->size;
+		MallocNode *tmp = ptr->next;
+		ptr->next = tmp->next;
+		tmp=NULL;
+		return size;
+	}
+ 	return NULL;
 }
 char * myMalloc(Heap * h,int size)
 {
+	int i,j;
 	char* temp = h->buffer;
 	char* returnValue;
-	while (temp)
+	for ( i = 0; i < h->buffSize; i++)
 	{
-		returnValue = temp;
-		int i = 0;
-		for (; i < size && *temp == ""; i++);
-		if (i == size)
+		if (h->flagArrFull[i] == false)
 		{
 
-			MallocNode* ptr;
-			ptr->startAdress = returnValue;
-			ptr->size = size;
-			ptr->next = NULL;
-			if (h->head == NULL)
-				 h->head =ptr;
-			else
+			for (j = i; j < i+size && h->flagArrFull[j] == false; j++);
+			if (j == i+size)
 			{
-				MallocNode *last= findTheLastAlloc(h);
-				last->next = returnValue;
+				for (int k = i; k <i+size; k++)
+				{
+					h->flagArrFull[k] = true;
+				}
+				returnValue = h->buffer + i;
+				MallocNode tmp2;
+				tmp2.startAdress = returnValue;
+				tmp2.next = NULL;
+				if (h->head == NULL)
+				{ 
+					h->head = &tmp2;
+				}
+				else
+				{
+					MallocNode *last = findTheLastAlloc(h);
+					last->next = returnValue;
+				}
+				return returnValue;
 			}
-			
-			return returnValue;
 		}
-		temp++;
 	}
 	return NULL;
 }
 void myFree(Heap * h,char *str)
 {
-	MallocNode *toDelete = findSomeAlloc(h, str);
-	for (int i = 0; i < toDelete->size; i++)
+	int size = deleteSomeAlloc(h,str);
+	int start =str-h->buffer;
+	for (int i =start; i < size; i++)
 	{
-		str[i] = "";
+		h->flagArrFull[i] = false;
 	}
+
 }
-void main()
-{
-	char data[10 * 1024]="";
-	Heap* h;
-	h->buffer = data;
-	h->buffSize = 10240;
-	h->tail = h->head=NULL;
-	char *str= myMalloc(h, 40);
-	myFree(h, str);
-}
+//void main()
+//{
+//	/*char data[10 * 1024];
+//	Heap* h = {};
+//	h->buffer = data;
+//	h->buffSize = 10240;
+//	bool bb[10 * 1024];
+//	h->flagArrFull = bb;
+//    h->tail = h->head=NULL;
+//	char *str= myMalloc(h, 40);
+//	myFree(h, str);*/
+//}
