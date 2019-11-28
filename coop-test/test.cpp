@@ -52,9 +52,11 @@ TEST(memoryManagement, twoAllocations) {
 	//Act
 	char* str1 = myMalloc_ptr(&h, 40);
 	char* str2 = myMalloc_ptr(&h, 60);
+	//char* str2 = myMalloc_ptr(&h, 60);
+
 	//expected
 	EXPECT_EQ(str1, h.buffer);
-	EXPECT_EQ(h.flagArrFull[41], true);
+	EXPECT_EQ(str2,h.buffer+40);
 }
 void EXPECT_BLOCKS_EQ(char* expected, char* actual)
 {
