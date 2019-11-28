@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "LibLoadUtils.h"
-#include "../COOP/ObjectTest.h"
-#include "../Gmed/Mat.h"	
+#include "../object/ObjectTest.h"
+#include "../object/Mat.h"	
 
 class ObjectTest : public ::testing::Test
 {

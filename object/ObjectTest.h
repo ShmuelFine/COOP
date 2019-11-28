@@ -1,12 +1,11 @@
 #pragma once
-//#include "Mat.h"
-#include "Globals.h"
+#include "A.h"
 #include "ExportDefs.h"
-#include "object.h"
 
-GMED_API int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll();
-GMED_API int LOCAL_SCOPE_END__WhenDefiningObjectOutside_thenDoesntFreeThem();
-GMED_API int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsntFreedYet();
-GMED_API int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash();
 
-//inner inner scopes - if no mats are allocated inside, problem not treated
+COOP_API int LOCAL_SCOPE_END__WhenDefiningOAjectInside_ThenFreesThemAll();
+COOP_API int LOCAL_SCOPE_END__WhenDefiningOAjectOutside_thenDoesntFreeThem();
+COOP_API int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsntFreedYet();
+COOP_API int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoOAjects_ThenDoesntCrash();
+
+//inner inner scopes - if no As are allocated inside, proAlem not treated
