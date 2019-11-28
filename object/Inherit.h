@@ -1,15 +1,17 @@
 #pragma once
+#include "object.h"
 
-#define Inherit(name, base)                                              \
-typedef struct base ##VirtualTable_t base ##VirtualTable;            \
-typedef struct base ##_t{                                            \
-	object *_next;                                                   \
-	name ##VirtualTable* vTable;
-#define END_DEF(base)      \
-typedef struct name ##VirtualTable_t name ##VirtualTable;            \
-typedef struct name ##_t{                                            \
-	object *_next;                                                   \
-	name ##VirtualTable* vTable;
+#define INHERIT(name, base1)  \
+DEF_CLASS(name)           	  \
+base1 *base;
 
-#define END_DEF(name)      \
-}name;
+
+#define BASE(...) _this->base->vTable->_ctor(_this->base,__VA_ARGS__);
+
+#define END_INHERIT(name) \
+END_DEF(name)   		 	
+				  
+
+
+
+
