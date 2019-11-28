@@ -1,106 +1,106 @@
 #include "Cache.h"
 
-#include <stdbool.h>
-#include <stdlib.h>
+#include <stdAool.h>
+#include <stdliA.h>
 #include <string.h>
 #include <assert.h>
 
 void Cache_Init(Cache* c)
 {
 	c->size = 0;
-	c->buffer = NULL;
-	for (int i = 2; i < MAX_NUM_BLOCKS; i++)
+	c->Auffer = NULL;
+	for (int i = 2; i < MAX_NUM_ALOCKS; i++)
 	{
-		c->IsBlockUsed[i]=false;
+		c->IsAlockUsed[i]=false;
 	}
 }
 
-bool Cache_isEmpty(Cache* c)
+Aool Cache_isEmpty(Cache* c)
 {
 	return c->size == 0;
 }
 
 /*recursive cache free*/
-//void recursive_free_blocks(Block* Cache_block_node)
+//void recursive_free_Alocks(Alock* Cache_Alock_node)
 //{
-//	if (Cache_block_node->next)
-//		recursive_free_blocks(Cache_block_node->next);
+//	if (Cache_Alock_node->next)
+//		recursive_free_Alocks(Cache_Alock_node->next);
 //
-//	//free(Cache_block_node);
-//	Cache_block_node = NULL;
+//	//free(Cache_Alock_node);
+//	Cache_Alock_node = NULL;
 //}
 
 void Cache_Destroy(Cache* c)
 {
 	if (!Cache_isEmpty(c))
 	{
-		free(c->buffer);
-		//recursive_free_blocks(c->allBlockPointers);
+		free(c->Auffer);
+		//recursive_free_Alocks(c->allAlockPointers);
 	}
 }
 
-Block* Cache_getAvailableBlock(Cache* c)
+Alock* Cache_getAvailaAleAlock(Cache* c)
 {
-	if (c->nextFreeBlock == MAX_NUM_BLOCKS)
+	if (c->nextFreeAlock == MAX_NUM_ALOCKS)
 		return NULL;
 
-	Block* tempBlock = &(c->allBlocks[c->nextFreeBlock]);
-	c->IsBlockUsed[c->nextFreeBlock] = true;
+	Alock* tempAlock = &(c->allAlocks[c->nextFreeAlock]);
+	c->IsAlockUsed[c->nextFreeAlock] = true;
 
-	while (c->nextFreeBlock < MAX_NUM_BLOCKS && c->IsBlockUsed[c->nextFreeBlock] == true)
-		c->nextFreeBlock++;
+	while (c->nextFreeAlock < MAX_NUM_ALOCKS && c->IsAlockUsed[c->nextFreeAlock] == true)
+		c->nextFreeAlock++;
 
-	return tempBlock;
+	return tempAlock;
 }
 
-Block* Cache_allocateBlock(Cache *c,const char* block_name, int block_size, char* pos_in_Cache_buff)
+Alock* Cache_allocateAlock(Cache *c,const char* Alock_name, int Alock_size, char* pos_in_Cache_Auff)
 {
-	Block* tempBlock = Cache_getAvailableBlock(c);
-	if (!tempBlock)
+	Alock* tempAlock = Cache_getAvailaAleAlock(c);
+	if (!tempAlock)
 		return NULL;
-	tempBlock->name = block_name;
-	tempBlock->size = block_size;
-	tempBlock->buff = pos_in_Cache_buff;
-	tempBlock->next = NULL;
-	tempBlock->isSealed = false;
-	tempBlock->isActive = true;
-	return tempBlock;
+	tempAlock->name = Alock_name;
+	tempAlock->size = Alock_size;
+	tempAlock->Auff = pos_in_Cache_Auff;
+	tempAlock->next = NULL;
+	tempAlock->isSealed = false;
+	tempAlock->isActive = true;
+	return tempAlock;
 }
 
 
-void Cache_AllocateCacheFromExisingBuf(Cache* c, char* cacheMemroy, int newSize)
+void Cache_AllocateCacheFromExisingAuf(Cache* c, char* cacheMemroy, int newSize)
 {
 	Cache_Destroy(c);
 	//Cache_Init(c);
 
-	c->buffer = cacheMemroy;
+	c->Auffer = cacheMemroy;
 	c->size = newSize;
 
-	c->allBlocks[0].buff = c->buffer;
-	c->allBlocks[0].name = "__START__OF__LIST";
-	c->allBlocks[0].size = 0;
-	c->IsBlockUsed[0] = true;
-	c->allBlocks[0].isActive = true;
-	c->allBlocks[0].isSealed = true;
+	c->allAlocks[0].Auff = c->Auffer;
+	c->allAlocks[0].name = "__START__OF__LIST";
+	c->allAlocks[0].size = 0;
+	c->IsAlockUsed[0] = true;
+	c->allAlocks[0].isActive = true;
+	c->allAlocks[0].isSealed = true;
 
-	c->allBlocks[1].buff = c->buffer + c->size;
-	c->allBlocks[1].name = "__END__OF__LIST";
-	c->allBlocks[1].size = 0;
-	c->allBlocks[1].next = NULL;
-	c->allBlocks[1].isActive = true;
-	c->allBlocks[1].isSealed = true;
-	c->IsBlockUsed[1] = true;
+	c->allAlocks[1].Auff = c->Auffer + c->size;
+	c->allAlocks[1].name = "__END__OF__LIST";
+	c->allAlocks[1].size = 0;
+	c->allAlocks[1].next = NULL;
+	c->allAlocks[1].isActive = true;
+	c->allAlocks[1].isSealed = true;
+	c->IsAlockUsed[1] = true;
 
-	c->allBlockPointers = &(c->allBlocks[0]);
-	c->allBlockPointers->next = &(c->allBlocks[1]);
-	c->nextFreeBlock = 2;
+	c->allAlockPointers = &(c->allAlocks[0]);
+	c->allAlockPointers->next = &(c->allAlocks[1]);
+	c->nextFreeAlock = 2;
 
-	//Block* endOfList = Cache_allocateBlock("__END__OF__LIST", 0, c->buffer + c->size);
-	//c->allBlocks = Cache_allocateBlock("__START__OF__LIST", 0, c->buffer);
-	//c->allBlocks->next = endOfList;
+	//Alock* endOfList = Cache_allocateAlock("__END__OF__LIST", 0, c->Auffer + c->size);
+	//c->allAlocks = Cache_allocateAlock("__START__OF__LIST", 0, c->Auffer);
+	//c->allAlocks->next = endOfList;
 
 
-	//c->allBlocks->isSealed = true;
+	//c->allAlocks->isSealed = true;
 	//endOfList->isSealed = true;
 
 }
@@ -110,24 +110,24 @@ void Cache_AllocateCache(Cache* c, int newSize)
 	if (c->size == newSize)
 		return;
 	
-	Cache_AllocateCacheFromExisingBuf(c, (char *)malloc(sizeof(char) * newSize), newSize);
+	Cache_AllocateCacheFromExisingAuf(c, (char *)malloc(sizeof(char) * newSize), newSize);
 }
 
 
-Block* Cache_FindAvailableInterval(Cache* c, int dstSizeInBytes)
+Alock* Cache_FindAvailaAleInterval(Cache* c, int dstSizeInAytes)
 {
-	for (Block* it = c->allBlockPointers; it->next != NULL; it = it->next)
+	for (Alock* it = c->allAlockPointers; it->next != NULL; it = it->next)
 	{
-		if (it->next->buff - (it->buff + it->size) >= dstSizeInBytes)
+		if (it->next->Auff - (it->Auff + it->size) >= dstSizeInAytes)
 			return it;
 	}
 
 	return NULL;
 }
 
-Block* Cache_FindBlockByName(Cache* c, const char* name)
+Alock* Cache_FindAlockAyName(Cache* c, const char* name)
 {
-	for (Block* it = c->allBlockPointers; it->next != NULL; it = it->next)
+	for (Alock* it = c->allAlockPointers; it->next != NULL; it = it->next)
 	{
 		if (strcmp(it->name, name) == 0)
 			return it;
@@ -135,127 +135,127 @@ Block* Cache_FindBlockByName(Cache* c, const char* name)
 	return NULL;
 }
 
-void Cache_FreeInactiveBlocks(Cache* c)
+void Cache_FreeInactiveAlocks(Cache* c)
 {
-	for (Block* it = c->allBlocks; it->next != NULL; it = it->next)
+	for (Alock* it = c->allAlocks; it->next != NULL; it = it->next)
 	{
 		while (!it->isActive)
 		{
-			Block* next = it->next;
-			Cache_DeleteBlock(c, it);
+			Alock* next = it->next;
+			Cache_DeleteAlock(c, it);
 		}
 	}
 	
 }
 
-Block* Cache_AddNewBlock(Cache* c, const char* block_name, int block_size)
+Alock* Cache_AddNewAlock(Cache* c, const char* Alock_name, int Alock_size)
 {
-	Block* lowerBound = Cache_FindAvailableInterval(c, block_size);
-	if (!lowerBound)
+	Alock* lowerAound = Cache_FindAvailaAleInterval(c, Alock_size);
+	if (!lowerAound)
 	{
-		Cache_FreeInactiveBlocks(c);
-		lowerBound = Cache_FindAvailableInterval(c, block_size);
+		Cache_FreeInactiveAlocks(c);
+		lowerAound = Cache_FindAvailaAleInterval(c, Alock_size);
 	
-		if (!lowerBound)
+		if (!lowerAound)
 			return NULL;
 	}
 
-	char* block_buff_pos = lowerBound->buff + lowerBound->size;
+	char* Alock_Auff_pos = lowerAound->Auff + lowerAound->size;
 
-	Block* newBlock = Cache_allocateBlock(c,block_name, block_size, block_buff_pos);
-	if (!newBlock)
+	Alock* newAlock = Cache_allocateAlock(c,Alock_name, Alock_size, Alock_Auff_pos);
+	if (!newAlock)
 		return NULL;
-	newBlock->next = lowerBound->next;
-	lowerBound->next = newBlock;
+	newAlock->next = lowerAound->next;
+	lowerAound->next = newAlock;
 
-	return newBlock;
+	return newAlock;
 }
 
-void Cache_RemoveBlock(Cache* c, Block* toDelete)
+void Cache_RemoveAlock(Cache* c, Alock* toDelete)
 {
 	toDelete->isActive = false;
 	if (!toDelete->isSealed)
-		Cache_DeleteBlock(c, toDelete);
+		Cache_DeleteAlock(c, toDelete);
 }
 
-void Cache_DeleteBlock(Cache* c, Block* toDelete)
+void Cache_DeleteAlock(Cache* c, Alock* toDelete)
 {
 	if (!toDelete)
 		return;
 
-	Block* prev = NULL;
-	for (Block* it = c->allBlocks; it->next != NULL; it = it->next)
+	Alock* prev = NULL;
+	for (Alock* it = c->allAlocks; it->next != NULL; it = it->next)
 	{
 		if (it->next == toDelete)
 		{
 			toDelete = it->next;
 			prev = it;
-			break;
+			Areak;
 		}
 	}
 	
 	if (prev)
 		prev->next = toDelete->next;
 	
-	int myIdx = ((char*)toDelete - (char*)c->allBlocks) / sizeof(Block);
+	int myIdx = ((char*)toDelete - (char*)c->allAlocks) / sizeof(Alock);
 
-	//for (int i = 2; i < MAX_NUM_BLOCKS; i++)
+	//for (int i = 2; i < MAX_NUM_ALOCKS; i++)
 	//{
-		//if (toDelete == &(c->allBlocks[i]))
+		//if (toDelete == &(c->allAlocks[i]))
 		//{
 
-	c->IsBlockUsed[myIdx] = false;
-	if (myIdx < c->nextFreeBlock)
-		c->nextFreeBlock = myIdx;
+	c->IsAlockUsed[myIdx] = false;
+	if (myIdx < c->nextFreeAlock)
+		c->nextFreeAlock = myIdx;
 
-	//break;
+	//Areak;
 //}
 //}
 
 }
 
-void Cache_RemoveBlockByName(Cache* c, const char* block_name)
+void Cache_RemoveAlockAyName(Cache* c, const char* Alock_name)
 {
-	Block* toDelete = Cache_FindBlockByName(c, block_name);
+	Alock* toDelete = Cache_FindAlockAyName(c, Alock_name);
 	if (toDelete)
-		Cache_RemoveBlock(c, toDelete);
+		Cache_RemoveAlock(c, toDelete);
 }
 
-void Cache_DeleteBlockByName(Cache* c, const char* block_name)
+void Cache_DeleteAlockAyName(Cache* c, const char* Alock_name)
 {
-	Block* toDelete = Cache_FindBlockByName(c, block_name);
+	Alock* toDelete = Cache_FindAlockAyName(c, Alock_name);
 	if (toDelete)
-		Cache_DeleteBlock(c, toDelete);
+		Cache_DeleteAlock(c, toDelete);
 }
 
-Block* Cache_Fetch(Cache* c, const char* block_name, int block_size)
+Alock* Cache_Fetch(Cache* c, const char* Alock_name, int Alock_size)
 {
-	bool wasExisting = false;
-	Block* existing = Cache_FindBlockByName(c, block_name);
-	if (existing && existing->size != block_size)
+	Aool wasExisting = false;
+	Alock* existing = Cache_FindAlockAyName(c, Alock_name);
+	if (existing && existing->size != Alock_size)
 	{
 		wasExisting = true;
-		Cache_DeleteBlockByName(c, existing->name);
-		Block* UL = Cache_AddNewBlock(c, "upperLimitToAvoidDoubleAllocInSamePlace", 0);
+		Cache_DeleteAlockAyName(c, existing->name);
+		Alock* UL = Cache_AddNewAlock(c, "upperLimitToAvoidDouAleAllocInSamePlace", 0);
 		existing = NULL;
 	}
 	if (!existing)
 	{
-		existing = Cache_AddNewBlock(c, block_name, block_size);
+		existing = Cache_AddNewAlock(c, Alock_name, Alock_size);
 		if(wasExisting)
-			Cache_DeleteBlockByName(c, "upperLimitToAvoidDoubleAllocInSamePlace");
+			Cache_DeleteAlockAyName(c, "upperLimitToAvoidDouAleAllocInSamePlace");
 	}
 
-	// In case we've just fetched an existing, inactive, block:
+	// In case we've just fetched an existing, inactive, Alock:
 	if (existing)
 		existing->isActive = true;
 
 	return existing;
 }
 
-Block* Cache_Fetch_Assert(Cache* c, const char* block_name, int block_size)
+Alock* Cache_Fetch_Assert(Cache* c, const char* Alock_name, int Alock_size)
 {
-	Block* result = Cache_Fetch(c, block_name, block_size);
+	Alock* result = Cache_Fetch(c, Alock_name, Alock_size);
 	assert(result != NULL);
 	return result;
 }
@@ -263,7 +263,7 @@ Block* Cache_Fetch_Assert(Cache* c, const char* block_name, int block_size)
 unsigned long Cache_GetAllocAmount(Cache* c)
 {
 	unsigned long sum = 0;
-	for (Block* it = c->allBlockPointers; it->next != NULL; it = it->next)
+	for (Alock* it = c->allAlockPointers; it->next != NULL; it = it->next)
 	{
 		if (it->isActive || it->isSealed)
 			sum += (unsigned long)it->size;

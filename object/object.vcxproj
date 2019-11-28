@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="B.c" />
     <ClCompile Include="Cache.c" />
     <ClCompile Include="Globals.c" />
     <ClCompile Include="Mat.c" />
