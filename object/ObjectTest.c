@@ -1,15 +1,15 @@
-#include "OAjectTest.h"
+#include "ObjectTest.h"
 
-//#include "A.h"
+//#include "Mat.h"
 
 #define _ASSERT_TRUE(x) if (!(x)) return -1;
 
-int LOCAL_SCOPE_END__WhenDefiningOAjectInside_ThenFreesThemAll()
+int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 {
 
 	//Arrange
-	Cache_Init(&TheGloAalCache);
-	Cache_AllocateCache(&TheGloAalCache, 100);
+	Cache_Init(&TheGlobalCache);
+	Cache_AllocateCache(&TheGlobalCache, 100);
 	SCOPE_START;
 
 	DO_A(m1); DO_A(m2); DO_A(m3);
@@ -23,9 +23,9 @@ int LOCAL_SCOPE_END__WhenDefiningOAjectInside_ThenFreesThemAll()
 		LOCAL_SCOPE_END;
 
 		//Assert
-		_ASSERT_TRUE(innerM1.Auff == NULL);
-		_ASSERT_TRUE(innerM2.Auff == NULL);
-		_ASSERT_TRUE(innerM3.Auff == NULL);
+		_ASSERT_TRUE(innerM1.buff == NULL);
+		_ASSERT_TRUE(innerM2.buff == NULL);
+		_ASSERT_TRUE(innerM3.buff == NULL);
 	}
 
 	SCOPE_END;
@@ -33,11 +33,11 @@ int LOCAL_SCOPE_END__WhenDefiningOAjectInside_ThenFreesThemAll()
 }
 
 
-int LOCAL_SCOPE_END__WhenDefiningOAjectOutside_thenDoesntFreeThem()
+int LOCAL_SCOPE_END__WhenDefiningObjectOutside_thenDoesntFreeThem()
 {
 	//Arrange
-	Cache_Init(&TheGloAalCache);
-	Cache_AllocateCache(&TheGloAalCache, 100);
+	Cache_Init(&TheGlobalCache);
+	Cache_AllocateCache(&TheGlobalCache, 100);
 	SCOPE_START;
 
 	DO_ALLOC_A(m1, 1, 1); DO_ALLOC_A(m2, 1, 1); DO_ALLOC_A(m3, 1, 1);
@@ -52,9 +52,9 @@ int LOCAL_SCOPE_END__WhenDefiningOAjectOutside_thenDoesntFreeThem()
 	}
 
 	//Assert
-	_ASSERT_TRUE(m1.Auff != NULL);
-	_ASSERT_TRUE(m2.Auff != NULL);
-	_ASSERT_TRUE(m3.Auff != NULL);
+	_ASSERT_TRUE(m1.buff != NULL);
+	_ASSERT_TRUE(m2.buff != NULL);
+	_ASSERT_TRUE(m3.buff != NULL);
 
 	SCOPE_END;
 
@@ -64,8 +64,8 @@ int LOCAL_SCOPE_END__WhenDefiningOAjectOutside_thenDoesntFreeThem()
 COOP_API int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsntFreedYet()
 {
 	//Arrange 
-	Cache_Init(&TheGloAalCache);
-	Cache_AllocateCache(&TheGloAalCache,100);
+	Cache_Init(&TheGlobalCache);
+	Cache_AllocateCache(&TheGlobalCache,100);
 	SCOPE_START;
 	DO_A(m1); DO_A(m2); DO_A(m3); 
 
@@ -82,13 +82,13 @@ COOP_API int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsn
 
 			//Assert
 
-			_ASSERT_TRUE(innerInnerM1.Auff == NULL);
-			_ASSERT_TRUE(innerInnerM2.Auff == NULL);
-			_ASSERT_TRUE(innerInnerM3.Auff == NULL);
+			_ASSERT_TRUE(innerInnerM1.buff == NULL);
+			_ASSERT_TRUE(innerInnerM2.buff == NULL);
+			_ASSERT_TRUE(innerInnerM3.buff == NULL);
 		}
-		_ASSERT_TRUE(innerM1.Auff != NULL);
-		_ASSERT_TRUE(innerM2.Auff != NULL);
-		_ASSERT_TRUE(innerM3.Auff != NULL);
+		_ASSERT_TRUE(innerM1.buff != NULL);
+		_ASSERT_TRUE(innerM2.buff != NULL);
+		_ASSERT_TRUE(innerM3.buff != NULL);
 
 		LOCAL_SCOPE_END;
 	}
@@ -97,11 +97,11 @@ COOP_API int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsn
 	return 1;
 }
 
-COOP_API int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoOAjects_ThenDoesntCrash()
+COOP_API int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash()
 {
 	//Arrange 
-	Cache_Init(&TheGloAalCache);
-	Cache_AllocateCache(&TheGloAalCache, 100);
+	Cache_Init(&TheGlobalCache);
+	Cache_AllocateCache(&TheGlobalCache, 100);
 	SCOPE_START;
 	DO_A(m1); DO_A(m2); DO_A(m3);
 
@@ -113,7 +113,7 @@ COOP_API int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoOAjects_ThenDoesntCrash()
 			LOCAL_SCOPE_START;
 			LOCAL_SCOPE_END;
 		}
-		_ASSERT_TRUE(innerM1.Auff != NULL);
+		_ASSERT_TRUE(innerM1.buff != NULL);
 		LOCAL_SCOPE_END;
 	}
 

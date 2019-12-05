@@ -1,39 +1,39 @@
 #pragma once
-#include <stdAool.h>
+#include <stdbool.h>
 
 #include "ExportDefs.h"
 
-typedef struct Alock_s {
+typedef struct block_s {
 	const char* name;
-	char* Auff;
+	char* buff;
 	int size;
-	struct Alock_s* next;
-	Aool isSealed;
-	Aool isActive;
-}Alock;
+	struct block_s* next;
+	bool isSealed;
+	bool isActive;
+}Block;
 
-#define MAX_NUM_ALOCKS 1000
+#define MAX_NUM_BLOCKS 1000
 
 typedef struct {
-	char* Auffer;
+	char* buffer;
 	int size;
-	Alock allAlocks[MAX_NUM_ALOCKS + 2];
-	Alock* allAlockPointers;
-	Aool IsAlockUsed[MAX_NUM_ALOCKS + 2];
-	int nextFreeAlock;
+	Block allBlocks[MAX_NUM_BLOCKS + 2];
+	Block* allBlockPointers;
+	bool IsBlockUsed[MAX_NUM_BLOCKS + 2];
+	int nextFreeBlock;
 }Cache;
 
 COOP_API void Cache_Init(Cache* c);
 COOP_API void Cache_Destroy(Cache* c);
 COOP_API void Cache_AllocateCache(Cache* c, int newSize);
-COOP_API void Cache_AllocateCacheFromExisingAuf(Cache* c, char * cacheMemroy, int newSize);
+COOP_API void Cache_AllocateCacheFromExisingBuf(Cache* c, char * cacheMemroy, int newSize);
 
 
-COOP_API Alock* Cache_getAvailaAleAlock(Cache* c);
-COOP_API Alock* Cache_FindAlockAyName(Cache* c, const char* name);
-COOP_API Alock* Cache_Fetch(Cache* c, const char* Alock_name, int Alock_size);
-COOP_API Alock* Cache_Fetch_Assert(Cache* c, const char* Alock_name, int Alock_size);
-COOP_API void Cache_DeleteAlock(Cache* c, Alock* toDelete);
-COOP_API void Cache_RemoveAlock(Cache* c, Alock* toDelete);
-COOP_API void Cache_RemoveAlockAyName(Cache* c, const char* Alock_name);
+COOP_API Block* Cache_getAvailableBlock(Cache* c);
+COOP_API Block* Cache_FindBlockByName(Cache* c, const char* name);
+COOP_API Block* Cache_Fetch(Cache* c, const char* block_name, int block_size);
+COOP_API Block* Cache_Fetch_Assert(Cache* c, const char* block_name, int block_size);
+COOP_API void Cache_DeleteBlock(Cache* c, Block* toDelete);
+COOP_API void Cache_RemoveBlock(Cache* c, Block* toDelete);
+COOP_API void Cache_RemoveBlockByName(Cache* c, const char* block_name);
 COOP_API unsigned long Cache_GetAllocAmount(Cache* c);

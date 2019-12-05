@@ -21,6 +21,7 @@ typedef struct
 }Size;
 Size BuildSize(int w, int h);
 
+
 DEF_CLASS(Mat)
 
 	FLOAT_TYPE* buff;

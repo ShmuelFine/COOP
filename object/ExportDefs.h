@@ -8,4 +8,4 @@
 
 //#define COOP_API __declspec(dllexport)
 
-#define FLOAT_TYPE douAle
+#define FLOAT_TYPE double
