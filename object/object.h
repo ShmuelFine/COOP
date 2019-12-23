@@ -40,9 +40,28 @@ typedef struct name ##_t{                                            \
 #define END_DEF(name)      \
 }name;            
 
+#define INHERIT_CLASS(name, base) \
+typedef struct name ##VirtualTable_t name ##VirtualTable;   \
+typedef struct name ##_t{          \
+base _BASE; \
+name ##VirtualTable* vTable;
+
+
 #define DEF_CTOR(name, ...) void __ctor__ ##name(name * _this, __VA_ARGS__)
+#define END_CTOR
+
+#define SUPER (_this->_base
+#define ME );
+
+#define DEF_DERIVED_CTOR(name, baseName, ...) \
+void __ctor__ ##name(name * _this, __VA_ARGS__)\
+{ __ctor__ ##baseName
+
+#define END_DERIVED_CTOR
 
 #define DEF_DTOR(name) void __dtor__ ##name(name * _this)
+
+//#define _BASE(self, ...) __ctor__ ##
 
 #define FUNCTIONS(name, ...)                     \
 void __ctor__ ##name(name * _this, __VA_ARGS__); \
@@ -54,6 +73,14 @@ void (*_dtor)(name * _this);
 
 #define END_FUNCTIONS(name) }name ##VirtualTalbe;      \
 COOP_API extern name ##VirtualTalbe name ##VTable;
+
+#define INHERIT_FUNCTIONS(name, base, ...) \
+void __ctor__ ##name(name * _this, __VA_ARGS__); \
+void __dtor__ ##name(name * _this);   \
+typedef struct name ##VirtualTable_t{  \
+base ##VirtualTable _BASE;   \
+void (*_ctor)(name *_this, __VA_ARGS__)  \
+void (*_dtor)(name *_this)             
 
 #define DEF_INIT_CLASS(type) COOP_API void type ##_init();
 #define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__) 

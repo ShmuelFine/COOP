@@ -11,6 +11,19 @@ DEF_CTOR(Mat)
 {
 	_this->buff = NULL;
 }
+END_CTOR
+typedef struct 
+{
+	int a;
+	int _base
+}SuperMat;
+
+DEF_DERIVED_CTOR(SuperMat, Mat, int a, int b, int c) SUPER  ME
+{
+
+}
+END_DERIVED_CTOR
+
 
 DEF_DTOR(Mat)
 {
