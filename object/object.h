@@ -2,7 +2,8 @@
 #ifndef __OBJECT__H_
 #define __OBJECT__H_
 #include "ExportDefs.h"
-
+#include <stdlib.h>
+#include <stdbool.h>
 //generic type of class virtual tables
 typedef struct object_t object;
 typedef struct virtualTable_t
@@ -26,6 +27,9 @@ typedef struct object_t {
 
 	struct object_t* _next;
 	virtualTable* vTable;
+	bool _drived_;
+	const char* _type_;
+
 
 }object;
 
@@ -33,35 +37,54 @@ typedef struct object_t {
 
 #define DEF_CLASS(name)                                              \
 typedef struct name ##VirtualTable_t name ##VirtualTable;            \
-typedef struct name ##_t{                                            \
+struct name ##_t{                                                    \
 	object *_next;                                                   \
-	name ##VirtualTable* vTable;
+	name ##VirtualTable* vTable;                                     \
+	bool _drived_;                                                   \
+	const char* _type_;
 
 #define END_DEF(name)      \
-}name;            
+}name ##_defult = {NULL,NULL,false,#name};  \
+typedef struct name ##_t name;
 
-#define INHERIT_CLASS(name, base) \
+#define DEF_DRIVED_CLASS(name, base) \
 typedef struct name ##VirtualTable_t name ##VirtualTable;   \
-typedef struct name ##_t{          \
-base _BASE; \
-name ##VirtualTable* vTable;
+struct name ##_t{          \
+object *_next; \
+name ##VirtualTable* vTable; \
+bool _drived_;\
+const char* _type_;\
+base _BASE; 
+
+#define END_DEF_DRIVED(name)      \
+}name ##_defult = {NULL,NULL,true,#name};  \
+typedef struct name ##_t name;
 
 
-#define DEF_CTOR(name, ...) void __ctor__ ##name(name * _this, __VA_ARGS__)
-#define END_CTOR
+#define DEF_CTOR(name, ...) void __ctor__ ##name(name * _this, __VA_ARGS__){\
+ _this->_drived_ =false;\
+_this->_type_ = #name;
 
-#define SUPER (_this->_base
+#define END_CTOR }
+
+#define SUPER (&(_this->_BASE)
 #define ME );
 
-#define DEF_DERIVED_CTOR(name, baseName, ...) \
+#define DEF_DRIVED_CTOR(name, baseName, ...) \
 void __ctor__ ##name(name * _this, __VA_ARGS__)\
-{ __ctor__ ##baseName
+{ _this->_drived_=true;\
+_this->_type_ = #name;\
+__ctor__ ##baseName
 
-#define END_DERIVED_CTOR
+#define END_DRIVED_CTOR }
 
 #define DEF_DTOR(name) void __dtor__ ##name(name * _this)
+#define END_DTOR
 
-//#define _BASE(self, ...) __ctor__ ##
+#define DEF_DRIVED_DTOR(name, BaseName) void __dtor__ ##name(name * _this)\
+{__dtor__ ##BaseName(&(_this->_BASE));
+
+#define END_DRIVED_DTOR }
 
 #define FUNCTIONS(name, ...)                     \
 void __ctor__ ##name(name * _this, __VA_ARGS__); \
@@ -74,15 +97,18 @@ void (*_dtor)(name * _this);
 #define END_FUNCTIONS(name) }name ##VirtualTalbe;      \
 COOP_API extern name ##VirtualTalbe name ##VTable;
 
-#define INHERIT_FUNCTIONS(name, base, ...) \
+#define DRIVED_FUNCTIONS(name, base, ...) \
 void __ctor__ ##name(name * _this, __VA_ARGS__); \
 void __dtor__ ##name(name * _this);   \
 typedef struct name ##VirtualTable_t{  \
 base ##VirtualTable _BASE;   \
-void (*_ctor)(name *_this, __VA_ARGS__)  \
-void (*_dtor)(name *_this)             
+void (*_ctor)(name *_this, __VA_ARGS__);  \
+void (*_dtor)(name *_this);            
 
-#define DEF_INIT_CLASS(type) COOP_API void type ##_init();
+#define DEF_INIT_CLASS(type) COOP_API void type ##_init(); 
+
+#define DEF_INIT_DRIVED_CLASS(type,base) COOP_API void type ##_init();  
+
 #define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__) 
 #define FUNCTION_H(type,functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__);
 #define FUNCTION_IMPL(type, functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__)
@@ -96,7 +122,13 @@ COOP_API type ##VirtualTable type ##VTable;     \
 	void type ##_init(){                        \
 	ATTACH_TORs_ToClass(type);              
 
-#define END_INIT_CLASS }    
+#define END_INIT_CLASS } 
+
+#define INIT_DRIVED_CLASS(type,base)\
+COOP_API type ##VirtualTable type ##VTable;     \
+	void type ##_init(){                        \
+	base ##_init(); \
+	ATTACH_TORs_ToClass(type);  
 
 #define BIND(type,name) type ##VTable.name=type ##_ ##name; 
 
@@ -115,7 +147,7 @@ MatVTable._ctor = __ctor__Mat;   \
 MatVTable._dtor = __dtor__Mat;
 
 
-#define NULL ((void*)0)
+//#define NULL ((void*)0)
 
 #define SCOPE_START object _scope_obj_list; \
 _scope_obj_list.vTable=NULL;                \
@@ -146,6 +178,22 @@ _scope_obj_list_add(&_scope_obj_list,&object1);
 	instance_name._next= NULL;					   \
 	REGISTER_OBJECT(&instance_name)
 
+#define CREATE_OBJECT(type, instance_name)   \
+	type instance_name;  \
+	instance_name.vTable=&type ##VTable; 
+
+
+#define CREATE_DRIVED_OBJECT(type, base, instance_name)  \
+	type instance_name;  \
+	instance_name.vTable=&type ##VTable;    \
+	object iter = instance_name; \
+	while (iter._BASE._drived_ == true)\
+	{\
+		iter = iter._BASE;\
+		CREATE_DRIVED_OBJECT(iter._type_, iter._BASE._type_, instance_name ##_b)\
+	}\
+	CREATE_OBJECT(iter._BASE._type_,instance_name ##_b)
+	
 
 
 #endif
