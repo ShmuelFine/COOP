@@ -43,26 +43,26 @@ struct name ##_t{                                                    \
 	bool _drived_;                                                   \
 	const char* _type_;
 
-#define END_DEF(name)      \
+#define END_DEF(name)                       \
 }name ##_defult = {NULL,NULL,false,#name};  \
 typedef struct name ##_t name;
 
-#define DEF_DRIVED_CLASS(name, base) \
+#define DEF_DRIVED_CLASS(name, base)                        \
 typedef struct name ##VirtualTable_t name ##VirtualTable;   \
-struct name ##_t{          \
-object *_next; \
-name ##VirtualTable* vTable; \
-bool _drived_;\
-const char* _type_;\
+struct name ##_t{                                           \
+object *_next;                                              \
+name ##VirtualTable* vTable;                                \
+bool _drived_;                                              \
+const char* _type_;                                         \
 base _BASE; 
 
-#define END_DEF_DRIVED(name)      \
+#define END_DEF_DRIVED(name)               \
 }name ##_defult = {NULL,NULL,true,#name};  \
 typedef struct name ##_t name;
 
 
-#define DEF_CTOR(name, ...) void __ctor__ ##name(name * _this, __VA_ARGS__){\
- _this->_drived_ =false;\
+#define DEF_CTOR(name, ...) void __ctor__ ##name(name * _this, __VA_ARGS__){    \
+ _this->_drived_ =false;                                                        \
 _this->_type_ = #name;
 
 #define END_CTOR }
@@ -70,9 +70,9 @@ _this->_type_ = #name;
 #define SUPER (&(_this->_BASE)
 #define ME );
 
-#define DEF_DRIVED_CTOR(name, baseName, ...) \
-void __ctor__ ##name(name * _this, __VA_ARGS__)\
-{ _this->_drived_=true;\
+#define DEF_DRIVED_CTOR(name, baseName, ...)     \
+void __ctor__ ##name(name * _this, __VA_ARGS__)  \
+{ _this->_drived_=true;                          \
 _this->_type_ = #name;\
 __ctor__ ##baseName
 
@@ -94,15 +94,15 @@ void (*_ctor)(name * _this, __VA_ARGS__);        \
 void (*_dtor)(name * _this); 
 
 
-#define END_FUNCTIONS(name) }name ##VirtualTalbe;      \
+#define END_FUNCTIONS(name) }name ##VirtualTalbe;   \
 COOP_API extern name ##VirtualTalbe name ##VTable;
 
-#define DRIVED_FUNCTIONS(name, base, ...) \
-void __ctor__ ##name(name * _this, __VA_ARGS__); \
-void __dtor__ ##name(name * _this);   \
-typedef struct name ##VirtualTable_t{  \
-base ##VirtualTable _BASE;   \
-void (*_ctor)(name *_this, __VA_ARGS__);  \
+#define DRIVED_FUNCTIONS(name, base, ...)         \
+void __ctor__ ##name(name * _this, __VA_ARGS__);  \
+void __dtor__ ##name(name * _this);               \
+typedef struct name ##VirtualTable_t{             \
+base ##VirtualTable _BASE;                        \
+void (*_ctor)(name *_this, __VA_ARGS__);          \
 void (*_dtor)(name *_this);            
 
 #define DEF_INIT_CLASS(type) COOP_API void type ##_init(); 
@@ -127,7 +127,7 @@ COOP_API type ##VirtualTable type ##VTable;     \
 #define INIT_DRIVED_CLASS(type,base)\
 COOP_API type ##VirtualTable type ##VTable;     \
 	void type ##_init(){                        \
-	base ##_init(); \
+	base ##_init();                             \
 	ATTACH_TORs_ToClass(type);  
 
 #define BIND(type,name) type ##VTable.name=type ##_ ##name; 
@@ -179,20 +179,17 @@ _scope_obj_list_add(&_scope_obj_list,&object1);
 	REGISTER_OBJECT(&instance_name)
 
 #define CREATE_OBJECT(type, instance_name)   \
-	type instance_name;  \
+	type instance_name = type ##_defult;     \
 	instance_name.vTable=&type ##VTable; 
 
 
-#define CREATE_DRIVED_OBJECT(type, base, instance_name)  \
-	type instance_name;  \
-	instance_name.vTable=&type ##VTable;    \
-	object iter = instance_name; \
-	while (iter._BASE._drived_ == true)\
-	{\
-		iter = iter._BASE;\
-		CREATE_DRIVED_OBJECT(iter._type_, iter._BASE._type_, instance_name ##_b)\
-	}\
-	CREATE_OBJECT(iter._BASE._type_,instance_name ##_b)
+#define CREATE_DRIVED_OBJECT(type, base, instance_name)               \
+	type instance_name = type ##_defult;                              \
+	instance_name.vTable=&type ##VTable;                              \
+	if (instance_name._BASE._drived_)                                 \
+		CREATE_DRIVED_OBJECT(instance_name._BASE._type_,              \
+		instance_name._BASE._BASE._type_, instance_name ##_b)         \                                                                            \
+	CREATE_OBJECT(instance_name._BASE._type_,instance_name ##_b)
 	
 
 
