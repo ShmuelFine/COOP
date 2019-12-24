@@ -1,7 +1,7 @@
 
 #include "Mat4Test.h"
 
-DEF_CTOR(Mat4Test, FLOAT_TYPE hight, FLOAT_TYPE width)
+DEF_CTOR(Mat4Test, int hight, int width)
 {
 	_this->hight = hight;
 	_this->width = width;
