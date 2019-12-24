@@ -44,3 +44,19 @@ bool VTable_WhenDriving_CanCallBaseFunctionsViaOwnVTable()
 	//Assert
 	ASSERT_EQ(loc, 6);
 }
+
+bool VTable_WhenDriving_NotOverridingTheBaseMembers()
+{
+	//Arange
+	SuperMat4Test_init();
+	FLOAT_TYPE h = 4, w = 4, step = 3;
+	CREATE_OBJECT(SuperMat4Test, mat);
+
+
+	//Act
+	mat.vTable->_ctor(&mat, h, w, step);
+
+	//Assert
+	ASSERT_EQ(mat._BASE.hight, h);
+	ASSERT_EQ(mat._BASE.width, w);
+}

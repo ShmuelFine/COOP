@@ -9,4 +9,6 @@ COOP_API bool VTable_WhenDeriving_OverriddeesVTablePointer();
 
 COOP_API bool VTable_WhenDriving_CanCallBaseFunctionsViaOwnVTable();
 
+COOP_API bool VTable_WhenDriving_NotOverridingTheBaseMembers();
+
 
