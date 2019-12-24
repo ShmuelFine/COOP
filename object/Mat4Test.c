@@ -14,13 +14,14 @@ DEF_DTOR(Mat4Test)
 }
 END_DTOR
 
-FUNCTION_IMPL(Mat4Test, findLoc, int row, int col, int* loc)
+BASE_FUNCTION_IMPL(Mat4Test, findLoc, int row, int col, int* loc)
 {
 	*loc = row * _this->hight + col;
 }
+END_FUNCTION_IMPL
 
 INIT_CLASS(Mat4Test)
 {
-	BIND(Mat4Test, findLoc);
+	BASE_BIND(Mat4Test, findLoc);
 }
 END_INIT_CLASS

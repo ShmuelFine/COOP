@@ -143,6 +143,7 @@
     <ClInclude Include="ExportDefs.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="InheritTest.h" />
+    <ClInclude Include="LinkedLists.h" />
     <ClInclude Include="Mat4Test.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="ObjectTest.h" />
