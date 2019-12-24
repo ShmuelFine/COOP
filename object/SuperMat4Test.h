@@ -1,14 +1,18 @@
 #pragma once
 #include "Mat4Test.h"
 
-DEF_DRIVED_CLASS(SuperMat4Test, Mat4Test)
+DEF_DERIVED_CLASS(SuperMat4Test, Mat4Test)
 
 int step;
 
-END_DEF_DRIVED(SuperMat4Test)
+END_DEF_DERIVED(SuperMat4Test)
 
-DRIVED_FUNCTIONS(SuperMat4Test, Mat4Test, FLOAT_TYPE hight, FLOAT_TYPE width, int step)
+DERIVED_FUNCTIONS(SuperMat4Test, Mat4Test, FLOAT_TYPE hight, FLOAT_TYPE width, int step)
+FUNCTION_PTR(SuperMat4Test, SetStep, int step);
 END_FUNCTIONS(SuperMat4Test)
 
-DEF_INIT_DRIVED_CLASS(SuperMat4Test, Mat4Test)
+FUNCTION_H(SuperMat4Test,SetStep,int step)
+
+DEF_INIT_DERIVED_CLASS(SuperMat4Test, Mat4Test)
+
 

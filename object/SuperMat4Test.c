@@ -1,17 +1,23 @@
 
 #include "SuperMat4Test.h"
  
-DEF_DRIVED_CTOR(SuperMat4Test, Mat4Test, FLOAT_TYPE hight, FLOAT_TYPE width, int step) SUPER, hight, width ME
+DEF_DERIVED_CTOR(SuperMat4Test, Mat4Test, FLOAT_TYPE hight, FLOAT_TYPE width, int step) SUPER, hight, width ME
 {
 	_this->step = step;
 }
-END_DRIVED_CTOR
+END_DERIVED_CTOR
 
-DEF_DRIVED_DTOR(SuperMat4Test, Mat4Test)
+DEF_DERIVED_DTOR(SuperMat4Test, Mat4Test)
 {
 
 }
-END_DRIVED_DTOR
+END_DERIVED_DTOR
 
-INIT_DRIVED_CLASS(SuperMat4Test,Mat4Test)
+FUNCTION_IMPL(SuperMat4Test, SetStep, int step)
+{
+	_this->step = step;
+}
+
+INIT_DERIVED_CLASS(SuperMat4Test, Mat4Test)
+BIND(SuperMat4Test, SetStep);
 END_INIT_CLASS
