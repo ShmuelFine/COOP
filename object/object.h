@@ -27,8 +27,7 @@ typedef struct object_t {
 
 	struct object_t* _next;
 	virtualTable* vTable;
-	bool _drived_;
-	const char* _type_;
+
 
 
 }object;
@@ -37,54 +36,49 @@ typedef struct object_t {
 
 #define DEF_CLASS(name)                                              \
 typedef struct name ##VirtualTable_t name ##VirtualTable;            \
-struct name ##_t{                                                    \
+typedef struct name ##_t{                                                    \
 	object *_next;                                                   \
-	name ##VirtualTable* vTable;                                     \
-	bool _drived_;                                                   \
-	const char* _type_;
+	name ##VirtualTable* vTable;
 
-#define END_DEF(name)                       \
-}name ##_defult = {NULL,NULL,false,#name};  \
-typedef struct name ##_t name;
+#define END_DEF(name)												\
+}name;
 
-#define DEF_DRIVED_CLASS(name, base)                        \
-typedef struct name ##VirtualTable_t name ##VirtualTable;   \
-struct name ##_t{                                           \
-object *_next;                                              \
-name ##VirtualTable* vTable;                                \
-bool _drived_;                                              \
-const char* _type_;                                         \
-base _BASE; 
+#define DERIVED_EXTRA_SIZE(name, base) __dummy__[(sizeof(base) - sizeof(object*) - sizeof(base ##VirtualTable*)) > 0 ? (sizeof(base) - sizeof(object*) - sizeof(base ##VirtualTable*)) : 1]
 
-#define END_DEF_DRIVED(name)               \
-}name ##_defult = {NULL,NULL,true,#name};  \
-typedef struct name ##_t name;
+#define DEF_DERIVED_CLASS(name, base)                                          \
+typedef struct name ##VirtualTable_t name ##VirtualTable;                     \
+typedef struct name ##_t {                                                            \
+union {                                                                       \
+	base _BASE;/*Contains _next and vTable of type baseVirtualTable*  */      \
+	struct {                                                                  \
+		object *_next;                                                        \
+		name ##VirtualTable* vTable;                                          \
+		char DERIVED_EXTRA_SIZE(name,base);
+
+#define END_DEF_DERIVED(name) };};                                             \
+}name;  
 
 
-#define DEF_CTOR(name, ...) void __ctor__ ##name(name * _this, __VA_ARGS__){    \
- _this->_drived_ =false;                                                        \
-_this->_type_ = #name;
-
+#define DEF_CTOR(name, ...) void __ctor__ ##name(name * _this, __VA_ARGS__){   
 #define END_CTOR }
 
 #define SUPER (&(_this->_BASE)
 #define ME );
 
-#define DEF_DRIVED_CTOR(name, baseName, ...)     \
+#define DEF_DERIVED_CTOR(name, baseName, ...)     \
 void __ctor__ ##name(name * _this, __VA_ARGS__)  \
-{ _this->_drived_=true;                          \
-_this->_type_ = #name;\
+{                                                \
 __ctor__ ##baseName
 
-#define END_DRIVED_CTOR }
+#define END_DERIVED_CTOR }
 
-#define DEF_DTOR(name) void __dtor__ ##name(name * _this)
-#define END_DTOR
+#define DEF_DTOR(name) void __dtor__ ##name(name * _this) {
+#define END_DTOR }
 
-#define DEF_DRIVED_DTOR(name, BaseName) void __dtor__ ##name(name * _this)\
+#define DEF_DERIVED_DTOR(name, BaseName) void __dtor__ ##name(name * _this)\
 {__dtor__ ##BaseName(&(_this->_BASE));
 
-#define END_DRIVED_DTOR }
+#define END_DERIVED_DTOR }
 
 #define FUNCTIONS(name, ...)                     \
 void __ctor__ ##name(name * _this, __VA_ARGS__); \
@@ -97,7 +91,7 @@ void (*_dtor)(name * _this);
 #define END_FUNCTIONS(name) }name ##VirtualTalbe;   \
 COOP_API extern name ##VirtualTalbe name ##VTable;
 
-#define DRIVED_FUNCTIONS(name, base, ...)         \
+#define DERIVED_FUNCTIONS(name, base, ...)         \
 void __ctor__ ##name(name * _this, __VA_ARGS__);  \
 void __dtor__ ##name(name * _this);               \
 typedef struct name ##VirtualTable_t{             \
@@ -107,7 +101,7 @@ void (*_dtor)(name *_this);
 
 #define DEF_INIT_CLASS(type) COOP_API void type ##_init(); 
 
-#define DEF_INIT_DRIVED_CLASS(type,base) COOP_API void type ##_init();  
+#define DEF_INIT_DERIVED_CLASS(type,base) COOP_API void type ##_init();  
 
 #define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__) 
 #define FUNCTION_H(type,functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__);
@@ -124,11 +118,12 @@ COOP_API type ##VirtualTable type ##VTable;     \
 
 #define END_INIT_CLASS } 
 
-#define INIT_DRIVED_CLASS(type,base)\
+#define INIT_DERIVED_CLASS(type,base)\
 COOP_API type ##VirtualTable type ##VTable;     \
 	void type ##_init(){                        \
 	base ##_init();                             \
-	ATTACH_TORs_ToClass(type);  
+	ATTACH_TORs_ToClass(type);					\
+	type ##VTable._BASE = base ##VTable;
 
 #define BIND(type,name) type ##VTable.name=type ##_ ##name; 
 
@@ -171,26 +166,20 @@ _scope_obj_list_add(&_scope_obj_list,&object1);
 #define GET_VIRTUAL_TABLE(type) is_in_scope_class_list(type,&_scope_class_list);
 
 
-#define CREATE_OBJ(Type, instance_name)            \
-	Type instance_name;							   \
-	instance_name.vTable=&Type ##VTable;           \
-	instance_name.vTable->_ctor(&instance_name);   \
-	instance_name._next= NULL;					   \
-	REGISTER_OBJECT(&instance_name)
+//#define CREATE_OBJ(Type, instance_name)            \
+//	Type instance_name;							   \
+//	instance_name.vTable=&Type ##VTable;           \
+//	instance_name.vTable->_ctor(&instance_name);   \
+//	instance_name._next= NULL;					   \
+//	REGISTER_OBJECT(&instance_name)
 
-#define CREATE_OBJECT(type, instance_name)   \
-	type instance_name = type ##_defult;     \
-	instance_name.vTable=&type ##VTable; 
+#define CREATE_OBJECT(type, instance_name)									                 \
+	type instance_name;                  													 \
+	instance_name.vTable=&type ##VTable;
 
-
-#define CREATE_DRIVED_OBJECT(type, base, instance_name)               \
-	type instance_name = type ##_defult;                              \
-	instance_name.vTable=&type ##VTable;                              \
-	if (instance_name._BASE._drived_)                                 \
-		CREATE_DRIVED_OBJECT(instance_name._BASE._type_,              \
-		instance_name._BASE._BASE._type_, instance_name ##_b)         \                                                                            \
-	CREATE_OBJECT(instance_name._BASE._type_,instance_name ##_b)
-	
+#define CREATE_DERIVED_OBJECT(type,base, instance_name)									                 \
+	type instance_name;                  													 \
+	instance_name.vTable=&type ##VTable;													 
 
 
 #endif
