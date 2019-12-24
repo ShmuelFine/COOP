@@ -7,7 +7,7 @@ int step;
 
 END_DEF_DERIVED(SuperMat4Test)
 
-DERIVED_FUNCTIONS(SuperMat4Test, Mat4Test, FLOAT_TYPE hight, FLOAT_TYPE width, int step)
+DERIVED_FUNCTIONS(SuperMat4Test, Mat4Test, int hight, int width, int step)
 FUNCTION_PTR(SuperMat4Test, SetStep, int step);
 END_FUNCTIONS(SuperMat4Test)
 

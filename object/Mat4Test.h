@@ -3,12 +3,12 @@
 
 DEF_CLASS(Mat4Test)
 
-FLOAT_TYPE hight;
-FLOAT_TYPE width;
+int hight;
+int width;
 
 END_DEF(Mat4Test)
 
-FUNCTIONS(Mat4Test, FLOAT_TYPE, FLOAT_TYPE)
+FUNCTIONS(Mat4Test, int, int)
 FUNCTION_PTR(Mat4Test, findLoc, int row, int col,int* loc);
 END_FUNCTIONS(Mat4Test)
 

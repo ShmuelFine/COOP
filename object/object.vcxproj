@@ -135,6 +135,7 @@
     <ClCompile Include="Mat4Test.c" />
     <ClCompile Include="object.c" />
     <ClCompile Include="ObjectTest.c" />
+    <ClCompile Include="SuperMat3_4Test.c" />
     <ClCompile Include="SuperMat4Test.c" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,7 @@
     <ClInclude Include="Mat4Test.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="ObjectTest.h" />
+    <ClInclude Include="SuperMat3_4Test.h" />
     <ClInclude Include="SuperMat4Test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

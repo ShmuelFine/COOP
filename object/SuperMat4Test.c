@@ -1,7 +1,7 @@
 
 #include "SuperMat4Test.h"
  
-DEF_DERIVED_CTOR(SuperMat4Test, Mat4Test, FLOAT_TYPE hight, FLOAT_TYPE width, int step) SUPER, hight, width ME
+DEF_DERIVED_CTOR(SuperMat4Test, Mat4Test, int hight, int width, int step) SUPER, hight, width ME
 {
 	_this->step = step;
 }
