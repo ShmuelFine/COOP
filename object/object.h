@@ -2,6 +2,7 @@
 #ifndef __OBJECT__H_
 #define __OBJECT__H_
 #include "ExportDefs.h"
+#include "LinkedLists.h"
 #include <stdlib.h>
 #include <stdbool.h>
 //generic type of class virtual tables
@@ -103,7 +104,12 @@ void (*_dtor)(name *_this);
 
 #define DEF_INIT_DERIVED_CLASS(type,base) COOP_API void type ##_init();  
 
-#define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__) 
+//#define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__) 
+
+#define BASE_FUNCTION_PTR(type, functionName, ...) FUNCTION_TYPE(type,functionName,__VA_ARGS__) 
+
+#define fUNCTION_PTR(type, functionName, ...) function functionName; 
+
 #define FUNCTION_H(type,functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__);
 #define FUNCTION_IMPL(type, functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__)
 
@@ -125,10 +131,11 @@ COOP_API type ##VirtualTable type ##VTable;     \
 	ATTACH_TORs_ToClass(type);					\
 	type ##VTable._BASE = base ##VTable;
 
-#define BIND(type,name) type ##VTable.name=type ##_ ##name; 
+//#define BIND(type,name) type ##VTable.name=type ##_ ##name; 
+#define BIND(type,name) type ##VTable.name.func=type ##_ ##name; 
 
-
-
+#define BIND_OVERIDE(type,base,name) type ##VTable.name.func=type ##_ ##name;\
+type ##VTable._BASE.name.next = type ##VTable.name;
 
 
 
