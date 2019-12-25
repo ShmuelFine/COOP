@@ -9,7 +9,7 @@ int width;
 END_DEF(Mat4Test)
 
 FUNCTIONS(Mat4Test, int, int)
-FUNCTION_PTR(Mat4Test, findLoc, int row, int col,int* loc);
+BASE_FUNCTION_PTR(Mat4Test, findLoc, int row, int col, int* loc)
 END_FUNCTIONS(Mat4Test)
 
 FUNCTION_H(Mat4Test, findLoc, int row, int col,int * loc);

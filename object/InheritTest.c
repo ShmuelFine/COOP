@@ -37,9 +37,9 @@ bool VTable_WhenDriving_CanCallBaseFunctionsViaOwnVTable()
 	mat.vTable->_ctor(&mat, 4, 4, 3);
 
 	//Act
-	int loc;
-	mat.vTable->_BASE.findLoc(&mat, 1, 2, &loc);
-
+	int loc=0;
+	CALL(SuperMat4Test, findLoc, mat, 1, 2, &loc);
+ 
 	//Assert
 	ASSERT_EQ(loc, 6);
 }
@@ -107,7 +107,8 @@ bool ChainInheritance_Casting_EnabledCasting2Base()
 
 
 	mat.vTable->_BASE.SetStep(base1, newStep);
-	mat.vTable->_BASE._BASE.findLoc(base2, 1, 1, &loc);
+	//mat.vTable->_BASE._BASE.findLoc(base2, 1, 1, &loc);
+	CALL(Mat4Test, findLoc, *base2, 1, 1, &loc);
 
 	//Assert
 	ASSERT_EQ(mat._BASE.step, newStep);

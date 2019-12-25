@@ -104,14 +104,28 @@ void (*_dtor)(name *_this);
 
 #define DEF_INIT_DERIVED_CLASS(type,base) COOP_API void type ##_init();  
 
-//#define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__) 
+#define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__) 
 
 #define BASE_FUNCTION_PTR(type, functionName, ...) FUNCTION_TYPE(type,functionName,__VA_ARGS__) 
 
-#define fUNCTION_PTR(type, functionName, ...) function functionName; 
+#define OVERIDE_FUNCTION_PTR(type, functionName, ...) function functionName; 
 
 #define FUNCTION_H(type,functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__);
-#define FUNCTION_IMPL(type, functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__)
+//#define BASE_FUNCTION_H(type,functionName, ...) FUNCTION_H(type,functionName, __VA_ARGS__)
+//#define OVERIDE_FUNCTION_H(type,functionName, ...) FUNCTION_H(type,functionName, __VA_ARGS__)
+
+#define FUNCTION_IMPL(type, functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__){
+
+//TODO: somehow extract the args without the types
+//#define BASE_FUNCTION_IMPL(type, functionName, ...)						\
+//void type ##_ ##functionName(type  *  _this, __VA_ARGS__){				\
+//if(_this->vTable->functionName.next != NULL){							\
+//	_this->vTable->functionName.next->func(_this, __VA_ARGS__);			\
+//	return;																\
+//}
+//#define OVERIDE_FUNCTION_IMPL(type, functionName, ...) BASE_FUNCTION_IMPL(type,functionName, __VA_ARGS__)
+
+#define END_FUNCTION_IMPL }
 
 #define ATTACH_TORs_ToClass(name)       \
 name ##VTable._ctor = __ctor__ ##name;  \
@@ -124,7 +138,7 @@ COOP_API type ##VirtualTable type ##VTable;     \
 
 #define END_INIT_CLASS } 
 
-#define INIT_DERIVED_CLASS(type,base)\
+#define INIT_DERIVED_CLASS(type,base)           \
 COOP_API type ##VirtualTable type ##VTable;     \
 	void type ##_init(){                        \
 	base ##_init();                             \
@@ -132,10 +146,12 @@ COOP_API type ##VirtualTable type ##VTable;     \
 	type ##VTable._BASE = base ##VTable;
 
 //#define BIND(type,name) type ##VTable.name=type ##_ ##name; 
-#define BIND(type,name) type ##VTable.name.func=type ##_ ##name; 
+#define BIND(type,name) type ##VTable.name=type ##_ ##name; 
 
-#define BIND_OVERIDE(type,base,name) type ##VTable.name.func=type ##_ ##name;\
-type ##VTable._BASE.name.next = type ##VTable.name;
+#define BASE_BIND(type,name) type ##VTable.name.func=type ##_ ##name; 
+
+#define BIND_OVERIDE(type,base,name) type ##VTable.name.func=&(type ##_ ##name);\
+type ##VTable._BASE.name.next = &(type ##VTable.name);
 
 
 
@@ -149,7 +165,6 @@ MatVTable._ctor = __ctor__Mat;   \
 MatVTable._dtor = __dtor__Mat;
 
 
-//#define NULL ((void*)0)
 
 #define SCOPE_START object _scope_obj_list; \
 _scope_obj_list.vTable=NULL;                \
