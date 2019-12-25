@@ -14,7 +14,7 @@ DEF_DTOR(Mat4Test)
 }
 END_DTOR
 
-BASE_FUNCTION_IMPL(Mat4Test, findLoc, int row, int col, int* loc)
+FUNCTION_IMPL(Mat4Test, findLoc, int row, int col, int* loc)
 {
 	*loc = row * _this->hight + col;
 }
