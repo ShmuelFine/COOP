@@ -14,6 +14,7 @@ public:
 	DEF_PTR_TO_FUNC(ChainInheritance_WhenDriving_NotOverridingTheBaseMembers);
 	DEF_PTR_TO_FUNC(ChainInheritance_WhenDriving_AllBasesAreInited);
 	DEF_PTR_TO_FUNC(ChainInheritance_Casting_EnabledCasting2Base);
+	DEF_PTR_TO_FUNC(Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden);
 
 	virtual void SetUp()
 	{
@@ -25,6 +26,7 @@ public:
 		LOAD_FUNC(ChainInheritance_WhenDriving_NotOverridingTheBaseMembers);
 		LOAD_FUNC(ChainInheritance_WhenDriving_AllBasesAreInited);
 		LOAD_FUNC(ChainInheritance_Casting_EnabledCasting2Base);
+		LOAD_FUNC(Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden);
 	}
 
 	virtual void TearDown()
@@ -66,4 +68,9 @@ TEST_F(InheritTest, ChainInheritance_WhenDriving_AllBasesAreInited)
 TEST_F(InheritTest, ChainInheritance_Casting_EnabledCasting2Base)
 {
 	ASSERT_TRUE(ChainInheritance_Casting_EnabledCasting2Base_ptr());
+}
+
+TEST_F(InheritTest, Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden)
+{
+	ASSERT_TRUE(Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden_ptr());
 }
