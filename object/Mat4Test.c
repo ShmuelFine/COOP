@@ -20,8 +20,15 @@ FUNCTION_IMPL(Mat4Test, findLoc, int row, int col, int* loc)
 }
 END_FUNCTION_IMPL
 
+FUNCTION_IMPL(Mat4Test, getWidth, int* width)
+{
+	*width = _this->width;
+}
+END_FUNCTION_IMPL
+
 INIT_CLASS(Mat4Test)
 {
 	BASE_BIND(Mat4Test, findLoc);
+	BASE_BIND(Mat4Test, getWidth);
 }
 END_INIT_CLASS
