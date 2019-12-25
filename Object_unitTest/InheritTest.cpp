@@ -9,7 +9,7 @@ public:
 	HMODULE gmedLib;
 	DEF_PTR_TO_FUNC(Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen);
 	DEF_PTR_TO_FUNC(VTable_WhenDeriving_OverriddeesVTablePointer);
-	DEF_PTR_TO_FUNC(VTable_WhenDriving_CanCallBaseFunctionsViaOwnVTable);
+	DEF_PTR_TO_FUNC(VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable);
 	DEF_PTR_TO_FUNC(VTable_WhenDriving_NotOverridingTheBaseMembers);
 	DEF_PTR_TO_FUNC(ChainInheritance_WhenDriving_NotOverridingTheBaseMembers);
 	DEF_PTR_TO_FUNC(ChainInheritance_WhenDriving_AllBasesAreInited);
@@ -20,7 +20,7 @@ public:
 		gmedLib = LoadLibraryA("object.dll");
 		LOAD_FUNC(Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen);
 		LOAD_FUNC(VTable_WhenDeriving_OverriddeesVTablePointer);
-		LOAD_FUNC(VTable_WhenDriving_CanCallBaseFunctionsViaOwnVTable);
+		LOAD_FUNC(VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable);
 		LOAD_FUNC(VTable_WhenDriving_NotOverridingTheBaseMembers);
 		LOAD_FUNC(ChainInheritance_WhenDriving_NotOverridingTheBaseMembers);
 		LOAD_FUNC(ChainInheritance_WhenDriving_AllBasesAreInited);
@@ -43,9 +43,9 @@ TEST_F(InheritTest, VTable_WhenDeriving_OverriddeesVTablePointer)
 	ASSERT_TRUE(VTable_WhenDeriving_OverriddeesVTablePointer_ptr());
 }
 
-TEST_F(InheritTest, VTable_WhenDriving_CanCallBaseFunctionsViaOwnVTable)
+TEST_F(InheritTest, VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable)
 {
-	ASSERT_TRUE(VTable_WhenDriving_CanCallBaseFunctionsViaOwnVTable_ptr());
+	ASSERT_TRUE(VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable_ptr());
 }
 
 TEST_F(InheritTest, VTable_WhenDriving_NotOverridingTheBaseMembers)

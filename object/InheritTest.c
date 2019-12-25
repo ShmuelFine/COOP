@@ -29,7 +29,7 @@ bool VTable_WhenDeriving_OverriddeesVTablePointer()
 	ASSERT_EQ(&(mat.vTable),&(mat._BASE.vTable));
 }
 
-bool VTable_WhenDriving_CanCallBaseFunctionsViaOwnVTable()
+bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
 {
 	//Arange
 	SuperMat4Test_init();
@@ -37,11 +37,11 @@ bool VTable_WhenDriving_CanCallBaseFunctionsViaOwnVTable()
 	mat.vTable->_ctor(&mat, 4, 4, 3);
 
 	//Act
-	int loc=0;
-	CALL(SuperMat4Test, findLoc, mat, 1, 2, &loc);
+	int width=0;
+	mat.vTable->_BASE.getWidth.func(&mat, &width);
  
 	//Assert
-	ASSERT_EQ(loc, 6);
+	ASSERT_EQ(width, 4);
 }
 
 bool VTable_WhenDriving_NotOverridingTheBaseMembers()
