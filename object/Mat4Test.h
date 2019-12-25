@@ -1,5 +1,7 @@
-#pragma once
+
+#ifndef __OBJECT_H__
 #include "../object/object.h"
+#endif
 
 DEF_CLASS(Mat4Test)
 

@@ -19,9 +19,10 @@ FUNCTION_IMPL(SuperMat4Test, SetStep, int step)
 }
 END_FUNCTION_IMPL
 
-FUNCTION_IMPL(SuperMat4Test, findLoc, int col, int row ,int *loc)
+FUNCTION_IMPL(SuperMat4Test, findLoc, int row, int col ,int *loc)
 {
-	*loc = (_this->_BASE.width * row + col) * _this->step;
+	THIS(findLoc, row, col, loc);
+	*loc *= _this->step;
 }
 END_FUNCTION_IMPL
 

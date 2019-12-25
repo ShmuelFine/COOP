@@ -114,3 +114,23 @@ bool ChainInheritance_Casting_EnabledCasting2Base()
 	ASSERT_EQ(mat._BASE.step, newStep);
 	ASSERT_EQ(loc, 1*4+1);
 }
+
+bool Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden()
+{
+	//Arrange
+	CREATE_DERIVED_OBJECT(SuperMat3, SuperMat4Test, mat);
+	mat.vTable->_ctor(&mat, 4, 4, 2, false);
+
+	//Act
+	int expectedLoc = (mat._BASE._BASE.width * 1 + 2) * mat._BASE.step + 1;
+	int actualLoc;
+	//CALL(SuperMat3, findLoc, mat, 1, 2, &actualLoc);
+	void (*func)(void) = callFunction(&((mat).vTable->findLoc))->func; 
+	func(&(mat), 1,2, &actualLoc);
+
+
+
+	//Assert
+	ASSERT_EQ(expectedLoc, actualLoc);
+
+}
