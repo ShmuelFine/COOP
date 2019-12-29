@@ -38,7 +38,7 @@ bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
 
 	//Act
 	int width=0;
-	mat.vTable->_BASE.getWidth.func(&mat, &width);
+	mat.vTable->_BASE.getWidth.func((Mat4Test * )&mat, &width);
  
 	//Assert
 	ASSERT_EQ(width, 4);
@@ -125,6 +125,7 @@ bool Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden()
 	int expectedLoc = (mat._BASE._BASE.width * 1 + 2) * mat._BASE.step + 1;
 	int actualLoc;
 	//CALL(SuperMat3, findLoc, mat, 1, 2, &actualLoc);
+	mat.vTable->findLoc.func(&mat, 1, 2, &actualLoc);
 	void (*func)(void) = callFunction(&((mat).vTable->findLoc))->func; 
 	func(&(mat), 1,2, &actualLoc);
 
