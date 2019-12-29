@@ -8,4 +8,4 @@
 
 //#define COOP_API __declspec(dllexport)
 
-#define int double
+//#define int double

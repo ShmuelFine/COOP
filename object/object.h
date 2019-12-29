@@ -104,11 +104,13 @@ void (*_dtor)(name *_this);
 
 #define DEF_INIT_DERIVED_CLASS(type,base) COOP_API void type ##_init();  
 
-#define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__) 
+#define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__);
 
-#define BASE_FUNCTION_PTR(type, functionName, ...) FUNCTION_TYPE(type,functionName,__VA_ARGS__) 
+#define BASE_FUNCTION_PTR(type, functionName, ...) FUNCTION_TYPE(type,functionName,__VA_ARGS__) \
+struct functionName ##_t *functionName;
 
-#define OVERIDE_FUNCTION_PTR(type, functionName, ...) function functionName; 
+#define OVERIDE_FUNCTION_PTR(type, functionName, ...) struct functionName ##_t __ ##functionName;   \
+struct functionName ##_t  *functionName; 
 
 #define FUNCTION_H(type,functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__);
 //#define BASE_FUNCTION_H(type,functionName, ...) FUNCTION_H(type,functionName, __VA_ARGS__)
@@ -148,10 +150,14 @@ COOP_API type ##VirtualTable type ##VTable;     \
 //#define BIND(type,name) type ##VTable.name=type ##_ ##name; 
 #define BIND(type,name) type ##VTable.name=type ##_ ##name; 
 
-#define BASE_BIND(type,name) type ##VTable.name.func=type ##_ ##name; 
+#define BASE_BIND(type,name) type ##VTable.__ ##name.func=type ##_ ##name;  \
+type ##VTable.name = &type ##VTable.__ ##name;                              \
+type ##VTable.name->next = NULL;
 
-#define BIND_OVERIDE(type,base,name) type ##VTable.name.func=&(type ##_ ##name);\
-type ##VTable._BASE.name.next = &(type ##VTable.name);
+#define BIND_OVERIDE(type,base,name) type ##VTable.__##name.func=&(type ##_ ##name);            \
+type ##VTable.__ ##name.next = NULL;                                                            \
+type ##VTable._BASE.name->next = &(type ##VTable.name);											\
+type ##VTable.name = type ##VTable._BASE.name;
 
 
 

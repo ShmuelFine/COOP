@@ -26,7 +26,7 @@ bool VTable_WhenDeriving_OverriddeesVTablePointer()
 	CREATE_OBJECT(SuperMat4Test, mat);
 
 	//Assert
-	ASSERT_EQ(&(mat.vTable),&(mat._BASE.vTable));
+	ASSERT_EQ(&(mat.vTable),&((SuperMat4TestVirtualTable*)mat._BASE.vTable));
 }
 
 bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
@@ -38,7 +38,7 @@ bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
 
 	//Act
 	int width=0;
-	mat.vTable->_BASE.getWidth.func((Mat4Test * )&mat, &width);
+	mat.vTable->_BASE.getWidth((Mat4Test * )&mat, &width);
  
 	//Assert
 	ASSERT_EQ(width, 4);
@@ -102,8 +102,8 @@ bool ChainInheritance_Casting_EnabledCasting2Base()
 	int newStep = 1;
 
 	//Act
-	SuperMat4Test* base1 = &mat;
-	Mat4Test* base2 = &mat;
+	SuperMat4Test* base1 = (SuperMat4Test*)&mat;
+	Mat4Test* base2 = (Mat4Test*)&mat;
 
 
 	mat.vTable->_BASE.SetStep(base1, newStep);
@@ -124,10 +124,7 @@ bool Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden()
 	//Act
 	int expectedLoc = (mat._BASE._BASE.width * 1 + 2) * mat._BASE.step + 1;
 	int actualLoc;
-	//CALL(SuperMat3, findLoc, mat, 1, 2, &actualLoc);
-	mat.vTable->findLoc.func(&mat, 1, 2, &actualLoc);
-	void (*func)(void) = callFunction(&((mat).vTable->findLoc))->func; 
-	func(&(mat), 1,2, &actualLoc);
+	CALL(SuperMat3, findLoc, mat, 1, 2, &actualLoc);
 
 
 
