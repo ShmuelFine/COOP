@@ -29,6 +29,6 @@ END_FUNCTION_IMPL
 INIT_CLASS(Mat4Test)
 {
 	BASE_BIND(Mat4Test, findLoc);
-	BASE_BIND(Mat4Test, getWidth);
+	BIND(Mat4Test, getWidth);
 }
 END_INIT_CLASS
