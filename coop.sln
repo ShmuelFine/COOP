@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "object-unitTest", "object-u
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Object_unitTest", "Object_unitTest\Object_unitTest.vcxproj", "{5EE53FEA-1D7C-4CC7-9650-9547430BBEA8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cache_UnitTest", "Cache_UnitTest\Cache_UnitTest.vcxproj", "{840216F5-441F-4916-AA51-FE1DA038EBAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -61,6 +63,12 @@ Global
 		{5EE53FEA-1D7C-4CC7-9650-9547430BBEA8}.Release|x64.Build.0 = Release|x64
 		{5EE53FEA-1D7C-4CC7-9650-9547430BBEA8}.Release|x86.ActiveCfg = Release|Win32
 		{5EE53FEA-1D7C-4CC7-9650-9547430BBEA8}.Release|x86.Build.0 = Release|Win32
+		{840216F5-441F-4916-AA51-FE1DA038EBAF}.Debug|x64.ActiveCfg = Debug|x64
+		{840216F5-441F-4916-AA51-FE1DA038EBAF}.Debug|x64.Build.0 = Debug|x64
+		{840216F5-441F-4916-AA51-FE1DA038EBAF}.Debug|x86.ActiveCfg = Debug|x64
+		{840216F5-441F-4916-AA51-FE1DA038EBAF}.Release|x64.ActiveCfg = Release|x64
+		{840216F5-441F-4916-AA51-FE1DA038EBAF}.Release|x64.Build.0 = Release|x64
+		{840216F5-441F-4916-AA51-FE1DA038EBAF}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
