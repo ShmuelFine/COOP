@@ -1,4 +1,5 @@
 #include "InheritTest.h"
+#include "SuperMat3_4Test.h"
 
 #define ASSERT_TRUE(condition) if(condition) return true; else return false;
 #define ASSERT_EQ(param1,param2) if((param1) == (param2)) return true; else return false;
@@ -13,7 +14,7 @@ bool Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen()
 	//Act
 	mat.vTable->_ctor(&mat, 6, 8, 2);
 	//Assert
-	ASSERT_TRUE(mat._BASE.hight == 6);
+	ASSERT_TRUE(mat._base.hight == 6);
 }
 
 
@@ -26,7 +27,7 @@ bool VTable_WhenDeriving_OverriddeesVTablePointer()
 	CREATE_OBJECT(SuperMat4Test, mat);
 
 	//Assert
-	ASSERT_EQ(&(mat.vTable),&((SuperMat4TestVirtualTable*)mat._BASE.vTable));
+	ASSERT_EQ(&(mat.vTable),&((SuperMat4TestVirtualTable*)mat._base.vTable));
 }
 
 bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
@@ -38,7 +39,7 @@ bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
 
 	//Act
 	int width=0;
-	mat.vTable->_BASE.getWidth((Mat4Test * )&mat, &width);
+	mat.vTable->_base.getWidth((Mat4Test * )&mat, &width);
  
 	//Assert
 	ASSERT_EQ(width, 4);
@@ -56,8 +57,8 @@ bool VTable_WhenDriving_NotOverridingTheBaseMembers()
 	mat.vTable->_ctor(&mat, h, w, step);
 
 	//Assert
-	ASSERT_EQ(mat._BASE.hight, h);
-	ASSERT_EQ(mat._BASE.width, w);
+	ASSERT_EQ(mat._base.hight, h);
+	ASSERT_EQ(mat._base.width, w);
 }
 
 bool ChainInheritance_WhenDriving_AllBasesAreInited()
@@ -69,8 +70,8 @@ bool ChainInheritance_WhenDriving_AllBasesAreInited()
 	CREATE_OBJECT(SuperMat3, mat);
 
 	//Assert
-	ASSERT_TRUE(mat.vTable->_BASE._ctor != NULL);
-	ASSERT_TRUE(mat.vTable->_BASE._BASE._ctor != NULL);
+	ASSERT_TRUE(mat.vTable->_base._ctor != NULL);
+	ASSERT_TRUE(mat.vTable->_base._base._ctor != NULL);
 }
 
 bool ChainInheritance_WhenDriving_NotOverridingTheBaseMembers()
@@ -85,9 +86,9 @@ bool ChainInheritance_WhenDriving_NotOverridingTheBaseMembers()
 	mat.vTable->_ctor(&mat, h, w, step,false);
 
 	//Assert
-	ASSERT_EQ(mat._BASE._BASE.hight, h);
-	ASSERT_EQ(mat._BASE._BASE.width, w);
-	ASSERT_EQ(mat._BASE.step, step);
+	ASSERT_EQ(mat._base._base.hight, h);
+	ASSERT_EQ(mat._base._base.width, w);
+	ASSERT_EQ(mat._base.step, step);
 }
 
 bool ChainInheritance_Casting_EnabledCasting2Base()
@@ -97,21 +98,20 @@ bool ChainInheritance_Casting_EnabledCasting2Base()
 	int h = 4, w = 4, step = 3;
 	CREATE_OBJECT(SuperMat3, mat);
 	mat.vTable->_ctor(&mat, h, w, step, false);
-
 	int loc;
 	int newStep = 1;
-
 	//Act
 	SuperMat4Test* base1 = (SuperMat4Test*)&mat;
 	Mat4Test* base2 = (Mat4Test*)&mat;
 
 
-	mat.vTable->_BASE.SetStep(base1, newStep);
-	//mat.vTable->_BASE._BASE.findLoc(base2, 1, 1, &loc);
+	mat.vTable->_base.SetStep(base1, newStep);
+	//mat.vTable->_base._base.findLoc(base2, 1, 1, &loc);
+	//struct findLoc_t_* f = ((*base2).vTable->findLoc);;
 	CALL(Mat4Test, findLoc, *base2, 1, 1, &loc);
 
 	//Assert
-	ASSERT_EQ(mat._BASE.step, newStep);
+	ASSERT_EQ(mat._base.step, newStep);
 	ASSERT_EQ(loc, 1*4+1);
 }
 
@@ -122,12 +122,9 @@ bool Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden()
 	mat.vTable->_ctor(&mat, 4, 4, 2, false);
 
 	//Act
-	int expectedLoc = (mat._BASE._BASE.width * 1 + 2) * mat._BASE.step + 1;
+	int expectedLoc = (mat._base._base.width * 1 + 2) * mat._base.step + 1;
 	int actualLoc;
 	CALL(SuperMat3, findLoc, mat, 1, 2, &actualLoc);
-
-
-
 	//Assert
 	ASSERT_EQ(expectedLoc, actualLoc);
 

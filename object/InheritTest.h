@@ -1,7 +1,6 @@
 
-#include "SuperMat3_4Test.h"
 #include <stdbool.h>
-
+#include "ExportDefs.h"
 
 COOP_API bool Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen();
 
