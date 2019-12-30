@@ -28,11 +28,11 @@ END_FUNCTION_IMPL
 
 INIT_DERIVED_CLASS(SuperMat4Test, Mat4Test)
 	BIND(SuperMat4Test, SetStep);
-	//BIND_OVERIDE(SuperMat4Test, Mat4Test, findLoc);
-	SuperMat4TestVTable.__findLoc.func = &(SuperMat4Test_findLoc);            
-	SuperMat4TestVTable.__findLoc.next = NULL;                                                            
-	Mat4TestVTable.__findLoc.next = &(SuperMat4TestVTable.__findLoc);											
-	SuperMat4TestVTable.findLoc = Mat4TestVTable.findLoc;
+	BIND_OVERIDE(SuperMat4Test, Mat4Test, findLoc);
+	//SuperMat4TestVTable.__findLoc.func = &(SuperMat4Test_findLoc);            
+	//SuperMat4TestVTable.__findLoc.next = NULL;                                                            
+	//Mat4TestVTable.__findLoc.next = &(SuperMat4TestVTable.__findLoc);											
+	//SuperMat4TestVTable.findLoc = Mat4TestVTable.findLoc;
 END_INIT_CLASS
 
 
