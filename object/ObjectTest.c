@@ -1,6 +1,6 @@
 //#include "ObjectTest.h"
 //
-////#include "Mat.h"
+//#include "SuperMat3_4Test.h"
 //
 //#define _ASSERT_TRUE(x) if (!(x)) return -1;
 //
@@ -12,7 +12,8 @@
 //	Cache_AllocateCache(&TheGlobalCache, 100);
 //	SCOPE_START;
 //
-//	DO_A(m1); DO_A(m2); DO_A(m3);
+//	//DO_A(m1); DO_A(m2); DO_A(m3);
+//
 //
 //	//Act
 //

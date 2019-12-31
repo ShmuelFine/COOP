@@ -6,13 +6,15 @@
 
 bool Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen()
 {
-	SuperMat4Test_init();
-	//Arrange
-	CREATE_OBJECT(SuperMat4Test, mat)
 
+	//Arrange
+
+	SuperMat4Test_init();
 
 	//Act
-	mat.vTable->_ctor(&mat, 6, 8, 2);
+	CREATE_OBJECT(SuperMat4Test, mat, 6, 8, 2)
+	//mat.vTable->_ctor(&mat, 6, 8, 2);
+
 	//Assert
 	ASSERT_TRUE(mat._base.hight == 6);
 }
@@ -24,7 +26,7 @@ bool VTable_WhenDeriving_OverriddeesVTablePointer()
 	SuperMat4Test_init();
 
 	//Act
-	CREATE_OBJECT(SuperMat4Test, mat);
+	CREATE_OBJECT(SuperMat4Test, mat,0,0,0);
 
 	//Assert
 	ASSERT_EQ(&(mat.vTable),&((SuperMat4TestVirtualTable*)mat._base.vTable));
@@ -34,8 +36,8 @@ bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
 {
 	//Arange
 	SuperMat4Test_init();
-	CREATE_OBJECT(SuperMat4Test, mat);
-	mat.vTable->_ctor(&mat, 4, 4, 3);
+	CREATE_OBJECT(SuperMat4Test, mat, 4, 4, 3);
+	//mat.vTable->_ctor(&mat, 4, 4, 3);
 
 	//Act
 	int width=0;
@@ -50,11 +52,10 @@ bool VTable_WhenDriving_NotOverridingTheBaseMembers()
 	//Arange
 	SuperMat4Test_init();
 	int h = 4, w = 4, step = 3;
-	CREATE_OBJECT(SuperMat4Test, mat);
-
 
 	//Act
-	mat.vTable->_ctor(&mat, h, w, step);
+	CREATE_OBJECT(SuperMat4Test, mat, h, w, step);
+	//mat.vTable->_ctor(&mat, h, w, step);
 
 	//Assert
 	ASSERT_EQ(mat._base.hight, h);
@@ -132,8 +133,8 @@ bool Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden()
 	//ASSERT_EQ(expectedLoc, actualLoc);
 
 	//Arrange
-	CREATE_DERIVED_OBJECT(SuperMat4Test, Mat4Test, mat);
-	mat.vTable->_ctor(&mat, 4, 4, 2);
+	CREATE_DERIVED_OBJECT(SuperMat4Test, Mat4Test, mat, 4, 4, 2);
+	//mat.vTable->_ctor(&mat, 4, 4, 2);
 
 	//Act
 	int expectedLoc = (mat._base.width * 1 + 2) * mat.step;
