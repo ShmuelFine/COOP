@@ -1,8 +1,11 @@
-//#include "ObjectTest.h"
+#include "ObjectTest.h"
+#include "Cache.h"
+#include "Globals.h"
+#include "object.h"
 //
 //#include "SuperMat3_4Test.h"
 //
-//#define _ASSERT_TRUE(x) if (!(x)) return -1;
+#define _ASSERT_TRUE(x) if (x) return 1;return -1;
 //
 //int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 //{
@@ -123,3 +126,27 @@
 //	return 1;
 //}
 //
+int New_WhenNew_ThenReturnesPointerInCache()
+{
+	//Arrange
+	Cache_Init(&TheGlobalCache); Cache_AllocateCache(&TheGlobalCache, 1000);
+	
+	//Act
+	int* buff = NEW(int, 20);
+
+	//Assert
+	_ASSERT_TRUE(TheGlobalCache.buffer <= (char*)(TheGlobalCache.buffer + TheGlobalCache.size - (char*)buff));
+
+}
+
+int New_WhenNew_ConstructsBlockWithRightSize()
+{
+	//Arrange
+	Cache_Init(&TheGlobalCache); Cache_AllocateCache(&TheGlobalCache, 1000);
+	
+	//Act
+	int* buff = NEW(int, 20);
+
+	//Assert
+	_ASSERT_TRUE(TheGlobalCache.allBlockPointers->next->buff==(char*)buff && TheGlobalCache.allBlockPointers->next->size==20);
+}
