@@ -53,12 +53,11 @@ Block* Cache_getAvailableBlock(Cache* c)
 	return tempBlock;
 }
 
-Block* Cache_allocateBlock(Cache *c,const char* block_name, int block_size, char* pos_in_Cache_buff)
+Block* Cache_allocateBlock(Cache *c, int block_size, char* pos_in_Cache_buff)
 {
 	Block* tempBlock = Cache_getAvailableBlock(c);
 	if (!tempBlock)
 		return NULL;
-	tempBlock->name = block_name;
 	tempBlock->size = block_size;
 	tempBlock->buff = pos_in_Cache_buff;
 	tempBlock->next = NULL;
@@ -77,14 +76,14 @@ void Cache_AllocateCacheFromExisingBuf(Cache* c, char* cacheMemroy, int newSize)
 	c->size = newSize;
 
 	c->allBlocks[0].buff = c->buffer;
-	c->allBlocks[0].name = "__START__OF__LIST";
+	//c->allBlocks[0].name = "__START__OF__LIST";
 	c->allBlocks[0].size = 0;
 	c->IsBlockUsed[0] = true;
 	c->allBlocks[0].isActive = true;
 	c->allBlocks[0].isSealed = true;
 
 	c->allBlocks[1].buff = c->buffer + c->size;
-	c->allBlocks[1].name = "__END__OF__LIST";
+	//c->allBlocks[1].name = "__END__OF__LIST";
 	c->allBlocks[1].size = 0;
 	c->allBlocks[1].next = NULL;
 	c->allBlocks[1].isActive = true;
@@ -125,15 +124,15 @@ Block* Cache_FindAvailableInterval(Cache* c, int dstSizeInBytes)
 	return NULL;
 }
 
-Block* Cache_FindBlockByName(Cache* c, const char* name)
-{
-	for (Block* it = c->allBlockPointers; it->next != NULL; it = it->next)
-	{
-		if (strcmp(it->name, name) == 0)
-			return it;
-	}
-	return NULL;
-}
+//Block* Cache_FindBlockByID(Cache* c, void * buff_id)
+//{
+//	for (Block* it = c->allBlockPointers; it->next != NULL; it = it->next)
+//	{
+//		if (it->id == buff_id)
+//			return it;
+//	}
+//	return NULL;
+//}
 
 void Cache_FreeInactiveBlocks(Cache* c)
 {
@@ -148,7 +147,7 @@ void Cache_FreeInactiveBlocks(Cache* c)
 	
 }
 
-Block* Cache_AddNewBlock(Cache* c, const char* block_name, int block_size)
+Block* Cache_AddNewBlock(Cache* c, int block_size)
 {
 	Block* lowerBound = Cache_FindAvailableInterval(c, block_size);
 	if (!lowerBound)
@@ -162,7 +161,7 @@ Block* Cache_AddNewBlock(Cache* c, const char* block_name, int block_size)
 
 	char* block_buff_pos = lowerBound->buff + lowerBound->size;
 
-	Block* newBlock = Cache_allocateBlock(c,block_name, block_size, block_buff_pos);
+	Block* newBlock = Cache_allocateBlock(c, block_size, block_buff_pos);
 	if (!newBlock)
 		return NULL;
 	newBlock->next = lowerBound->next;
@@ -198,67 +197,59 @@ void Cache_DeleteBlock(Cache* c, Block* toDelete)
 		prev->next = toDelete->next;
 	
 	int myIdx = (int)((char*)toDelete - (char*)c->allBlocks) / sizeof(Block);
-
-	//for (int i = 2; i < MAX_NUM_BLOCKS; i++)
-	//{
-		//if (toDelete == &(c->allBlocks[i]))
-		//{
-
 	c->IsBlockUsed[myIdx] = false;
 	if (myIdx < c->nextFreeBlock)
 		c->nextFreeBlock = myIdx;
 
-	//break;
+}
+
+
+/*functions using block names*/
+//void Cache_RemoveBlockByName(Cache* c, const char* block_name)
+//{
+//	Block* toDelete = Cache_FindBlockByName(c, block_name);
+//	if (toDelete)
+//		Cache_RemoveBlock(c, toDelete);
 //}
+
+//void Cache_DeleteBlockByName(Cache* c, const char* block_name)
+//{
+//	Block* toDelete = Cache_FindBlockByName(c, block_name);
+//	if (toDelete)
+//		Cache_DeleteBlock(c, toDelete);
 //}
 
-}
+//Block* Cache_Fetch(Cache* c, void* buff_id, int block_size)
+//{
+//	bool wasExisting = false;
+//	Block* existing = Cache_FindBlockByID(c, buff_id);
+//	if (existing && existing->size != block_size)
+//	{
+//		wasExisting = true;
+//		Cache_DeleteBlockByName(c, existing->name);
+//		Block* UL = Cache_AddNewBlock(c, "upperLimitToAvoidDoubleAllocInSamePlace", 0);
+//		existing = NULL;
+//	}
+//	if (!existing)
+//	{
+//		existing = Cache_AddNewBlock(c, block_name, block_size);
+//		if(wasExisting)
+//			Cache_DeleteBlockByName(c, "upperLimitToAvoidDoubleAllocInSamePlace");
+//	}
+//
+//	// In case we've just fetched an existing, inactive, block:
+//	if (existing)
+//		existing->isActive = true;
+//
+//	return existing;
+//}
 
-void Cache_RemoveBlockByName(Cache* c, const char* block_name)
-{
-	Block* toDelete = Cache_FindBlockByName(c, block_name);
-	if (toDelete)
-		Cache_RemoveBlock(c, toDelete);
-}
-
-void Cache_DeleteBlockByName(Cache* c, const char* block_name)
-{
-	Block* toDelete = Cache_FindBlockByName(c, block_name);
-	if (toDelete)
-		Cache_DeleteBlock(c, toDelete);
-}
-
-Block* Cache_Fetch(Cache* c, const char* block_name, int block_size)
-{
-	bool wasExisting = false;
-	Block* existing = Cache_FindBlockByName(c, block_name);
-	if (existing && existing->size != block_size)
-	{
-		wasExisting = true;
-		Cache_DeleteBlockByName(c, existing->name);
-		Block* UL = Cache_AddNewBlock(c, "upperLimitToAvoidDoubleAllocInSamePlace", 0);
-		existing = NULL;
-	}
-	if (!existing)
-	{
-		existing = Cache_AddNewBlock(c, block_name, block_size);
-		if(wasExisting)
-			Cache_DeleteBlockByName(c, "upperLimitToAvoidDoubleAllocInSamePlace");
-	}
-
-	// In case we've just fetched an existing, inactive, block:
-	if (existing)
-		existing->isActive = true;
-
-	return existing;
-}
-
-Block* Cache_Fetch_Assert(Cache* c, const char* block_name, int block_size)
-{
-	Block* result = Cache_Fetch(c, block_name, block_size);
-	assert(result != NULL);
-	return result;
-}
+//Block* Cache_Fetch_Assert(Cache* c, const char* block_name, int block_size)
+//{
+//	Block* result = Cache_Fetch(c, block_name, block_size);
+//	assert(result != NULL);
+//	return result;
+//}
 
 unsigned long Cache_GetAllocAmount(Cache* c)
 {

@@ -4,7 +4,7 @@
 #include "ExportDefs.h"
 
 typedef struct block_s {
-	const char* name;
+	//const char* name;
 	char* buff;
 	int size;
 	struct block_s* next;
@@ -33,12 +33,13 @@ extern "C" {
 
 
 	COOP_API Block* Cache_getAvailableBlock(Cache* c);
-	COOP_API Block* Cache_FindBlockByName(Cache* c, const char* name);
-	COOP_API Block* Cache_Fetch(Cache* c, const char* block_name, int block_size);
-	COOP_API Block* Cache_Fetch_Assert(Cache* c, const char* block_name, int block_size);
+	//COOP_API Block* Cache_FindBlockByName(Cache* c, const char* name);
+	//COOP_API Block* Cache_Fetch(Cache* c, const char* block_name, int block_size);
+	//COOP_API Block* Cache_Fetch_Assert(Cache* c, const char* block_name, int block_size);
 	COOP_API void Cache_DeleteBlock(Cache* c, Block* toDelete);
+	COOP_API Block* Cache_AddNewBlock(Cache* c, int block_size);
 	COOP_API void Cache_RemoveBlock(Cache* c, Block* toDelete);
-	COOP_API void Cache_RemoveBlockByName(Cache* c, const char* block_name);
+	//COOP_API void Cache_RemoveBlockByName(Cache* c, const char* block_name);
 	COOP_API unsigned long Cache_GetAllocAmount(Cache* c);
 
 #ifdef __cplusplus
