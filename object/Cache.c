@@ -61,8 +61,6 @@ Block* Cache_allocateBlock(Cache *c, int block_size, char* pos_in_Cache_buff)
 	tempBlock->size = block_size;
 	tempBlock->buff = pos_in_Cache_buff;
 	tempBlock->next = NULL;
-	tempBlock->isSealed = false;
-	tempBlock->isActive = true;
 	return tempBlock;
 }
 
@@ -76,18 +74,12 @@ void Cache_AllocateCacheFromExisingBuf(Cache* c, char* cacheMemroy, int newSize)
 	c->size = newSize;
 
 	c->allBlocks[0].buff = c->buffer;
-	//c->allBlocks[0].name = "__START__OF__LIST";
 	c->allBlocks[0].size = 0;
 	c->IsBlockUsed[0] = true;
-	c->allBlocks[0].isActive = true;
-	c->allBlocks[0].isSealed = true;
 
 	c->allBlocks[1].buff = c->buffer + c->size;
-	//c->allBlocks[1].name = "__END__OF__LIST";
 	c->allBlocks[1].size = 0;
 	c->allBlocks[1].next = NULL;
-	c->allBlocks[1].isActive = true;
-	c->allBlocks[1].isSealed = true;
 	c->IsBlockUsed[1] = true;
 
 	c->allBlockPointers = &(c->allBlocks[0]);
@@ -134,30 +126,25 @@ Block* Cache_FindAvailableInterval(Cache* c, int dstSizeInBytes)
 //	return NULL;
 //}
 
-void Cache_FreeInactiveBlocks(Cache* c)
-{
-	for (Block* it = c->allBlocks; it->next != NULL; it = it->next)
-	{
-		while (!it->isActive)
-		{
-			Block* next = it->next;
-			Cache_DeleteBlock(c, it);
-		}
-	}
-	
-}
+//void Cache_FreeInactiveBlocks(Cache* c)
+//{
+//	for (Block* it = c->allBlocks; it->next != NULL; it = it->next)
+//	{
+//		while (!it->isActive)
+//		{
+//			Block* next = it->next;
+//			Cache_DeleteBlock(c, it);
+//		}
+//	}
+//	
+//}
 
 Block* Cache_AddNewBlock(Cache* c, int block_size)
 {
 	Block* lowerBound = Cache_FindAvailableInterval(c, block_size);
 	if (!lowerBound)
-	{
-		Cache_FreeInactiveBlocks(c);
-		lowerBound = Cache_FindAvailableInterval(c, block_size);
-	
-		if (!lowerBound)
-			return NULL;
-	}
+		return NULL;
+
 
 	char* block_buff_pos = lowerBound->buff + lowerBound->size;
 
@@ -172,8 +159,6 @@ Block* Cache_AddNewBlock(Cache* c, int block_size)
 
 void Cache_RemoveBlock(Cache* c, Block* toDelete)
 {
-	toDelete->isActive = false;
-	if (!toDelete->isSealed)
 		Cache_DeleteBlock(c, toDelete);
 }
 
@@ -256,7 +241,6 @@ unsigned long Cache_GetAllocAmount(Cache* c)
 	unsigned long sum = 0;
 	for (Block* it = c->allBlockPointers; it->next != NULL; it = it->next)
 	{
-		if (it->isActive || it->isSealed)
 			sum += (unsigned long)it->size;
 	}
 

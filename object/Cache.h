@@ -4,12 +4,9 @@
 #include "ExportDefs.h"
 
 typedef struct block_s {
-	//const char* name;
 	char* buff;
 	int size;
 	struct block_s* next;
-	bool isSealed;
-	bool isActive;
 }Block;
 
 #define MAX_NUM_BLOCKS 1000
