@@ -34,6 +34,7 @@ extern "C" {
 	//COOP_API Block* Cache_Fetch(Cache* c, const char* block_name, int block_size);
 	//COOP_API Block* Cache_Fetch_Assert(Cache* c, const char* block_name, int block_size);
 	COOP_API void Cache_DeleteBlock(Cache* c, Block* toDelete);
+	COOP_API Block* Cache_FindBlockByBuffAddress(Cache *c, void* buff);
 	COOP_API Block* Cache_AddNewBlock(Cache* c, int block_size);
 	COOP_API void Cache_RemoveBlock(Cache* c, Block* toDelete);
 	//COOP_API void Cache_RemoveBlockByName(Cache* c, const char* block_name);
