@@ -203,13 +203,15 @@ _scope_obj_list_add(&_scope_obj_list,&object1);
 //	instance_name._next= NULL;					   \
 //	REGISTER_OBJECT(&instance_name)
 
-#define CREATE_OBJECT(type, instance_name)									                 \
-	type instance_name;                  													 \
-	instance_name.vTable=&type ##VTable;
+#define CREATE_OBJECT(type, instance_name, ...)				 \
+	type instance_name;                  					 \
+	instance_name.vTable=&type ##VTable;					 \
+	instance_name.vTable->_ctor(&instance_name, __VA_ARGS__);
 
-#define CREATE_DERIVED_OBJECT(type,base, instance_name)									                 \
-	type instance_name;                  													 \
-	instance_name.vTable=&type ##VTable;													 
+#define CREATE_DERIVED_OBJECT(type,base, instance_name, ...)	 \
+	type instance_name;                  						 \
+	instance_name.vTable=&type ##VTable;						 \
+	instance_name.vTable->_ctor(&instance_name, __VA_ARGS__);
 
 
 #endif
