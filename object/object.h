@@ -3,6 +3,8 @@
 #define __OBJECT__H_
 #include "ExportDefs.h"
 #include "LinkedLists.h"
+#include "Cache.h"
+#include "Globals.h"
 #include <stdlib.h>
 #include <stdbool.h>
 //generic type of class virtual tables
@@ -195,6 +197,9 @@ _scope_obj_list_add(&_scope_obj_list,&object1);
 
 #define GET_VIRTUAL_TABLE(type) is_in_scope_class_list(type,&_scope_class_list);
 
+#define NEW(type,size) Cache_AddNewBlock(&TheGlobalCache,sizeof(type)*size)
+
+#define DELETE(buff) Cache_DeleteBlock(&TheGlobalCache,Cache_FindBlockByBuffAddress(&TheGlobalCache,buff))
 
 //#define CREATE_OBJ(Type, instance_name)            \
 //	Type instance_name;							   \

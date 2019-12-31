@@ -188,6 +188,17 @@ void Cache_DeleteBlock(Cache* c, Block* toDelete)
 
 }
 
+Block* Cache_FindBlockByBuffAddress(Cache *c, void* buff)
+{
+	Block* it = c->allBlockPointers->next;
+	while (it->next)
+	{
+		if (it->buff == buff)
+			return it;
+		it = it->next;
+	}
+	return NULL;
+}
 
 /*functions using block names*/
 //void Cache_RemoveBlockByName(Cache* c, const char* block_name)
