@@ -45,12 +45,14 @@ typedef struct block_s {
 
 #define DEF_CLASS(name)                                              \
 typedef struct name ##VirtualTable_t name ##VirtualTable;            \
-typedef struct name ##_t{                                                    \
+typedef struct name ##_t{                                            \
 	object *_next;                                                   \
 	name ##VirtualTable* vTable;
 
 #define END_DEF(name)												\
-}name;
+}name;																\
+extern bool is_ ##name ##VirtualTable__initialized;
+
 
 #define DERIVED_EXTRA_SIZE(name, base) __dummy__[(sizeof(base) - sizeof(object*) - sizeof(base ##VirtualTable*)) > 0 ? (sizeof(base) - sizeof(object*) - sizeof(base ##VirtualTable*)) : 1]
 
@@ -65,7 +67,9 @@ union {                                                                       \
 		char DERIVED_EXTRA_SIZE(name,base);
 
 #define END_DEF_DERIVED(name) };};                                             \
-}name;  
+}name;  \
+extern bool is_ ##name ##VirtualTable__initialized;
+
 
 
 #define DEF_CTOR(name, ...) void __ctor__ ##name(name * _this, __VA_ARGS__){   
@@ -108,7 +112,7 @@ base ##VirtualTable _base;                        \
 void (*_ctor)(name *_this, __VA_ARGS__);          \
 void (*_dtor)(name *_this);            
 
-#define DEF_INIT_CLASS(type) COOP_API void type ##_init(); 
+#define DEF_INIT_CLASS(type) COOP_API void type ##_init();
 
 #define DEF_INIT_DERIVED_CLASS(type,base) COOP_API void type ##_init();  
 
@@ -144,24 +148,28 @@ name ##VTable._ctor = __ctor__ ##name;  \
 name ##VTable._dtor = __dtor__ ##name; 
 
 #define INIT_CLASS(type)                        \
+bool is_ ##type ##VirtualTable__initialized = false;\
 COOP_API type ##VirtualTable type ##VTable;     \
 	void type ##_init(){                        \
-	ATTACH_TORs_ToClass(type);              
+	ATTACH_TORs_ToClass(type)
 
 #define END_INIT_CLASS } 
 
-#define INIT_DERIVED_CLASS(type,base)           \
-COOP_API type ##VirtualTable type ##VTable;     \
-	void type ##_init(){                        \
-	base ##_init();                             \
-	ATTACH_TORs_ToClass(type);					\
+#define INIT_DERIVED_CLASS(type,base)				   \
+bool is_ ##type ##VirtualTable__initialized = false;   \
+COOP_API type ##VirtualTable type ##VTable;			   \
+	void type ##_init(){							   \
+	if(!(is_ ##base ##VirtualTable__initialized))      \
+	base ##_init();									   \
+	ATTACH_TORs_ToClass(type);						   \
 	type ##VTable._base = base ##VTable;
 
 //#define BIND(type,name) type ##VTable.name=type ##_ ##name; 
 #define BIND(type,name) type ##VTable.name=type ##_ ##name; 
 
-#define BASE_BIND(type,name) type ##VTable.__ ##name.func=type ##_ ##name;  \
-type ##VTable.name = &type ##VTable.__ ##name;                              \
+#define BASE_BIND(type,name)\
+type ##VTable.__ ##name.func=type ##_ ##name;  \
+type ##VTable.name = &type ##VTable.__ ##name; \
 type ##VTable.name->next = NULL;
 
 #define BIND_OVERIDE(type,base,name) type ##VTable.__##name.func=&(type ##_ ##name);            \
@@ -216,11 +224,13 @@ buff = NULL
 //	REGISTER_OBJECT(&instance_name)
 
 #define CREATE_OBJECT(type, instance_name, ...)				 \
+	if (! is_ ##type ##VirtualTable__initialized) type ##_init();\
 	type instance_name;                  					 \
 	instance_name.vTable=&type ##VTable;					 \
 	instance_name.vTable->_ctor(&instance_name, __VA_ARGS__);
 
-#define CREATE_DERIVED_OBJECT(type,base, instance_name, ...)	 \
+#define CREATE_DERIVED_OBJECT(type, base, instance_name, ...)	 \
+	if (! is_ ##type ##VirtualTable__initialized) type ##_init();\
 	type instance_name;                  						 \
 	instance_name.vTable=&type ##VTable;						 \
 	instance_name.vTable->_ctor(&instance_name, __VA_ARGS__);
