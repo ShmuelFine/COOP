@@ -4,7 +4,7 @@
 #include "ExportDefs.h"
 #include "LinkedLists.h"
 //#include "Cache.h"
-#include "Globals.h"
+//#include "Globals.h"
 #include <stdlib.h>
 #include <stdbool.h>
 //generic type of class virtual tables

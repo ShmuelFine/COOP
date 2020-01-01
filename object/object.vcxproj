@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cache.c" />
+    <ClCompile Include="CacheClass.c" />
     <ClCompile Include="Globals.c" />
     <ClCompile Include="InheritTest.c" />
     <ClCompile Include="LinkedLists.c" />
@@ -145,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cache.h" />
+    <ClInclude Include="CacheClass.h" />
     <ClInclude Include="ExportDefs.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="InheritTest.h" />
