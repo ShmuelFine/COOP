@@ -156,6 +156,7 @@
     <ClInclude Include="ObjectTest.h" />
     <ClInclude Include="SuperMat3_4Test.h" />
     <ClInclude Include="SuperMat4Test.h" />
+    <ClInclude Include="temp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
