@@ -3,7 +3,7 @@
 #define __OBJECT__H_
 #include "ExportDefs.h"
 #include "LinkedLists.h"
-#include "Cache.h"
+//#include "Cache.h"
 #include "Globals.h"
 #include <stdlib.h>
 #include <stdbool.h>
@@ -34,6 +34,12 @@ typedef struct object_t {
 
 
 }object;
+
+typedef struct block_s {
+	char* buff;
+	int size;
+	struct block_s* next;
+}Block;
 
 
 
