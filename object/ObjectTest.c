@@ -150,3 +150,31 @@ int New_WhenNew_ConstructsBlockWithRightSize()
 	//Assert
 	_ASSERT_TRUE(TheGlobalCache.allBlockPointers->next->buff==(char*)buff && TheGlobalCache.allBlockPointers->next->size==20);
 }
+
+int Delete_WhenDelete_PointerPointToNull()
+{
+	//Arrange
+	Cache_Init(&TheGlobalCache); Cache_AllocateCache(&TheGlobalCache, 1000);
+
+	//Act
+	int* buff = NEW(int, 20);
+	DELETE(buff);
+
+	//Assert
+	_ASSERT_TRUE(buff == NULL);
+}
+
+int Delete_WhenDelete_ThenDeletesTheBlock()
+{
+	//Arrange
+	Cache_Init(&TheGlobalCache); Cache_AllocateCache(&TheGlobalCache, 1000);
+
+	//Act
+	int* buff = NEW(int, 20);
+	Block* b = Cache_FindBlockByBuffAddress(&TheGlobalCache, buff);
+	DELETE(buff);
+	int myIdx = (int)((char*)b - (char*)(&TheGlobalCache)->allBlocks) / sizeof(Block);
+
+	//Assert
+	_ASSERT_TRUE(TheGlobalCache.IsBlockUsed[myIdx] == false);
+}

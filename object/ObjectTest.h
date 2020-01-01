@@ -18,6 +18,10 @@ extern "C" {
 
 	COOP_API int New_WhenNew_ConstructsBlockWithRightSize();
 
+	COOP_API int Delete_WhenDelete_PointerPointToNull();
+
+	COOP_API int Delete_WhenDelete_ThenDeletesTheBlock();
+
 #ifdef __cplusplus
 }
 #endif
