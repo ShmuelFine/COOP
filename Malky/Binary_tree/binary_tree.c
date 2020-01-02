@@ -61,21 +61,38 @@ tree_node* init(int num)
 tree_node* add(tree_node* head, int num)
 {
 	tree_node* placeToAdd = getPlaceToAdd(head, num);
-	tree_node* toAdd = init(num);
-	if (placeToAdd->value!=num)
+	if (placeToAdd->value != num)
 	{
+		tree_node* toAdd = init(num);
 		if (placeToAdd->value < num)
 			placeToAdd->right = toAdd;
 		else
 			placeToAdd->left = toAdd;
+		return toAdd;
 	}
-	return toAdd;
+	else
+	{
+		placeToAdd->isActive = true;
+		return placeToAdd;
+	}
 }
 
 //remove node
 void removeNode(tree_node* toRemove)
 {
 	toRemove->isActive = false;
+}
+
+//free tree
+void free_tree(tree_node ** tree)
+{
+	if (*tree != NULL)
+	{
+		free_tree(&((*tree)->right));
+		free_tree(&((*tree)->left ));
+		free(*tree);
+		*tree = NULL;
+	}
 }
 
 int main()
@@ -88,7 +105,7 @@ int main()
 	tree_node* root = init(num1);
 
 	// Assert
-	if (root && root->value==num1 && root->right==NULL && root->left == NULL)
+	if (root && root->value == num1 && root->right == NULL && root->left == NULL)
 		printf("Init-OK\n");
 
 
@@ -98,11 +115,11 @@ int main()
 
 	// Act
 	tree_node* root2 = init(num1);
-	add(root2,num2);
+	add(root2, num2);
 
 
 	// Assert
-	if (root2->right->value==num2)
+	if (root2->right->value == num2)
 		printf("Add-OK\n");
 
 
@@ -112,11 +129,26 @@ int main()
 
 	// Act
 	tree_node* root3 = init(num1);
-	tree_node* nd2=add(root3, num2);
-	tree_node* nd3=add(root3,num3);
+	tree_node* nd2 = add(root3, num2);
+	tree_node* nd3 = add(root3, num3);
 	removeNode(nd2);
 
 	// Assert
 	if (!nd2->isActive)
 		printf("Remove-OK\n");
+
+	//TEST-FREE
+	tree_node* t = init(87);
+	add(t, 50);
+	add(t, 60);
+	add(t, 90);
+	add(t, 88);
+	add(t, 95);
+	add(t, 93);
+	add(t, 100);
+
+	free_tree(&t);
+	//why it's not equal null??
+	if (t==NULL)
+		printf("Free-OK!!");
 }
