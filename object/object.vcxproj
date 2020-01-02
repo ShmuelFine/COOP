@@ -137,6 +137,7 @@
     <ClCompile Include="CacheClass.c" />
     <ClCompile Include="Globals.c" />
     <ClCompile Include="InheritTest.c" />
+    <ClCompile Include="InMemoryCache.c" />
     <ClCompile Include="LinkedLists.c" />
     <ClCompile Include="Mat4Test.c" />
     <ClCompile Include="object.c" />
@@ -150,6 +151,7 @@
     <ClInclude Include="ExportDefs.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="InheritTest.h" />
+    <ClInclude Include="InMemoryCache.h" />
     <ClInclude Include="LinkedLists.h" />
     <ClInclude Include="Mat4Test.h" />
     <ClInclude Include="object.h" />
