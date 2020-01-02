@@ -9,7 +9,7 @@ typedef struct func_t {
 struct function_name ##_t_{							 \
 	void (*func)(void* _this, __VA_ARGS__);          \
 	struct function_name ##_t_ * next;               \
-}__ ##function_name,*function_name;
+}__ ##function_name,*function_name
 
 function* callFunction(function* func);
 
