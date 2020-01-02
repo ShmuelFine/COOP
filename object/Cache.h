@@ -48,6 +48,11 @@ typedef struct block_s {
 
 #include "object.h"
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 DEF_CLASS(InMemoryCache)
 char* buffer;
 int size;
@@ -57,9 +62,6 @@ bool IsBlockUsed[MAX_NUM_BLOCKS + 2];
 int nextFreeBlock;
 END_DEF(InMemoryCache);
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 
 FUNCTIONS(InMemoryCache, int size)
