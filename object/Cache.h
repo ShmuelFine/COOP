@@ -98,3 +98,5 @@ END_FUNCTIONS(InMemoryCache);
 Block* Cache_allocateBlock(InMemoryCache* c, int block_size, char* pos_in_Cache_buff);
 
 Block* Cache_FindAvailableInterval(InMemoryCache* c, int dstSizeInBytes);
+
+Block* _Cache_AddNewBlock(InMemoryCache* c, int size);

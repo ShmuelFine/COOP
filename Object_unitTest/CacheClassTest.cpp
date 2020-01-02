@@ -15,7 +15,6 @@ public:
 
 	virtual void SetUp()
 	{
-		//InMemoryCache_init();
 	}
 
 	virtual void TearDown()

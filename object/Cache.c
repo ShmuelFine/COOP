@@ -408,6 +408,23 @@ Block* Cache_FindAvailableInterval(InMemoryCache* c, int dstSizeInBytes)
 	return NULL;
 }
 
+Block* _Cache_AddNewBlock(InMemoryCache* c, int size)
+{
+	Block* lowerBound = Cache_FindAvailableInterval(c, size);
+	if (!lowerBound)
+		return NULL;
+
+	char* block_buff_pos = lowerBound->buff + lowerBound->size;
+
+	Block* newBlock = Cache_allocateBlock(c, size, block_buff_pos);
+	if (!newBlock)
+		return NULL;
+	newBlock->next = lowerBound->next;
+	lowerBound->next = newBlock;
+
+	return newBlock;
+}
+
 
 //Block* Cache_AddNewBlock(InMemoryCache* c, int block_size)
 //{
