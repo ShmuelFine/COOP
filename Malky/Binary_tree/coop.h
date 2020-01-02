@@ -25,11 +25,18 @@ typedef struct list_t
 	int size_arr;
 } list;
 
-
-
-
+//linked list
 int getLenght(node* head);
 node* getMiddle(node* head, int lenght);
 node* searchIfExist(int num, node* head, int lenght);
-node* find_previous(node* head, node* ptr);
+node* _getPrev(node* head, node* ptr);
 void insert(node* head, int num);
+
+//binary tree
+tree_node* init(int num);
+tree_node* add(tree_node* head, int num);
+void removeNode(tree_node* toRemove);
+tree_node* getPlaceToAdd(tree_node* head, int num);
+void free_tree(tree_node* tree);
+
+
