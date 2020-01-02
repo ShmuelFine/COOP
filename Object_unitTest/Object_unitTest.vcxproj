@@ -39,6 +39,7 @@
   <ItemGroup>
     <ClCompile Include="CacheClassTest.cpp" />
     <ClCompile Include="InheritTest.cpp" />
+    <ClCompile Include="InMemoryCacheTest.cpp" />
     <ClCompile Include="Object_UnitTest.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp">
