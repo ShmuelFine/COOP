@@ -15,7 +15,7 @@ public:
 
 	virtual void SetUp()
 	{
-		InMemoryCache_init();
+		//InMemoryCache_init();
 	}
 
 	virtual void TearDown()
@@ -103,7 +103,7 @@ TEST_F(CacheTest, Fetch_WhenInsertingToMiddleOfBuffer_DoesWell)
 
 
 	// Assert
-	EXPECT_TRUE(b1idx < b4idx < b3idx);
+	EXPECT_TRUE(b1idx < b4idx && b4idx < b3idx);
 }
 
 TEST_F(CacheTest, Fetch_WhenSumOfBlockSizesCoversAllCacheBuffer_ThenActuallyAllocatesThemCorrectly)
@@ -128,7 +128,7 @@ TEST_F(CacheTest, Fetch_WhenSumOfBlockSizesCoversAllCacheBuffer_ThenActuallyAllo
 	size_t b5idx = b5->buff - c.buffer;
 
 	// Assert
-	EXPECT_TRUE(b1idx < b2idx < b3idx < b4idx < b5idx);
+	EXPECT_TRUE(b1idx < b2idx && b2idx < b3idx && b3idx < b4idx && b4idx < b5idx);
 }
 
 TEST_F(CacheTest, Fetch_WhenSumOfBlockSizesExceedsCacheBuffer_ThenReturnNullOnTheExtra)
@@ -157,7 +157,7 @@ TEST_F(CacheTest, Fetch_WhenSumOfBlockSizesExceedsCacheBuffer_ThenReturnNullOnTh
 
 
 	// Assert
-	EXPECT_TRUE(b1idx < b2idx < b3idx < b4idx < b5idx);
+	EXPECT_TRUE(b1idx < b2idx && b2idx < b3idx && b3idx < b4idx && b4idx < b5idx);
 	ASSERT_TRUE(extraBlock == NULL);
 }
 
