@@ -139,11 +139,10 @@
     <ClCompile Include="InheritTest.c" />
     <ClCompile Include="InMemoryCache.c" />
     <ClCompile Include="LinkedLists.c" />
-    <ClCompile Include="Mat4Test.c" />
+    <ClCompile Include="Mat.c" />
     <ClCompile Include="object.c" />
     <ClCompile Include="ObjectTest.c" />
-    <ClCompile Include="SuperMat3_4Test.c" />
-    <ClCompile Include="SuperMat4Test.c" />
+    <ClCompile Include="SuperMat.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cache.h" />
@@ -153,11 +152,10 @@
     <ClInclude Include="InheritTest.h" />
     <ClInclude Include="InMemoryCache.h" />
     <ClInclude Include="LinkedLists.h" />
-    <ClInclude Include="Mat4Test.h" />
+    <ClInclude Include="Mat.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="ObjectTest.h" />
-    <ClInclude Include="SuperMat3_4Test.h" />
-    <ClInclude Include="SuperMat4Test.h" />
+    <ClInclude Include="SuperMat.h" />
     <ClInclude Include="temp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

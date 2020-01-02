@@ -35,26 +35,26 @@ public:
 	}
 };
 
-//TEST_F(InheritTest, Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen)
-//{
-//	ASSERT_TRUE(Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen_ptr());
-//}
-//
-//TEST_F(InheritTest, VTable_WhenDeriving_OverriddeesVTablePointer)
-//{
-//	ASSERT_TRUE(VTable_WhenDeriving_OverriddeesVTablePointer_ptr());
-//}
-//
-//TEST_F(InheritTest, VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable)
-//{
-//	ASSERT_TRUE(VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable_ptr());
-//}
-//
-//TEST_F(InheritTest, VTable_WhenDriving_NotOverridingTheBaseMembers)
-//{
-//	ASSERT_TRUE(VTable_WhenDriving_NotOverridingTheBaseMembers_ptr());
-//}
-//
+TEST_F(InheritTest, Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen)
+{
+	ASSERT_TRUE(Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen_ptr());
+}
+
+TEST_F(InheritTest, VTable_WhenDeriving_OverriddeesVTablePointer)
+{
+	ASSERT_TRUE(VTable_WhenDeriving_OverriddeesVTablePointer_ptr());
+}
+
+TEST_F(InheritTest, VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable)
+{
+	ASSERT_TRUE(VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable_ptr());
+}
+
+TEST_F(InheritTest, VTable_WhenDriving_NotOverridingTheBaseMembers)
+{
+	ASSERT_TRUE(VTable_WhenDriving_NotOverridingTheBaseMembers_ptr());
+}
+
 //TEST_F(InheritTest, ChainInheritance_WhenDriving_NotOverridingTheBaseMembers)
 //{
 //	ASSERT_TRUE(ChainInheritance_WhenDriving_NotOverridingTheBaseMembers_ptr());
@@ -69,8 +69,8 @@ public:
 //{
 //	ASSERT_TRUE(ChainInheritance_Casting_EnabledCasting2Base_ptr());
 //}
-//
-//TEST_F(InheritTest, Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden)
-//{
-//	ASSERT_TRUE(Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden_ptr());
-//}
+
+TEST_F(InheritTest, Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden)
+{
+	ASSERT_TRUE(Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden_ptr());
+}
