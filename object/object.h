@@ -1,16 +1,19 @@
-
 #ifndef __OBJECT__H_
 #define __OBJECT__H_
+
+//#ifndef __EXPORT_DEFS__H_
 #include "ExportDefs.h"
+//#endif
+//#ifndef __LINKED_LISTS__H_
 #include "LinkedLists.h"
+//#endif
 //#include "Cache.h"
 //#include "Globals.h"
 #include <stdlib.h>
 #include <stdbool.h>
 //generic type of class virtual tables
 typedef struct object_t object;
-typedef struct virtualTable_t
-{
+typedef struct virtualTable_t{
 	void (*_ctor)(object* _this, ...);       
 	void (*_dtor)(object* _this, ...);
 	//const char* type;
@@ -121,7 +124,7 @@ void (*_dtor)(name *_this);
 #define BASE_FUNCTION_PTR(type, functionName, ...) FUNCTION_TYPE(type,functionName,__VA_ARGS__) 
 //struct functionName ##_t_ *functionName;
 
-#define OVERIDE_FUNCTION_PTR(type, functionName, ...) struct functionName ##_t_ __ ##functionName;   \
+#define OVERIDE_FUNCTION_PTR(functionName, ...) struct functionName ##_t_ __ ##functionName;   \
 struct functionName ##_t_  *functionName
 
 #define FUNCTION_H(type,functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__)
@@ -201,44 +204,46 @@ void FreeMostInnerScope(object* _scope_obj_list);
 _scope_obj_list_add(&_scope_obj_list,&object1);
 
 
-#define LOCAL_SCOPE_END FreeMostInnerScope(&_scope_obj_list);
-
-
-
-
-#define REGISTER_OBJECT(obj)  _scope_obj_list_add(&_scope_obj_list,(object*)obj);
-
+#define LOCAL_SCOPE_END FreeMostInnerScope(&_scope_obj_list);  
+                    
 #define REGISTER_CLASS(vTable)  _scope_class_list_add(&_scope_class_list,(vTabsElement*)&vTable);
 
 #define GET_VIRTUAL_TABLE(type) is_in_scope_class_list(type,&_scope_class_list);
 
-#define NEW(type,size) (type*)_Cache_AddNewBlock(&TheGlobalCache,sizeof(type)*size)->buff
 
-#define NEW_IN_TEST(type,size,cache) (type*)_Cache_AddNewBlock(&cache,sizeof(type)*size)->buff
+#define NEW(obj,typeToAlloc,size) void * returned; CALL(AddNewBlock,*TheGlobalCache,sizeof(typeToAlloc)*size,&returned);\
+obj = (typeToAlloc*)returned
+//(type*)_Cache_AddNewBlock(TheGlobalCache,sizeof(type)*size)->buff
 
-#define DELETE(buff) Cache_DeleteBlock(&TheGlobalCache,Cache_FindBlockByBuffAddress(&TheGlobalCache,buff)); \
+#define DELETE(buff) CALL(RemoveBlock,*TheGlobalCache,buff); \
 buff = NULL
 
 #define DELETE_IN_TEST(buff,cache) Cache_DeleteBlock(&cache,Cache_FindBlockByBuffAddress(&cache,buff)); \
 buff = NULL
 
-#define CREATE_CACHE(type, ...)				 \
-	if (! is_ ##type ##VirtualTable__initialized) type ##_init();\
-	TheGlobalCache.vTable=&type ##VTable;					 \
-	TheGlobalCache.vTable->_ctor(&TheGlobalCache, __VA_ARGS__)
+
+
+//#define CREATE_GLOBAL_CACHE(type, ...)				                              \
+//	if (! is_ ##type ##VirtualTable__initialized) type ##_init();         \
+//	type GlobalCache;                                                     \
+//	GlobalCache.vTable = &type ##VTable;                                  \
+//	GlobalCache.vTable->_ctor(&GlobalCache, __VA_ARGS__);              \
+//	TheGlobalCache = (iCache*)&GlobalCache
 
 //#define CREATE_OBJ(Type, instance_name)            \
-//	Type instance_name;							   \
+//	Type instance_name;							           
 //	instance_name.vTable=&Type ##VTable;           \
 //	instance_name.vTable->_ctor(&instance_name);   \
 //	instance_name._next= NULL;					   \
 //	REGISTER_OBJECT(&instance_name)
 
-#define CREATE_OBJECT(type, instance_name, ...)				 \
-	if (! is_ ##type ##VirtualTable__initialized) type ##_init();\
-	type instance_name;                  					 \
-	instance_name.vTable=&type ##VTable;					 \
-	instance_name.vTable->_ctor(&instance_name, __VA_ARGS__)
+#define CREATE_OBJECT(type, instance_name, ...)						\
+	if (! is_ ##type ##VirtualTable__initialized) type ##_init();   \
+	type instance_name;                  							\
+	instance_name.vTable=&type ##VTable;							\
+	instance_name.vTable->_ctor(&instance_name, __VA_ARGS__);		\
+	instance_name._next= NULL;										
+	//REGISTER_OBJECT(&instance_name)
 
 #define CREATE_DERIVED_OBJECT(type, base, instance_name, ...)	 \
 	CREATE_OBJECT(type,instance_name, __VA_ARGS__)

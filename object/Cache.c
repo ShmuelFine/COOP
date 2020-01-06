@@ -1,3 +1,4 @@
+
 #include "Cache.h"
 
 #include <stdbool.h>
@@ -263,25 +264,25 @@
 //	int t = 5;
 //}
 
-DEF_CTOR(InMemoryCache, int size)
+DEF_DERIVED_CTOR(InMemoryCache,iCache, int size) SUPER ME
 {
 	Cache_InitCache(_this);
 	Cache_AllocateCache(_this, size);
 }
-END_CTOR
+END_DERIVED_CTOR
 
-DEF_DTOR(InMemoryCache)
+DEF_DERIVED_DTOR(InMemoryCache,iCache)
 {
 	Cache_Destroy(_this);
 }
-END_DTOR
+END_DERIVED_DTOR
 
-INIT_CLASS(InMemoryCache)
-BASE_BIND(InMemoryCache, AddNewBlock);
-BASE_BIND(InMemoryCache, RemoveBlock);
+INIT_DERIVED_CLASS(InMemoryCache,iCache)
+BIND_OVERIDE(InMemoryCache,iCache, AddNewBlock);
+BIND_OVERIDE(InMemoryCache,iCache, RemoveBlock);
 END_INIT_CLASS
 
-FUNCTION_IMPL(InMemoryCache,AddNewBlock,int block_size,Block ** returned)
+FUNCTION_IMPL(InMemoryCache,AddNewBlock,int block_size,void ** returned)
 {
 	*returned = NULL;
 	Block* lowerBound = Cache_FindAvailableInterval(_this, block_size);
@@ -296,13 +297,14 @@ FUNCTION_IMPL(InMemoryCache,AddNewBlock,int block_size,Block ** returned)
 	newBlock->next = lowerBound->next;
 	lowerBound->next = newBlock;
 
-	*returned = newBlock;
+	*returned = newBlock->buff;
 }
 END_FUNCTION_IMPL
 
-FUNCTION_IMPL(InMemoryCache, RemoveBlock,Block * toDelete)
+FUNCTION_IMPL(InMemoryCache, RemoveBlock,void * toDelete)
 {
-	Cache_DeleteBlock(_this, toDelete);
+	Block *block = Cache_FindBlockByBuffAddress(_this, toDelete);
+	Cache_DeleteBlock(_this, block);
 }
 END_FUNCTION_IMPL
 
@@ -333,11 +335,16 @@ void Cache_Destroy(InMemoryCache* c)
 
 Block* Cache_getAvailableBlock(InMemoryCache* c)
 {
-	if (c->nextFreeBlock == MAX_NUM_BLOCKS)
+	if (c->numBlocks == MAX_NUM_BLOCKS)
 		return NULL;
+
 
 	Block* tempBlock = &(c->allBlocks[c->nextFreeBlock]);
 	c->IsBlockUsed[c->nextFreeBlock] = true;
+	c->numBlocks++;
+
+	if (MAX_NUM_BLOCKS == c->nextFreeBlock)
+		c->nextFreeBlock = 0;
 
 	while (c->nextFreeBlock < MAX_NUM_BLOCKS && c->IsBlockUsed[c->nextFreeBlock] == true)
 		c->nextFreeBlock++;
@@ -377,6 +384,7 @@ void Cache_AllocateCacheFromExisingBuf(InMemoryCache* c, char* cacheMemroy, int 
 	c->allBlockPointers = &(c->allBlocks[0]);
 	c->allBlockPointers->next = &(c->allBlocks[1]);
 	c->nextFreeBlock = 2;
+	c->numBlocks = 2;
 
 	//Block* endOfList = Cache_allocateBlock("__END__OF__LIST", 0, c->buffer + c->size);
 	//c->allBlocks = Cache_allocateBlock("__START__OF__LIST", 0, c->buffer);
@@ -470,9 +478,7 @@ void Cache_DeleteBlock(InMemoryCache* c, Block* toDelete)
 
 	int myIdx = (int)((char*)toDelete - (char*)c->allBlocks) / sizeof(Block);
 	c->IsBlockUsed[myIdx] = false;
-	if (myIdx < c->nextFreeBlock)
-		c->nextFreeBlock = myIdx;
-
+	c->numBlocks--;
 }
 
 Block* Cache_FindBlockByBuffAddress(InMemoryCache* c, void* buff)

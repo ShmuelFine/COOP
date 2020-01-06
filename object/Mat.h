@@ -1,6 +1,6 @@
-
+#ifndef __OBJECT__H_
 #include "object.h"
-
+#endif
 DEF_CLASS(Mat)
 int hight;
 int width;

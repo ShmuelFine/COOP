@@ -134,10 +134,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cache.c" />
-    <ClCompile Include="CacheClass.c" />
     <ClCompile Include="Globals.c" />
+    <ClCompile Include="HeapCache.c" />
+    <ClCompile Include="iCache.c" />
     <ClCompile Include="InheritTest.c" />
-    <ClCompile Include="InMemoryCache.c" />
     <ClCompile Include="LinkedLists.c" />
     <ClCompile Include="Mat.c" />
     <ClCompile Include="object.c" />
@@ -146,17 +146,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cache.h" />
-    <ClInclude Include="CacheClass.h" />
     <ClInclude Include="ExportDefs.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="HeapCache.h" />
+    <ClInclude Include="iCache.h" />
     <ClInclude Include="InheritTest.h" />
-    <ClInclude Include="InMemoryCache.h" />
     <ClInclude Include="LinkedLists.h" />
     <ClInclude Include="Mat.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="ObjectTest.h" />
     <ClInclude Include="SuperMat.h" />
-    <ClInclude Include="temp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

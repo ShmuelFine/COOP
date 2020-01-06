@@ -2,11 +2,10 @@
 #include "Cache.h"
 #include "Globals.h"
 #include "object.h"
-//
-//#include "SuperMat3_4Test.h"
-//
+#include "SuperMat.h"
+
 #define _ASSERT_TRUE(x) if (x) return 1;return -1;
-//
+
 //int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 //{
 //
@@ -23,7 +22,7 @@
 //	if (1)
 //	{
 //		LOCAL_SCOPE_START;
-//		DO_ALLOC_A(innerM1, 1, 1); DO_ALLOC_A(innerM2, 1, 1); DO_ALLOC_A(innerM3, 1, 1);
+//		
 //		LOCAL_SCOPE_END;
 //
 //		//Assert
@@ -125,40 +124,49 @@
 //
 //	return 1;
 //}
-//
+
+#define AS(T, x) ((T)x)
 
 int New_WhenNew_ThenReturnesPointerInCache()
 {
 	//Arrange
-	CREATE_CACHE(InMemoryCache, 1000);
+	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
 	//Act
-	int* buff = NEW(int, 20);
+	//int* buff = NEW(int, 20);
+	int* buff;
+	//NEW(buff, int, 20);
+	Block* returned; 
+	CALL(AddNewBlock, *TheGlobalCache, sizeof(int) * 20, &returned); 
+	buff = (int*)returned->buff;
 
 	//Assert
-	_ASSERT_TRUE(TheGlobalCache.buffer <= (char*)(TheGlobalCache.buffer + TheGlobalCache.size - (char*)buff));
+	_ASSERT_TRUE(AS(InMemoryCache *, TheGlobalCache)->buffer <= 
+		(char*)(AS(InMemoryCache*, TheGlobalCache)->buffer + AS(InMemoryCache* ,TheGlobalCache)->size - (char*)buff));
 
 }
 
 int New_WhenNew_ConstructsBlockWithRightSize()
 {
 	//Arrange
-	CREATE_CACHE(InMemoryCache, 1000);
+	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
 
 	//Act
-	int* buff = NEW(int, 20);
+	int* buff;
+	NEW(buff,int, 20);
 
 	//Assert
-	_ASSERT_TRUE(TheGlobalCache.allBlockPointers->next->buff==(char*)buff && TheGlobalCache.allBlockPointers->next->size==20);
+	_ASSERT_TRUE(AS(InMemoryCache*, TheGlobalCache)->allBlockPointers->next->buff ==
+		(char*)buff && AS(InMemoryCache*, TheGlobalCache)->allBlockPointers->next->size==20);
 }
 
 int Delete_WhenDelete_PointerPointToNull()
 {
 	//Arrange
-	CREATE_CACHE(InMemoryCache, 1000);
+	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
 
 	//Act
-	int* buff = NEW(int, 20);
-	DELETE_IN_TEST(buff, TheGlobalCache);
+	int* buff;
+	NEW(buff, int, 20);
 
 	//Assert
 	_ASSERT_TRUE(buff == NULL);
@@ -167,14 +175,15 @@ int Delete_WhenDelete_PointerPointToNull()
 int Delete_WhenDelete_ThenDeletesTheBlock()
 {
 	//Arrange
-	CREATE_CACHE(InMemoryCache, 1000);
+	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
 
 	//Act
-	int* buff = NEW(int, 20);
-	Block* b = Cache_FindBlockByBuffAddress(&TheGlobalCache, buff);
+	int* buff;
+	NEW(buff, int, 20);
+	Block* b = Cache_FindBlockByBuffAddress(AS(InMemoryCache*,TheGlobalCache), buff);
 	DELETE(buff);
-	int myIdx = (int)((char*)b - (char*)(&TheGlobalCache)->allBlocks) / sizeof(Block);
+	int myIdx = (int)((char*)b - (char*)AS(InMemoryCache*,TheGlobalCache)->allBlocks) / sizeof(Block);
 
 	//Assert
-	_ASSERT_TRUE(TheGlobalCache.IsBlockUsed[myIdx] == false);
+	_ASSERT_TRUE(AS(InMemoryCache*, TheGlobalCache)->IsBlockUsed[myIdx] == false);
 }
