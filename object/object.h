@@ -211,8 +211,8 @@ _scope_obj_list_add(&_scope_obj_list,&object1);
 #define GET_VIRTUAL_TABLE(type) is_in_scope_class_list(type,&_scope_class_list);
 
 
-#define NEW(obj,typeToAlloc,size) void * returned; CALL(AddNewBlock,*TheGlobalCache,sizeof(typeToAlloc)*size,&returned);\
-obj = (typeToAlloc*)returned
+#define NEW(obj,typeToAlloc,size) {void * returned; CALL(AddNewBlock,*TheGlobalCache,(sizeof(typeToAlloc)*size)/sizeof(char),&returned);\
+obj = (typeToAlloc*)returned;}
 //(type*)_Cache_AddNewBlock(TheGlobalCache,sizeof(type)*size)->buff
 
 #define DELETE(buff) CALL(RemoveBlock,*TheGlobalCache,buff); \

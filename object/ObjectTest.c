@@ -187,3 +187,31 @@ int Delete_WhenDelete_ThenDeletesTheBlock()
 	//Assert
 	_ASSERT_TRUE(AS(InMemoryCache*, TheGlobalCache)->IsBlockUsed[myIdx] == false);
 }
+
+int NEW_WhenAllocDifferentTypeThenChar_AllocatesTheRightSize()
+{
+	//Arrange
+	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+	int* ibuff;
+	long* lBuff;
+	double* dBuff;
+	float* fBuff;
+
+	int sizeInt, sizeLong, sizeDouble, sizeFloat;
+	//Act
+	NEW(ibuff, int, 10);
+	NEW(lBuff, long, 10);
+	NEW(dBuff, double, 10);
+	NEW(fBuff, float, 10);
+
+	sizeInt = ((InMemoryCache*)TheGlobalCache)->allBlocks[2].size;
+	sizeLong = ((InMemoryCache*)TheGlobalCache)->allBlocks[3].size;
+	sizeDouble = ((InMemoryCache*)TheGlobalCache)->allBlocks[4].size;
+	sizeFloat = ((InMemoryCache*)TheGlobalCache)->allBlocks[5].size;
+
+	//Assert
+	_ASSERT_TRUE( sizeof(int) * 10 / sizeof(char) == sizeInt &&
+				  sizeof(long) * 10 / sizeof(char) == sizeLong &&
+				  sizeof(double) * 10 / sizeof(char) == sizeDouble &&
+				  sizeof(float) * 10 / sizeof(char) == sizeFloat );
+}
