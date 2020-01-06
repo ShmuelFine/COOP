@@ -23,7 +23,13 @@ TEST(object, Delete_WhenDelete_PointerPointToNull)
 	ASSERT_TRUE(Delete_WhenDelete_PointerPointToNull());
 }
 
+TEST(object, NEW_WhenAllocDifferentTypeThenChar_AllocatesTheRightSize)
+{
+	ASSERT_TRUE(NEW_WhenAllocDifferentTypeThenChar_AllocatesTheRightSize());
+}
+
 TEST(object, Delete_WhenDelete_ThenDeletesTheBlock)
 {
 	ASSERT_TRUE(Delete_WhenDelete_ThenDeletesTheBlock());
 }
+

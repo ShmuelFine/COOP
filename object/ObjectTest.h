@@ -22,6 +22,8 @@ extern "C" {
 
 	COOP_API int Delete_WhenDelete_ThenDeletesTheBlock();
 
+	COOP_API int NEW_WhenAllocDifferentTypeThenChar_AllocatesTheRightSize();
+
 #ifdef __cplusplus
 }
 #endif

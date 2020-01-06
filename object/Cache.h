@@ -60,6 +60,7 @@ Block allBlocks[MAX_NUM_BLOCKS + 2];
 Block* allBlockPointers;
 bool IsBlockUsed[MAX_NUM_BLOCKS + 2];
 int nextFreeBlock;
+int numBlocks;
 END_DEF_DERIVED(InMemoryCache);
 
 DERIVED_FUNCTIONS(InMemoryCache, iCache, int size)
