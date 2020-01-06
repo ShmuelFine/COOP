@@ -6,16 +6,19 @@
 
 bool Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen()
 {
-
+	SCOPE_START;
 	//Arrange
 
 	//SuperMat_init();
 
 	//Act
 	CREATE_OBJECT(SuperMat, mat, 6, 8, 2);
+	int hight = mat._base.hight;
 
+	SCOPE_END;
 	//Assert
-	ASSERT_TRUE(mat._base.hight == 6);
+	ASSERT_TRUE(hight == 6);
+
 }
 
 
@@ -23,16 +26,18 @@ bool VTable_WhenDeriving_OverriddeesVTablePointer()
 {
 	//Arange
 	//SuperMat_init();
-
+	SCOPE_START;
 	//Act
 	CREATE_OBJECT(SuperMat, mat,0,0,0);
 
 	//Assert
 	ASSERT_EQ(&(mat.vTable),&((SuperMatVirtualTable*)mat._base.vTable));
+	SCOPE_END;
 }
 
 bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
 {
+	SCOPE_START;
 	//Arange
 	//SuperMat_init();
 	CREATE_OBJECT(SuperMat, mat, 4, 4, 3);
@@ -43,6 +48,7 @@ bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
 	mat.vTable->_base.GetWidth->func((Mat* )&mat, &width);
  
 	//Assert
+	SCOPE_END;
 	ASSERT_EQ(width, 4);
 }
 
@@ -50,15 +56,20 @@ bool VTable_WhenDriving_NotOverridingTheBaseMembers()
 {
 	//Arange
 	//SuperMat_init();
+	SCOPE_START;
 	int h = 4, w = 4, step = 3;
 
 	//Act
 	CREATE_OBJECT(SuperMat, mat, h, w, step);
 	//mat.vTable->_ctor(&mat, h, w, step);
 
+	int hight = mat._base.hight;
+	int width = mat._base.width;
+
 	//Assert
-	ASSERT_EQ(mat._base.hight, h);
-	ASSERT_EQ(mat._base.width, w);
+	SCOPE_END;
+	ASSERT_EQ(hight, h);
+	ASSERT_EQ(width, w);
 }
 
 bool ChainInheritance_WhenDriving_AllBasesAreInited()
@@ -130,7 +141,7 @@ bool Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden()
 	//CALL(SuperMat3, findLoc, mat, 1, 2, &actualLoc);
 	////Assert
 	//ASSERT_EQ(expectedLoc, actualLoc);
-
+	SCOPE_START;
 	//Arrange
 	CREATE_DERIVED_OBJECT(SuperMat, Mat4Test, mat, 4, 4, 2);
 	//mat.vTable->_ctor(&mat, 4, 4, 2);
@@ -138,8 +149,9 @@ bool Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden()
 	//Act
 	int expectedLoc = (mat._base.width * 1 + 2) * mat.step;
 	int actualLoc;
-	CALL(SuperMat, FindLoc, mat, 1, 2, &actualLoc);
+	CALL(FindLoc, mat, 1, 2, &actualLoc);
 	//Assert
+	SCOPE_END;
 	ASSERT_EQ(expectedLoc, actualLoc);
 
 }

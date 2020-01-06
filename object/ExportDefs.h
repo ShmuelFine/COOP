@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __EXPORT_DEFS__H_
+#define __EXPORT_DEFS__H_
 
 #if _COOP_EXPORTING_
 #define COOP_API __declspec(dllexport)
@@ -9,3 +10,4 @@
 //#define COOP_API __declspec(dllexport)
 
 //#define int double
+#endif

@@ -1,3 +1,5 @@
+
+
 #include "Mat.h"
 
 DEF_CTOR(Mat, int hight, int width)
@@ -26,6 +28,6 @@ FUNCTION_IMPL(Mat, GetWidth, int* returned)
 END_FUNCTION_IMPL
 
 INIT_CLASS(Mat)
-BIND(Mat, FindLoc);
-BIND(Mat, GetWidth);
+BASE_BIND(Mat, FindLoc);
+BASE_BIND(Mat, GetWidth);
 END_INIT_CLASS

@@ -37,7 +37,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CacheClassTest.cpp" />
+    <ClCompile Include="CacheTest.cpp" />
     <ClCompile Include="InheritTest.cpp" />
     <ClCompile Include="InMemoryCacheTest.cpp" />
     <ClCompile Include="Object_UnitTest.cpp" />
