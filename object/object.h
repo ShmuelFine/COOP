@@ -208,17 +208,16 @@ _scope_obj_list_add(&_scope_obj_list,&object1);
                     
 #define REGISTER_CLASS(vTable)  _scope_class_list_add(&_scope_class_list,(vTabsElement*)&vTable);
 
+#define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
+
 #define GET_VIRTUAL_TABLE(type) is_in_scope_class_list(type,&_scope_class_list);
 
 
-#define NEW(obj,typeToAlloc,size) {void * returned; CALL(AddNewBlock,*TheGlobalCache,(sizeof(typeToAlloc)*size)/sizeof(char),&returned);\
+#define NEW(obj,typeToAlloc,size) {void * returned; CALL(AddNewBlock,*TheGlobalCache,(sizeof(typeToAlloc)*size),&returned);\
 obj = (typeToAlloc*)returned;}
 //(type*)_Cache_AddNewBlock(TheGlobalCache,sizeof(type)*size)->buff
 
 #define DELETE(buff) CALL(RemoveBlock,*TheGlobalCache,buff); \
-buff = NULL
-
-#define DELETE_IN_TEST(buff,cache) Cache_DeleteBlock(&cache,Cache_FindBlockByBuffAddress(&cache,buff)); \
 buff = NULL
 
 
@@ -242,10 +241,11 @@ buff = NULL
 	type instance_name;                  							\
 	instance_name.vTable=&type ##VTable;							\
 	instance_name.vTable->_ctor(&instance_name, __VA_ARGS__);		\
-	instance_name._next= NULL;										
-	//REGISTER_OBJECT(&instance_name)
+	instance_name._next= NULL;										\
+	REGISTER_OBJECT(&instance_name)
 
 #define CREATE_DERIVED_OBJECT(type, base, instance_name, ...)	 \
 	CREATE_OBJECT(type,instance_name, __VA_ARGS__)
+
 
 #endif

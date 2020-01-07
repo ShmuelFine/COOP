@@ -2,128 +2,145 @@
 #include "Cache.h"
 #include "Globals.h"
 #include "object.h"
-#include "SuperMat.h"
+#include "ScopeTest.h"
 
 #define _ASSERT_TRUE(x) if (x) return 1;return -1;
+#define _ASSERT_FALSE(x) if (!(x)) return -1;
 
-//int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
-//{
-//
-//	//Arrange
-//	Cache_Init(&TheGlobalCache);
-//	Cache_AllocateCache(&TheGlobalCache, 100);
-//	SCOPE_START;
-//
-//	//DO_A(m1); DO_A(m2); DO_A(m3);
-//
-//
-//	//Act
-//
-//	if (1)
-//	{
-//		LOCAL_SCOPE_START;
-//		
-//		LOCAL_SCOPE_END;
-//
-//		//Assert
-//		_ASSERT_TRUE(innerM1.buff == NULL);
-//		_ASSERT_TRUE(innerM2.buff == NULL);
-//		_ASSERT_TRUE(innerM3.buff == NULL);
-//	}
-//
-//	SCOPE_END;
-//	return 1;
-//}
-//
-//
-//int LOCAL_SCOPE_END__WhenDefiningObjectOutside_thenDoesntFreeThem()
-//{
-//	//Arrange
-//	Cache_Init(&TheGlobalCache);
-//	Cache_AllocateCache(&TheGlobalCache, 100);
-//	SCOPE_START;
-//
-//	DO_ALLOC_A(m1, 1, 1); DO_ALLOC_A(m2, 1, 1); DO_ALLOC_A(m3, 1, 1);
-//
-//	//Act
-//
-//	if (1)
-//	{
-//		LOCAL_SCOPE_START;
-//		DO_A(innerM1); DO_A(innerM2); DO_A(innerM3);
-//		LOCAL_SCOPE_END;
-//	}
-//
-//	//Assert
-//	_ASSERT_TRUE(m1.buff != NULL);
-//	_ASSERT_TRUE(m2.buff != NULL);
-//	_ASSERT_TRUE(m3.buff != NULL);
-//
-//	SCOPE_END;
-//
-//	return 1;
-//}
-//
-//COOP_API int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsntFreedYet()
-//{
-//	//Arrange 
-//	Cache_Init(&TheGlobalCache);
-//	Cache_AllocateCache(&TheGlobalCache,100);
-//	SCOPE_START;
-//	DO_A(m1); DO_A(m2); DO_A(m3); 
-//
-//	//Act
-//	if (1) {
-//		LOCAL_SCOPE_START;
-//		DO_ALLOC_A(innerM1, 1, 1); DO_ALLOC_A(innerM2, 1, 1); DO_ALLOC_A(innerM3, 1, 1);
-//
-//		if (1)
-//		{
-//			LOCAL_SCOPE_START;
-//			DO_ALLOC_A(innerInnerM1, 1, 1); DO_ALLOC_A(innerInnerM2, 1, 1); DO_ALLOC_A(innerInnerM3, 1, 1);
-//			LOCAL_SCOPE_END;
-//
-//			//Assert
-//
-//			_ASSERT_TRUE(innerInnerM1.buff == NULL);
-//			_ASSERT_TRUE(innerInnerM2.buff == NULL);
-//			_ASSERT_TRUE(innerInnerM3.buff == NULL);
-//		}
-//		_ASSERT_TRUE(innerM1.buff != NULL);
-//		_ASSERT_TRUE(innerM2.buff != NULL);
-//		_ASSERT_TRUE(innerM3.buff != NULL);
-//
-//		LOCAL_SCOPE_END;
-//	}
-//	SCOPE_END;
-//
-//	return 1;
-//}
-//
-//COOP_API int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash()
-//{
-//	//Arrange 
-//	Cache_Init(&TheGlobalCache);
-//	Cache_AllocateCache(&TheGlobalCache, 100);
-//	SCOPE_START;
-//	DO_A(m1); DO_A(m2); DO_A(m3);
-//
-//	//Act
-//	if (1) {
-//		LOCAL_SCOPE_START;
-//		DO_ALLOC_A(innerM1, 1, 1);
-//		if (1) {
-//			LOCAL_SCOPE_START;
-//			LOCAL_SCOPE_END;
-//		}
-//		_ASSERT_TRUE(innerM1.buff != NULL);
-//		LOCAL_SCOPE_END;
-//	}
-//
-//	SCOPE_END;
-//
-//	return 1;
-//}
+int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
+{
+	SCOPE_START;
+	//Arrange
+	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+
+	CREATE_OBJECT(ScopeTest, s1, 10);
+	CREATE_OBJECT(ScopeTest, s2, 10);
+	CREATE_OBJECT(ScopeTest, s3, 10);
+
+	//Act
+
+	if (1)
+	{
+		LOCAL_SCOPE_START;
+		CREATE_OBJECT(ScopeTest, innerS1, 10);
+		CREATE_OBJECT(ScopeTest, innerS2, 10);
+		CREATE_OBJECT(ScopeTest, innerS3, 10);
+		LOCAL_SCOPE_END;
+
+		//Assert
+		_ASSERT_FALSE(innerS1.buff != NULL);
+		_ASSERT_FALSE(innerS2.buff != NULL);
+		_ASSERT_FALSE(innerS3.buff != NULL);
+	}
+
+	SCOPE_END;
+	return 1;
+}
+
+
+int LOCAL_SCOPE_END__WhenDefiningObjectOutside_thenDoesntFreeThem()
+{
+	SCOPE_START;
+	//Arrange
+	CreateGlobalCache(100, "GlobalCahce", IN_MEMORY_CACHE_);
+
+
+
+	CREATE_OBJECT(ScopeTest, s1, 10);
+	CREATE_OBJECT(ScopeTest, s2, 10);
+	CREATE_OBJECT(ScopeTest, s3, 10);
+
+	//Act
+
+	if (1)
+	{
+		LOCAL_SCOPE_START;
+		CREATE_OBJECT(ScopeTest, innerS1, 10);
+		CREATE_OBJECT(ScopeTest, innerS2, 10);
+		CREATE_OBJECT(ScopeTest, innerS3, 10);
+		LOCAL_SCOPE_END;
+	}
+
+	//Assert
+	_ASSERT_FALSE(s1.buff == NULL);
+	_ASSERT_FALSE(s2.buff == NULL);
+	_ASSERT_FALSE(s3.buff == NULL);
+
+	SCOPE_END;
+
+	return 1;
+}
+
+int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsntFreedYet()
+{
+	SCOPE_START;
+	//Arrange 
+	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+
+
+	CREATE_OBJECT(ScopeTest, s1, 10);
+	CREATE_OBJECT(ScopeTest, s2, 10);
+	CREATE_OBJECT(ScopeTest, s3, 10);
+
+	//Act
+	if (1) {
+		LOCAL_SCOPE_START;
+		CREATE_OBJECT(ScopeTest, innerS1, 10);
+		CREATE_OBJECT(ScopeTest, innerS2, 10);
+		CREATE_OBJECT(ScopeTest, innerS3, 10);
+
+		if (1)
+		{
+			LOCAL_SCOPE_START;
+			CREATE_OBJECT(ScopeTest, innerInnerS1, 10);
+			CREATE_OBJECT(ScopeTest, innerInnerS2, 10);
+			CREATE_OBJECT(ScopeTest, innerInnerS3, 10);
+			LOCAL_SCOPE_END;
+
+			//Assert
+
+			_ASSERT_FALSE(innerInnerS1.buff != NULL);
+			_ASSERT_FALSE(innerInnerS2.buff != NULL);
+			_ASSERT_FALSE(innerInnerS3.buff != NULL);
+		}
+		_ASSERT_FALSE(innerS1.buff == NULL);
+		_ASSERT_FALSE(innerS2.buff == NULL);
+		_ASSERT_FALSE(innerS3.buff == NULL);
+
+		LOCAL_SCOPE_END;
+	}
+	SCOPE_END;
+
+	return 1;
+}
+
+int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash()
+{
+	SCOPE_START;
+	//Arrange 
+	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+
+
+	CREATE_OBJECT(ScopeTest, s1, 10);
+	CREATE_OBJECT(ScopeTest, s2, 10);
+	CREATE_OBJECT(ScopeTest, s3, 10);
+
+	//Act
+	if (1) {
+		LOCAL_SCOPE_START;
+		CREATE_OBJECT(ScopeTest, innerS1, 10);	
+		if (1) {
+			LOCAL_SCOPE_START;
+			LOCAL_SCOPE_END;
+		}
+		_ASSERT_FALSE(innerS1.buff == NULL);
+		LOCAL_SCOPE_END;
+	}
+
+	SCOPE_END;
+
+	return 1;
+}
 
 #define AS(T, x) ((T)x)
 
@@ -140,8 +157,10 @@ int New_WhenNew_ThenReturnesPointerInCache()
 	buff = (int*)returned->buff;
 
 	//Assert
-	_ASSERT_TRUE(AS(InMemoryCache *, TheGlobalCache)->buffer <= 
+	_ASSERT_FALSE(AS(InMemoryCache *, TheGlobalCache)->buffer > 
 		(char*)(AS(InMemoryCache*, TheGlobalCache)->buffer + AS(InMemoryCache* ,TheGlobalCache)->size - (char*)buff));
+
+	return 1;
 
 }
 
@@ -155,8 +174,10 @@ int New_WhenNew_ConstructsBlockWithRightSize()
 	NEW(buff,int, 20);
 
 	//Assert
-	_ASSERT_TRUE(AS(InMemoryCache*, TheGlobalCache)->allBlockPointers->next->buff ==
-		(char*)buff && AS(InMemoryCache*, TheGlobalCache)->allBlockPointers->next->size==20);
+	_ASSERT_FALSE(AS(InMemoryCache*, TheGlobalCache)->allBlockPointers->next->buff !=
+		(char*)buff && AS(InMemoryCache*, TheGlobalCache)->allBlockPointers->next->size != 20);
+
+	return 1;
 }
 
 int Delete_WhenDelete_PointerPointToNull()
@@ -169,7 +190,9 @@ int Delete_WhenDelete_PointerPointToNull()
 	NEW(buff, int, 20);
 
 	//Assert
-	_ASSERT_TRUE(buff == NULL);
+	_ASSERT_FALSE(buff != NULL);
+
+	return 1;
 }
 
 int Delete_WhenDelete_ThenDeletesTheBlock()
@@ -185,7 +208,9 @@ int Delete_WhenDelete_ThenDeletesTheBlock()
 	int myIdx = (int)((char*)b - (char*)AS(InMemoryCache*,TheGlobalCache)->allBlocks) / sizeof(Block);
 
 	//Assert
-	_ASSERT_TRUE(AS(InMemoryCache*, TheGlobalCache)->IsBlockUsed[myIdx] == false);
+	_ASSERT_FALSE(AS(InMemoryCache*, TheGlobalCache)->IsBlockUsed[myIdx] != false);
+
+	return 1;
 }
 
 int NEW_WhenAllocDifferentTypeThenChar_AllocatesTheRightSize()
@@ -210,8 +235,10 @@ int NEW_WhenAllocDifferentTypeThenChar_AllocatesTheRightSize()
 	sizeFloat = ((InMemoryCache*)TheGlobalCache)->allBlocks[5].size;
 
 	//Assert
-	_ASSERT_TRUE( sizeof(int) * 10 / sizeof(char) == sizeInt &&
-				  sizeof(long) * 10 / sizeof(char) == sizeLong &&
-				  sizeof(double) * 10 / sizeof(char) == sizeDouble &&
-				  sizeof(float) * 10 / sizeof(char) == sizeFloat );
+	_ASSERT_FALSE( sizeof(int) * 10  != sizeInt &&
+				  sizeof(long) * 10  != sizeLong &&
+				  sizeof(double) * 10  != sizeDouble &&
+				  sizeof(float) * 10  != sizeFloat );
+
+	return 1;
 }
