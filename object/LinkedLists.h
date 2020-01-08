@@ -8,13 +8,13 @@ extern "C" {
 #endif
 
 	typedef struct func_t {
-		void (*func)(void);
+		int (*func)(void);
 		struct func_t* next;
 	}function;
 
 #define FUNCTION_TYPE(type,function_name,...)        \
 struct function_name ##_t_{							 \
-	void (*func)(void* _this, __VA_ARGS__);          \
+	int (*func)(void* _this, __VA_ARGS__);          \
 	struct function_name ##_t_ * next;               \
 }__ ##function_name,*function_name
 

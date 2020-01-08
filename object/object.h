@@ -1,20 +1,16 @@
 #ifndef __OBJECT__H_
 #define __OBJECT__H_
 
-//#ifndef __EXPORT_DEFS__H_
 #include "ExportDefs.h"
-//#endif
-//#ifndef __LINKED_LISTS__H_
 #include "LinkedLists.h"
-//#endif
-//#include "Cache.h"
-//#include "Globals.h"
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
+
 //generic type of class virtual tables
 typedef struct object_t object;
-typedef struct virtualTable_t{
-	void (*_ctor)(object* _this, ...);       
+typedef struct virtualTable_t {
+	void (*_ctor)(object* _this, ...);
 	void (*_dtor)(object* _this, ...);
 	//const char* type;
 }virtualTable;
@@ -119,7 +115,7 @@ void (*_dtor)(name *_this);
 
 #define DEF_INIT_DERIVED_CLASS(type,base) COOP_API void type ##_init()  
 
-#define FUNCTION_PTR(type, functionName, ...) void (* functionName)(type  *  _this, __VA_ARGS__)
+#define FUNCTION_PTR(type, functionName, ...) int (* functionName)(type  *  _this, __VA_ARGS__)
 
 #define BASE_FUNCTION_PTR(type, functionName, ...) FUNCTION_TYPE(type,functionName,__VA_ARGS__) 
 //struct functionName ##_t_ *functionName;
@@ -127,13 +123,13 @@ void (*_dtor)(name *_this);
 #define OVERIDE_FUNCTION_PTR(functionName, ...) struct functionName ##_t_ __ ##functionName;   \
 struct functionName ##_t_  *functionName
 
-#define FUNCTION_H(type,functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__)
+#define FUNCTION_H(type,functionName, ...) int type ##_ ##functionName(type  *  _this, __VA_ARGS__)
 #define BASE_FUNCTION_H(type,functionName, ...) FUNCTION_H(type,functionName, __VA_ARGS__) //\
 //typedef struct functionName ##_t_ functionName ##_t;
 
 //#define OVERIDE_FUNCTION_H(type,functionName, ...) FUNCTION_H(type,functionName, __VA_ARGS__)
 
-#define FUNCTION_IMPL(type, functionName, ...) void type ##_ ##functionName(type  *  _this, __VA_ARGS__){
+#define FUNCTION_IMPL(type, functionName, ...) int type ##_ ##functionName(type  *  _this, __VA_ARGS__){
 
 //TODO: somehow extract the args without the types
 //#define BASE_FUNCTION_IMPL(type, functionName, ...)						\
@@ -144,7 +140,7 @@ struct functionName ##_t_  *functionName
 //}
 //#define OVERIDE_FUNCTION_IMPL(type, functionName, ...) BASE_FUNCTION_IMPL(type,functionName, __VA_ARGS__)
 
-#define END_FUNCTION_IMPL }
+#define END_FUNCTION_IMPL return 0;}
 
 #define ATTACH_TORs_ToClass(name)       \
 name ##VTable._ctor = __ctor__ ##name;  \
@@ -191,21 +187,87 @@ void _scope_obj_list_free(object* scope_list);
 MatVTable._ctor = __ctor__Mat;   \
 MatVTable._dtor = __dtor__Mat;
 
+extern bool isCurrentlyThrowing;
+
+//#define CATCH_LABEL__4
+//#define CATCH_LABEL__3
+//#define CATCH_LABEL__2
+//#define CATCH_LABEL__1
+//#define CATCH_LABEL
+//
+//#define DEF_NEW_CATCH_LABEL\
+//#undef CATCH_LABEL__4\
+//#define CATCH_LABEL__4  CATCH_LABEL__3\
+//#undef CATCH_LABEL__3\
+//#define CATCH_LABEL__3  CATCH_LABEL__2\
+//#undef CATCH_LABEL__2\
+//#define CATCH_LABEL__2  CATCH_LABEL__1\
+//#undef CATCH_LABEL__1\
+//#define CATCH_LABEL__1  CATCH_LABEL\
+//#undef CATCH_LABEL\
+//#define CATCH_LABEL next_catch_ ##__LINE__
+//
+//#define POP_LAST_CATCH_LABEL\
+//#undef CATCH_LABEL\
+//#define CATCH_LABEL CATCH_LABEL__1\
+//#undef CATCH_LABEL__1\
+//#define CATCH_LABEL__1 CATCH_LABEL__2\
+//#undef CATCH_LABEL__2\
+//#define CATCH_LABEL__2 CATCH_LABEL__3\
+//#undef CATCH_LABEL__3\
+//#define CATCH_LABEL__3 CATCH_LABEL__4\
+//#undef CATCH_LABEL__4\
+//#define CATCH_LABEL__4 
+
+#include <setjmp.h>
+
+static jmp_buf jmp_buffers[10];
+static int curr_buff = 0;
+static jmp_buf tryBuf;
+
+#define ERROR_VALUE -1
+
+#define TRY if(!setjmp(jmp_buffers[curr_buff]))
+
+#define CATCH \
+else { 
+
+#define END_TRY }
+
+
+#define THROW \
+longjmp(jmp_buffers[curr_buff],1)
+
 
 
 #define SCOPE_START object _scope_obj_list; \
+if(!setjmp(jmp_buffers[curr_buff])) {  \
 _scope_obj_list.vTable=NULL;                \
-_scope_obj_list._next=NULL;
+_scope_obj_list._next=NULL				
+
 
 void FreeMostInnerScope(object* _scope_obj_list);
-#define SCOPE_END FreeMostInnerScope(&_scope_obj_list);
+#define SCOPE_END FreeMostInnerScope(&_scope_obj_list); /*return __RETURN_VALUE__;*/ \
+}\
+else{\
+FreeMostInnerScope(&_scope_obj_list);\
+return -1;\
+}
 
-#define LOCAL_SCOPE_START object object1; object1.vTable=NULL;object1._next=NULL; \
-_scope_obj_list_add(&_scope_obj_list,&object1);
+#define LOCAL_SCOPE_START \
+if(!setjmp(jmp_buffers[++curr_buff])){\
+ object object1; object1.vTable=NULL;object1._next=NULL; \
+_scope_obj_list_add(&_scope_obj_list,&object1)
 
 
-#define LOCAL_SCOPE_END FreeMostInnerScope(&_scope_obj_list);  
-                    
+#define LOCAL_SCOPE_END FreeMostInnerScope(&_scope_obj_list); curr_buff--; \
+}\
+else {\
+FreeMostInnerScope(&_scope_obj_list);\
+printf("%d",curr_buff);\
+longjmp(jmp_buffers[--curr_buff],1);\
+}
+
 #define REGISTER_CLASS(vTable)  _scope_class_list_add(&_scope_class_list,(vTabsElement*)&vTable);
 
 #define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)

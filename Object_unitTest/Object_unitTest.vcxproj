@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CacheTest.cpp" />
+    <ClCompile Include="ExeptionTest.cpp" />
     <ClCompile Include="InheritTest.cpp" />
     <ClCompile Include="InMemoryCacheTest.cpp" />
     <ClCompile Include="Object_UnitTest.cpp" />

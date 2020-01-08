@@ -6,14 +6,14 @@
 
 bool Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen()
 {
-	SCOPE_START;
 	//Arrange
+	int hight;
+	SCOPE_START;
 
-	//SuperMat_init();
 
 	//Act
 	CREATE_OBJECT(SuperMat, mat, 6, 8, 2);
-	int hight = mat._base.hight;
+	hight = mat._base.hight;
 
 	SCOPE_END;
 	//Assert
@@ -37,14 +37,15 @@ bool VTable_WhenDeriving_OverriddeesVTablePointer()
 
 bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
 {
-	SCOPE_START;
 	//Arange
+	int width = 0;
+	SCOPE_START;
+
 	//SuperMat_init();
 	CREATE_OBJECT(SuperMat, mat, 4, 4, 3);
 	//mat.vTable->_ctor(&mat, 4, 4, 3);
 
 	//Act
-	int width=0;
 	mat.vTable->_base.GetWidth->func((Mat* )&mat, &width);
  
 	//Assert
@@ -55,16 +56,17 @@ bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
 bool VTable_WhenDriving_NotOverridingTheBaseMembers()
 {
 	//Arange
-	//SuperMat_init();
-	SCOPE_START;
+	int hight, width;
 	int h = 4, w = 4, step = 3;
+	SCOPE_START;
+
 
 	//Act
 	CREATE_OBJECT(SuperMat, mat, h, w, step);
 	//mat.vTable->_ctor(&mat, h, w, step);
 
-	int hight = mat._base.hight;
-	int width = mat._base.width;
+	hight = mat._base.hight;
+	width = mat._base.width;
 
 	//Assert
 	SCOPE_END;
@@ -131,24 +133,15 @@ bool ChainInheritance_Casting_EnabledCasting2Base()
 
 bool Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden()
 {
-	////Arrange
-	//CREATE_DERIVED_OBJECT(SuperMat3, SuperMat, mat);
-	//mat.vTable->_ctor(&mat, 4, 4, 2, false);
-
-	////Act
-	//int expectedLoc = (mat._base._base.width * 1 + 2) * mat._base.step + 1;
-	//int actualLoc;
-	//CALL(SuperMat3, findLoc, mat, 1, 2, &actualLoc);
-	////Assert
-	//ASSERT_EQ(expectedLoc, actualLoc);
-	SCOPE_START;
 	//Arrange
+	int expectedLoc, actualLoc;
+	SCOPE_START;
+
 	CREATE_DERIVED_OBJECT(SuperMat, Mat4Test, mat, 4, 4, 2);
 	//mat.vTable->_ctor(&mat, 4, 4, 2);
 
 	//Act
-	int expectedLoc = (mat._base.width * 1 + 2) * mat.step;
-	int actualLoc;
+	expectedLoc = (mat._base.width * 1 + 2) * mat.step;
 	CALL(FindLoc, mat, 1, 2, &actualLoc);
 	//Assert
 	SCOPE_END;

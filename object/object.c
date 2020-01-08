@@ -1,6 +1,8 @@
 #include "object.h"
 #include <stdlib.h>
 
+//isCurrentlyThrowing = false;
+
 void _scope_obj_list_add(object* scope_list, object* obj)
 {
 	obj->_next = scope_list->_next;

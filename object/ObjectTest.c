@@ -7,6 +7,13 @@
 #define _ASSERT_TRUE(x) if (x) return 1;return -1;
 #define _ASSERT_FALSE(x) if (!(x)) return -1;
 
+#define CREATE_OBJECT4TEST(type, instance_name, ...)		        \
+	if (! is_ ##type ##VirtualTable__initialized) type ##_init();   \
+	instance_name.vTable=&type ##VTable;							\
+	instance_name.vTable->_ctor(&instance_name, __VA_ARGS__);		\
+	instance_name._next= NULL;										\
+	REGISTER_OBJECT(&instance_name)
+
 int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 {
 	SCOPE_START;
@@ -21,10 +28,11 @@ int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 
 	if (1)
 	{
+		ScopeTest innerS1, innerS2, innerS3;
 		LOCAL_SCOPE_START;
-		CREATE_OBJECT(ScopeTest, innerS1, 10);
-		CREATE_OBJECT(ScopeTest, innerS2, 10);
-		CREATE_OBJECT(ScopeTest, innerS3, 10);
+		CREATE_OBJECT4TEST(ScopeTest, innerS1, 10);
+		CREATE_OBJECT4TEST(ScopeTest, innerS2, 10);
+		CREATE_OBJECT4TEST(ScopeTest, innerS3, 10);
 		LOCAL_SCOPE_END;
 
 		//Assert
@@ -33,6 +41,8 @@ int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 		_ASSERT_FALSE(innerS3.buff != NULL);
 	}
 
+	DestroyGlobalCache();
+
 	SCOPE_END;
 	return 1;
 }
@@ -40,15 +50,17 @@ int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 
 int LOCAL_SCOPE_END__WhenDefiningObjectOutside_thenDoesntFreeThem()
 {
-	SCOPE_START;
 	//Arrange
+	ScopeTest s1, s2, s3;
+	SCOPE_START;
+
 	CreateGlobalCache(100, "GlobalCahce", IN_MEMORY_CACHE_);
 
+	
 
-
-	CREATE_OBJECT(ScopeTest, s1, 10);
-	CREATE_OBJECT(ScopeTest, s2, 10);
-	CREATE_OBJECT(ScopeTest, s3, 10);
+	CREATE_OBJECT4TEST(ScopeTest, s1, 10);
+	CREATE_OBJECT4TEST(ScopeTest, s2, 10);
+	CREATE_OBJECT4TEST(ScopeTest, s3, 10);
 
 	//Act
 
@@ -65,6 +77,8 @@ int LOCAL_SCOPE_END__WhenDefiningObjectOutside_thenDoesntFreeThem()
 	_ASSERT_FALSE(s1.buff == NULL);
 	_ASSERT_FALSE(s2.buff == NULL);
 	_ASSERT_FALSE(s3.buff == NULL);
+
+	DestroyGlobalCache();
 
 	SCOPE_END;
 
@@ -91,10 +105,11 @@ int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsntFreedYet
 
 		if (1)
 		{
+			ScopeTest innerInnerS1, innerInnerS2, innerInnerS3;
 			LOCAL_SCOPE_START;
-			CREATE_OBJECT(ScopeTest, innerInnerS1, 10);
-			CREATE_OBJECT(ScopeTest, innerInnerS2, 10);
-			CREATE_OBJECT(ScopeTest, innerInnerS3, 10);
+			CREATE_OBJECT4TEST(ScopeTest, innerInnerS1, 10);
+			CREATE_OBJECT4TEST(ScopeTest, innerInnerS2, 10);
+			CREATE_OBJECT4TEST(ScopeTest, innerInnerS3, 10);
 			LOCAL_SCOPE_END;
 
 			//Assert
@@ -109,6 +124,7 @@ int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsntFreedYet
 
 		LOCAL_SCOPE_END;
 	}
+	DestroyGlobalCache();
 	SCOPE_END;
 
 	return 1;
@@ -136,7 +152,7 @@ int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash()
 		_ASSERT_FALSE(innerS1.buff == NULL);
 		LOCAL_SCOPE_END;
 	}
-
+	DestroyGlobalCache();
 	SCOPE_END;
 
 	return 1;
@@ -148,10 +164,9 @@ int New_WhenNew_ThenReturnesPointerInCache()
 {
 	//Arrange
 	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+	
 	//Act
-	//int* buff = NEW(int, 20);
 	int* buff;
-	//NEW(buff, int, 20);
 	Block* returned; 
 	CALL(AddNewBlock, *TheGlobalCache, sizeof(int) * 20, &returned); 
 	buff = (int*)returned->buff;
@@ -160,6 +175,7 @@ int New_WhenNew_ThenReturnesPointerInCache()
 	_ASSERT_FALSE(AS(InMemoryCache *, TheGlobalCache)->buffer > 
 		(char*)(AS(InMemoryCache*, TheGlobalCache)->buffer + AS(InMemoryCache* ,TheGlobalCache)->size - (char*)buff));
 
+	DestroyGlobalCache();
 	return 1;
 
 }
@@ -176,7 +192,7 @@ int New_WhenNew_ConstructsBlockWithRightSize()
 	//Assert
 	_ASSERT_FALSE(AS(InMemoryCache*, TheGlobalCache)->allBlockPointers->next->buff !=
 		(char*)buff && AS(InMemoryCache*, TheGlobalCache)->allBlockPointers->next->size != 20);
-
+	DestroyGlobalCache();
 	return 1;
 }
 
@@ -191,6 +207,8 @@ int Delete_WhenDelete_PointerPointToNull()
 
 	//Assert
 	_ASSERT_FALSE(buff != NULL);
+
+	DestroyGlobalCache();
 
 	return 1;
 }
@@ -209,6 +227,8 @@ int Delete_WhenDelete_ThenDeletesTheBlock()
 
 	//Assert
 	_ASSERT_FALSE(AS(InMemoryCache*, TheGlobalCache)->IsBlockUsed[myIdx] != false);
+
+	DestroyGlobalCache();
 
 	return 1;
 }
@@ -239,6 +259,8 @@ int NEW_WhenAllocDifferentTypeThenChar_AllocatesTheRightSize()
 				  sizeof(long) * 10  != sizeLong &&
 				  sizeof(double) * 10  != sizeDouble &&
 				  sizeof(float) * 10  != sizeFloat );
+
+	DestroyGlobalCache();
 
 	return 1;
 }
