@@ -135,6 +135,8 @@
   <ItemGroup>
     <ClCompile Include="Cache.c" />
     <ClCompile Include="CacheTest.c" />
+    <ClCompile Include="Exeption.c" />
+    <ClCompile Include="ExeptionTest.c" />
     <ClCompile Include="Globals.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="iCache.c" />
@@ -149,6 +151,8 @@
   <ItemGroup>
     <ClInclude Include="Cache.h" />
     <ClInclude Include="CacheTest.h" />
+    <ClInclude Include="Exeption.h" />
+    <ClInclude Include="ExeptionTest.h" />
     <ClInclude Include="ExportDefs.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HeapCache.h" />
