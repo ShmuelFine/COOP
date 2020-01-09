@@ -129,8 +129,8 @@ struct functionName ##_t_  *functionName
 
 //#define OVERIDE_FUNCTION_H(type,functionName, ...) FUNCTION_H(type,functionName, __VA_ARGS__)
 
-#define FUNCTION_IMPL(type, functionName, ...) int type ##_ ##functionName(type  *  _this, __VA_ARGS__){
-
+#define FUNCTION_IMPL(type, functionName, ...) int type ##_ ##functionName(type * _this, __VA_ARGS__){
+#define FUNCTION_IMPL(type, functionName, ...) int type ##_ ##functionName(type * _this, __VA_ARGS__){
 //TODO: somehow extract the args without the types
 //#define BASE_FUNCTION_IMPL(type, functionName, ...)						\
 //void type ##_ ##functionName(type  *  _this, __VA_ARGS__){				\
@@ -221,13 +221,13 @@ extern bool isCurrentlyThrowing;
 
 #include <setjmp.h>
 
-static jmp_buf jmp_buffers[10];
-static int curr_buff = 0;
-static jmp_buf tryBuf;
+extern jmp_buf SCOPE_FALLBACK_ADDR[10];
+extern int _CurrScope_Idx;
+
 
 #define ERROR_VALUE -1
 
-#define TRY if(!setjmp(jmp_buffers[curr_buff]))
+#define TRY if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx]))
 
 #define CATCH \
 else { 
@@ -236,37 +236,50 @@ else {
 
 
 #define THROW \
-longjmp(jmp_buffers[curr_buff],1)
+longjmp(SCOPE_FALLBACK_ADDR[--_CurrScope_Idx],1)
 
 
 
-#define SCOPE_START object _scope_obj_list; \
-if(!setjmp(jmp_buffers[curr_buff])) {  \
-_scope_obj_list.vTable=NULL;                \
-_scope_obj_list._next=NULL				
+#define SCOPE_START \
+object _scope_obj_list; \
+if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))\
+{  \
+	_scope_obj_list.vTable=NULL; \
+	_scope_obj_list._next=NULL		
 
 
 void FreeMostInnerScope(object* _scope_obj_list);
-#define SCOPE_END FreeMostInnerScope(&_scope_obj_list); /*return __RETURN_VALUE__;*/ \
-}\
-else{\
-FreeMostInnerScope(&_scope_obj_list);\
-return -1;\
+
+#define SCOPE_END\
+	FreeMostInnerScope(&_scope_obj_list); \
+	_CurrScope_Idx--;\
+	return 0;\
+}else{\
+	FreeMostInnerScope(&_scope_obj_list);\
+	_CurrScope_Idx--;\
+	return -1;\
 }
 
 #define LOCAL_SCOPE_START \
-if(!setjmp(jmp_buffers[++curr_buff])){\
- object object1; object1.vTable=NULL;object1._next=NULL; \
-_scope_obj_list_add(&_scope_obj_list,&object1)
+if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))\
+{\
+	object LocalScopeStartMarker; \
+	LocalScopeStartMarker.vTable=NULL;\
+	LocalScopeStartMarker._next=NULL; \
+	_scope_obj_list_add(&_scope_obj_list,&LocalScopeStartMarker)
 
 
-#define LOCAL_SCOPE_END FreeMostInnerScope(&_scope_obj_list); curr_buff--; \
+#define LOCAL_SCOPE_END \
+	FreeMostInnerScope(&_scope_obj_list);\
+	_CurrScope_Idx--; \
 }\
 else {\
-FreeMostInnerScope(&_scope_obj_list);\
-printf("%d",curr_buff);\
-longjmp(jmp_buffers[--curr_buff],1);\
+	FreeMostInnerScope(&_scope_obj_list);\
+	_CurrScope_Idx--; \
+	longjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx], 1);\
 }
+
+//printf("%d",_CurrScope_Idx);
 
 #define REGISTER_CLASS(vTable)  _scope_class_list_add(&_scope_class_list,(vTabsElement*)&vTable);
 

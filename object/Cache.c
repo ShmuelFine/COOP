@@ -283,28 +283,33 @@ BIND_OVERIDE(InMemoryCache,iCache, RemoveBlock);
 END_INIT_CLASS
 
 FUNCTION_IMPL(InMemoryCache,AddNewBlock,int block_size,void ** returned)
-{
-	*returned = NULL;
-	Block* lowerBound = Cache_FindAvailableInterval(_this, block_size);
-	if (!lowerBound)
-		return;
+		{
+	SCOPE_START;
+			*returned = NULL;
+			Block* lowerBound = Cache_FindAvailableInterval(_this, block_size);
+			if (lowerBound)
+			{
+				char* block_buff_pos = lowerBound->buff + lowerBound->size;
 
-	char* block_buff_pos = lowerBound->buff + lowerBound->size;
+				Block* newBlock = Cache_allocateBlock(_this, block_size, block_buff_pos);
+				if (newBlock)
+				{
+					newBlock->next = lowerBound->next;
+					lowerBound->next = newBlock;
 
-	Block* newBlock = Cache_allocateBlock(_this, block_size, block_buff_pos);
-	if (!newBlock)
-		return;
-	newBlock->next = lowerBound->next;
-	lowerBound->next = newBlock;
-
-	*returned = newBlock->buff;
-}
+					*returned = newBlock->buff;
+				}
+			}
+			SCOPE_END;
+		}
 END_FUNCTION_IMPL
 
 FUNCTION_IMPL(InMemoryCache, RemoveBlock,void * toDelete)
 {
+	SCOPE_START;
 	Block *block = Cache_FindBlockByBuffAddress(_this, toDelete);
 	Cache_DeleteBlock(_this, block);
+	SCOPE_END;
 }
 END_FUNCTION_IMPL
 

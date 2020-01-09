@@ -37,3 +37,6 @@ void FreeMostInnerScope(object * _scope_obj_list_ptr)
 	if (it->_next && it->_next->vTable == NULL)
 		_scope_obj_list_ptr->_next = NULL;
 }
+
+jmp_buf SCOPE_FALLBACK_ADDR[10] = { 0 };
+int _CurrScope_Idx = 0;

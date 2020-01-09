@@ -29,8 +29,8 @@ COOP_API function* callFunction(function* func);
 #define CALL(funcName,_this,...)     \
 {\
 struct funcName ##_t_ * f = (struct funcName ##_t_ *)callFunction((function *)(_this).vTable->funcName); \
-if(f->func(&(_this),__VA_ARGS__)==-1);\
-longjmp(jmp_buffers[curr_buff],1);\
+if(f->func(&(_this),__VA_ARGS__)==-1)\
+longjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx--],1);\
 }
 #ifdef __cplusplus
 }
