@@ -2,6 +2,8 @@
 #define __LINKED_LISTS__H_
 
 #include "ExportDefs.h"
+#include "object.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -27,7 +29,8 @@ COOP_API function* callFunction(function* func);
 #define CALL(funcName,_this,...)     \
 {\
 struct funcName ##_t_ * f = (struct funcName ##_t_ *)callFunction((function *)(_this).vTable->funcName); \
-f->func(&(_this),__VA_ARGS__);\
+if(f->func(&(_this),__VA_ARGS__)==-1);\
+longjmp(jmp_buffers[curr_buff],1);\
 }
 #ifdef __cplusplus
 }
