@@ -235,6 +235,7 @@ else {
 #define END_TRY }
 
 
+
 #define THROW \
 longjmp(SCOPE_FALLBACK_ADDR[--_CurrScope_Idx],1)
 
@@ -256,9 +257,13 @@ void FreeMostInnerScope(object* _scope_obj_list);
 	return 0;\
 }else{\
 	FreeMostInnerScope(&_scope_obj_list);\
-	_CurrScope_Idx--;\
+	if(_CurrScope_Idx > 0)\
+		_CurrScope_Idx--;\
 	return -1;\
 }
+
+//_CurrScope_Idx--; \
+
 
 #define LOCAL_SCOPE_START \
 if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))\

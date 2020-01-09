@@ -16,7 +16,13 @@
 
 int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 {
-	SCOPE_START;
+	//SCOPE_START;
+	object _scope_obj_list; 
+		if (!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))
+		{  
+			_scope_obj_list.vTable = NULL; 
+			_scope_obj_list._next = NULL;
+
 	//Arrange
 	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
 
