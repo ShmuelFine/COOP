@@ -19,7 +19,7 @@ END_CTOR
 
 DEF_DTOR(ScopeTest)
 {
-	DELETE(_this->buff);
+	DELETE_OBJ(_this->buff);
 }
 END_DTOR
 

@@ -25,18 +25,10 @@ public:
 
 	}
 };
-// The C CALL syntax does not work for C++, here we need full qualification of the inner struct
-#define CACHE_CALL(funcName,...)     \
-{\
-	struct iCacheVirtualTable_t::funcName ##_t_ * f = (struct iCacheVirtualTable_t::funcName ##_t_*)callFunction((function*)(TheGlobalCache)->vTable->funcName);\
-	f->func(TheGlobalCache,__VA_ARGS__);\
-}
 
-#define CACHE_NEW(obj,typeToAlloc,size){ void * returned; CACHE_CALL(AddNewBlock,(sizeof(typeToAlloc)*size),&returned);\
-obj = (typeToAlloc*)returned;}
 
-#define CACHE_DELETE(buff) CACHE_CALL(RemoveBlock,buff); \
-buff = NULL
+
+
 
 TEST_F(CacheTest, New_WhenThereIsNotEnoughSpace_ThenReturnsNullPointer)
 {
@@ -51,7 +43,7 @@ TEST_F(CacheTest, New_WhenThereIsNotEnoughSpace_ThenReturnsNullPointer)
 
 	// Act
 	void* actual;
-	CACHE_CALL(AddNewBlock, allocSize, &actual);
+	CALL(AddNewBlock, allocSize, &actual);
 	DestroyGlobalCache();
 	//// Assert
 	EXPECT_EQ(expected, actual);
@@ -63,17 +55,17 @@ TEST_F(CacheTest, Buffer_IfThereIsSpaceInBuffer_ThenAllowsAddingBlockes)
 	CreateGlobalCache(100, "GlobalCache", IN_MEMORY_CACHE_);
 		//Act
 		int* b1, * b2, * b3, * b4;
-		CACHE_NEW(b1, int, 10);
+		NEW(b1, int, 10);
 
-		CACHE_NEW(b2, int, 10);
-		CACHE_NEW(b3, int, 5);
+		NEW(b2, int, 10);
+		NEW(b3, int, 5);
 
-		CACHE_NEW(b4, int, 5);
+		NEW(b4, int, 5);
 		//Assert
 		ASSERT_TRUE(NULL == b4);
 
-		CACHE_DELETE(b2);
-		CACHE_NEW(b4, int, 5);
+		DELETE_OBJ(b2);
+		NEW(b4, int, 5);
 
 		ASSERT_TRUE(NULL != b4);
 

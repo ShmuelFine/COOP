@@ -2,20 +2,24 @@
 #include <stdbool.h>
 #include "ExportDefs.h"
 
-COOP_API bool Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen();
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-COOP_API bool VTable_WhenDeriving_OverriddeesVTablePointer();
+#define TEST_FAIL 10
+#define TEST_PASS 20
 
-COOP_API bool VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable();
+COOP_API int Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen();
 
-COOP_API bool VTable_WhenDriving_NotOverridingTheBaseMembers();
+COOP_API int VTable_WhenDeriving_OverriddeesVTablePointer();
 
-COOP_API bool ChainInheritance_WhenDriving_AllBasesAreInited();
+COOP_API int VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable();
 
-COOP_API bool ChainInheritance_WhenDriving_NotOverridingTheBaseMembers();
+COOP_API int VTable_WhenDriving_NotOverridingTheBaseMembers();
 
-COOP_API bool ChainInheritance_Casting_EnabledCasting2Base();
-
-COOP_API bool Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden();
+COOP_API int Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden();
 
 
+#ifdef __cplusplus
+}
+#endif

@@ -16,12 +16,14 @@
 
 int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 {
-	//SCOPE_START;
-	object _scope_obj_list; 
-		if (!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))
-		{  
-			_scope_obj_list.vTable = NULL; 
-			_scope_obj_list._next = NULL;
+	SCOPE_START;
+
+	////SCOPE_START;
+	//object _scope_obj_list; 
+	//	if (!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))
+	//	{  
+	//		_scope_obj_list.vTable = NULL; 
+	//		_scope_obj_list._next = NULL;
 
 	//Arrange
 	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
@@ -50,7 +52,6 @@ int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 	DestroyGlobalCache();
 
 	SCOPE_END;
-	return 1;
 }
 
 
@@ -228,7 +229,7 @@ int Delete_WhenDelete_ThenDeletesTheBlock()
 	int* buff;
 	NEW(buff, int, 20);
 	Block* b = Cache_FindBlockByBuffAddress(AS(InMemoryCache*,TheGlobalCache), buff);
-	DELETE(buff);
+	DELETE_OBJ(buff);
 	int myIdx = (int)((char*)b - (char*)AS(InMemoryCache*,TheGlobalCache)->allBlocks) / sizeof(Block);
 
 	//Assert

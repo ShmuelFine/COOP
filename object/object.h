@@ -120,8 +120,13 @@ void (*_dtor)(name *_this);
 #define BASE_FUNCTION_PTR(type, functionName, ...) FUNCTION_TYPE(type,functionName,__VA_ARGS__) 
 //struct functionName ##_t_ *functionName;
 
-#define OVERIDE_FUNCTION_PTR(functionName, ...) struct functionName ##_t_ __ ##functionName;   \
+#ifdef __cplusplus
+#define OVERIDE_FUNCTION_PTR(functionName, ...) struct functionName ##_t_ __ ##functionName; \
+struct ::functionName ##_t_  *functionName
+#else
+#define OVERIDE_FUNCTION_PTR(functionName, ...) struct functionName ##_t_ __ ##functionName; \
 struct functionName ##_t_  *functionName
+#endif
 
 #define FUNCTION_H(type,functionName, ...) int type ##_ ##functionName(type  *  _this, __VA_ARGS__)
 #define BASE_FUNCTION_H(type,functionName, ...) FUNCTION_H(type,functionName, __VA_ARGS__) //\
@@ -243,6 +248,7 @@ longjmp(SCOPE_FALLBACK_ADDR[--_CurrScope_Idx],1)
 
 #define SCOPE_START \
 object _scope_obj_list; \
+int __RET_VAL__ = 0;\
 if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))\
 {  \
 	_scope_obj_list.vTable=NULL; \
@@ -254,12 +260,13 @@ void FreeMostInnerScope(object* _scope_obj_list);
 #define SCOPE_END\
 	FreeMostInnerScope(&_scope_obj_list); \
 	_CurrScope_Idx--;\
-	return 0;\
+	return __RET_VAL__;\
 }else{\
 	FreeMostInnerScope(&_scope_obj_list);\
 	if(_CurrScope_Idx > 0)\
 		_CurrScope_Idx--;\
-	return -1;\
+	__RET_VAL__ = -1;\
+	return __RET_VAL__;\
 }
 
 //_CurrScope_Idx--; \
@@ -284,37 +291,35 @@ else {\
 	longjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx], 1);\
 }
 
-//printf("%d",_CurrScope_Idx);
-
 #define REGISTER_CLASS(vTable)  _scope_class_list_add(&_scope_class_list,(vTabsElement*)&vTable);
 
 #define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
 
 #define GET_VIRTUAL_TABLE(type) is_in_scope_class_list(type,&_scope_class_list);
 
+#ifdef __cplusplus
+	#define NEW(obj,typeToAlloc,size)\
+	{ \
+		void * returned; \
+		CALL(AddNewBlock,(sizeof(typeToAlloc)*size),&returned);\
+		obj = (typeToAlloc*)returned;\
+	}
+#else
+	#define NEW(obj,typeToAlloc,size)\
+	{\
+		void * returned; \
+		CALL(AddNewBlock,*TheGlobalCache,(sizeof(typeToAlloc)*size),&returned);\
+		obj = (typeToAlloc*)returned;\
+	}
+#endif
 
-#define NEW(obj,typeToAlloc,size) {void * returned; CALL(AddNewBlock,*TheGlobalCache,(sizeof(typeToAlloc)*size),&returned);\
-obj = (typeToAlloc*)returned;}
-//(type*)_Cache_AddNewBlock(TheGlobalCache,sizeof(type)*size)->buff
-
-#define DELETE(buff) CALL(RemoveBlock,*TheGlobalCache,buff); \
-buff = NULL
-
+#ifdef __cplusplus
+	#define DELETE_OBJ(buff) CALL(RemoveBlock,buff); buff = NULL
+#else
+	#define DELETE_OBJ(buff) CALL(RemoveBlock,*TheGlobalCache,buff); buff = NULL
+#endif
 
 
-//#define CREATE_GLOBAL_CACHE(type, ...)				                              \
-//	if (! is_ ##type ##VirtualTable__initialized) type ##_init();         \
-//	type GlobalCache;                                                     \
-//	GlobalCache.vTable = &type ##VTable;                                  \
-//	GlobalCache.vTable->_ctor(&GlobalCache, __VA_ARGS__);              \
-//	TheGlobalCache = (iCache*)&GlobalCache
-
-//#define CREATE_OBJ(Type, instance_name)            \
-//	Type instance_name;							           
-//	instance_name.vTable=&Type ##VTable;           \
-//	instance_name.vTable->_ctor(&instance_name);   \
-//	instance_name._next= NULL;					   \
-//	REGISTER_OBJECT(&instance_name)
 
 #define CREATE_OBJECT(type, instance_name, ...)						\
 	if (! is_ ##type ##VirtualTable__initialized) type ##_init();   \
