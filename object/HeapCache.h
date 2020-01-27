@@ -4,18 +4,18 @@
 #include "object.h"
 #include "iCache.h"
 
-DEF_DERIVED_CLASS(HeapCache, iCache)
+DEF_DERIVED_CLASS(HeapCache, iCache);
 END_DEF_DERIVED(HeapCache);
 
-DERIVED_FUNCTIONS(HeapCache, iCache)
+DERIVED_FUNCTIONS(HeapCache, iCache);
 OVERIDE_FUNCTION_PTR(AddNewBlock, int block_size, void** returned);
 OVERIDE_FUNCTION_PTR(RemoveBlock, void* toDelete);
-END_FUNCTIONS(HeapCache);
+END_DERIVED_FUNCTIONS(HeapCache);
 
 FUNCTION_H(HeapCache, AddNewBlock, int block_size, void** returned);
 FUNCTION_H(HeapCache, RemoveBlock, void* toDelete);
 
-DEF_INIT_DERIVED_CLASS(HeapCache, iCache);
+DEF_INIT_DERIVED_CLASS(HeapCache);
 
 
 //#ifndef __I_CACHE__H_
@@ -24,7 +24,7 @@ DEF_INIT_DERIVED_CLASS(HeapCache, iCache);
 //
 //#define MAX_NUM_BLOCKS 1000
 //
-//DEF_DERIVED_CLASS(HeapCache, iCache) 
+//DEF_DERIVED_CLASS(HeapCache, iCache) ;
 //char* buffer;
 //int size;
 //Block allBlocks[MAX_NUM_BLOCKS];

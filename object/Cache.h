@@ -14,7 +14,7 @@
 extern "C" {
 #endif
 
-DEF_DERIVED_CLASS(InMemoryCache,iCache)
+	DEF_DERIVED_CLASS(InMemoryCache, iCache);
 
 char* buffer;
 int size;
@@ -25,10 +25,10 @@ int nextFreeBlock;
 int numBlocks;
 END_DEF_DERIVED(InMemoryCache);
 
-DERIVED_FUNCTIONS(InMemoryCache, iCache, int size)
+DERIVED_FUNCTIONS(InMemoryCache, iCache, int size);
 OVERIDE_FUNCTION_PTR(AddNewBlock, int block_size, void** returned);
 OVERIDE_FUNCTION_PTR(RemoveBlock, void* toDelete);
-END_FUNCTIONS(InMemoryCache);
+END_DERIVED_FUNCTIONS(InMemoryCache);
 
 
 
