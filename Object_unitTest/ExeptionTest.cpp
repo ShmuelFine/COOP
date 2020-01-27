@@ -1,12 +1,6 @@
 #include "pch.h"
 
 
-#ifdef _DEBUG
-#pragma comment(lib, "object_d.lib")
-#else
-#pragma comment(lib, "object.lib")
-#endif
-
 #include "../object/ExeptionTest.h"
 #include <iostream>
 #include <fstream>

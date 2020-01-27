@@ -1,13 +1,6 @@
 #include "pch.h"
 
 
-#ifdef _DEBUG
-#pragma comment(lib, "object_d.lib")
-#else
-#pragma comment(lib, "object.lib")
-#endif
-
-//#include "..\object\iCache.h"
 #include "..\object\dynamic_memory_management.h"
 #include "..\object\CacheTest.h"
 
