@@ -3,6 +3,7 @@
 
 #include "ExportDefs.h"
 #include "iCache.h"
+#include <stdbool.h>
 
 
 #ifdef __cplusplus
@@ -13,7 +14,7 @@ COOP_API extern iCache* TheGlobalCache;
 
 typedef enum CACHE_TYPES_t { IN_MEMORY_CACHE_ = 0, HEAP_CACHE_ = 1, NUM_CACHE_TYPES } CACHE_TYPES;
 
-COOP_API void CreateGlobalCache(int size,const char *  name, CACHE_TYPES type);
+COOP_API bool CreateGlobalCache(int size,const char *  name, CACHE_TYPES type);
 COOP_API void DestroyGlobalCache();
 
 
@@ -35,9 +36,9 @@ COOP_API void DestroyGlobalCache();
 #endif
 
 #ifdef __cplusplus
-	#define DELETE_OBJ(buff) CALL(RemoveBlock,buff); buff = NULL
+	#define DELETE_OBJ(buff) CALL(RemoveBlock, buff); buff = NULL
 #else
-	#define DELETE_OBJ(buff) CALL(RemoveBlock,*TheGlobalCache,buff); buff = NULL
+	#define DELETE_OBJ(buff) CALL(RemoveBlock, *TheGlobalCache, buff); buff = NULL
 #endif
 
 #ifdef __cplusplus
