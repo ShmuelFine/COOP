@@ -2,7 +2,7 @@
 
 
 #include "..\object\dynamic_memory_management.h"
-#include "..\object\CacheTest.h"
+#include "..\COOP_C_TestProxy\CacheTest.h"
 
 
 class CacheTest : public ::testing::Test

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "LibLoadUtils.h"
-#include "../object/InheritTest.h"
+#include "../COOP_C_TestProxy/InheritTest.h"
 
 
 class InheritTest : public ::testing::Test
