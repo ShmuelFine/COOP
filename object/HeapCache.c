@@ -1,4 +1,5 @@
 #include "HeapCache.h"
+#include <stdlib.h>
 
 
 DEF_DERIVED_CTOR(HeapCache, iCache) SUPER ME
@@ -7,7 +8,7 @@ END_DERIVED_CTOR
 DEF_DERIVED_DTOR(HeapCache, iCache)
 END_DERIVED_DTOR
 
-INIT_DERIVED_CLASS(HeapCache, iCache)
+INIT_DERIVED_CLASS(HeapCache, iCache);
 BIND_OVERIDE(HeapCache, iCache, AddNewBlock);
 BIND_OVERIDE(HeapCache, iCache, RemoveBlock);
 END_INIT_CLASS

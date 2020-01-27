@@ -136,33 +136,29 @@
   <ItemGroup>
     <ClCompile Include="Cache.c" />
     <ClCompile Include="CacheTest.c" />
-    <ClCompile Include="Exeption.c" />
+    <ClCompile Include="dynamic_memory_management.c" />
     <ClCompile Include="ExeptionTest.c" />
-    <ClCompile Include="Globals.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="iCache.c" />
     <ClCompile Include="InheritTest.c" />
-    <ClCompile Include="LinkedLists.c" />
     <ClCompile Include="Mat.c" />
-    <ClCompile Include="object.c" />
     <ClCompile Include="ObjectTest.c" />
     <ClCompile Include="obj_lifecycle_management.c" />
     <ClCompile Include="ScopeTest.c" />
     <ClCompile Include="SuperMat.c" />
+    <ClCompile Include="virtual_func_calling.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cache.h" />
     <ClInclude Include="CacheTest.h" />
     <ClInclude Include="class_def_macros.h" />
-    <ClInclude Include="Exeption.h" />
+    <ClInclude Include="dynamic_memory_management.h" />
     <ClInclude Include="ExeptionTest.h" />
     <ClInclude Include="ExportDefs.h" />
-    <ClInclude Include="Globals.h" />
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="iCache.h" />
     <ClInclude Include="inheritence_def_macros.h" />
     <ClInclude Include="InheritTest.h" />
-    <ClInclude Include="LinkedLists.h" />
     <ClInclude Include="Mat.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="ObjectTest.h" />
@@ -170,6 +166,7 @@
     <ClInclude Include="obj_lifecycle_management.h" />
     <ClInclude Include="ScopeTest.h" />
     <ClInclude Include="SuperMat.h" />
+    <ClInclude Include="virtual_func_calling.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
 #include "ObjectTest.h"
 #include "Cache.h"
-#include "Globals.h"
+#include "dynamic_memory_management.h"
 #include "object.h"
 #include "ScopeTest.h"
 

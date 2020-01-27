@@ -25,25 +25,19 @@
     <ClCompile Include="iCache.c">
       <Filter>MemoryManagement</Filter>
     </ClCompile>
-    <ClCompile Include="Exeption.c">
-      <Filter>OOP</Filter>
-    </ClCompile>
-    <ClCompile Include="object.c">
-      <Filter>OOP</Filter>
-    </ClCompile>
     <ClCompile Include="Mat.c">
       <Filter>Tests</Filter>
     </ClCompile>
     <ClCompile Include="SuperMat.c">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="Globals.c">
-      <Filter>Infra</Filter>
-    </ClCompile>
-    <ClCompile Include="LinkedLists.c">
-      <Filter>Infra</Filter>
-    </ClCompile>
     <ClCompile Include="obj_lifecycle_management.c">
+      <Filter>OOP</Filter>
+    </ClCompile>
+    <ClCompile Include="dynamic_memory_management.c">
+      <Filter>OOP</Filter>
+    </ClCompile>
+    <ClCompile Include="virtual_func_calling.c">
       <Filter>OOP</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,9 +66,6 @@
     <ClInclude Include="iCache.h">
       <Filter>MemoryManagement</Filter>
     </ClInclude>
-    <ClInclude Include="Exeption.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
     <ClInclude Include="object.h">
       <Filter>OOP</Filter>
     </ClInclude>
@@ -87,12 +78,6 @@
     <ClInclude Include="ExportDefs.h">
       <Filter>Infra</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Infra</Filter>
-    </ClInclude>
-    <ClInclude Include="LinkedLists.h">
-      <Filter>Infra</Filter>
-    </ClInclude>
     <ClInclude Include="obj_base_structs.h">
       <Filter>OOP</Filter>
     </ClInclude>
@@ -103,6 +88,12 @@
       <Filter>OOP</Filter>
     </ClInclude>
     <ClInclude Include="obj_lifecycle_management.h">
+      <Filter>OOP</Filter>
+    </ClInclude>
+    <ClInclude Include="dynamic_memory_management.h">
+      <Filter>OOP</Filter>
+    </ClInclude>
+    <ClInclude Include="virtual_func_calling.h">
       <Filter>OOP</Filter>
     </ClInclude>
   </ItemGroup>

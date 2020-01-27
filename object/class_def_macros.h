@@ -1,5 +1,10 @@
 #ifndef __COOP_CLASS_DEF_MACROS__
 #define __COOP_CLASS_DEF_MACROS__
+
+#include "virtual_func_calling.h"
+#include <stdbool.h>
+#include "ExportDefs.h"
+
 ///////////// The H file structure : //////////////////////////////////
 // Macro that begins class name + member definitions:
 #define DEF_CLASS(name)                                              \
@@ -34,6 +39,9 @@ void (*_dtor)(name * _this);
 // Macro that ends class function definitions section:
 #define END_FUNCTIONS(name) }name ##VirtualTalbe;   \
 COOP_API extern name ##VirtualTalbe name ##VTable
+
+// (Re-) Declaration of function that's implemented in current class, done after the function declarations part ends.
+#define FUNCTION_H(type,functionName, ...) int type ##_ ##functionName(type  *  _this, __VA_ARGS__)
 
 // The final line in each class definition, 
 #define DEF_INIT_CLASS(type)    COOP_API void type ##_init()

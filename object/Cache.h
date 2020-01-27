@@ -16,23 +16,21 @@ extern "C" {
 
 	DEF_DERIVED_CLASS(InMemoryCache, iCache);
 
-char* buffer;
-int size;
-Block allBlocks[MAX_NUM_BLOCKS + 2];
-Block* allBlockPointers;
-bool IsBlockUsed[MAX_NUM_BLOCKS + 2];
-int nextFreeBlock;
-int numBlocks;
-END_DEF_DERIVED(InMemoryCache);
+	char* buffer;
+	int size;
+	Block allBlocks[MAX_NUM_BLOCKS + 2];
+	Block* allBlockPointers;
+	bool IsBlockUsed[MAX_NUM_BLOCKS + 2];
+	int nextFreeBlock;
+	int numBlocks;
+	END_DEF_DERIVED(InMemoryCache);
 
-DERIVED_FUNCTIONS(InMemoryCache, iCache, int size);
-OVERIDE_FUNCTION_PTR(AddNewBlock, int block_size, void** returned);
-OVERIDE_FUNCTION_PTR(RemoveBlock, void* toDelete);
-END_DERIVED_FUNCTIONS(InMemoryCache);
+	DERIVED_FUNCTIONS(InMemoryCache, iCache, int size);
+	OVERIDE_FUNCTION_PTR(AddNewBlock, int block_size, void** returned);
+	OVERIDE_FUNCTION_PTR(RemoveBlock, void* toDelete);
+	END_DERIVED_FUNCTIONS(InMemoryCache);
 
-
-
-	FUNCTION_H(InMemoryCache, AddNewBlock, int block_size,void ** returned);
+	FUNCTION_H(InMemoryCache, AddNewBlock, int block_size, void** returned);
 	FUNCTION_H(InMemoryCache, RemoveBlock, void* toDelete);
 
 	COOP_API void Cache_InitCache(InMemoryCache* c);
