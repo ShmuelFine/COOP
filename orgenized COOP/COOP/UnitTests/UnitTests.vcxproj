@@ -33,9 +33,15 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClInclude Include="LibLoadUtils.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CacheTest.cpp" />
+    <ClCompile Include="ExeptionTest.cpp" />
+    <ClCompile Include="InheritTest.cpp" />
+    <ClCompile Include="InMemoryCacheTest.cpp" />
+    <ClCompile Include="Object_UnitTest.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
