@@ -8,10 +8,6 @@ END_DERIVED_CTOR
 DEF_DERIVED_DTOR(HeapCache, iCache)
 END_DERIVED_DTOR
 
-INIT_DERIVED_CLASS(HeapCache, iCache);
-BIND_OVERIDE(HeapCache, iCache, AddNewBlock);
-BIND_OVERIDE(HeapCache, iCache, RemoveBlock);
-END_INIT_CLASS
 
 FUNCTION_IMPL(HeapCache, AddNewBlock, int block_size, void** returned)
 {
@@ -25,6 +21,10 @@ FUNCTION_IMPL(HeapCache, RemoveBlock, void* toDelete)
 }
 END_FUNCTION_IMPL
 
+INIT_DERIVED_CLASS(HeapCache, iCache);
+BIND_OVERIDE(HeapCache, iCache, AddNewBlock);
+BIND_OVERIDE(HeapCache, iCache, RemoveBlock);
+END_INIT_CLASS
 
 
 

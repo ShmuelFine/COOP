@@ -22,14 +22,17 @@ extern "C" {
 
 COOP_API function* call_obj_function(function* func);
 
-#define _BASE(base,funcName,...) _this->vTable->_base.__ ##funcName.func((base *)_this,__VA_ARGS__)
+// Call function of base class:
+#define _BASE(base, funcName,...) _this->vTable->_base.__ ##funcName.func((base *)_this,__VA_ARGS__)
 
+// Call any member function: // TODO:Tested?
 #ifdef __cplusplus
 // The C CALL syntax does not work for C++, here we need full qualification of the inner struct
 #define CALL(funcName,...)     \
 	{\
 		struct iCacheVirtualTable_t::funcName ##_t_ * f = (struct iCacheVirtualTable_t::funcName ##_t_*)call_obj_function((function*)(TheGlobalCache)->vTable->funcName);\
-		f->func(TheGlobalCache,__VA_ARGS__);\
+		if(f->func(&(_this),__VA_ARGS__)==-1)\
+		longjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx--],1);\
 	}
 
 #else
