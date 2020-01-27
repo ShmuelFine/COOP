@@ -1,7 +1,6 @@
 #include "pch.h"
 
-
-#include "../object/ExeptionTest.h"
+#include "../COOP_C_TestProxy/ExeptionTest.h"
 #include <iostream>
 #include <fstream>
 

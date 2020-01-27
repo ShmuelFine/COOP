@@ -1,7 +1,7 @@
 #include "pch.h"
 
 
-#include "../object/ObjectTest.h"
+#include "../COOP_C_TestProxy/ObjectTest.h"
 
 
 TEST(Object, LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll)
