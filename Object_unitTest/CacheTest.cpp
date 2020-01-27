@@ -8,7 +8,7 @@
 #endif
 
 //#include "..\object\iCache.h"
-#include "..\object\Globals.h"
+#include "..\object\dynamic_memory_management.h"
 #include "..\object\CacheTest.h"
 
 

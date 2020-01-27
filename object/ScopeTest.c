@@ -1,5 +1,5 @@
 #include "ScopeTest.h"
-#include "Globals.h"
+#include "dynamic_memory_management.h"
 
 DEF_CTOR(ScopeTest, int size)
 {
@@ -8,7 +8,7 @@ DEF_CTOR(ScopeTest, int size)
 	void* returned;
 	CALL(AddNewBlock, *TheGlobalCache, (sizeof(char) * size), &returned); 
 //	{
-//		struct AddNewBlock_t_ * f = (struct AddNewBlock_t_*)callFunction((function*)(*TheGlobalCache).vTable->AddNewBlock);
+//		struct AddNewBlock_t_ * f = (struct AddNewBlock_t_*)call_obj_function((function*)(*TheGlobalCache).vTable->AddNewBlock);
 //	if(f->func(&(*TheGlobalCache), (sizeof(char) * size), &returned)==-1)
 //	longjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx],1);
 //}

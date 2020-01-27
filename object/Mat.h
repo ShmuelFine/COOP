@@ -18,8 +18,8 @@ extern "C" {
 
 	END_FUNCTIONS(Mat);
 
-	BASE_FUNCTION_H(Mat, FindLoc, int row, int col, int* returned);
-	BASE_FUNCTION_H(Mat, GetWidth, int* returned);
+	FUNCTION_H(Mat, FindLoc, int row, int col, int* returned);
+	FUNCTION_H(Mat, GetWidth, int* returned);
 
 	DEF_INIT_CLASS(Mat);
 

@@ -1,6 +1,6 @@
 #include "ExeptionTest.h"
 #include "ScopeTest.h"
-#include "Globals.h"
+#include "dynamic_memory_management.h"
 
 int WhenexeptionIsThrown_ThenGoesStriehtToScopeEnd()
 {

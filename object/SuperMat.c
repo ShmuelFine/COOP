@@ -19,6 +19,6 @@ FUNCTION_IMPL(SuperMat, FindLoc, int row, int col, int* returned)
 }
 END_FUNCTION_IMPL
 
-INIT_DERIVED_CLASS(SuperMat, Mat)
+INIT_DERIVED_CLASS(SuperMat, Mat);
 BIND_OVERIDE(SuperMat, Mat, FindLoc);
 END_INIT_CLASS

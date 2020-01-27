@@ -1,14 +1,7 @@
 #ifndef __I_CACHE__H_
 #define __I_CACHE__H_
 
-
-//#ifndef __OBJECT__H_
 #include "object.h"
-//#endif
-
-
-
-
 
 typedef struct block_s {
 	char* buff;
@@ -26,8 +19,8 @@ BASE_FUNCTION_PTR(iCache, RemoveBlock, void* toDelete);
 BASE_FUNCTION_PTR(iCache, GetAmountAllocatedMemory);
 END_FUNCTIONS(iCache);
 
-BASE_FUNCTION_H(iCache, AddNewBlock, int block_size, void** returned);
-BASE_FUNCTION_H(iCache, RemoveBlock, void* toDelete);
+FUNCTION_H(iCache, AddNewBlock, int block_size, void** returned);
+FUNCTION_H(iCache, RemoveBlock, void* toDelete);
 
 DEF_INIT_CLASS(iCache);
 

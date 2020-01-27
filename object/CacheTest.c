@@ -1,5 +1,5 @@
 #include "CacheTest.h"
-#include "Globals.h"
+#include "dynamic_memory_management.h"
 #include "Cache.h"
 #include "HeapCache.h"
 

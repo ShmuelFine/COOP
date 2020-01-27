@@ -277,7 +277,7 @@ DEF_DERIVED_DTOR(InMemoryCache,iCache)
 }
 END_DERIVED_DTOR
 
-INIT_DERIVED_CLASS(InMemoryCache,iCache)
+INIT_DERIVED_CLASS(InMemoryCache, iCache);
 BIND_OVERIDE(InMemoryCache,iCache, AddNewBlock);
 BIND_OVERIDE(InMemoryCache,iCache, RemoveBlock);
 END_INIT_CLASS
