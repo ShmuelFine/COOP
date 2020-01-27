@@ -15,7 +15,7 @@ END_DERIVED_FUNCTIONS(HeapCache);
 FUNCTION_H(HeapCache, AddNewBlock, int block_size, void** returned);
 FUNCTION_H(HeapCache, RemoveBlock, void* toDelete);
 
-DEF_INIT_DERIVED_CLASS(HeapCache);
+DEF_INIT_CLASS(HeapCache);
 
 
 //#ifndef __I_CACHE__H_
@@ -39,7 +39,7 @@ DEF_INIT_DERIVED_CLASS(HeapCache);
 //FUNCTION_H(HeapCache, AddNewBlock, int blockSize, Block** returned);
 //FUNCTION_H(HeapCache, RemoveBlock, Block* toDelete);
 //
-//DEF_INIT_DERIVED_CLASS(HeapCache, iCache);
+//DEF_INIT_CLASS(HeapCache, iCache);
 //
 //void HeapCache_InitCache(HeapCache* c);
 //

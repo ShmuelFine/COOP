@@ -45,16 +45,21 @@ struct functionName ##_t_  *functionName
 // The derived class' function section ends with:
 #define END_DERIVED_FUNCTIONS(type) END_FUNCTIONS(type)
 
-// The final line in an H file of Derived class definitions
-#define DEF_INIT_DERIVED_CLASS(type) DEF_INIT_CLASS(type)
+// Here we have FUNCTION_H per each func. we would like to implement.
+// ... 
+// And finally, the last line in the H is DEF_INIT_CLASS(type)
+//
 
 ///////////////////////  The C File Structure ////////////////////////
+
+// (See next macro comment)
 #define SUPER (&(_this->_base)
 #define ME );
 
 // Macro that begins a derived ctor definition.
-// Should be used followed bu SUPER <base class ctor args> ME
-// In order to call the base class ctor.
+// Should be used followed by SUPER <base class ctor args> ME
+// In order to call the base class ctor. e.g.:
+// DEF_DERIVED_CTOR(MatEx, Mat, width, height, type, step) SUPER, width, height, type ME
 #define DEF_DERIVED_CTOR(name, baseName, ...)    \
 void __ctor__ ##name(name * _this, __VA_ARGS__)  \
 {                                                \
@@ -72,8 +77,13 @@ void __ctor__ ##name(name * _this, __VA_ARGS__)  \
 // Implement derived dtor here in between
 #define END_DERIVED_DTOR }
 
+//
+// Here you put FUNCTION_IMPL ... END_FUNCTION_IMPL just like in a usual class definition.
+//
 
-// The binding of virtual and overriding funcions differs from the usual one:
+// And finally we init the vTable.
+// NOTE: The binding of virtual and overriding funcions differs from the usual one:
+// It begins with:
 #define INIT_DERIVED_CLASS(type,base)					\
 bool is_ ##type ##VirtualTable__initialized = false;	\
 /*COOP_API*/ type ##VirtualTable type ##VTable;			\
@@ -83,10 +93,13 @@ bool is_ ##type ##VirtualTable__initialized = false;	\
 	ATTACH_TORs_ToClass(type);							\
 	type ##VTable._base = base ##VTable
 
+// Than, for each implemented, overriding func. : 
 #define BIND_OVERIDE(type,base,name) type ##VTable.__##name.func=&(type ##_ ##name);            \
 type ##VTable.__ ##name.next = NULL;                                                            \
 base ##VTable.__ ##name.next = &(type ##VTable.__ ##name);										\
 type ##VTable.name = base ##VTable.name
 
+// Or, if it's not overriding anything it's just BIND or BASE_BIND...
+// And finally, we put END_INIT_CLASS as ususal.
 
 #endif

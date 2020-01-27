@@ -5,6 +5,7 @@
 #include "obj_base_structs.h"
 #include "class_def_macros.h"
 #include "inheritence_def_macros.h"
+#include "virtual_func_calling.h"
 #include "obj_lifecycle_management.h"
 
 #endif
