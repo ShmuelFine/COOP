@@ -23,8 +23,8 @@ union {																			\
 // Define the derived class members here, in between.
 
 // Finish definition of derived class members section:
-#define END_DEF_DERIVED(name) };};                                             \
-}name;  \
+#define END_DEF_DERIVED(name) };};								\
+}name;															\
 COOP_API extern bool is_ ##name ##VirtualTable__initialized
 
 

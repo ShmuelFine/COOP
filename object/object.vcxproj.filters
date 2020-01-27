@@ -34,11 +34,11 @@
     <ClCompile Include="obj_lifecycle_management.c">
       <Filter>OOP</Filter>
     </ClCompile>
-    <ClCompile Include="dynamic_memory_management.c">
-      <Filter>OOP</Filter>
-    </ClCompile>
     <ClCompile Include="virtual_func_calling.c">
       <Filter>OOP</Filter>
+    </ClCompile>
+    <ClCompile Include="dynamic_memory_management.c">
+      <Filter>MemoryManagement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,11 +90,14 @@
     <ClInclude Include="obj_lifecycle_management.h">
       <Filter>OOP</Filter>
     </ClInclude>
-    <ClInclude Include="dynamic_memory_management.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
     <ClInclude Include="virtual_func_calling.h">
       <Filter>OOP</Filter>
+    </ClInclude>
+    <ClInclude Include="COOP.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="dynamic_memory_management.h">
+      <Filter>MemoryManagement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
