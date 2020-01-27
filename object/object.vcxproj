@@ -146,23 +146,28 @@
     <ClCompile Include="Mat.c" />
     <ClCompile Include="object.c" />
     <ClCompile Include="ObjectTest.c" />
+    <ClCompile Include="obj_lifecycle_management.c" />
     <ClCompile Include="ScopeTest.c" />
     <ClCompile Include="SuperMat.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cache.h" />
     <ClInclude Include="CacheTest.h" />
+    <ClInclude Include="class_def_macros.h" />
     <ClInclude Include="Exeption.h" />
     <ClInclude Include="ExeptionTest.h" />
     <ClInclude Include="ExportDefs.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="iCache.h" />
+    <ClInclude Include="inheritence_def_macros.h" />
     <ClInclude Include="InheritTest.h" />
     <ClInclude Include="LinkedLists.h" />
     <ClInclude Include="Mat.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="ObjectTest.h" />
+    <ClInclude Include="obj_base_structs.h" />
+    <ClInclude Include="obj_lifecycle_management.h" />
     <ClInclude Include="ScopeTest.h" />
     <ClInclude Include="SuperMat.h" />
   </ItemGroup>
