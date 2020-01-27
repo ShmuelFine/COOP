@@ -18,6 +18,32 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CacheTest.c" />
+    <ClCompile Include="ExeptionTest.c" />
+    <ClCompile Include="InheritTest.c" />
+    <ClCompile Include="Mat.c" />
+    <ClCompile Include="Mat4Test.c" />
+    <ClCompile Include="ObjectTest.c" />
+    <ClCompile Include="ScopeTest.c" />
+    <ClCompile Include="SuperMat.c" />
+    <ClCompile Include="SuperMat3_4Test.c" />
+    <ClCompile Include="SuperMat4Test.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CacheTest.h" />
+    <ClInclude Include="ExeptionTest.h" />
+    <ClInclude Include="Imports.h" />
+    <ClInclude Include="InheritTest.h" />
+    <ClInclude Include="Mat.h" />
+    <ClInclude Include="Mat4Test.h" />
+    <ClInclude Include="ObjectTest.h" />
+    <ClInclude Include="ProxyExportDefs.h" />
+    <ClInclude Include="ScopeTest.h" />
+    <ClInclude Include="SuperMat.h" />
+    <ClInclude Include="SuperMat3_4Test.h" />
+    <ClInclude Include="SuperMat4Test.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{61048CFF-00AF-4E22-A0AA-5F09AC9DC499}</ProjectGuid>
@@ -137,8 +163,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
