@@ -4,32 +4,11 @@
     <ClCompile Include="Cache.c">
       <Filter>MemoryManagement</Filter>
     </ClCompile>
-    <ClCompile Include="CacheTest.c">
-      <Filter>Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="ExeptionTest.c">
-      <Filter>Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="InheritTest.c">
-      <Filter>Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectTest.c">
-      <Filter>Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="ScopeTest.c">
-      <Filter>Tests</Filter>
-    </ClCompile>
     <ClCompile Include="HeapCache.c">
       <Filter>MemoryManagement</Filter>
     </ClCompile>
     <ClCompile Include="iCache.c">
       <Filter>MemoryManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="Mat.c">
-      <Filter>Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="SuperMat.c">
-      <Filter>Tests</Filter>
     </ClCompile>
     <ClCompile Include="obj_lifecycle_management.c">
       <Filter>OOP</Filter>
@@ -45,21 +24,6 @@
     <ClInclude Include="Cache.h">
       <Filter>MemoryManagement</Filter>
     </ClInclude>
-    <ClInclude Include="CacheTest.h">
-      <Filter>Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="ExeptionTest.h">
-      <Filter>Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="InheritTest.h">
-      <Filter>Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectTest.h">
-      <Filter>Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="ScopeTest.h">
-      <Filter>Tests</Filter>
-    </ClInclude>
     <ClInclude Include="HeapCache.h">
       <Filter>MemoryManagement</Filter>
     </ClInclude>
@@ -68,12 +32,6 @@
     </ClInclude>
     <ClInclude Include="object.h">
       <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="SuperMat.h">
-      <Filter>Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="Mat.h">
-      <Filter>Tests</Filter>
     </ClInclude>
     <ClInclude Include="ExportDefs.h">
       <Filter>Infra</Filter>
@@ -103,9 +61,6 @@
   <ItemGroup>
     <Filter Include="MemoryManagement">
       <UniqueIdentifier>{a2acab42-1f74-466c-8101-d24f17fcd32c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tests">
-      <UniqueIdentifier>{5bb0baea-4c5e-4b2c-b8e4-8a02e5347817}</UniqueIdentifier>
     </Filter>
     <Filter Include="OOP">
       <UniqueIdentifier>{2cba6583-1b7c-4ba8-a15f-94f22162ed68}</UniqueIdentifier>

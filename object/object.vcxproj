@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\bin</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\bin\</OutDir>
     <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\bin</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\bin\</OutDir>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -136,38 +136,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cache.c" />
-    <ClCompile Include="CacheTest.c" />
     <ClCompile Include="dynamic_memory_management.c" />
-    <ClCompile Include="ExeptionTest.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="iCache.c" />
-    <ClCompile Include="InheritTest.c" />
-    <ClCompile Include="Mat.c" />
-    <ClCompile Include="ObjectTest.c" />
     <ClCompile Include="obj_lifecycle_management.c" />
-    <ClCompile Include="ScopeTest.c" />
-    <ClCompile Include="SuperMat.c" />
     <ClCompile Include="virtual_func_calling.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cache.h" />
-    <ClInclude Include="CacheTest.h" />
     <ClInclude Include="class_def_macros.h" />
     <ClInclude Include="COOP.h" />
     <ClInclude Include="dynamic_memory_management.h" />
-    <ClInclude Include="ExeptionTest.h" />
     <ClInclude Include="ExportDefs.h" />
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="iCache.h" />
     <ClInclude Include="inheritence_def_macros.h" />
-    <ClInclude Include="InheritTest.h" />
-    <ClInclude Include="Mat.h" />
     <ClInclude Include="object.h" />
-    <ClInclude Include="ObjectTest.h" />
     <ClInclude Include="obj_base_structs.h" />
     <ClInclude Include="obj_lifecycle_management.h" />
-    <ClInclude Include="ScopeTest.h" />
-    <ClInclude Include="SuperMat.h" />
     <ClInclude Include="virtual_func_calling.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
