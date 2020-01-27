@@ -21,7 +21,7 @@ extern "C" {
 
 	FUNCTION_H(SuperMat, FindLoc, int row, int col, int* returned);
 
-	DEF_INIT_DERIVED_CLASS(SuperMat);
+	DEF_INIT_CLASS(SuperMat);
 
 #ifdef __cplusplus
 }
