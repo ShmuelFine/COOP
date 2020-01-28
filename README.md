@@ -1,5 +1,5 @@
 # COOP
-![](COOP%20logo.png)
+![](COOP%20logo_ST.png)
 
 **COOP** is **C** **O**bject **O**riented **P**rogramming framework, developed by FineALGs (www.fineAlgs.com) with real time embedded systems in mind. 
 
