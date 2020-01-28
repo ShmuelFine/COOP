@@ -15,7 +15,6 @@
   <ItemGroup>
     <ClInclude Include="CacheTest.h" />
     <ClInclude Include="ExeptionTest.h" />
-    <ClInclude Include="Imports.h" />
     <ClInclude Include="InheritTest.h" />
     <ClInclude Include="Mat.h" />
     <ClInclude Include="Mat4Test.h" />
