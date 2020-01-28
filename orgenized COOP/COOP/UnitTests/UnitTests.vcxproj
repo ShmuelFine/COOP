@@ -32,6 +32,10 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\bin\</OutDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="LibLoadUtils.h" />
     <ClInclude Include="pch.h" />
@@ -52,6 +56,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\COOP\COOP.vcxproj">
+      <Project>{8b47ee4b-47f6-48c1-bd78-4600c05f911f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\COOP_C_TestProxy\COOP_C_TestProxy.vcxproj">
+      <Project>{61048cff-00af-4e22-a0aa-5f09ac9dc499}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -86,6 +98,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\bin</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

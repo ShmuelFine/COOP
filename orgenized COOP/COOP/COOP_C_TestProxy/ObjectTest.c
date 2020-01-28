@@ -26,7 +26,7 @@ int LOCAL_SCOPE_END__WhenDefiningObjectInside_ThenFreesThemAll()
 	//		_scope_obj_list._next = NULL;
 
 	//Arrange
-	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+	CreateGlobalCache(1000, IN_MEMORY_CACHE_);
 
 	CREATE_OBJECT(ScopeTest, s1, 10);
 	CREATE_OBJECT(ScopeTest, s2, 10);
@@ -61,7 +61,7 @@ int LOCAL_SCOPE_END__WhenDefiningObjectOutside_thenDoesntFreeThem()
 	ScopeTest s1, s2, s3;
 	SCOPE_START;
 
-	CreateGlobalCache(100, "GlobalCahce", IN_MEMORY_CACHE_);
+	CreateGlobalCache(100, IN_MEMORY_CACHE_);
 
 	
 
@@ -96,7 +96,7 @@ int LOCAL_SCOPE_END__TheLocalScopeEnd_FreesOnlyTheLastInnerScopeThatIsntFreedYet
 {
 	SCOPE_START;
 	//Arrange 
-	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+	CreateGlobalCache(1000, IN_MEMORY_CACHE_);
 
 
 	CREATE_OBJECT(ScopeTest, s1, 10);
@@ -141,7 +141,7 @@ int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash()
 {
 	SCOPE_START;
 	//Arrange 
-	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+	CreateGlobalCache(1000, IN_MEMORY_CACHE_);
 
 
 	CREATE_OBJECT(ScopeTest, s1, 10);
@@ -170,7 +170,7 @@ int LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash()
 int New_WhenNew_ThenReturnesPointerInCache()
 {
 	//Arrange
-	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+	CreateGlobalCache(1000, IN_MEMORY_CACHE_);
 	
 	//Act
 	int* buff;
@@ -190,7 +190,7 @@ int New_WhenNew_ThenReturnesPointerInCache()
 int New_WhenNew_ConstructsBlockWithRightSize()
 {
 	//Arrange
-	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+	CreateGlobalCache(1000, IN_MEMORY_CACHE_);
 
 	//Act
 	int* buff;
@@ -206,7 +206,7 @@ int New_WhenNew_ConstructsBlockWithRightSize()
 int Delete_WhenDelete_PointerPointToNull()
 {
 	//Arrange
-	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+	CreateGlobalCache(1000, IN_MEMORY_CACHE_);
 
 	//Act
 	int* buff;
@@ -223,7 +223,7 @@ int Delete_WhenDelete_PointerPointToNull()
 int Delete_WhenDelete_ThenDeletesTheBlock()
 {
 	//Arrange
-	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+	CreateGlobalCache(1000, IN_MEMORY_CACHE_);
 
 	//Act
 	int* buff;
@@ -243,7 +243,7 @@ int Delete_WhenDelete_ThenDeletesTheBlock()
 int NEW_WhenAllocDifferentTypeThenChar_AllocatesTheRightSize()
 {
 	//Arrange
-	CreateGlobalCache(1000, "GlobalCache", IN_MEMORY_CACHE_);
+	CreateGlobalCache(1000, IN_MEMORY_CACHE_);
 	int* ibuff;
 	long* lBuff;
 	double* dBuff;

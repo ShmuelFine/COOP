@@ -35,11 +35,14 @@ int WhenexeptionIsThrown_ThenGoesStriehtToScopeEnd()
 
 int WhenexeptionIsThrownWithInAFunctionCall_ThenGoesStriehtToScopeEnd()
 {
+	
 	int check = 0;
 	ScopeTest s;
-	CreateGlobalCache(100, "GlobalCache", IN_MEMORY_CACHE_);
 
 	SCOPE_START;
+	CreateGlobalCache(100, IN_MEMORY_CACHE_);
+
+
 	CREATE_OBJECT4TEST(ScopeTest, s, 20);
 	LOCAL_SCOPE_START;
 
@@ -50,19 +53,21 @@ int WhenexeptionIsThrownWithInAFunctionCall_ThenGoesStriehtToScopeEnd()
 
 	LOCAL_SCOPE_END;
 	check++;
-	SCOPE_END;
+	
 
 	DestroyGlobalCache();
+
+	SCOPE_END;
 	return(0 == check && NULL == s.buff);
 }
 
 int WhenCatchingExeption_DoesntContinueThrowing()
 {
+	SCOPE_START;
 	//Arrange
 	int check = 0;
 	ScopeTest s;
 
-	SCOPE_START;
 	LOCAL_SCOPE_START;
 	TRY{
 		CREATE_OBJECT4TEST(ScopeTest,s,20);
@@ -74,8 +79,7 @@ int WhenCatchingExeption_DoesntContinueThrowing()
 	LOCAL_SCOPE_END;
 	
 	check++;
-	
-	return(2 == check);
-
+	return(2 == check);	
 	SCOPE_END;
+
 }
