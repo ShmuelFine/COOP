@@ -15,15 +15,14 @@
   <ItemGroup>
     <ClInclude Include="CacheTest.h" />
     <ClInclude Include="ExeptionTest.h" />
-    <ClInclude Include="Imports.h" />
     <ClInclude Include="InheritTest.h" />
     <ClInclude Include="Mat.h" />
     <ClInclude Include="Mat4Test.h" />
     <ClInclude Include="ObjectTest.h" />
+    <ClInclude Include="ProxyExportDefs.h" />
     <ClInclude Include="ScopeTest.h" />
     <ClInclude Include="SuperMat.h" />
     <ClInclude Include="SuperMat3_4Test.h" />
     <ClInclude Include="SuperMat4Test.h" />
-    <ClInclude Include="ProxyExportDefs.h" />
   </ItemGroup>
 </Project>
