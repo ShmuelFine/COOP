@@ -1,5 +1,5 @@
 #pragma once
-#include "COOP.h"
+#include "../COOP/COOP.h"
 #ifdef _DEBUG
 	#pragma comment(lib, "COOP_d.lib")
 #else

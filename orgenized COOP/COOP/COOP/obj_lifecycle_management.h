@@ -1,12 +1,14 @@
 #ifndef __COOP_obj_lifecycle_management__
 #define __COOP_obj_lifecycle_management__
 
+
+#include "ExportDefs.h"
 #include "obj_base_structs.h"
 #include <setjmp.h>
 
-void _scope_obj_list_add(object* scope_list, object* obj);
-void _scope_obj_list_free(object* scope_list);
-void FreeMostInnerScope(object* _scope_obj_list);
+COOP_API void _scope_obj_list_add(object* scope_list, object* obj);
+COOP_API void _scope_obj_list_free(object* scope_list);
+COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 
 #define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
 
@@ -23,8 +25,8 @@ void FreeMostInnerScope(object* _scope_obj_list);
 
 
 // The obj lifecycle built upon scopes, that has to account with exception handling:
-extern jmp_buf SCOPE_FALLBACK_ADDR[10];
-extern int _CurrScope_Idx;
+COOP_API extern jmp_buf SCOPE_FALLBACK_ADDR[10];
+COOP_API extern int _CurrScope_Idx;
 
 #define ERROR_VALUE -1
 

@@ -1,4 +1,4 @@
-#include "object.h"
+#include "../COOP/object.h"
 #include "ProxyExportDefs.h"
 
 
