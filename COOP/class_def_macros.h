@@ -58,7 +58,7 @@ COOP_API extern name ##VirtualTalbe name ##VTable
 
 // Macros that define implementation of previously declared function:
 #define FUNCTION_IMPL(type, functionName, ...) int type ##_ ##functionName(type * _this, __VA_ARGS__){
-#define END_FUNCTION_IMPL return 0;}
+#define END_FUNCTION_IMPL }
 
 // Macro for inner use in INIT_CLASS:
 #define ATTACH_TORs_ToClass(name)       \

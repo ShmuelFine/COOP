@@ -25,7 +25,8 @@
     <ClCompile Include="Mat.c" />
     <ClCompile Include="Mat4Test.c" />
     <ClCompile Include="ObjectTest.c" />
-    <ClCompile Include="ScopeTest.c" />
+    <ClCompile Include="ScopesUnitTest.c" />
+    <ClCompile Include="ScopeTester.c" />
     <ClCompile Include="SuperMat.c" />
     <ClCompile Include="SuperMat3_4Test.c" />
     <ClCompile Include="SuperMat4Test.c" />
@@ -38,7 +39,8 @@
     <ClInclude Include="Mat4Test.h" />
     <ClInclude Include="ObjectTest.h" />
     <ClInclude Include="ProxyExportDefs.h" />
-    <ClInclude Include="ScopeTest.h" />
+    <ClInclude Include="ScopesUnitTest.h" />
+    <ClInclude Include="ScopeTester.h" />
     <ClInclude Include="SuperMat.h" />
     <ClInclude Include="SuperMat3_4Test.h" />
     <ClInclude Include="SuperMat4Test.h" />

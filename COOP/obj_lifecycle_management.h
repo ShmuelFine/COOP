@@ -12,16 +12,13 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 
 #define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
 
-#define CREATE_OBJECT(type, instance_name, ...)						\
+#define CREATE_OBJECT(type, instance_name)							\
 	if (! is_ ##type ##VirtualTable__initialized) type ##_init();   \
 	type instance_name;                  							\
-	instance_name.vTable=&type ##VTable;							\
-	instance_name.vTable->_ctor(&instance_name, __VA_ARGS__);		\
 	instance_name._next= NULL;										\
-	REGISTER_OBJECT(&instance_name)
-
-#define CREATE_DERIVED_OBJECT(type, base, instance_name, ...)	 \
-	CREATE_OBJECT(type,instance_name, __VA_ARGS__)
+	instance_name.vTable=&type ##VTable;							\
+	REGISTER_OBJECT(&instance_name);								\
+	instance_name.vTable->_ctor(&instance_name
 
 
 // The obj lifecycle built upon scopes, that has to account with exception handling:
@@ -30,14 +27,15 @@ COOP_API extern int _CurrScope_Idx;
 
 #define ERROR_VALUE -1
 
-#define TRY if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx]))
+#define TRY if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx])) {
 
 #define CATCH \
-else { 
+} else { 
 
 #define END_TRY }
 
 #define THROW \
+__RET_VAL__ = ERROR_VALUE;\
 longjmp(SCOPE_FALLBACK_ADDR[--_CurrScope_Idx],1)
 
 #define SCOPE_START \
@@ -55,9 +53,11 @@ if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))\
 	FreeMostInnerScope(&_scope_obj_list);\
 	if(_CurrScope_Idx > 0)\
 		_CurrScope_Idx--;\
-	__RET_VAL__ = ERROR_VALUE;\
 }\
 return __RET_VAL__; 
+
+#define RETURN(i) __RET_VAL__ = i; longjmp(SCOPE_FALLBACK_ADDR[--_CurrScope_Idx],1)
+#define ASSERT(x) if (!(x)) THROW
 
 #define LOCAL_SCOPE_START \
 if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))\

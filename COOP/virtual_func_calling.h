@@ -2,6 +2,7 @@
 #define __LINKED_LISTS__H_
 
 #include "ExportDefs.h"
+#include "obj_lifecycle_management.h"
 #include "object.h"
 
 
@@ -40,8 +41,8 @@ COOP_API function* call_obj_function(function* func);
 #define CALL(funcName,_this,...)     \
 	{\
 		struct funcName ##_t_ * f = (struct funcName ##_t_ *)call_obj_function((function *)(_this).vTable->funcName); \
-		if(f->func(&(_this),__VA_ARGS__)==-1)\
-		longjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx--],1);\
+		if(f->func(&(_this),__VA_ARGS__) == ERROR_VALUE)\
+			THROW;\
 	}
 
 #endif
