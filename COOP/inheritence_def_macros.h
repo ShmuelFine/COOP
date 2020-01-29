@@ -34,9 +34,9 @@ FUNCTIONS(class_name, __VA_ARGS__)						\
 base ##VirtualTable _base;							
 
 // Macro that defines an overriding version of a virtual function:
-#define OVERIDE_FUNCTION_PTR(functionName, ...)	\
-struct functionName ##_t_ __ ##functionName;	\
-struct functionName ##_t_  * functionName
+#define OVERIDE_FUNCTION_PTR(base_class, function_name, ...)	\
+struct base_class ##_ ##function_name ##_t_ __ ##function_name;	\
+struct base_class ##_ ##function_name ##_t_  * function_name
 
 // The derived class' function section ends with:
 #define END_DERIVED_FUNCTIONS(type) END_FUNCTIONS(type)
@@ -73,6 +73,10 @@ void __ctor__ ##class_name(class_name * _this, __VA_ARGS__)  \
 // Implement derived dtor here in between
 #define END_DERIVED_DTOR }
 
+#define OVERRIDE_FUNCTION_IMPL(type, function_name, ...)\
+		int inner_function_ ##type ##_ ##function_name(type * _this, __VA_ARGS__)\
+		{ SCOPE_START;
+
 //
 // Here you put FUNCTION_IMPL ... END_FUNCTION_IMPL just like in a usual class definition.
 //
@@ -91,7 +95,8 @@ type ##VirtualTable type ##VTable;						\
 
 // Than, for each implemented, overriding func. : 
 #define BIND_OVERIDE(type,base,function_name) \
-	BIND(type, function_name)	\
+	type ##VTable.function_name->next = NULL;\
+	type ##VTable.function_name->outer_function = NULL; /*outer function called only on the base. otherwise let's crash.*/\
 	base ##VTable.__ ##function_name.next = &(type ##VTable.__ ##function_name);\
 	type ##VTable.function_name = base ##VTable.function_name															
 

@@ -26,8 +26,8 @@ extern "C" {
 	END_DEF_DERIVED(InMemoryCache);
 
 	DERIVED_FUNCTIONS(InMemoryCache, iCache, int size)
-	OVERIDE_FUNCTION_PTR(AddNewBlock, int block_size, void** returned);
-	OVERIDE_FUNCTION_PTR(RemoveBlock, void* toDelete);
+	OVERIDE_FUNCTION_PTR(iCache, AddNewBlock, int block_size, void** returned);
+	OVERIDE_FUNCTION_PTR(iCache, RemoveBlock, void* toDelete);
 	END_DERIVED_FUNCTIONS(InMemoryCache);
 
 	FUNCTION_H(InMemoryCache, AddNewBlock, int block_size, void** returned);

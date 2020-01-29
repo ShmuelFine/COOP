@@ -10,14 +10,6 @@
 extern "C" {
 #endif
 
-//#define FUNCTION_TYPE(type,function_name,...)				\
-//	struct type ##_ ##function_name ##_t_{								\
-//		int (* function_name ##_inner_function)(void* _this, __VA_ARGS__);	\
-//		function_name ##_inner_function * (*outer_function)(void* _this, __VA_ARGS__);	\
-//		struct function_name ##_t_ * next;					\
-//	}__ ##function_name,	*function_name
-
-
 // Call function of base class:
 //#define _BASE(base, funcName,...) _this->vTable->_base.__ ##funcName.func((base *)_this,__VA_ARGS__)
 
