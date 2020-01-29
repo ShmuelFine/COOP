@@ -1,42 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="CacheTest.c" />
-    <ClCompile Include="ExeptionTest.c" />
-    <ClCompile Include="InheritTest.c" />
-    <ClCompile Include="Mat.c" />
-    <ClCompile Include="Mat4Test.c" />
-    <ClCompile Include="SuperMat.c" />
-    <ClCompile Include="SuperMat3_4Test.c" />
-    <ClCompile Include="SuperMat4Test.c" />
     <ClCompile Include="ScopesUnitTest.c">
       <Filter>ScopeTesting</Filter>
     </ClCompile>
     <ClCompile Include="ScopeTester.c">
       <Filter>ScopeTesting</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectTest.c">
-      <Filter>ScopeTesting</Filter>
+    <ClCompile Include="MemManagementUnitTest.c">
+      <Filter>MemManagementTesting</Filter>
+    </ClCompile>
+    <ClCompile Include="ExeptionUnitTest.c">
+      <Filter>Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="InheritTest.c">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseClassExample.c">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="DerivedClassExample.c">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassUnitTest.c">
+      <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CacheTest.h" />
-    <ClInclude Include="ExeptionTest.h" />
-    <ClInclude Include="InheritTest.h" />
-    <ClInclude Include="Mat.h" />
-    <ClInclude Include="Mat4Test.h" />
     <ClInclude Include="ProxyExportDefs.h" />
-    <ClInclude Include="SuperMat.h" />
-    <ClInclude Include="SuperMat3_4Test.h" />
-    <ClInclude Include="SuperMat4Test.h" />
     <ClInclude Include="ScopesUnitTest.h">
       <Filter>ScopeTesting</Filter>
     </ClInclude>
     <ClInclude Include="ScopeTester.h">
       <Filter>ScopeTesting</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectTest.h">
-      <Filter>ScopeTesting</Filter>
+    <ClInclude Include="MemManagementUnitTest.h">
+      <Filter>MemManagementTesting</Filter>
+    </ClInclude>
+    <ClInclude Include="ExeptionUnitTest.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="InheritTest.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseClassExample.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="DerivedClassExample.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassUnitTest.h">
+      <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +59,12 @@
     </Filter>
     <Filter Include="MemManagementTesting">
       <UniqueIdentifier>{e3b70ba6-d932-416c-8a70-421a70afae0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{a98ff276-ed7d-4c7c-867c-e5c3d5f46a2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{adc3e584-32e8-4a07-a256-a7b14324aade}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

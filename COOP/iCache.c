@@ -2,8 +2,6 @@
 
 #include "iCache.h"
 
-
-
 DEF_CTOR(iCache)
 END_CTOR
 
@@ -17,6 +15,6 @@ FUNCTION_IMPL(iCache, RemoveBlock, void* toDelete)
 END_FUNCTION_IMPL
 
 INIT_CLASS(iCache)
-BASE_BIND(iCache, AddNewBlock);
-BASE_BIND(iCache, RemoveBlock);
+BIND(iCache, AddNewBlock);
+BIND(iCache, RemoveBlock);
 END_INIT_CLASS

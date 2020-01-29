@@ -19,31 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CacheTest.c" />
-    <ClCompile Include="ExeptionTest.c" />
+    <ClCompile Include="BaseClassExample.c" />
+    <ClCompile Include="ClassUnitTest.c" />
+    <ClCompile Include="DerivedClassExample.c" />
+    <ClCompile Include="ExeptionUnitTest.c" />
     <ClCompile Include="InheritTest.c" />
-    <ClCompile Include="Mat.c" />
-    <ClCompile Include="Mat4Test.c" />
-    <ClCompile Include="ObjectTest.c" />
+    <ClCompile Include="MemManagementUnitTest.c" />
     <ClCompile Include="ScopesUnitTest.c" />
     <ClCompile Include="ScopeTester.c" />
-    <ClCompile Include="SuperMat.c" />
-    <ClCompile Include="SuperMat3_4Test.c" />
-    <ClCompile Include="SuperMat4Test.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CacheTest.h" />
-    <ClInclude Include="ExeptionTest.h" />
+    <ClInclude Include="BaseClassExample.h" />
+    <ClInclude Include="ClassUnitTest.h" />
+    <ClInclude Include="DerivedClassExample.h" />
+    <ClInclude Include="ExeptionUnitTest.h" />
     <ClInclude Include="InheritTest.h" />
-    <ClInclude Include="Mat.h" />
-    <ClInclude Include="Mat4Test.h" />
-    <ClInclude Include="ObjectTest.h" />
+    <ClInclude Include="MemManagementUnitTest.h" />
     <ClInclude Include="ProxyExportDefs.h" />
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />
-    <ClInclude Include="SuperMat.h" />
-    <ClInclude Include="SuperMat3_4Test.h" />
-    <ClInclude Include="SuperMat4Test.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\COOP\COOP.vcxproj">

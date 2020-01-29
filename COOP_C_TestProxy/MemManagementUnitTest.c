@@ -3,7 +3,7 @@
 #include "dynamic_memory_management.h"
 #include "object.h"
 #include "ScopeTester.h"
-#include "Mat.h"
+#include "BaseClassExample.h"
 #define AS(T, x) ((T)x)
 
 int New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy()
@@ -44,11 +44,11 @@ int New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy()
 	//Arrange
 	SCOPE_START;
 
-	CreateGlobalCache(sizeof(Mat), IN_MEMORY_CACHE_);
+	CreateGlobalCache(sizeof(BaseClassExample), IN_MEMORY_CACHE_);
 
 	//Act
-	Mat * m = NULL;
-	NEW(m, Mat);
+	BaseClassExample * m = NULL;
+	NEW(m, BaseClassExample);
 
 	// Make sure we can access all our memory:
 	m->width = 32;

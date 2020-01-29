@@ -15,18 +15,17 @@ DEF_DTOR(ScopeTester)
 }
 END_DTOR
 
-FUNCTION_IMPL(ScopeTester, ThrowingIfEQ, int size, int eq)
+FUNCTION_IMPL(ScopeTester, ThrowingIfEQ, int a, int b)
 {
 	SCOPE_START;
 
-	if (size == eq)
+	if (a == b)
 		THROW;
-	size += eq;
 
 	SCOPE_END;
 }
 END_FUNCTION_IMPL
 
 INIT_CLASS(ScopeTester)
-BASE_BIND(ScopeTester, ThrowingIfEQ);
+BIND(ScopeTester, ThrowingIfEQ);
 END_INIT_CLASS
