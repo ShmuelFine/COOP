@@ -87,6 +87,7 @@ type ##VirtualTable type ##VTable;					\
 	void type ##_init(){							\
 	ATTACH_TORs_ToClass(type)
 
+
 #define BIND(type, function_name)\
 	type ##VTable.__ ##function_name.outer_function =						\
 					type ##_ ##function_name ##_outer_function;				\

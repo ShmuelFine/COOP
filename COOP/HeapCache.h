@@ -8,8 +8,8 @@ DEF_DERIVED_CLASS(HeapCache, iCache);
 END_DEF_DERIVED(HeapCache);
 
 DERIVED_FUNCTIONS(HeapCache, iCache)
-OVERIDE_FUNCTION_PTR(AddNewBlock, int block_size, void** returned);
-OVERIDE_FUNCTION_PTR(RemoveBlock, void* toDelete);
+OVERIDE_FUNCTION_PTR(iCache, AddNewBlock, int block_size, void** returned);
+OVERIDE_FUNCTION_PTR(iCache, RemoveBlock, void* toDelete);
 END_DERIVED_FUNCTIONS(HeapCache);
 
 FUNCTION_H(HeapCache, AddNewBlock, int block_size, void** returned);
@@ -32,8 +32,8 @@ DEF_INIT_CLASS(HeapCache);
 //END_DEF_DERIVED(HeapCache);
 //
 //DERIVED_FUNCTIONS(HeapCache, iCache, int size)
-//OVERIDE_FUNCTION_PTR(AddNewBlock, int blockSize, Block** returned);
-//OVERIDE_FUNCTION_PTR(RemoveBlock, Block* toDelete);
+//OVERIDE_FUNCTION_PTR(iCache, AddNewBlock, int blockSize, Block** returned);
+//OVERIDE_FUNCTION_PTR(iCache, RemoveBlock, Block* toDelete);
 //END_FUNCTIONS(HeapCache);
 //
 //FUNCTION_H(HeapCache, AddNewBlock, int blockSize, Block** returned);

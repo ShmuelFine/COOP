@@ -77,9 +77,7 @@ void __ctor__ ##class_name(class_name * _this, __VA_ARGS__)  \
 		int inner_function_ ##type ##_ ##function_name(type * _this, __VA_ARGS__)\
 		{ SCOPE_START;
 
-//
-// Here you put FUNCTION_IMPL ... END_FUNCTION_IMPL just like in a usual class definition.
-//
+
 
 // And finally we init the vTable.
 // NOTE: The binding of virtual and overriding funcions differs from the usual one:

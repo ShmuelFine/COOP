@@ -26,13 +26,12 @@ int Inheritence_WhenVirtualFunctionOverriden_ThenCallInvokesOverridingFunc()
 	CREATE_OBJECT(DerivedClassExample, cube), 4, 4, 2);
 
 	//Act
-	//expectedLoc = (mat._base.width * 1 + 2) * mat.step;
-	(*(cube.vTable)).GetVolume(&actualLoc);
+	expectedLoc = cube._base.width * cube._base.hight * cube.depth;
 
-	CALL(cube.vTable->GetVolume, , 1, 2, &actualLoc);
+	FUN(GetVolume, &cube), 1, 2, &actualLoc);
 
 	//Assert
-	ASSERT_EQ(expectedLoc, actualLoc);
+	ASSERT(expectedLoc == actualLoc);
 
 	SCOPE_END;
 
