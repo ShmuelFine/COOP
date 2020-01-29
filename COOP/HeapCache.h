@@ -7,7 +7,7 @@
 DEF_DERIVED_CLASS(HeapCache, iCache);
 END_DEF_DERIVED(HeapCache);
 
-DERIVED_FUNCTIONS(HeapCache, iCache);
+DERIVED_FUNCTIONS(HeapCache, iCache)
 OVERIDE_FUNCTION_PTR(AddNewBlock, int block_size, void** returned);
 OVERIDE_FUNCTION_PTR(RemoveBlock, void* toDelete);
 END_DERIVED_FUNCTIONS(HeapCache);

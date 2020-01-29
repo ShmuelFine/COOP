@@ -1,94 +1,35 @@
+#include "object.h"
 #include "InheritTest.h"
-#include "SuperMat.h"
+#include "DerivedClassExample.h"
 
-
-#define ASSERT_TRUE(condition) if(!(condition)) __RET_VAL__ = TEST_FAIL
-#define ASSERT_EQ(param1,param2) if((param1) != (param2)) __RET_VAL__ = TEST_FAIL
-
-int Ctor_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCallen()
+int Inheritence_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell()
 {
 	SCOPE_START;
-
-	//Arrange
-	int hight;
-
-	//Act
-	CREATE_OBJECT(SuperMat, mat), 6, 8, 2);
-	hight = mat._base.hight;
-
-	//Assert
-	ASSERT_TRUE(hight == 6);
-
-	SCOPE_END;
-}
-
-
-int VTable_WhenDeriving_OverriddeesVTablePointer()
-{
-	//Arange
-	SCOPE_START;
-
-	//Act
-	CREATE_OBJECT(SuperMat, mat),0,0,0);
-
-	//Assert
-	ASSERT_EQ(&(mat.vTable),&((SuperMatVirtualTable*)mat._base.vTable));
-
-	SCOPE_END;
-}
-
-int VTable_WhenDriving_CanCallNoneOverridedBaseFunctionsViaOwnVTable()
-{
-	SCOPE_START;
-
-	//Arange
-	int width = 0;
-
-	//SuperMat_init();
-	CREATE_OBJECT(SuperMat, mat), 4, 4, 3);
-
-	//Act
-	mat.vTable->_base.GetWidth->func((Mat* )&mat, &width);
- 
-	//Assert
-	ASSERT_EQ(width, 4);
-
-	SCOPE_END;
-}
-
-int VTable_WhenDriving_NotOverridingTheBaseMembers()
-{
-	SCOPE_START;
-
-	//Arange
-	int hight, width;
-	int h = 4, w = 4, step = 3;
-
-	//Act
-	CREATE_OBJECT(SuperMat, mat), h, w, step);
-
-	hight = mat._base.hight;
-	width = mat._base.width;
-
-	//Assert
-	ASSERT_EQ(hight, h);
-	ASSERT_EQ(width, w);
 	
+	// Arrange, Act
+	CREATE_OBJECT(DerivedClassExample, cube), 6, 8, 2);
+
+	//Assert
+	ASSERT(cube._base.hight == 6);
+	ASSERT(cube._base.width == 8);
+
 	SCOPE_END;
 }
 
-int Overridding_WhenCallingAFunction_AlwaysCallsTheOvveridden()
+int Inheritence_WhenVirtualFunctionOverriden_ThenCallInvokesOverridingFunc()
 {
 	SCOPE_START;
 
 	//Arrange
 	int expectedLoc, actualLoc;
 
-	CREATE_OBJECT(SuperMat, mat), 4, 4, 2);
+	CREATE_OBJECT(DerivedClassExample, cube), 4, 4, 2);
 
 	//Act
-	expectedLoc = (mat._base.width * 1 + 2) * mat.step;
-	CALL(FindLoc, mat, 1, 2, &actualLoc);
+	//expectedLoc = (mat._base.width * 1 + 2) * mat.step;
+	(*(cube.vTable)).GetVolume(&actualLoc);
+
+	CALL(cube.vTable->GetVolume, , 1, 2, &actualLoc);
 
 	//Assert
 	ASSERT_EQ(expectedLoc, actualLoc);

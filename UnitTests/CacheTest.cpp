@@ -1,8 +1,7 @@
 #include "pch.h"
 
-
-#include "..\COOP\dynamic_memory_management.h"
-#include "..\COOP_C_TestProxy\CacheTest.h"
+#include "dynamic_memory_management.h"
+#include "CacheTest.h"
 
 
 class CacheTest : public ::testing::Test
