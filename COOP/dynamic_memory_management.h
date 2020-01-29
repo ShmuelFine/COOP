@@ -27,11 +27,9 @@ COOP_API void DestroyGlobalCache();
 		obj = (typeToAlloc*)returned;\
 	}
 #else
-#define NEW(obj,typeToAlloc,size)\
+#define NEW(dest,whatToPutThere)\
 	{\
-		void * returned; \
-		CALL(AddNewBlock,*TheGlobalCache,(sizeof(typeToAlloc)*size),&returned);\
-		obj = (typeToAlloc*)returned;\
+		CALL(AddNewBlock,*TheGlobalCache,(sizeof(whatToPutThere)),(void*)&dest);\
 	}
 #endif
 

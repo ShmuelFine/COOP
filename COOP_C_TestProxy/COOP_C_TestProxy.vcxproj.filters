@@ -6,11 +6,18 @@
     <ClCompile Include="InheritTest.c" />
     <ClCompile Include="Mat.c" />
     <ClCompile Include="Mat4Test.c" />
-    <ClCompile Include="ObjectTest.c" />
-    <ClCompile Include="ScopeTest.c" />
     <ClCompile Include="SuperMat.c" />
     <ClCompile Include="SuperMat3_4Test.c" />
     <ClCompile Include="SuperMat4Test.c" />
+    <ClCompile Include="ScopesUnitTest.c">
+      <Filter>ScopeTesting</Filter>
+    </ClCompile>
+    <ClCompile Include="ScopeTester.c">
+      <Filter>ScopeTesting</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectTest.c">
+      <Filter>ScopeTesting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CacheTest.h" />
@@ -18,11 +25,26 @@
     <ClInclude Include="InheritTest.h" />
     <ClInclude Include="Mat.h" />
     <ClInclude Include="Mat4Test.h" />
-    <ClInclude Include="ObjectTest.h" />
     <ClInclude Include="ProxyExportDefs.h" />
-    <ClInclude Include="ScopeTest.h" />
     <ClInclude Include="SuperMat.h" />
     <ClInclude Include="SuperMat3_4Test.h" />
     <ClInclude Include="SuperMat4Test.h" />
+    <ClInclude Include="ScopesUnitTest.h">
+      <Filter>ScopeTesting</Filter>
+    </ClInclude>
+    <ClInclude Include="ScopeTester.h">
+      <Filter>ScopeTesting</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTest.h">
+      <Filter>ScopeTesting</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ScopeTesting">
+      <UniqueIdentifier>{80067da1-e443-4e32-a10b-78898f3d4219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MemManagementTesting">
+      <UniqueIdentifier>{e3b70ba6-d932-416c-8a70-421a70afae0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

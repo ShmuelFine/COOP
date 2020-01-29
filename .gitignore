@@ -21,3 +21,7 @@
 /x64/Release
 /x64/bin
 /COOP_C_TestProxy/x64/Debug
+/COOP/x64/Debug
+/UnitTests/x64/Debug
+/COOP_C_TestProxy/COOP_C_TestProxy.vcxproj.user
+/UnitTests/UnitTests.vcxproj.user

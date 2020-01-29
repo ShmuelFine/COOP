@@ -1,5 +1,5 @@
 #include "ExeptionTest.h"
-#include "ScopeTest.h"
+#include "ScopeTester.h"
 #include "dynamic_memory_management.h"
 
 int WhenexeptionIsThrown_ThenGoesStriehtToScopeEnd()
@@ -25,7 +25,7 @@ int WhenexeptionIsThrown_ThenGoesStriehtToScopeEnd()
 	return(0 == check);
 }
 
-#define CREATE_OBJECT4TEST(type, instance_name, ...)		        \
+#define CREATE_OBJECT(type, instance_name, ...)		        \
 	if (! is_ ##type ##VirtualTable__initialized) type ##_init();   \
 	instance_name.vTable=&type ##VTable;							\
 	instance_name.vTable->_ctor(&instance_name, __VA_ARGS__);		\
@@ -37,13 +37,13 @@ int WhenexeptionIsThrownWithInAFunctionCall_ThenGoesStriehtToScopeEnd()
 {
 	
 	int check = 0;
-	ScopeTest s;
+	ScopeTester s;
 
 	SCOPE_START;
 	CreateGlobalCache(100, IN_MEMORY_CACHE_);
 
 
-	CREATE_OBJECT4TEST(ScopeTest, s, 20);
+	CREATE_OBJECT(ScopeTester, s, 20);
 	LOCAL_SCOPE_START;
 
 	CALL(ThrowingIfEQ, s, 3, 3);
@@ -66,11 +66,11 @@ int WhenCatchingExeption_DoesntContinueThrowing()
 	SCOPE_START;
 	//Arrange
 	int check = 0;
-	ScopeTest s;
+	ScopeTester s;
 
 	LOCAL_SCOPE_START;
 	TRY{
-		CREATE_OBJECT4TEST(ScopeTest,s,20);
+		CREATE_OBJECT(ScopeTester,s,20);
 	CALL(ThrowingIfEQ,s, 3, 3);
 	}CATCH; END_TRY;
 	
