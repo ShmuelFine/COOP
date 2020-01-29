@@ -12,11 +12,14 @@ DEF_DERIVED_DTOR(DerivedClassExample, BaseClassExample)
 }
 END_DERIVED_DTOR
 
-FUNCTION_IMPL(DerivedClassExample, GetVolume, int* retVal)
+OVERRIDE_FUNCTION_IMPL(DerivedClassExample, GetVolume, int* retVal)
 {
 	SCOPE_START;
-	_BASE(BaseClassExample, GetVolume, retVal);
-	*retVal *= _this->depth;
+	int retVal = 0;
+	FUN(GetVolume, _this), &retVal);
+	//_BASE(BaseClassExample, GetVolume, retVal);
+	retVal *= _this->depth;
+
 	SCOPE_END ;
 }
 END_FUNCTION_IMPL

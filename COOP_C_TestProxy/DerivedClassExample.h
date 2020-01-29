@@ -16,7 +16,7 @@ extern "C" {
 
 	DERIVED_FUNCTIONS(DerivedClassExample, BaseClassExample, int hight, int width, int depth)
 
-	OVERIDE_FUNCTION_PTR(GetVolume, int* retVal);
+	OVERIDE_FUNCTION_PTR(BaseClassExample, GetVolume, int* retVal);
 
 	END_DERIVED_FUNCTIONS(DerivedClassExample);
 

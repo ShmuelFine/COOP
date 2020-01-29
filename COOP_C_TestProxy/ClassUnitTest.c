@@ -1,7 +1,6 @@
 #include "ClassUnitTest.h"
-
-#include "coop.h"
 #include "BaseClassExample.h"
+
 int Class_CallSimpleFunction_SanityTest()
 {
 	// Arrange
@@ -11,7 +10,7 @@ int Class_CallSimpleFunction_SanityTest()
 	
 	// Act
 	int retVal = 0;
-	FUN(GetVolume, &B), retVal);
+	FUN(GetVolume, &B), &retVal);
 	
 	// Assert
 	ASSERT(retVal == 10 * 3);

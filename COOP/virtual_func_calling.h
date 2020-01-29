@@ -15,7 +15,8 @@ extern "C" {
 
 // Call any member function: // TODO:Tested?
 // The C CALL syntax does not work for C++, here we need full qualification of the inner struct
-#define FUN(funcName,_this) ((_this)->vTable->funcName)->outer_function((_this))(
+#define FUN(funcName,_this) ((_this)->vTable->funcName)->outer_function((_this))(_this
+#define FUN_STATIC(type, funcName,_this) ((_this)->vTable->funcName)->outer_function((_this))(_this
 	
 	//(*(_this.vTable->funcName.outer_function))
 

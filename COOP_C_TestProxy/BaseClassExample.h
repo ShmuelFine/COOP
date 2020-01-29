@@ -1,10 +1,11 @@
 #ifndef __BASE_CLASS_EXAMPLE___H__
 #define __BASE_CLASS_EXAMPLE___H__
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "object.h"
+#include "coop.h"
 
 	DEF_CLASS(BaseClassExample)
 	int hight;

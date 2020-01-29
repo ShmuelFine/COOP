@@ -1,30 +1,7 @@
 #include "pch.h"
 
+#include "MemManagementUnitTest.h"
 
-#include "ObjectTest.h"
-
-TEST(Object, New_WhenNew_ThenReturnesPointerInCache)
-{
-	ASSERT_TRUE(New_WhenNew_ThenReturnesPointerInCache());
-}
-
-TEST(Object, New_WhenNew_ConstructsBlockWithRightSize)
-{
-	ASSERT_TRUE(New_WhenNew_ConstructsBlockWithRightSize());
-}
-
-TEST(object, Delete_WhenDelete_PointerPointToNull)
-{
-	ASSERT_TRUE(Delete_WhenDelete_PointerPointToNull());
-}
-
-TEST(object, NEW_WhenAllocDifferentTypeThenChar_AllocatesTheRightSize)
-{
-	ASSERT_TRUE(NEW_WhenAllocDifferentTypeThenChar_AllocatesTheRightSize());
-}
-
-TEST(object, Delete_WhenDelete_ThenDeletesTheBlock)
-{
-	ASSERT_TRUE(Delete_WhenDelete_ThenDeletesTheBlock());
-}
-
+TEST(MemManagement, New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)		{ ASSERT_TRUE(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)		 ;}
+TEST(MemManagement, New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy)	{ ASSERT_TRUE(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy);}
+TEST(MemManagement, Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)			{ ASSERT_TRUE(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)		; }

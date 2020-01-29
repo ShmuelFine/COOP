@@ -1,4 +1,4 @@
-#include "ExeptionTest.h"
+#include "ExeptionUnitTest.h"
 #include "ScopeTester.h"
 #include "dynamic_memory_management.h"
 
@@ -32,7 +32,7 @@ int Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd(int * test
 	{
 		LOCAL_SCOPE_START;
 		// Cause throwing from within a func:
-		CALL(ThrowingIfEQ, s, 3, 3);
+		FUN(ThrowingIfEQ, &s), 3, 3);
 		(*tester)++;
 		LOCAL_SCOPE_END;
 	}
@@ -58,7 +58,7 @@ int CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing()
 		{
 			CREATE_OBJECT(ScopeTester,s),feedback + 0);
 			// cause throwing from within a function:
-			CALL(ThrowingIfEQ,s, 3, 3);
+			FUN(ThrowingIfEQ, &s), 3, 3);
 		}CATCH{
 			isCaught = true;
 		}END_TRY;
