@@ -2,75 +2,65 @@
 #include "ScopeTester.h"
 #include "dynamic_memory_management.h"
 
-int Exception_WhenThrown_ThenGoesStraightToScopeEnd(int * tester)
+IMPL_FUN(Exception_WhenThrown_ThenGoesStraightToScopeEnd, int * tester)
 {
 	*tester = 0;
-	SCOPE_START;
 
 	if (1)
 	{
-		LOCAL_SCOPE_START;
+		SCOPE_START;
 		THROW;
 		(*tester)++;
-		LOCAL_SCOPE_END;
+		SCOPE_END;
 	}
 	(*tester)++;
-
-	SCOPE_END;
 }
+END_FUN
 
-int Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd(int * tester)
+IMPL_FUN(Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd, int * tester)
 {
 	(*tester) = 0;
 	char feedback[3] = { 0, 0, 0 };
-	ScopeTester s;
-
-	SCOPE_START;
 
 	CREATE_OBJECT(ScopeTester, s), feedback + 0);
 	if (1)
 	{
-		LOCAL_SCOPE_START;
+		SCOPE_START;
 		// Cause throwing from within a func:
-		FUN(ThrowingIfEQ, &s), 3, 3);
+		FUN(ThrowingIfEQ, &s), 3, 3 CALL
 		(*tester)++;
-		LOCAL_SCOPE_END;
+		SCOPE_END;
 	}
 	(*tester)++;
-
-	SCOPE_END;
 }
+END_FUN
 
-int CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing()
+IMPL_FUN(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing)
 {
 	//Arrange
 	bool isCaught = false;
 	bool isContinuedExecution = false;
 
-	SCOPE_START;
-	
 	char feedback[3] = { 0, 0, 0 };
-	ScopeTester s;
 	{
-		LOCAL_SCOPE_START;
+		SCOPE_START;
 		
 		TRY
 		{
 			CREATE_OBJECT(ScopeTester,s),feedback + 0);
 			// cause throwing from within a function:
-			FUN(ThrowingIfEQ, &s), 3, 3);
+			FUN(ThrowingIfEQ, &s), 3, 3 CALL
 		}CATCH{
 			isCaught = true;
 		}END_TRY;
 
 		isContinuedExecution = true;
 
-		LOCAL_SCOPE_END;
+		SCOPE_END;
 	}
 	
 	ASSERT(isCaught);
 	ASSERT(isContinuedExecution);
-
-	SCOPE_END;
-
 }
+END_FUN
+

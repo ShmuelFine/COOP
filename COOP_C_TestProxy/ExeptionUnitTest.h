@@ -7,11 +7,9 @@
 extern "C"{
 #endif
 
-COOP_API int Exception_WhenThrown_ThenGoesStraightToScopeEnd();
-
-COOP_API int Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd();
-
-COOP_API int CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing();
+COOP_API DECL_FUN(Exception_WhenThrown_ThenGoesStraightToScopeEnd, int* tester);
+COOP_API DECL_FUN(Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd, int* tester);
+COOP_API DECL_FUN(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing);
 
 #ifdef __cplusplus
 }

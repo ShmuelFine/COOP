@@ -30,13 +30,16 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 
 // Macro that begins derived class func definition section
 #define DERIVED_FUNCTIONS(class_name, base, ...)			\
-FUNCTIONS(class_name, __VA_ARGS__)						\
-base ##VirtualTable _base;							
+	void __ctor__ ##class_name(class_name * _this, __VA_ARGS__);	\
+	void __dtor__ ##class_name(class_name * _this);					\
+	typedef struct class_name ##VirtualTable_t{				\
+	base ##VirtualTable _base;								\
+	void (*_ctor)(class_name * _this, __VA_ARGS__);			\
+	void (*_dtor)(class_name * _this); 
 
 // Macro that defines an overriding version of a virtual function:
 #define OVERIDE_FUNCTION_PTR(base_class, function_name, ...)	\
-struct base_class ##_ ##function_name ##_t_ __ ##function_name;	\
-struct base_class ##_ ##function_name ##_t_  * function_name
+struct base_class ##_ ##function_name ##_t_ function_name
 
 // The derived class' function section ends with:
 #define END_DERIVED_FUNCTIONS(type) END_FUNCTIONS(type)
@@ -73,9 +76,16 @@ void __ctor__ ##class_name(class_name * _this, __VA_ARGS__)  \
 // Implement derived dtor here in between
 #define END_DERIVED_DTOR }
 
-#define OVERRIDE_FUNCTION_IMPL(type, function_name, ...)\
-		int inner_function_ ##type ##_ ##function_name(type * _this, __VA_ARGS__)\
-		{ SCOPE_START;
+/*int (*type ##_ ##function_name ##_outer_function(type * _this))(void* _this, __VA_ARGS__)\
+{																		\
+	struct base ##_ ##function_name ##_t_ * toRun = &_this->vTable->function_name;			\
+	while(toRun->next) { toRun = toRun->next; }							\
+	return toRun->inner_function;										\
+}																		\
+																		\
+*/
+#define OVERRIDE_FUNCTION_IMPL(type, base, function_name, ...)\
+IMPL_FUN(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
 
 
 
@@ -85,19 +95,21 @@ void __ctor__ ##class_name(class_name * _this, __VA_ARGS__)  \
 #define INIT_DERIVED_CLASS(type,base)					\
 bool is_ ##type ##VirtualTable__initialized = false;	\
 type ##VirtualTable type ##VTable;						\
-	void type ##_init()		{							\
+void type ##_init()		{							\
 	if(!(is_ ##base ##VirtualTable__initialized))		\
 		base ##_init();									\
 	ATTACH_TORs_ToClass(type);							\
 	type ##VTable._base = base ##VTable
 
 // Than, for each implemented, overriding func. : 
-#define BIND_OVERIDE(type,base,function_name) \
-	type ##VTable.function_name->next = NULL;\
-	type ##VTable.function_name->outer_function = NULL; /*outer function called only on the base. otherwise let's crash.*/\
-	base ##VTable.__ ##function_name.next = &(type ##VTable.__ ##function_name);\
-	type ##VTable.function_name = base ##VTable.function_name															
+#define BIND_OVERIDE(type,base,function) \
+	type ##VTable.function.next = NULL;\
+	type ##VTable.function.inner_function = inner_function_ ##type ##_ ##function;\
+	type ##VTable._base.function.next = &(type ##VTable.##function);\
+	type ##VTable.function.outer_function = type ##VTable._base.function.outer_function;
 
+//type ##VTable.__ ##function.outer_function = NULL; /*outer function called only on the base. otherwise let's crash.*/\
+//
 // Or, if it's not overriding anything it's just BIND or BIND...
 // And finally, we put END_INIT_CLASS as ususal.
 

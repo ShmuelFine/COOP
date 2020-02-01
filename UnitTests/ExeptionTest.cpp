@@ -4,22 +4,23 @@
 #include <iostream>
 #include <fstream>
 
-TEST(Exceptions, Exception_WhenThrown_ThenGoesStraightToScopeEnd)					{ ASSERT_TRUE(Exception_WhenThrown_ThenGoesStraightToScopeEnd)					; }
-TEST(Exceptions, Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd)	{ ASSERT_TRUE(Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd); }	
-TEST(Exceptions, CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing)				{ ASSERT_TRUE(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing)				; }
-
-//
-//TEST(EXEPTIONS, WhenexeptionIsThrown_ThenGoesStriehtToScopeEnd)
-//{
-//	ASSERT_TRUE(WhenexeptionIsThrown_ThenGoesStriehtToScopeEnd());
-//}
-//
-//TEST(EXEPTIONS, WhenexeptionIsThrownWithInAFunctionCall_ThenGoesStriehtToScopeEnd)
-//{
-//	ASSERT_TRUE(WhenexeptionIsThrownWithInAFunctionCall_ThenGoesStriehtToScopeEnd());
-//}
-//
-//TEST(EXEPTIONS, WhenCatchingExeption_DoesntContinueThrowing)
-//{
-//	ASSERT_TRUE(WhenCatchingExeption_DoesntContinueThrowing);
-//}
+// Comparing to ERROR_VALUE is equivalent to ASSER_THROW of a kind.
+TEST(Exceptions, Exception_WhenThrown_ThenGoesStraightToScopeEnd)					
+{
+    int tester;
+    auto ret = Exception_WhenThrown_ThenGoesStraightToScopeEnd(&tester);
+    ASSERT_EQ(IN_THROWING_VALUE, ret);
+    ASSERT_EQ(0, tester);
+}
+TEST(Exceptions, Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd)	
+{
+    int tester;
+    auto ret = Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd(&tester);
+    ASSERT_EQ(IN_THROWING_VALUE, ret);
+    ASSERT_EQ(0, tester);
+}
+TEST(Exceptions, CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing)				
+{
+    auto ret = CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing();
+    ASSERT_EQ(SUCCESS_VALUE, ret);
+}

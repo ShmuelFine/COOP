@@ -2,6 +2,7 @@
 #define __COOP_CLASS_DEF_MACROS__
 
 #include "virtual_func_calling.h"
+#include "obj_lifecycle_management.h"
 #include <stdbool.h>
 #include "ExportDefs.h"
 
@@ -35,7 +36,7 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 		int (* inner_function)(void* _this, __VA_ARGS__);	\
 		int (*(* outer_function)(void* _this))(void* _this, __VA_ARGS__);	\
 		struct type ##_ ##function_name ##_t_ * next;					\
-	}__ ##function_name,	*function_name
+	}function_name
 
 
 // Macro that ends class function definitions section:
@@ -58,21 +59,22 @@ COOP_API extern class_name ##VirtualTalbe class_name ##VTable
 #define DEF_DTOR(class_name) void __dtor__ ##class_name(class_name * _this) {
 #define END_DTOR }
 
+
 // Macros that define implementation of previously declared function:
 #define FUNCTION_IMPL(type, function_name, ...)									\
-		int (*type ##_ ##function_name ##_outer_function(void* _this))(void* _this, __VA_ARGS__)\
-		{																		\
-			struct type ##_ ##function_name ##_t_ * toRun = (struct type ##_ ##function_name ##_t_ *) _this;					\
-			while(toRun->next) { toRun = toRun->next; }							\
-			return toRun->inner_function;										\
-		}																		\
-																				\
-		int inner_function_ ##type ##_ ##function_name(type * _this, __VA_ARGS__)\
-		{ SCOPE_START;
+int (*type ##_ ##function_name ##_outer_function(type * _this))(void* _this, __VA_ARGS__)\
+{																		\
+	struct type ##_ ##function_name ##_t_ * toRun = &_this->vTable->function_name;			\
+	while(toRun->next) { toRun = toRun->next; }							\
+	return toRun->inner_function;										\
+}																		\
+																		\
+IMPL_FUN(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
+		
 
 
 
-#define END_FUNCTION_IMPL SCOPE_END; }
+#define END_FUNCTION_IMPL END_FUN
 
 // Macro for inner use in INIT_CLASS:
 #define ATTACH_TORs_ToClass(class_name)       \
@@ -89,12 +91,9 @@ type ##VirtualTable type ##VTable;					\
 
 
 #define BIND(type, function_name)\
-	type ##VTable.__ ##function_name.outer_function =						\
-					type ##_ ##function_name ##_outer_function;				\
-	type ##VTable.__ ##function_name.inner_function =						\
-					inner_function_ ##type ##_ ##function_name;				\
-	type ##VTable.function_name = &type ##VTable.__ ##function_name;		\
-	type ##VTable.function_name->next = NULL
+	type ##VTable.function_name.outer_function = type ##_ ##function_name ##_outer_function;				\
+	type ##VTable.function_name.inner_function = inner_function_ ##type ##_ ##function_name;				\
+	type ##VTable.function_name.next = NULL
 
 // Finally, it ends with:
 #define END_INIT_CLASS } 

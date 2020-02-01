@@ -37,10 +37,10 @@
     <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <ItemGroup>
-    <ClInclude Include="LibLoadUtils.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Class_UnitTest.cpp" />
     <ClCompile Include="ExeptionTest.cpp" />
     <ClCompile Include="InheritTest.cpp" />
     <ClCompile Include="InMemoryCacheTest.cpp" />

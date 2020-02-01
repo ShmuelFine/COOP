@@ -17,27 +17,12 @@ typedef enum CACHE_TYPES_t { IN_MEMORY_CACHE_ = 0, HEAP_CACHE_ = 1, NUM_CACHE_TY
 COOP_API bool CreateGlobalCache(int size, CACHE_TYPES type);
 COOP_API void DestroyGlobalCache();
 
-
-
-//#ifdef __cplusplus
-//#define NEW(obj,typeToAlloc,size)\
-//	{ \
-//		void * returned; \
-//		CALL(AddNewBlock,(sizeof(typeToAlloc)*size),&returned);\
-//		obj = (typeToAlloc*)returned;\
-//	}
-//#else
 #define NEW(dest,whatToPutThere)\
 	{\
-		FUN(AddNewBlock,TheGlobalCache),(sizeof(whatToPutThere)),(void*)&dest);\
+		FUN(AddNewBlock,TheGlobalCache),(sizeof(whatToPutThere)),(void*)&dest CALL\
 	}
-//#endif
 
-//#ifdef __cplusplus
-//	#define DELETE_OBJ(buff) CALL(RemoveBlock, buff); buff = NULL
-//#else
-	#define DELETE_OBJ(buff) FUN(RemoveBlock, TheGlobalCache), buff); buff = NULL
-//#endif
+	#define DELETE_OBJ(buff) FUN(RemoveBlock, TheGlobalCache), buff CALL buff = NULL
 
 #ifdef __cplusplus
 }

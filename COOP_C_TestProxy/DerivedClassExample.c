@@ -1,6 +1,6 @@
 #include "DerivedClassExample.h"
 
-DEF_DERIVED_CTOR(DerivedClassExample, BaseClassExample, int hight, int width, int depth) SUPER, hight, depth ME
+DEF_DERIVED_CTOR(DerivedClassExample, BaseClassExample, int hight, int width, int depth) SUPER, hight, width ME
 {
 	_this->depth = depth;
 }
@@ -12,12 +12,13 @@ DEF_DERIVED_DTOR(DerivedClassExample, BaseClassExample)
 }
 END_DERIVED_DTOR
 
-OVERRIDE_FUNCTION_IMPL(DerivedClassExample, GetVolume, int* retVal)
+OVERRIDE_FUNCTION_IMPL(DerivedClassExample, BaseClassExample, GetVolume, int* retVal)
 {
 	SCOPE_START;
 	int retVal = 0;
-	FUN(GetVolume, _this), &retVal);
-	//_BASE(BaseClassExample, GetVolume, retVal);
+	
+	FUN_BASE(GetVolume, _this), &retVal CALL
+	//_BASE(BaseClassExample, GetVolume), &retVal CALL
 	retVal *= _this->depth;
 
 	SCOPE_END ;
