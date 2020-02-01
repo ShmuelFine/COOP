@@ -4,6 +4,7 @@
 #include "virtual_func_calling.h"
 #include "obj_lifecycle_management.h"
 #include <stdbool.h>
+#include <string.h>
 #include "ExportDefs.h"
 
 ///////////// The H file structure : //////////////////////////////////
@@ -40,12 +41,9 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 
 
 // Macro that ends class function definitions section:
-#define END_FUNCTIONS(class_name) }class_name ##VirtualTalbe;   \
-COOP_API extern class_name ##VirtualTalbe class_name ##VTable
-
-
-// The final line in each class definition, 
-#define DEF_INIT_CLASS(type)    COOP_API void type ##_init()
+#define END_FUNCTIONS(class_name) } class_name ##VirtualTalbe;   \
+COOP_API extern class_name ##VirtualTalbe class_name ##VTable;\
+COOP_API void class_name ##_init()
 
 ///////////// The C file structure : //////////////////////////////////
 
@@ -86,7 +84,7 @@ bool is_ ##type ##VirtualTable__initialized = false;\
 type ##VirtualTable type ##VTable;					\
 	void type ##_init(){							\
 	/*For safety, set all ptrs to NULL instead of garbage: */\
-	memset(type ##VTable, sizeof(type ##VTable), 0); \
+	memset(& type ##VTable, sizeof(type ##VTable), 0); \
 	ATTACH_TORs_ToClass(type)
 
 

@@ -16,7 +16,6 @@ extern "C" {
 	FUNCTION_PTR(BaseClassExample, GetVolume, int* retVal);
 	END_FUNCTIONS(BaseClassExample);
 
-	DEF_INIT_CLASS(BaseClassExample);
 
 #ifdef __cplusplus
 }

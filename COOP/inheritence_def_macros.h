@@ -44,10 +44,6 @@ struct base_class ##_ ##function_name ##_t_ function_name
 // The derived class' function section ends with:
 #define END_DERIVED_FUNCTIONS(type) END_FUNCTIONS(type)
 
-// ... 
-// And finally, the last line in the H is DEF_INIT_CLASS(type)
-//
-
 ///////////////////////  The C File Structure ////////////////////////
 
 // (See next macro comment)
