@@ -1,7 +1,7 @@
 #include "ScopesUnitTest.h"
 #include "Cache.h"
 #include "dynamic_memory_management.h"
-#include "object.h"
+#include "COOP.h"
 #include "ScopeTester.h"
 
 /////////////////////////////////////////////

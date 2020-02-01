@@ -38,6 +38,6 @@ void FreeMostInnerScope(object* _scope_obj_list_ptr)
 }
 
 
-jmp_buf SCOPE_FALLBACK_ADDR[10] = { 0 };
-int _CurrScope_Idx = 0;
+const char* LAST_EXCEPTION_ERROR_MSG;
+
 

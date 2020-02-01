@@ -4,7 +4,6 @@
     <ClCompile Include="ExeptionTest.cpp" />
     <ClCompile Include="InheritTest.cpp" />
     <ClCompile Include="InMemoryCacheTest.cpp" />
-    <ClCompile Include="Object_UnitTest.cpp" />
     <ClCompile Include="Scopes_UnitTest.cpp" />
     <ClCompile Include="pch.cpp">
       <Filter>misc</Filter>

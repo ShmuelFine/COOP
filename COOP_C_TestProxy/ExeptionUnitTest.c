@@ -1,6 +1,7 @@
 #include "ExeptionUnitTest.h"
 #include "ScopeTester.h"
 #include "dynamic_memory_management.h"
+#include <string.h>
 
 IMPL_FUN(Exception_WhenThrown_ThenGoesStraightToScopeEnd, int * tester)
 {
@@ -64,3 +65,17 @@ IMPL_FUN(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing)
 }
 END_FUN
 
+
+IMPL_FUN(Exception_WhenUsingTHROW_MSG_ThenTheMessageIsSaved, const char* whatToThrow, char* outThrowingMsg)
+{
+
+	TRY
+	{
+		THROW_MSG(whatToThrow);
+		
+	}CATCH{
+		memcpy(outThrowingMsg, LAST_EXCEPTION_ERROR_MSG, strlen(LAST_EXCEPTION_ERROR_MSG) + 1);
+	}END_TRY;
+
+}
+END_FUN
