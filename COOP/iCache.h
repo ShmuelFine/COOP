@@ -19,6 +19,4 @@ FUNCTION_PTR(iCache, RemoveBlock, void* toDelete);
 FUNCTION_PTR(iCache, GetAmountAllocatedMemory);
 END_FUNCTIONS(iCache);
 
-DEF_INIT_CLASS(iCache);
-
 #endif
