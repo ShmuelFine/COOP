@@ -3,11 +3,11 @@
 
 #include "COOP.h"
 
-DEF_CLASS(ScopeTester)
+DEF_CLASS(ScopeTester);
 char* buff;
 END_DEF(ScopeTester);
 
-FUNCTIONS(ScopeTester, char * pointedVal)
+FUNCTIONS(ScopeTester, char* pointedVal);
 // This function throws if a == b:
 FUNCTION_PTR(ScopeTester, ThrowingIfEQ, int a, int b);
 END_FUNCTIONS(ScopeTester);
