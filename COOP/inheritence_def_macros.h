@@ -44,7 +44,6 @@ struct base_class ##_ ##function_name ##_t_ function_name
 // The derived class' function section ends with:
 #define END_DERIVED_FUNCTIONS(type) END_FUNCTIONS(type)
 
-// Here we have FUNCTION_H per each func. we would like to implement.
 // ... 
 // And finally, the last line in the H is DEF_INIT_CLASS(type)
 //

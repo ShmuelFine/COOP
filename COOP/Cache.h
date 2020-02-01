@@ -30,9 +30,6 @@ extern "C" {
 	OVERIDE_FUNCTION_PTR(iCache, RemoveBlock, void* toDelete);
 	END_DERIVED_FUNCTIONS(InMemoryCache);
 
-	FUNCTION_H(InMemoryCache, AddNewBlock, int block_size, void** returned);
-	FUNCTION_H(InMemoryCache, RemoveBlock, void* toDelete);
-
 	DEF_INIT_CLASS(InMemoryCache);
 
 	// Aux. functions that are not member functions:
