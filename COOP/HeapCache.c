@@ -9,13 +9,13 @@ DEF_DERIVED_DTOR(HeapCache, iCache)
 END_DERIVED_DTOR
 
 
-OVERRIDE_FUNCTION_IMPL(HeapCache, AddNewBlock, int block_size, void** returned)
+OVERRIDE_FUNCTION_IMPL(HeapCache, iCache, AddNewBlock, int block_size, void** returned)
 {
 	*returned = (char*)malloc(sizeof(char) * block_size);
 }
 END_FUNCTION_IMPL
 
-OVERRIDE_FUNCTION_IMPL(HeapCache, RemoveBlock, void* toDelete)
+OVERRIDE_FUNCTION_IMPL(HeapCache, iCache, RemoveBlock, void* toDelete)
 {
 	free(toDelete);
 }

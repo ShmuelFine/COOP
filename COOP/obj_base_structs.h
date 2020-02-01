@@ -8,14 +8,6 @@ typedef struct virtualTable_t {
 	void (*_dtor)(object* _this, ...);
 } virtualTable;
 
-// The classes list struct
-typedef struct vTabsElements_t {
-
-	// a pointer to the virtual table of the class
-	virtualTable* _vTab;
-
-	struct vTabsElements_t* _next;
-}vTabsElement;
 
 // Generic type of class instances
 typedef struct object_t {

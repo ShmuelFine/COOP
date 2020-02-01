@@ -22,61 +22,72 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 
 
 // The obj lifecycle built upon scopes, that has to account with exception handling:
-COOP_API extern jmp_buf SCOPE_FALLBACK_ADDR[10];
-COOP_API extern int _CurrScope_Idx;
 
+#define SUCCESS_VALUE 0
 #define ERROR_VALUE -1
+#define IN_THROWING_VALUE -10
+#define IS_IN_THROWING (__RET_VAL__ == IN_THROWING_VALUE)
 
-#define TRY if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx])) {
+#define TRY int IS_BREAKING = false;\
+for (int i_ ##__LINE__= 0; i_ ##__LINE__ < 1; i_ ##__LINE__++) {
+
+#define BREAK IS_BREAKING = true; break;
 
 #define CATCH \
-} else { 
+}\
+if (IS_BREAKING) break; \
+else if (IS_IN_THROWING) { __RET_VAL__ = SUCCESS_VALUE;
 
-#define END_TRY }
+#define END_TRY } 
 
 #define THROW \
-__RET_VAL__ = ERROR_VALUE;\
-longjmp(SCOPE_FALLBACK_ADDR[--_CurrScope_Idx],1)
+__RET_VAL__ = IN_THROWING_VALUE; break;
 
 #define SCOPE_START \
-object _scope_obj_list; \
-int __RET_VAL__ = 0;\
-if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))\
-{  \
+object _scope_obj_list;\
+TRY \
 	_scope_obj_list.vTable=NULL; \
 	_scope_obj_list._next=NULL		
 
 #define SCOPE_END\
 	FreeMostInnerScope(&_scope_obj_list); \
-	_CurrScope_Idx--;\
-}else{\
-	FreeMostInnerScope(&_scope_obj_list);\
-	if(_CurrScope_Idx > 0)\
-		_CurrScope_Idx--;\
-}\
-return __RET_VAL__; 
+END_TRY \
+if (IN_THROWING_VALUE == __RET_VAL__) break;
 
-#define RETURN(i) __RET_VAL__ = i; longjmp(SCOPE_FALLBACK_ADDR[--_CurrScope_Idx],1)
-#define ASSERT(x) if (!(x)) THROW
+#define IMPL_FUN(function_name, ...)\
+int function_name(__VA_ARGS__)\
+{ \
+int __RET_VAL__ = SUCCESS_VALUE;\
+SCOPE_START;
 
-#define LOCAL_SCOPE_START \
-if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))\
-{\
-	object LocalScopeStartMarker; \
-	LocalScopeStartMarker.vTable=NULL;\
-	LocalScopeStartMarker._next=NULL; \
-	_scope_obj_list_add(&_scope_obj_list,&LocalScopeStartMarker)
+#define END_FUN \
+FreeMostInnerScope(&_scope_obj_list); \
+END_TRY \
+return __RET_VAL__; }
 
+#define DECL_FUN(function_name, ...) int function_name(__VA_ARGS__)
 
-#define LOCAL_SCOPE_END \
-	FreeMostInnerScope(&_scope_obj_list);\
-	_CurrScope_Idx--; \
-}\
-else {\
-	FreeMostInnerScope(&_scope_obj_list);\
-	_CurrScope_Idx--; \
-	longjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx], 1);\
-}
+#define RETURN(i) __RET_VAL__ = i; break;
+#define ASSERT(x) if (!(x)) {THROW;}
+//
+//#define SCOPE_START \
+//if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))\
+//{\
+//	object LocalScopeStartMarker; \
+//	LocalScopeStartMarker.vTable=NULL;\
+//	LocalScopeStartMarker._next=NULL; \
+//	_scope_obj_list_add(curr_obj_list,&LocalScopeStartMarker)
+//
+//
+//#define SCOPE_END \
+//	FreeMostInnerScope(&_scope_obj_list);\
+//	_CurrScope_Idx--; \
+//}\
+//else {\
+//	FreeMostInnerScope(&_scope_obj_list);\
+//	_CurrScope_Idx--; \
+//	longjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx], 1);\
+//}
 
 #endif
 

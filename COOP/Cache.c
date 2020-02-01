@@ -19,29 +19,27 @@ DEF_DERIVED_DTOR(InMemoryCache,iCache)
 }
 END_DERIVED_DTOR
 
-OVERRIDE_FUNCTION_IMPL(InMemoryCache,AddNewBlock,int block_size,void ** returned)
+OVERRIDE_FUNCTION_IMPL(InMemoryCache, iCache, AddNewBlock,int block_size,void ** returned)
+{
+	*returned = NULL;
+	Block* lowerBound = Cache_FindAvailableInterval(_this, block_size);
+	if (lowerBound)
+	{
+		char* block_buff_pos = lowerBound->buff + lowerBound->size;
+
+		Block* newBlock = Cache_allocateBlock(_this, block_size, block_buff_pos);
+		if (newBlock)
 		{
-	SCOPE_START;
-			*returned = NULL;
-			Block* lowerBound = Cache_FindAvailableInterval(_this, block_size);
-			if (lowerBound)
-			{
-				char* block_buff_pos = lowerBound->buff + lowerBound->size;
+			newBlock->next = lowerBound->next;
+			lowerBound->next = newBlock;
 
-				Block* newBlock = Cache_allocateBlock(_this, block_size, block_buff_pos);
-				if (newBlock)
-				{
-					newBlock->next = lowerBound->next;
-					lowerBound->next = newBlock;
-
-					*returned = newBlock->buff;
-				}
-			}
-			SCOPE_END;
+			*returned = newBlock->buff;
 		}
+	}
+}
 END_FUNCTION_IMPL
 
-OVERRIDE_FUNCTION_IMPL(InMemoryCache, RemoveBlock,void * toDelete)
+OVERRIDE_FUNCTION_IMPL(InMemoryCache, iCache, RemoveBlock,void * toDelete)
 {
 	SCOPE_START;
 	Block *block = Cache_FindBlockByBuffAddress(_this, toDelete);

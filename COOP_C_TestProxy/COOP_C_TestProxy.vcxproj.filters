@@ -13,17 +13,17 @@
     <ClCompile Include="ExeptionUnitTest.c">
       <Filter>Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="InheritTest.c">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="BaseClassExample.c">
-      <Filter>Classes</Filter>
+      <Filter>Class Examples</Filter>
     </ClCompile>
     <ClCompile Include="DerivedClassExample.c">
-      <Filter>Classes</Filter>
+      <Filter>Class Examples</Filter>
+    </ClCompile>
+    <ClCompile Include="InheritTest.c">
+      <Filter>Class Tests</Filter>
     </ClCompile>
     <ClCompile Include="ClassUnitTest.c">
-      <Filter>Classes</Filter>
+      <Filter>Class Tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -40,17 +40,17 @@
     <ClInclude Include="ExeptionUnitTest.h">
       <Filter>Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="InheritTest.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="BaseClassExample.h">
-      <Filter>Classes</Filter>
+      <Filter>Class Examples</Filter>
     </ClInclude>
     <ClInclude Include="DerivedClassExample.h">
-      <Filter>Classes</Filter>
+      <Filter>Class Examples</Filter>
+    </ClInclude>
+    <ClInclude Include="InheritTest.h">
+      <Filter>Class Tests</Filter>
     </ClInclude>
     <ClInclude Include="ClassUnitTest.h">
-      <Filter>Classes</Filter>
+      <Filter>Class Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -63,8 +63,11 @@
     <Filter Include="Exceptions">
       <UniqueIdentifier>{a98ff276-ed7d-4c7c-867c-e5c3d5f46a2c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes">
+    <Filter Include="Class Examples">
       <UniqueIdentifier>{adc3e584-32e8-4a07-a256-a7b14324aade}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class Tests">
+      <UniqueIdentifier>{a7a3ad00-8e14-4a2f-bacb-30ecb42a8171}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
