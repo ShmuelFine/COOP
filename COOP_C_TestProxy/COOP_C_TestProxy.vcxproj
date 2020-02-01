@@ -25,6 +25,7 @@
     <ClCompile Include="ExeptionUnitTest.c" />
     <ClCompile Include="InheritTest.c" />
     <ClCompile Include="MemManagementUnitTest.c" />
+    <ClCompile Include="Rectangle.c" />
     <ClCompile Include="ScopesUnitTest.c" />
     <ClCompile Include="ScopeTester.c" />
   </ItemGroup>
@@ -36,6 +37,7 @@
     <ClInclude Include="InheritTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />
     <ClInclude Include="ProxyExportDefs.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />
   </ItemGroup>

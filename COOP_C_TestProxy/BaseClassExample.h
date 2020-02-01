@@ -7,12 +7,12 @@ extern "C" {
 
 #include "coop.h"
 
-	DEF_CLASS(BaseClassExample)
+	DEF_CLASS(BaseClassExample);
 	int hight;
 	int width;
 	END_DEF(BaseClassExample);
 
-	FUNCTIONS(BaseClassExample, int hight, int width)
+	FUNCTIONS(BaseClassExample, int hight, int width);
 	FUNCTION_PTR(BaseClassExample, GetVolume, int* retVal);
 	END_FUNCTIONS(BaseClassExample);
 

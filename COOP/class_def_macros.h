@@ -13,7 +13,7 @@
 typedef struct class_name ##VirtualTable_t class_name ##VirtualTable;            \
 typedef struct class_name ##_t{                                            \
 	object *_next;                                                   \
-	class_name ##VirtualTable* vTable;
+	class_name ##VirtualTable* vTable
 
 // Define your members here, between DEF_CLASS and END_DEF
 
@@ -28,7 +28,7 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 	void __dtor__ ##class_name(class_name * _this);					\
 	typedef struct class_name ##VirtualTable_t{				\
 	void (*_ctor)(class_name * _this, __VA_ARGS__);			\
-	void (*_dtor)(class_name * _this); 
+	void (*_dtor)(class_name * _this) 
 
 // Define your members here, between FUNCTIONS and END_FUNCTIONS,
 // using FUNCTION_PTR.

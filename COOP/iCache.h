@@ -9,11 +9,11 @@ typedef struct block_s {
 	struct block_s* next;
 }Block;
 
-DEF_CLASS(iCache)
+DEF_CLASS(iCache);
 
 END_DEF(iCache);
 
-FUNCTIONS(iCache)
+FUNCTIONS(iCache);
 FUNCTION_PTR(iCache, AddNewBlock, int block_size, void ** returned);
 FUNCTION_PTR(iCache, RemoveBlock, void* toDelete);
 FUNCTION_PTR(iCache, GetAmountAllocatedMemory);
