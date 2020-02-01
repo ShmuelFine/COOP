@@ -1,7 +1,7 @@
 #include "MemManagementUnitTest.h"
 #include "Cache.h"
 #include "dynamic_memory_management.h"
-#include "object.h"
+#include "COOP.h"
 #include "ScopeTester.h"
 #include "BaseClassExample.h"
 #define AS(T, x) ((T)x)
@@ -9,7 +9,6 @@
 IMPL_FUN(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)
 {
 	//Arrange
-	SCOPE_START;
 
 	CreateGlobalCache(sizeof(int) * 20, IN_MEMORY_CACHE_);
 
@@ -36,7 +35,6 @@ IMPL_FUN(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)
 
 	ASSERT(canAllocMore == false);
 
-	SCOPE_END;
 }END_FUN
 
 IMPL_FUN(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy)

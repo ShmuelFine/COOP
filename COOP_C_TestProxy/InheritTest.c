@@ -1,4 +1,4 @@
-#include "object.h"
+#include "coop.h"
 #include "InheritTest.h"
 #include "DerivedClassExample.h"
 

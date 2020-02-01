@@ -43,6 +43,10 @@ else if (IS_IN_THROWING) { __RET_VAL__ = SUCCESS_VALUE;
 #define THROW \
 __RET_VAL__ = IN_THROWING_VALUE; break;
 
+COOP_API extern const char* LAST_EXCEPTION_ERROR_MSG;
+
+#define THROW_MSG(msg) LAST_EXCEPTION_ERROR_MSG = msg; THROW
+
 #define SCOPE_START \
 object _scope_obj_list;\
 TRY \
@@ -69,25 +73,6 @@ return __RET_VAL__; }
 
 #define RETURN(i) __RET_VAL__ = i; break;
 #define ASSERT(x) if (!(x)) {THROW;}
-//
-//#define SCOPE_START \
-//if(!setjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx++]))\
-//{\
-//	object LocalScopeStartMarker; \
-//	LocalScopeStartMarker.vTable=NULL;\
-//	LocalScopeStartMarker._next=NULL; \
-//	_scope_obj_list_add(curr_obj_list,&LocalScopeStartMarker)
-//
-//
-//#define SCOPE_END \
-//	FreeMostInnerScope(&_scope_obj_list);\
-//	_CurrScope_Idx--; \
-//}\
-//else {\
-//	FreeMostInnerScope(&_scope_obj_list);\
-//	_CurrScope_Idx--; \
-//	longjmp(SCOPE_FALLBACK_ADDR[_CurrScope_Idx], 1);\
-//}
 
 #endif
 

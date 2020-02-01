@@ -41,10 +41,8 @@ END_FUNCTION_IMPL
 
 OVERRIDE_FUNCTION_IMPL(InMemoryCache, iCache, RemoveBlock,void * toDelete)
 {
-	SCOPE_START;
 	Block *block = Cache_FindBlockByBuffAddress(_this, toDelete);
 	Cache_DeleteBlock(_this, block);
-	SCOPE_END;
 }
 END_FUNCTION_IMPL
 
