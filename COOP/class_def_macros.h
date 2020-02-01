@@ -43,8 +43,6 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 #define END_FUNCTIONS(class_name) }class_name ##VirtualTalbe;   \
 COOP_API extern class_name ##VirtualTalbe class_name ##VTable
 
-// (Re-) Declaration of function that's implemented in current class, done after the function declarations part ends.
-#define FUNCTION_H(type,functionName, ...) int type ##_ ##functionName(type  *  _this, __VA_ARGS__)
 
 // The final line in each class definition, 
 #define DEF_INIT_CLASS(type)    COOP_API void type ##_init()
@@ -87,6 +85,8 @@ class_name ##VTable._dtor = __dtor__ ##class_name;
 bool is_ ##type ##VirtualTable__initialized = false;\
 type ##VirtualTable type ##VTable;					\
 	void type ##_init(){							\
+	/*For safety, set all ptrs to NULL instead of garbage: */\
+	memset(type ##VTable, sizeof(type ##VTable), 0); \
 	ATTACH_TORs_ToClass(type)
 
 

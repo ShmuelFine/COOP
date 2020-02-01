@@ -20,8 +20,6 @@ extern "C" {
 
 	END_DERIVED_FUNCTIONS(DerivedClassExample);
 
-	FUNCTION_H(DerivedClassExample, GetVolume, int* retVal);
-
 	DEF_INIT_CLASS(DerivedClassExample);
 
 #ifdef __cplusplus

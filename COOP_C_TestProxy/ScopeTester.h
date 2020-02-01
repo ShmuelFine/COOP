@@ -12,8 +12,6 @@ FUNCTIONS(ScopeTester, char * pointedVal)
 FUNCTION_PTR(ScopeTester, ThrowingIfEQ, int a, int b);
 END_FUNCTIONS(ScopeTester);
 
-FUNCTION_H(ScopeTester, ThrowingIfEQ, int size,int eq);
-
 DEF_INIT_CLASS(ScopeTester);
 
 
