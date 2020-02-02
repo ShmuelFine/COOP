@@ -148,6 +148,7 @@
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="iCache.h" />
     <ClInclude Include="inheritence_def_macros.h" />
+    <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="obj_base_structs.h" />
     <ClInclude Include="obj_lifecycle_management.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="dynamic_memory_management.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="iCache.c" />
+    <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="obj_lifecycle_management.c" />
     <ClCompile Include="virtual_func_calling.c" />
   </ItemGroup>
