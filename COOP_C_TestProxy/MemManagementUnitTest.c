@@ -10,7 +10,7 @@ FUN_IMPL(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)
 {
 	//Arrange
 
-	CreateGlobalCache(sizeof(int) * 20, IN_MEMORY_CACHE_);
+	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY);
 
 	//Act
 	int * buff = NULL;
@@ -31,8 +31,6 @@ FUN_IMPL(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)
 	}
 	END_TRY;
 
-	DestroyGlobalCache();
-
 	ASSERT(canAllocMore == false);
 
 }END_FUN
@@ -42,7 +40,7 @@ FUN_IMPL(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy)
 	//Arrange
 	SCOPE_START;
 
-	CreateGlobalCache(sizeof(BaseClassExample), IN_MEMORY_CACHE_);
+	CREATE(MemoryManager, memManager), sizeof(BaseClassExample), STACK_BASED_MEMORY);
 
 	//Act
 	BaseClassExample * m = NULL;
@@ -63,8 +61,6 @@ FUN_IMPL(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy)
 	}
 	END_TRY;
 
-	DestroyGlobalCache();
-
 	ASSERT(canAllocMore == false);
 
 	END_SCOPE;
@@ -75,7 +71,7 @@ FUN_IMPL(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)
 	SCOPE_START;
 
 	//Arrange
-	CreateGlobalCache(sizeof(int) * 20, IN_MEMORY_CACHE_);
+	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY);
 
 	//Act
 	int * buff;
@@ -93,7 +89,6 @@ FUN_IMPL(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)
 	}
 	END_TRY;
 
-	DestroyGlobalCache();
 
 	ASSERT(canAllocMore == true);
 

@@ -19,8 +19,8 @@ bool CreateGlobalCache(int size, CACHE_TYPES type)
 {
 	switch (type)
 	{
-	case IN_MEMORY_CACHE_: { CREATE_GLOBAL_CACHE(InMemoryCache, size); } break;
-	case HEAP_CACHE_: {CREATE_GLOBAL_CACHE(HeapCache); } break;
+	case STACK_BASED_MEMORY: { CREATE_GLOBAL_CACHE(InMemoryCache, size); } break;
+	case HEAP_BASED_MEMORY: {CREATE_GLOBAL_CACHE(HeapCache); } break;
 	
 	default: return false;
 	}
@@ -32,3 +32,22 @@ void DestroyGlobalCache()
 {
 	TheGlobalCache->vTable->_dtor(TheGlobalCache);
 }
+
+///////////////
+
+DEF_CTOR(MemoryManager, int size, CACHE_TYPES type)
+{
+	CreateGlobalCache(size, type);
+}
+END_CTOR
+
+DEF_DTOR(MemoryManager)
+{
+	DestroyGlobalCache();
+}
+END_DTOR
+
+
+INIT_CLASS(MemoryManager)
+END_INIT_CLASS
+

@@ -48,6 +48,7 @@
     <ClInclude Include="virtual_func_calling.h">
       <Filter>OOP</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cache.c">
@@ -68,5 +69,6 @@
     <ClCompile Include="virtual_func_calling.c">
       <Filter>OOP</Filter>
     </ClCompile>
+    <ClCompile Include="MemoryManager.cpp" />
   </ItemGroup>
 </Project>
