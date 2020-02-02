@@ -79,3 +79,100 @@ FUN_IMPL(Exception_WhenUsingTHROW_MSG_ThenTheMessageIsSaved, const char* whatToT
 
 }
 END_FUN
+
+
+FUN_IMPL(BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly)
+{
+	SCOPE_START;
+
+	int counter = 0;
+	for (int i = 0; i < 9; i++)
+	{
+		SCOPE_START;
+
+		counter++;
+		for (int j = 0; j < 10; j++)
+		{
+			SCOPE_START;
+			
+			counter += 100;
+
+			if (5 <= (counter % 10))
+				BREAK;
+
+
+			END_SCOPE;
+		}
+
+		END_SCOPE;
+	}
+
+	ASSERT(4509 == counter);
+	END_SCOPE;
+}
+END_FUN
+
+
+FUN_IMPL(BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly)
+{
+	SCOPE_START;
+
+	int counter = 0;
+	for (int i = 0; i < 9; i++)
+	{
+		SCOPE_START;
+
+		counter++;
+		for (int j = 0; j < 10; j++)
+		{
+			SCOPE_START;
+			counter += 100;
+			TRY
+			{
+			if (5 <= (counter % 10))
+				BREAK;
+			} CATCH{
+				counter = 100000;
+			}END_TRY;
+
+			END_SCOPE;
+		}
+
+		END_SCOPE;
+	}
+
+	ASSERT(4509 == counter);
+	END_SCOPE;
+}
+END_FUN
+
+FUN_IMPL(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope)
+{
+	SCOPE_START;
+	char feedback[3] = { 0, 0, 0 };
+
+	for (int i = 0; i < 3; i++)
+	{
+		SCOPE_START;
+
+		for (int j = 0; j < 100; j++)
+		{
+			SCOPE_START;
+
+			CREATE(ScopeTester, s), feedback + i);
+			
+			if (true)
+				BREAK;
+
+			END_SCOPE;
+		}
+		END_SCOPE;
+	}
+
+	ASSERT(feedback[0] == 0);
+	ASSERT(feedback[1] == 0);
+	ASSERT(feedback[2] == 0);
+	END_SCOPE;
+}
+END_FUN
+
