@@ -6,7 +6,7 @@
 #include "BaseClassExample.h"
 #define AS(T, x) ((T)x)
 
-IMPL_FUN(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)
+FUN_IMPL(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)
 {
 	//Arrange
 
@@ -37,7 +37,7 @@ IMPL_FUN(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)
 
 }END_FUN
 
-IMPL_FUN(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy)
+FUN_IMPL(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy)
 {
 	//Arrange
 	SCOPE_START;
@@ -67,10 +67,10 @@ IMPL_FUN(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy)
 
 	ASSERT(canAllocMore == false);
 
-	SCOPE_END;
+	END_SCOPE;
 }END_FUN
 
-IMPL_FUN(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)
+FUN_IMPL(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)
 {
 	SCOPE_START;
 
@@ -97,5 +97,5 @@ IMPL_FUN(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)
 
 	ASSERT(canAllocMore == true);
 
-	SCOPE_END;
+	END_SCOPE;
 }END_FUN

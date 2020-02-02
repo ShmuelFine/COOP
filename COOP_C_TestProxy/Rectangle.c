@@ -13,17 +13,17 @@ DEF_DTOR(Rectangle)
 }
 END_DTOR
 
-FUNCTION_IMPL(Rectangle, GetArea, int* ret_val)
+MEM_FUN_IMPL(Rectangle, GetArea, int* ret_val)
 {
 	*ret_val = _this->hight * _this->width;
 }
-END_FUNCTION_IMPL;
+END_FUN;
 
-FUNCTION_IMPL(Rectangle, GetSideLength, int side_idx, int* ret_val)
+MEM_FUN_IMPL(Rectangle, GetSideLength, int side_idx, int* ret_val)
 {
 	*ret_val = side_idx == 0 ? _this->hight : _this->width;
 }
-END_FUNCTION_IMPL;
+END_FUN;
 
 INIT_CLASS(Rectangle)
 BIND(Rectangle, GetArea);

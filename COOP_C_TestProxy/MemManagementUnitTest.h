@@ -6,9 +6,9 @@
 extern "C" {
 #endif
 
-	COOP_API DECL_FUN(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy);
-	COOP_API DECL_FUN(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy);
-	COOP_API DECL_FUN(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource);
+	COOP_API FUN_DECL(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy);
+	COOP_API FUN_DECL(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy);
+	COOP_API FUN_DECL(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource);
 
 #ifdef __cplusplus
 }

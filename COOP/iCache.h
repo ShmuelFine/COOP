@@ -14,9 +14,9 @@ DEF_CLASS(iCache);
 END_DEF(iCache);
 
 FUNCTIONS(iCache);
-FUNCTION_PTR(iCache, AddNewBlock, int block_size, void ** returned);
-FUNCTION_PTR(iCache, RemoveBlock, void* toDelete);
-FUNCTION_PTR(iCache, GetAmountAllocatedMemory);
+MEM_FUN_DECL(iCache, AddNewBlock, int block_size, void ** returned);
+MEM_FUN_DECL(iCache, RemoveBlock, void* toDelete);
+MEM_FUN_DECL(iCache, GetAmountAllocatedMemory);
 END_FUNCTIONS(iCache);
 
 #endif

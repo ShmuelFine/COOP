@@ -14,8 +14,8 @@ extern "C" {
 	END_DEF(Rectangle);
 
 	FUNCTIONS(Rectangle, /*ctor params:*/ int hight, int width);
-	FUNCTION_PTR(Rectangle, /*func. name:*/ GetSideLength, /*func. params:*/int side_idx, int* ret_val);
-	FUNCTION_PTR(Rectangle, /*func. name:*/ GetArea, /*func. params:*/ int* ret_val);
+	MEM_FUN_DECL(Rectangle, /*func. name:*/ GetSideLength, /*func. params:*/int side_idx, int* ret_val);
+	MEM_FUN_DECL(Rectangle, /*func. name:*/ GetArea, /*func. params:*/ int* ret_val);
 	END_FUNCTIONS(Rectangle);
 
 #ifdef __cplusplus

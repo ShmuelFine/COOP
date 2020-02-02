@@ -13,11 +13,11 @@ DEF_DTOR(BaseClassExample)
 }
 END_DTOR
 
-FUNCTION_IMPL(BaseClassExample, GetVolume, int* retVal)
+MEM_FUN_IMPL(BaseClassExample, GetVolume, int* retVal)
 {
 	*retVal = _this->hight * _this->width;
 }
-END_FUNCTION_IMPL
+END_FUN
 
 INIT_CLASS(BaseClassExample)
 BIND(BaseClassExample, GetVolume);

@@ -9,7 +9,7 @@ END_DEF(ScopeTester);
 
 FUNCTIONS(ScopeTester, char* pointedVal);
 // This function throws if a == b:
-FUNCTION_PTR(ScopeTester, ThrowingIfEQ, int a, int b);
+MEM_FUN_DECL(ScopeTester, ThrowingIfEQ, int a, int b);
 END_FUNCTIONS(ScopeTester);
 
 

@@ -1,14 +1,30 @@
 #include "ClassUnitTest.h"
 #include "BaseClassExample.h"
+#include "Rectangle.h"
 
-IMPL_FUN(Class_CallSimpleFunction_SanityTest)
+FUN_IMPL(Class_CallSimpleFunction_SanityTest)
 {
 	// Arrange
-	CREATE_OBJECT(BaseClassExample, B), 10, 3);
+	CREATE(BaseClassExample, B), 10, 3);
 	
 	// Act
 	int retVal = 0;
-	FUN(GetVolume, &B), &retVal CALL
+	FUN(&B, GetVolume), &retVal CALL
+	
+	// Assert
+	ASSERT(retVal == 10 * 3);
+
+}END_FUN
+
+
+FUN_IMPL(Rectangle_SanityTest)
+{
+	// Arrange
+	CREATE(Rectangle, Rect), 10, 3);
+
+	// Act
+	int retVal = 0;
+	FUN(&Rect, GetArea), & retVal CALL;
 	
 	// Assert
 	ASSERT(retVal == 10 * 3);
