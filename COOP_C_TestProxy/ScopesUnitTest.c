@@ -10,16 +10,16 @@
 //	used throughout this file.			   //
 /////////////////////////////////////////////
 
-IMPL_FUN(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
+FUN_IMPL(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
 {
 	char feedback[3] = { 0, 0, 0 };
 	SCOPE_START;
 
 	//Arrange
 	
-	CREATE_OBJECT(ScopeTester, s1), feedback + 0);
-	CREATE_OBJECT(ScopeTester, s2), feedback + 1);
-	CREATE_OBJECT(ScopeTester, s3), feedback + 2);
+	CREATE(ScopeTester, s1), feedback + 0);
+	CREATE(ScopeTester, s2), feedback + 1);
+	CREATE(ScopeTester, s3), feedback + 2);
 	
 	// - The ctor of ScopeTester sets the feedback val:
 	ASSERT(feedback[0] == 'A');
@@ -27,7 +27,7 @@ IMPL_FUN(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
 	ASSERT(feedback[2] == 'A');
 	
 	// Act
-	SCOPE_END;
+	END_SCOPE;
 	
 	// Assert
 	// - The dtor of ScopeTester sets the feedback vals again:
@@ -37,12 +37,12 @@ IMPL_FUN(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
 }
 END_FUN
 
-IMPL_FUN(LOCAL_SCOPE_END__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
+FUN_IMPL(LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 	SCOPE_START;
 
-	CREATE_OBJECT(ScopeTester, outer_scope_obj), feedback + 0);
+	CREATE(ScopeTester, outer_scope_obj), feedback + 0);
 	ASSERT(feedback[0] == 'A');
 
 	bool is_get_into_if = true;
@@ -51,9 +51,9 @@ IMPL_FUN(LOCAL_SCOPE_END__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 		SCOPE_START;
 
 		//Arrange
-		CREATE_OBJECT(ScopeTester, inner_scope_obj1), feedback + 1);
-		CREATE_OBJECT(ScopeTester, inner_scope_obj2), feedback + 2);
-		CREATE_OBJECT(ScopeTester, inner_scope_obj3), feedback + 3);
+		CREATE(ScopeTester, inner_scope_obj1), feedback + 1);
+		CREATE(ScopeTester, inner_scope_obj2), feedback + 2);
+		CREATE(ScopeTester, inner_scope_obj3), feedback + 3);
 
 		// - The ctor of ScopeTester sets the feedback val:
 		ASSERT(feedback[1] == 'A');
@@ -61,7 +61,7 @@ IMPL_FUN(LOCAL_SCOPE_END__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 		ASSERT(feedback[3] == 'A');
 
 		// Act
-		SCOPE_END;
+		END_SCOPE;
 
 		// - The dtor of ScopeTester sets the feedback val again:
 		ASSERT(feedback[1] == 0);
@@ -72,7 +72,7 @@ IMPL_FUN(LOCAL_SCOPE_END__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 
 	}
 
-	SCOPE_END;
+	END_SCOPE;
 
 	// Assert
 	ASSERT(feedback[0] == 0);
@@ -80,22 +80,22 @@ IMPL_FUN(LOCAL_SCOPE_END__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 }
 END_FUN
 
-IMPL_FUN(LOCAL_SCOPE_END__DoesNotFreeUnrelatedObjects)
+FUN_IMPL(LOCAL_SCOPE__DoesNotFreeUnrelatedObjects)
 {
 	char feedback[3] = { 0, 0, 0 };
 	SCOPE_START;
 
 	//Arrange
 
-	CREATE_OBJECT(ScopeTester, outer_obj1), feedback + 0);
-	CREATE_OBJECT(ScopeTester, outer_obj2), feedback + 1);
+	CREATE(ScopeTester, outer_obj1), feedback + 0);
+	CREATE(ScopeTester, outer_obj2), feedback + 1);
 
 	//Act
 	if (1)
 	{
 		SCOPE_START;
-		CREATE_OBJECT(ScopeTester, inner_obj), feedback + 2);
-		SCOPE_END;
+		CREATE(ScopeTester, inner_obj), feedback + 2);
+		END_SCOPE;
 	}
 
 	//Assert
@@ -103,43 +103,43 @@ IMPL_FUN(LOCAL_SCOPE_END__DoesNotFreeUnrelatedObjects)
 	ASSERT(feedback[0] != 0);
 	ASSERT(feedback[1] != 0);
 
-	SCOPE_END;
+	END_SCOPE;
 }
 END_FUN
 
-IMPL_FUN(LOCAL_SCOPE_END__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost)
+FUN_IMPL(LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost)
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 	
 	SCOPE_START;
 
 	//Arrange 
-	CREATE_OBJECT(ScopeTester, outer_scope_obj), feedback + 0);
+	CREATE(ScopeTester, outer_scope_obj), feedback + 0);
 	ASSERT(feedback[0] == 'A');
 
 	//Act
 	if (1) {
 		SCOPE_START;
-		CREATE_OBJECT(ScopeTester, inner_scope_1), feedback + 1);
+		CREATE(ScopeTester, inner_scope_1), feedback + 1);
 
 		if (1)
 		{
 			SCOPE_START;
-			CREATE_OBJECT(ScopeTester, inner_scope_2), feedback + 2);
+			CREATE(ScopeTester, inner_scope_2), feedback + 2);
 
 			//Assert
 			ASSERT(feedback[0] != 0);
 			ASSERT(feedback[1] != 0);
 			ASSERT(feedback[2] != 0);
 
-			SCOPE_END;
+			END_SCOPE;
 
 			ASSERT(feedback[0] != 0);
 			ASSERT(feedback[1] != 0);
 			ASSERT(feedback[2] == 0);
 		}
 		
-		SCOPE_END;
+		END_SCOPE;
 
 		ASSERT(feedback[0] != 0);
 		ASSERT(feedback[1] == 0);
@@ -147,7 +147,7 @@ IMPL_FUN(LOCAL_SCOPE_END__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMos
 
 	}
 	
-	SCOPE_END;
+	END_SCOPE;
 
 	ASSERT(feedback[0] == 0);
 	ASSERT(feedback[1] == 0);
@@ -155,31 +155,48 @@ IMPL_FUN(LOCAL_SCOPE_END__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMos
 }
 END_FUN
 
-IMPL_FUN(LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash)
+FUN_IMPL(LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash)
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 
 	SCOPE_START;
 
 	//Arrange 
-	CREATE_OBJECT(ScopeTester, outer_scope_obj), feedback + 0);
+	CREATE(ScopeTester, outer_scope_obj), feedback + 0);
 	ASSERT(feedback[0] == 'A');
 
 	//Act
 	if (1) {
 		SCOPE_START;
-		CREATE_OBJECT(ScopeTester, inner_scope_1), feedback + 1);
+		CREATE(ScopeTester, inner_scope_1), feedback + 1);
 		if (1) {
 			SCOPE_START;
-			SCOPE_END;
+			END_SCOPE;
 		}
 
 		// Assert
 		ASSERT(feedback[1] != 0);
-		SCOPE_END;
+		END_SCOPE;
 		ASSERT(feedback[1] == 0);
 	}
 	
-	SCOPE_END;
+	END_SCOPE;
+}
+END_FUN
+
+FUN_IMPL(LOCAL_SCOPE__LoopScopeSanityTest)
+{
+	char feedback[4] = { 0, 0, 0, 0 };
+
+	for (int i = 0; i < 100; i++)
+	{
+		SCOPE_START;
+		CREATE(ScopeTester, inner_scope_1), feedback + i % 4);
+		END_SCOPE;
+	}
+
+	for (int i=0 ; i < 4; i++)
+		ASSERT(feedback[i] == 0);
+
 }
 END_FUN

@@ -13,7 +13,7 @@ extern "C" {
 	END_DEF(BaseClassExample);
 
 	FUNCTIONS(BaseClassExample, int hight, int width);
-	FUNCTION_PTR(BaseClassExample, GetVolume, int* retVal);
+	MEM_FUN_DECL(BaseClassExample, GetVolume, int* retVal);
 	END_FUNCTIONS(BaseClassExample);
 
 

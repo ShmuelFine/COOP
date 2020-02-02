@@ -18,11 +18,11 @@ extern "C" {
 //#define UNIQUE_INT \
 //  int CAT(prefix, __LINE__)
 
-#define FUN(funcName,_this)\
+#define FUN(_this, funcName)\
 { int _retVal_ = ((_this)->vTable->funcName).outer_function((_this))(_this
 #define CALL ); if (IN_THROWING_VALUE == _retVal_) THROW;}
 
-#define FUN_BASE(funcName,_this)\
+#define FUN_BASE(_this, funcName)\
 { int _retVal_ = _this->_base.vTable->GetVolume.inner_function(&(_this->_base)
 // _BASE macro calls the methods of the parent class. It's meant to be called from within a member 
 // function, where "_this" is defined.

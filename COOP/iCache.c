@@ -8,11 +8,11 @@ END_CTOR
 DEF_DTOR(iCache)
 END_DTOR
 
-FUNCTION_IMPL(iCache, AddNewBlock, int block_size, void** returned)
-END_FUNCTION_IMPL
+MEM_FUN_IMPL(iCache, AddNewBlock, int block_size, void** returned)
+END_FUN
 
-FUNCTION_IMPL(iCache, RemoveBlock, void* toDelete)
-END_FUNCTION_IMPL
+MEM_FUN_IMPL(iCache, RemoveBlock, void* toDelete)
+END_FUN
 
 INIT_CLASS(iCache)
 BIND(iCache, AddNewBlock);

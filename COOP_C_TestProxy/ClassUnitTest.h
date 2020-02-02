@@ -8,7 +8,8 @@ extern "C" {
 #include "ExportDefs.h"
 #include "COOP.h"
 
-COOP_API DECL_FUN(Class_CallSimpleFunction_SanityTest);
+	COOP_API FUN_DECL(Class_CallSimpleFunction_SanityTest);
+	COOP_API FUN_DECL(Rectangle_SanityTest);
 
 #endif
 

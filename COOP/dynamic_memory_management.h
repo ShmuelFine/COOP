@@ -19,10 +19,10 @@ COOP_API void DestroyGlobalCache();
 
 #define NEW(dest,whatToPutThere)\
 	{\
-		FUN(AddNewBlock,TheGlobalCache),(sizeof(whatToPutThere)),(void*)&dest CALL\
+		FUN(TheGlobalCache, AddNewBlock),(sizeof(whatToPutThere)),(void*)&dest CALL\
 	}
 
-	#define DELETE_OBJ(buff) FUN(RemoveBlock, TheGlobalCache), buff CALL buff = NULL
+	#define DELETE_OBJ(buff) FUN(TheGlobalCache, RemoveBlock), buff CALL buff = NULL
 
 #ifdef __cplusplus
 }

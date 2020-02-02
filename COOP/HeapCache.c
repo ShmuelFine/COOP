@@ -9,17 +9,17 @@ DEF_DERIVED_DTOR(HeapCache, iCache)
 END_DERIVED_DTOR
 
 
-OVERRIDE_FUNCTION_IMPL(HeapCache, iCache, AddNewBlock, int block_size, void** returned)
+FUN_OVERRIDE_IMPL(HeapCache, iCache, AddNewBlock, int block_size, void** returned)
 {
 	*returned = (char*)malloc(sizeof(char) * block_size);
 }
-END_FUNCTION_IMPL
+END_FUN
 
-OVERRIDE_FUNCTION_IMPL(HeapCache, iCache, RemoveBlock, void* toDelete)
+FUN_OVERRIDE_IMPL(HeapCache, iCache, RemoveBlock, void* toDelete)
 {
 	free(toDelete);
 }
-END_FUNCTION_IMPL
+END_FUN
 
 INIT_DERIVED_CLASS(HeapCache, iCache);
 BIND_OVERIDE(HeapCache, iCache, AddNewBlock);
@@ -44,11 +44,11 @@ END_INIT_CLASS
 //}
 //END_DERIVED_DTOR
 //
-//FUNCTION_IMPL(HeapCache, AddNewBlock, int blockSize, Block** returned)
+//MEM_FUN_IMPL(HeapCache, AddNewBlock, int blockSize, Block** returned)
 //{
 //
 //}
-//END_FUNCTION_IMPL
+//END_FUN
 //
 //void HeapCache_InitCache(HeapCache* c)
 //{

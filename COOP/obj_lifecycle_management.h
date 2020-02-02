@@ -12,7 +12,7 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 
 #define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
 
-#define CREATE_OBJECT(type, instance_name)							\
+#define CREATE(type, instance_name)							\
 	if (! is_ ##type ##VirtualTable__initialized) type ##_init();   \
 	type instance_name;                  							\
 	instance_name._next= NULL;										\
@@ -53,12 +53,12 @@ TRY \
 	_scope_obj_list.vTable=NULL; \
 	_scope_obj_list._next=NULL		
 
-#define SCOPE_END\
+#define END_SCOPE\
 	FreeMostInnerScope(&_scope_obj_list); \
 END_TRY \
 if (IN_THROWING_VALUE == __RET_VAL__) break;
 
-#define IMPL_FUN(function_name, ...)\
+#define FUN_IMPL(function_name, ...)\
 int function_name(__VA_ARGS__)\
 { \
 int __RET_VAL__ = SUCCESS_VALUE;\
@@ -69,7 +69,7 @@ FreeMostInnerScope(&_scope_obj_list); \
 END_TRY \
 return __RET_VAL__; }
 
-#define DECL_FUN(function_name, ...) int function_name(__VA_ARGS__)
+#define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)
 
 #define RETURN(i) __RET_VAL__ = i; break;
 #define ASSERT(x) if (!(x)) {THROW;}

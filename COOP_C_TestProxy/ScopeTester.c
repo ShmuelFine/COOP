@@ -15,16 +15,16 @@ DEF_DTOR(ScopeTester)
 }
 END_DTOR
 
-FUNCTION_IMPL(ScopeTester, ThrowingIfEQ, int a, int b)
+MEM_FUN_IMPL(ScopeTester, ThrowingIfEQ, int a, int b)
 {
 	SCOPE_START;
 
 	if (a == b)
 		THROW;
 
-	SCOPE_END;
+	END_SCOPE;
 }
-END_FUNCTION_IMPL
+END_FUN
 
 INIT_CLASS(ScopeTester)
 BIND(ScopeTester, ThrowingIfEQ);

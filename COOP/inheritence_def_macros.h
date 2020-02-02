@@ -38,7 +38,7 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 	void (*_dtor)(class_name * _this); 
 
 // Macro that defines an overriding version of a virtual function:
-#define OVERIDE_FUNCTION_PTR(base_class, function_name, ...)	\
+#define FUN_OVERRIDE(base_class, function_name, ...)	\
 struct base_class ##_ ##function_name ##_t_ function_name
 
 // The derived class' function section ends with:
@@ -79,8 +79,8 @@ void __ctor__ ##class_name(class_name * _this, __VA_ARGS__)  \
 }																		\
 																		\
 */
-#define OVERRIDE_FUNCTION_IMPL(type, base, function_name, ...)\
-IMPL_FUN(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
+#define FUN_OVERRIDE_IMPL(type, base, function_name, ...)\
+FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
 
 
 

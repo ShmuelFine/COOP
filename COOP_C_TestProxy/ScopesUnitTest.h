@@ -6,11 +6,12 @@
 extern "C" {
 #endif
 
-	COOP_API DECL_FUN(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed);
-	COOP_API DECL_FUN(LOCAL_SCOPE_END__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed);
-	COOP_API DECL_FUN(LOCAL_SCOPE_END__DoesNotFreeUnrelatedObjects);
-	COOP_API DECL_FUN(LOCAL_SCOPE_END__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost);
-	COOP_API DECL_FUN(LOCAL_SCOPE_END__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash);
+	COOP_API FUN_DECL(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed);
+	COOP_API FUN_DECL(LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed);
+	COOP_API FUN_DECL(LOCAL_SCOPE__DoesNotFreeUnrelatedObjects);
+	COOP_API FUN_DECL(LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost);
+	COOP_API FUN_DECL(LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash);
+	COOP_API FUN_DECL(LOCAL_SCOPE__LoopScopeSanityTest);
 
 #ifdef __cplusplus
 }

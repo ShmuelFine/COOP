@@ -31,8 +31,8 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 	void (*_dtor)(class_name * _this) 
 
 // Define your members here, between FUNCTIONS and END_FUNCTIONS,
-// using FUNCTION_PTR.
-#define FUNCTION_PTR(type, function_name, ...)\
+// using MEM_FUN_DECL.
+#define MEM_FUN_DECL(type, function_name, ...)\
 	struct type ##_ ##function_name ##_t_{								\
 		int (* inner_function)(void* _this, __VA_ARGS__);	\
 		int (*(* outer_function)(void* _this))(void* _this, __VA_ARGS__);	\
@@ -57,7 +57,7 @@ COOP_API void class_name ##_init()
 
 
 // Macros that define implementation of previously declared function:
-#define FUNCTION_IMPL(type, function_name, ...)									\
+#define MEM_FUN_IMPL(type, function_name, ...)									\
 int (*type ##_ ##function_name ##_outer_function(type * _this))(void* _this, __VA_ARGS__)\
 {																		\
 	struct type ##_ ##function_name ##_t_ * toRun = &_this->vTable->function_name;			\
@@ -65,13 +65,8 @@ int (*type ##_ ##function_name ##_outer_function(type * _this))(void* _this, __V
 	return toRun->inner_function;										\
 }																		\
 																		\
-IMPL_FUN(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
+FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
 		
-
-
-
-#define END_FUNCTION_IMPL END_FUN
-
 // Macro for inner use in INIT_CLASS:
 #define ATTACH_TORs_ToClass(class_name)       \
 class_name ##VTable._ctor = __ctor__ ##class_name;  \

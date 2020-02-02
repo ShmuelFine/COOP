@@ -26,8 +26,8 @@ extern "C" {
 	END_DEF_DERIVED(InMemoryCache);
 
 	DERIVED_FUNCTIONS(InMemoryCache, iCache, int size)
-	OVERIDE_FUNCTION_PTR(iCache, AddNewBlock, int block_size, void** returned);
-	OVERIDE_FUNCTION_PTR(iCache, RemoveBlock, void* toDelete);
+	FUN_OVERRIDE(iCache, AddNewBlock, int block_size, void** returned);
+	FUN_OVERRIDE(iCache, RemoveBlock, void* toDelete);
 	END_DERIVED_FUNCTIONS(InMemoryCache);
 
 	// Aux. functions that are not member functions:
