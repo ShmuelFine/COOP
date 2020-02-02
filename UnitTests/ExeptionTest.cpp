@@ -37,3 +37,16 @@ TEST(Exceptions, Exception_WhenUsingTHROW_MSG_ThenTheMessageIsSaved)
     std::string outMsgStr = outMsg;
     ASSERT_EQ(errMsg, outMsgStr);
 }
+
+TEST(Exceptions, BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly)
+{
+    ASSERT_FALSE(BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly());
+}
+TEST(Exceptions, BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly)
+{
+    ASSERT_FALSE(BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly());
+}
+TEST(Exceptions, BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope)
+{
+    ASSERT_FALSE(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope());
+}
