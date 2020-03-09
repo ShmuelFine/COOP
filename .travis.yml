@@ -1,3 +1,4 @@
 language: cpp
 os: windows
 compiler: gcc
+script: ./UnitTests/CacheUnitTest.cpp
