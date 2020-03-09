@@ -1,0 +1,10 @@
+language: cpp
+os: windows
+compiler: gcc
+script: 
+    -./UnitTests/Class_UnitTest.cpp
+    -./UnitTests/CacheTest.cpp
+    -./UnitTests/ExceptionTest.cpp
+    -./UnitTests/InheritTest.cpp
+    -./UnitTests/Scopes_UnitTest.cpp
+    -./UnitTests/InMemoryCacheTest.cpp
