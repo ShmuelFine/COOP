@@ -30,6 +30,12 @@ END_FUNCTIONS(MemoryManager);
 		FUN(TheGlobalCache, AddNewBlock),(sizeof(whatToPutThere)),(void*)&dest CALL\
 	}
 
+#define NEW_OF_SIZE(dest,type,howMuchToPutThere)\
+	{\
+		FUN(TheGlobalCache, AddNewBlock),(sizeof(type)*howMuchToPutThere),(void*)&dest CALL\
+	}
+
+
 #define DELETE_OBJ(buff) FUN(TheGlobalCache, RemoveBlock), buff CALL buff = NULL
 
 #ifdef __cplusplus
