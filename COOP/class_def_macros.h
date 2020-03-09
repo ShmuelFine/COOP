@@ -24,11 +24,11 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 
 // Macro that begins class function definitions section:
 #define FUNCTIONS(class_name, ...)							\
-	void __ctor__ ##class_name(class_name * _this, __VA_ARGS__);	\
-	void __dtor__ ##class_name(class_name * _this);					\
+	int __ctor__ ##class_name(class_name * _this, __VA_ARGS__);	\
+	int __dtor__ ##class_name(class_name * _this);					\
 	typedef struct class_name ##VirtualTable_t{				\
-	void (*_ctor)(class_name * _this, __VA_ARGS__);			\
-	void (*_dtor)(class_name * _this) 
+	int (*_ctor)(class_name * _this, __VA_ARGS__);			\
+	int (*_dtor)(class_name * _this) 
 
 // Define your members here, between FUNCTIONS and END_FUNCTIONS,
 // using MEM_FUN_DECL.
@@ -48,12 +48,13 @@ COOP_API void class_name ##_init()
 ///////////// The C file structure : //////////////////////////////////
 
 // Macros that defines a constructor:
-#define DEF_CTOR(class_name, ...) void __ctor__ ##class_name(class_name * _this, __VA_ARGS__){   
-#define END_CTOR }
+#define DEF_CTOR(class_name, ...) FUN_IMPL(__ctor__ ##class_name, class_name * _this, __VA_ARGS__)
+#define END_CTOR END_FUN
 
 // Macros that defines a destructor:
-#define DEF_DTOR(class_name) void __dtor__ ##class_name(class_name * _this) {
-#define END_DTOR }
+#define DEF_DTOR(class_name) FUN_IMPL(__dtor__ ##class_name, class_name * _this)
+
+#define END_DTOR END_FUN
 
 
 // Macros that define implementation of previously declared function:
