@@ -28,6 +28,7 @@
     <ClCompile Include="Rectangle.c" />
     <ClCompile Include="ScopesUnitTest.c" />
     <ClCompile Include="ScopeTester.c" />
+    <ClCompile Include="vectorUnitTest.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClassExample.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />
+    <ClInclude Include="vectorUnitTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\COOP\COOP.vcxproj">

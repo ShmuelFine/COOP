@@ -152,6 +152,7 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="obj_base_structs.h" />
     <ClInclude Include="obj_lifecycle_management.h" />
+    <ClInclude Include="vector.h" />
     <ClInclude Include="virtual_func_calling.h" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +162,7 @@
     <ClCompile Include="iCache.c" />
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="obj_lifecycle_management.c" />
+    <ClCompile Include="vector.c" />
     <ClCompile Include="virtual_func_calling.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

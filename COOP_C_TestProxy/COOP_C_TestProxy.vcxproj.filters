@@ -28,6 +28,9 @@
     <ClCompile Include="Rectangle.c">
       <Filter>Class Examples</Filter>
     </ClCompile>
+    <ClCompile Include="vectorUnitTest.c">
+      <Filter>Class Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProxyExportDefs.h" />
@@ -57,6 +60,9 @@
     </ClInclude>
     <ClInclude Include="Rectangle.h">
       <Filter>Class Examples</Filter>
+    </ClInclude>
+    <ClInclude Include="vectorUnitTest.h">
+      <Filter>Class Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
