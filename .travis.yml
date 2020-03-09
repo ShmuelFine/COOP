@@ -2,4 +2,4 @@ language: cpp
 os: windows
 compiler: gcc
 branches: master
-script: UnitTests/CacheUnitTest.cpp
+script: UnitTests/ExceptionTest.cpp
