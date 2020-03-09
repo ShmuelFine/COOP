@@ -1,5 +1,0 @@
-language: cpp
-os: windows
-compiler: gcc
-branches: master
-script: UnitTests/ExceptionTest.cpp
