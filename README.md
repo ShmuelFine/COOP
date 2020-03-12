@@ -1,5 +1,6 @@
 ![](COOP%20logo_ST.png)
 
+
 **COOP** is **C** **O**bject **O**riented **P**rogramming framework, developed by FineALGs (www.fineAlgs.com) with real time embedded systems in mind. 
 
 COOP supports **Classes** (and auto destruction at end of scope), **Inheritance** (including virtual functions), **Exceptions**, and **Memory management** infrastructure that allows you to switch between heap and **pure stack** based memory management seamlessly.
