@@ -49,6 +49,8 @@
       <Filter>OOP</Filter>
     </ClInclude>
     <ClInclude Include="MemoryManager.h" />
+    <ClInclude Include="Vector.h" />
+    <ClInclude Include="Shared_ptr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cache.c">
@@ -70,5 +72,7 @@
       <Filter>OOP</Filter>
     </ClCompile>
     <ClCompile Include="MemoryManager.cpp" />
+    <ClCompile Include="Vector.c" />
+    <ClCompile Include="Shared_ptr.c" />
   </ItemGroup>
 </Project>
