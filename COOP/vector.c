@@ -59,8 +59,11 @@ END_FUN;
 
 MEM_FUN_IMPL(vector, at, int idx, int * ret_val)
 {
-	if(idx >= _this->size)
+	if (idx >= (_this->size))
+	{
 		THROW_MSG("OUT_OF_RANGE");
+	}
+		
 	*ret_val = _this->data[_this->activeBufferIndex][idx];
 }
 END_FUN;
