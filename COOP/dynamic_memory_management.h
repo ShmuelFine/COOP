@@ -27,7 +27,7 @@ END_FUNCTIONS(MemoryManager);
 
 #define NEW(dest,whatToPutThere)\
 	{\
-		FUN(TheGlobalCache, AddNewBlock),(sizeof(whatToPutThere)),(void*)&dest CALL\
+		FUN(TheGlobalCache, AddNewBlock),(sizeof(whatToPutThere)),(void*)&(dest) CALL\
 	}
 
 #define NEW_OF_SIZE(dest,type,howMuchToPutThere)\
