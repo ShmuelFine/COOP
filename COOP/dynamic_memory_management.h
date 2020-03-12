@@ -32,7 +32,7 @@ END_FUNCTIONS(MemoryManager);
 
 #define NEW_OF_SIZE(dest,type,howMuchToPutThere)\
 	{\
-		FUN(TheGlobalCache, AddNewBlock),(sizeof(type)*howMuchToPutThere),(void*)&dest CALL\
+		FUN(TheGlobalCache, AddNewBlock),(sizeof(type)*howMuchToPutThere),(void*)&(dest) CALL\
 	}
 
 
