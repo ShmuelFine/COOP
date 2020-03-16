@@ -9,8 +9,12 @@ int* px; // the pointed object
 int* pn; // ref count
 END_DEF(Shared_ptr);
 
-FUNCTIONS(Shared_ptr, int* ptr_x);
-MEM_FUN_DECL(Shared_ptr, initialize_ref_count, int* ptr_x, int* PRefCount);
+FUNCTIONS(Shared_ptr);
+MEM_FUN_DECL(Shared_ptr, Reset, int* newPtr);
+MEM_FUN_DECL(Shared_ptr, CopyTo, Shared_ptr* other);
+MEM_FUN_DECL(Shared_ptr, CopyFrom, Shared_ptr const* other);
+MEM_FUN_DECL(Shared_ptr, Release);
+MEM_FUN_DECL(Shared_ptr, IsEmpty, bool * out);
 END_FUNCTIONS(Shared_ptr);
 
 #endif

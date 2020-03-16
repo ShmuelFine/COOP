@@ -200,3 +200,49 @@ FUN_IMPL(LOCAL_SCOPE__LoopScopeSanityTest)
 
 }
 END_FUN
+
+#include "Shared_ptr.h"
+FUN_IMPL(Shared_ptr__CopyTo__PointsOnTheSameValue)
+{
+	// Arrange
+	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY);
+
+
+	CREATE(Shared_ptr, ptr));
+	CREATE(Shared_ptr, ptr2));
+	
+	int* i = NULL;
+	NEW(i, int);
+	*i = 110;
+
+	int* j= NULL;
+	NEW(j, int);
+	*j = 300;
+
+	FUN(&ptr, Reset), i CALL;//110
+	FUN(&ptr2, Reset), j CALL;//300
+
+	ASSERT(*ptr2.px == 300)
+
+	// Act
+	FUN(&ptr, CopyTo), & ptr2 CALL;
+	
+
+	FUN(&ptr2, CopyFrom), & ptr CALL;
+
+	// Assert
+	ASSERT(*ptr2.px == 110);
+
+	*i = 220;
+	ASSERT(*ptr.px  == 220);
+	ASSERT(*ptr2.px == 220);
+
+	bool out;
+	FUN(&ptr, IsEmpty), & out CALL;
+	ASSERT(!(out == 0));
+
+	FUN(&ptr, Release) CALL;
+
+
+}
+END_FUN

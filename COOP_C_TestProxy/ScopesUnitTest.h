@@ -12,6 +12,7 @@ extern "C" {
 	COOP_API FUN_DECL(LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost);
 	COOP_API FUN_DECL(LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash);
 	COOP_API FUN_DECL(LOCAL_SCOPE__LoopScopeSanityTest);
+	COOP_API FUN_DECL(Shared_ptr__CopyTo__PointsOnTheSameValue);
 
 #ifdef __cplusplus
 }

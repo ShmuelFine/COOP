@@ -32,3 +32,9 @@ TEST(Scopes, LOCAL_SCOPE__LoopScopeSanityTest)
 {
 	ASSERT_FALSE(LOCAL_SCOPE__LoopScopeSanityTest());
 }
+
+
+TEST(Shared_ptr, Shared_ptr__CopyTo__PointsOnTheSameValue)
+{
+	ASSERT_FALSE(Shared_ptr__CopyTo__PointsOnTheSameValue());
+}
