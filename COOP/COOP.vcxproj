@@ -154,6 +154,7 @@
     <ClInclude Include="obj_lifecycle_management.h" />
     <ClInclude Include="Shared_ptr.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="vectorIterator.h" />
     <ClInclude Include="virtual_func_calling.h" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +166,7 @@
     <ClCompile Include="obj_lifecycle_management.c" />
     <ClCompile Include="Shared_ptr.c" />
     <ClCompile Include="Vector.c" />
+    <ClCompile Include="vectorIterator.c" />
     <ClCompile Include="virtual_func_calling.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -51,6 +51,7 @@
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Shared_ptr.h" />
+    <ClInclude Include="vectorIterator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cache.c">
@@ -74,5 +75,6 @@
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="Vector.c" />
     <ClCompile Include="Shared_ptr.c" />
+    <ClCompile Include="vectorIterator.c" />
   </ItemGroup>
 </Project>

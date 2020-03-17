@@ -68,6 +68,21 @@ MEM_FUN_IMPL(vector, at, int idx, int * ret_val)
 }
 END_FUN;
 
+MEM_FUN_IMPL(vector, begin, vectorIterator retVecIt)
+{
+	CREATE(vectorIterator, retVecIter), _this, 0);
+	retVecIt = retVecIter;
+}
+END_FUN;
+
+MEM_FUN_IMPL(vector, end, vectorIterator retVecIt)
+{
+	CREATE(vectorIterator, retVecIter), _this, _this->size);
+	retVecIt = retVecIter;
+
+}
+END_FUN;
+
 MEM_FUN_IMPL(vector, print)
 {
 	for(int i = 0; i < _this->size; i ++)
@@ -79,6 +94,8 @@ END_FUN;
 INIT_CLASS(vector)
 BIND(vector, push_back);
 BIND(vector, at);
+BIND(vector, begin);
+BIND(vector, end);
 BIND(vector, print);
 END_INIT_CLASS
 

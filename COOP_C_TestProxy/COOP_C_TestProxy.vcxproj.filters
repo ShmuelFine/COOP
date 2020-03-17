@@ -31,6 +31,9 @@
     <ClCompile Include="vectorUnitTest.c">
       <Filter>Class Tests</Filter>
     </ClCompile>
+    <ClCompile Include="vectorIteratorUnitTest.c">
+      <Filter>Class Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProxyExportDefs.h" />
@@ -62,6 +65,9 @@
       <Filter>Class Examples</Filter>
     </ClInclude>
     <ClInclude Include="vectorUnitTest.h">
+      <Filter>Class Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="vectorIteratorUnitTest.h">
       <Filter>Class Tests</Filter>
     </ClInclude>
   </ItemGroup>

@@ -64,3 +64,18 @@ FUN_IMPL(vector_at_throws_when_idx_is_outOfRange, int* tester)
 
 }END_FUN
 
+FUN_IMPL(vector_iterator_SanityTest)
+{
+	
+}END_FUN
+
+FUN_IMPL(vector_begin_SanityTest)
+{
+
+}END_FUN
+
+FUN_IMPL(vector_end_SanityTest)
+{
+
+}END_FUN
+
