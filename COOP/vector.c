@@ -68,18 +68,17 @@ MEM_FUN_IMPL(vector, at, int idx, int * ret_val)
 }
 END_FUN;
 
-MEM_FUN_IMPL(vector, begin, vectorIterator retVecIt)
+MEM_FUN_IMPL(vector, begin, vectorIterator * retVecIt)
 {
 	CREATE(vectorIterator, retVecIter), _this, 0);
-	retVecIt = retVecIter;
+	*retVecIt = retVecIter;
 }
 END_FUN;
 
-MEM_FUN_IMPL(vector, end, vectorIterator retVecIt)
+MEM_FUN_IMPL(vector, end, vectorIterator * retVecIt)
 {
 	CREATE(vectorIterator, retVecIter), _this, _this->size);
-	retVecIt = retVecIter;
-
+	* retVecIt = retVecIter;
 }
 END_FUN;
 

@@ -10,9 +10,7 @@ extern "C" {
 
 	COOP_API FUN_DECL(vector_push_back_SanityTest);
 	COOP_API FUN_DECL(vector_at_throws_when_idx_is_outOfRange, int* tester);
-	COOP_API FUN_DECL(vector_iterator_SanityTest);
-	COOP_API FUN_DECL(vector_begin_SanityTest);
-	COOP_API FUN_DECL(vector_end_SanityTest);
+	COOP_API FUN_DECL(vector_iteration_SanityTest);
 
 #endif
 

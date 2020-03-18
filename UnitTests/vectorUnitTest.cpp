@@ -15,20 +15,10 @@ TEST(vector, vector_at_throws_when_idx_is_outOfRange_sanity)
     ASSERT_EQ(0, tester);
 }
 
-TEST(vector, vector_iterator_sanity)
+
+TEST(vector, vector_iteration_sanity)
 {
-    ASSERT_FALSE(vector_iterator_SanityTest());
+    ASSERT_FALSE(vector_iteration_SanityTest());
 
 }
 
-TEST(vector, vector_begin_sanity)
-{
-    ASSERT_FALSE(vector_begin_SanityTest());
-
-}
-
-TEST(vector, vector_end_sanity)
-{
-    ASSERT_FALSE(vector_end_SanityTest());
-
-}
