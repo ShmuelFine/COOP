@@ -64,18 +64,45 @@ FUN_IMPL(vector_at_throws_when_idx_is_outOfRange, int* tester)
 
 }END_FUN
 
-FUN_IMPL(vector_iterator_SanityTest)
+
+FUN_IMPL(vector_iteration_SanityTest)
 {
+	CREATE(vector, v1));
+
+	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY);
+
+	FUN(&v1, push_back), 3 CALL
+	FUN(&v1, push_back), 4 CALL
+	FUN(&v1, push_back), 5 CALL
+	FUN(&v1, push_back), 6 CALL
+
+
+	int beginVal;
+	CREATE(vectorIterator, vecItBegin),& v1, 2);
+	FUN(&v1, begin), &vecItBegin CALL;
+	FUN(&vecItBegin, getContentsOf), & beginVal CALL
+
+	CREATE(vectorIterator, vecItEnd), & v1, 2);
+	FUN(&v1, end), & vecItEnd CALL;
+
+	bool isAtEnd = false;
+	while (!isAtEnd)
+	{
+		SCOPE_START;
+		int intermediateVal = 0;
+		FUN(&vecItBegin, getContentsOf), & intermediateVal CALL
+		printf("%d ", intermediateVal);
+
+		FUN(&vecItBegin, increment) CALL
+		FUN(&vecItBegin, equals), vecItEnd, &isAtEnd CALL;
+		END_SCOPE;
+	}
+
 	
-}END_FUN
-
-FUN_IMPL(vector_begin_SanityTest)
-{
+	//checks that begin is working properly
+	ASSERT(beginVal == 3);
 
 }END_FUN
 
-FUN_IMPL(vector_end_SanityTest)
-{
 
-}END_FUN
 
