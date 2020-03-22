@@ -38,3 +38,18 @@ TEST(Shared_ptr, Shared_ptr__CopyTo__PointsOnTheSameValue)
 {
 	ASSERT_FALSE(Shared_ptr__CopyTo__PointsOnTheSameValue());
 }
+
+TEST(Shared_ptr, check_type)
+{
+	ASSERT_FALSE(check_type());
+}
+
+TEST(Shared_ptr, Class_test)
+{
+	ASSERT_FALSE(Class_test());
+}
+
+TEST(Shared_ptr, check_type_char)
+{
+	ASSERT_FALSE(check_type_char());
+}

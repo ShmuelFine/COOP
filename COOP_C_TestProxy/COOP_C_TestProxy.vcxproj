@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseClassExample.c" />
+    <ClCompile Include="ClassTest.c" />
     <ClCompile Include="ClassUnitTest.c" />
     <ClCompile Include="DerivedClassExample.c" />
     <ClCompile Include="ExeptionUnitTest.c" />
@@ -28,19 +29,24 @@
     <ClCompile Include="Rectangle.c" />
     <ClCompile Include="ScopesUnitTest.c" />
     <ClCompile Include="ScopeTester.c" />
+    <ClCompile Include="CharTest.c" />
+    <ClCompile Include="TypeTest.c" />
     <ClCompile Include="vectorUnitTest.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClassExample.h" />
+    <ClInclude Include="ClassTest.h" />
     <ClInclude Include="ClassUnitTest.h" />
     <ClInclude Include="DerivedClassExample.h" />
     <ClInclude Include="ExeptionUnitTest.h" />
+    <ClInclude Include="CharTest.h" />
     <ClInclude Include="InheritTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />
     <ClInclude Include="ProxyExportDefs.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />
+    <ClInclude Include="TypeTest.h" />
     <ClInclude Include="vectorUnitTest.h" />
   </ItemGroup>
   <ItemGroup>
