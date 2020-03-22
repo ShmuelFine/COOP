@@ -219,10 +219,13 @@ FUN_IMPL(Shared_ptr__CopyTo__PointsOnTheSameValue)
 	NEW(j, int);
 	*j = 300;
 
+	
+
 	FUN(&ptr, Reset), i CALL;//110
 	FUN(&ptr2, Reset), j CALL;//300
 
-	ASSERT(*ptr2.px == 300)
+	//int* actualValue = ((int*)(ptr2.px));
+	ASSERT(*GET(ptr2, int) == 300)
 
 	// Act
 	FUN(&ptr, CopyTo), & ptr2 CALL;
@@ -231,11 +234,11 @@ FUN_IMPL(Shared_ptr__CopyTo__PointsOnTheSameValue)
 	FUN(&ptr2, CopyFrom), & ptr CALL;
 
 	// Assert
-	ASSERT(*ptr2.px == 110);
+	ASSERT(*GET(ptr2, int) == 110);
 
 	*i = 220;
-	ASSERT(*ptr.px  == 220);
-	ASSERT(*ptr2.px == 220);
+	ASSERT(*GET(ptr, int)  == 220);
+	ASSERT(*GET(ptr2, int) == 220);
 
 	bool out;
 	FUN(&ptr, IsEmpty), & out CALL;

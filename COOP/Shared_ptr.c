@@ -22,11 +22,12 @@ DEF_DTOR(Shared_ptr)
 }
 END_DTOR
 
-MEM_FUN_IMPL(Shared_ptr, Reset, int* newPtr)
+MEM_FUN_IMPL(Shared_ptr, Reset, void * newPtr)
 {
 	_this->px = newPtr;
 	NEW(_this->pn , int);
 	*(_this->pn) = 1;
+
 }
 END_FUN
 
@@ -34,7 +35,6 @@ END_FUN
 MEM_FUN_IMPL(Shared_ptr, CopyTo, Shared_ptr* other)
 {
 	FUN(other, Release) CALL;
-
 	other->px = _this->px;
 	other->pn = _this->pn;
 	*(_this->pn)++;
