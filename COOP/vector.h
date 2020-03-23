@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include "coop.h"
+#include "vectorIterator.h"
 
 	DEF_CLASS(vector);
 	// Define member fields here. e.g:
@@ -21,6 +22,8 @@ extern "C" {
 	FUNCTIONS(vector);
 	MEM_FUN_DECL(vector, /*func. name:*/ push_back, /*func. params:*/ int val);
 	MEM_FUN_DECL(vector, /*func. name:*/ at, /*func. params:*/ int idx, int* ret_val);
+	MEM_FUN_DECL(vector, /*func. name:*/ begin, vectorIterator * retVecIt);
+	MEM_FUN_DECL(vector, /*func. name:*/ end, vectorIterator * retVecIt);
 	MEM_FUN_DECL(vector, /*func. name:*/ print);
 	END_FUNCTIONS(vector);
 

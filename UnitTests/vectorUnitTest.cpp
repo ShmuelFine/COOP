@@ -14,3 +14,11 @@ TEST(vector, vector_at_throws_when_idx_is_outOfRange_sanity)
     ASSERT_EQ(IN_THROWING_VALUE, ret);
     ASSERT_EQ(0, tester);
 }
+
+
+TEST(vector, vector_iteration_sanity)
+{
+    ASSERT_FALSE(vector_iteration_SanityTest());
+
+}
+

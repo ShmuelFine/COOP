@@ -31,6 +31,7 @@
     <ClCompile Include="ScopeTester.c" />
     <ClCompile Include="CharTest.c" />
     <ClCompile Include="TypeTest.c" />
+    <ClCompile Include="vectorIteratorUnitTest.c" />
     <ClCompile Include="vectorUnitTest.c" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +48,7 @@
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />
     <ClInclude Include="TypeTest.h" />
+    <ClInclude Include="vectorIteratorUnitTest.h" />
     <ClInclude Include="vectorUnitTest.h" />
   </ItemGroup>
   <ItemGroup>

@@ -38,6 +38,9 @@
     <ClCompile Include="CharTest.c">
       <Filter>ScopeTesting</Filter>
     </ClCompile>
+    <ClCompile Include="vectorIteratorUnitTest.c">
+      <Filter>Class Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProxyExportDefs.h" />
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="TypeTest.h">
       <Filter>ScopeTesting</Filter>
+    </ClInclude>
+    <ClInclude Include="vectorIteratorUnitTest.h">
+      <Filter>Class Tests</Filter>
     </ClInclude>
     <ClInclude Include="ClassTest.h" />
     <ClInclude Include="CharTest.h">
