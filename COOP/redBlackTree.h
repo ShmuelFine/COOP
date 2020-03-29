@@ -45,6 +45,8 @@ extern "C" {
 	MEM_FUN_DECL(redBlackTree, deleteNode, node* dNode);
 	MEM_FUN_DECL(redBlackTree, fixDoubleBlack, node* node_p);
 	MEM_FUN_DECL(redBlackTree, findReplacingNode, node* x, node** withWhat);
+	//destructor helper
+	MEM_FUN_DECL(redBlackTree, destroyRecursive, node * nodePtr);
 	END_FUNCTIONS(redBlackTree);
 
 #ifdef __cplusplus

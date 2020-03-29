@@ -16,33 +16,23 @@ DEF_CTOR(redBlackTree)
 }
 END_CTOR
 
-//TODO: can I use iterators like this to delete the allocated memory?
-//is this the original pointer the data was allocated with?
+//TODO: can I delete the memory with this pointer-nodePtr?
 DEF_DTOR(redBlackTree)
 {
+    FUN(_this, destroyRecursive), _this->root CALL
     DELETE_OBJ(_this->head);
-
-    node* retPtr;
-    CREATE(redBlackTreeIterator, beginIt), retPtr);
-    FUN(_this, begin), & beginIt CALL
-
-    CREATE(redBlackTreeIterator, endIt), retPtr);
-    FUN(_this, end), & endIt CALL
-
-    bool isAtEnd = false;
-    while (!isAtEnd)
-    {
-        SCOPE_START;
-        node* intermediateNode = NULL;
-        FUN(&beginIt, getContentsOf), & intermediateNode CALL
-        DELETE_OBJ(intermediateNode);
-
-        FUN(&beginIt, increment) CALL
-        FUN(&beginIt, equals), endIt, & isAtEnd CALL;
-        END_SCOPE;
-    }
 }
 END_DTOR
+
+MEM_FUN_IMPL(redBlackTree, destroyRecursive, node * nodePtr)
+{
+    if (nodePtr != NULL)
+    {
+        FUN(_this, destroyRecursive), nodePtr->left CALL
+        FUN(_this, destroyRecursive), nodePtr->right CALL
+        DELETE_OBJ(nodePtr);
+    }
+}END_FUN;
 
 MEM_FUN_IMPL(redBlackTree, LeftRotate, node * x)
 {
@@ -615,4 +605,5 @@ BIND(redBlackTree, erase);
 BIND(redBlackTree, deleteNode);
 BIND(redBlackTree, fixDoubleBlack);
 BIND(redBlackTree, findReplacingNode);
+BIND(redBlackTree, destroyRecursive);
 END_INIT_CLASS

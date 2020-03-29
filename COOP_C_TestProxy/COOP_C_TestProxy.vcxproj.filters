@@ -31,6 +31,13 @@
     <ClCompile Include="vectorUnitTest.c">
       <Filter>Class Tests</Filter>
     </ClCompile>
+    <ClCompile Include="TypeTest.c">
+      <Filter>ScopeTesting</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassTest.c" />
+    <ClCompile Include="CharTest.c">
+      <Filter>ScopeTesting</Filter>
+    </ClCompile>
     <ClCompile Include="vectorIteratorUnitTest.c">
       <Filter>Class Tests</Filter>
     </ClCompile>
@@ -76,6 +83,9 @@
     <ClInclude Include="vectorUnitTest.h">
       <Filter>Class Tests</Filter>
     </ClInclude>
+    <ClInclude Include="TypeTest.h">
+      <Filter>ScopeTesting</Filter>
+    </ClInclude>
     <ClInclude Include="vectorIteratorUnitTest.h">
       <Filter>Class Tests</Filter>
     </ClInclude>
@@ -87,6 +97,10 @@
     </ClInclude>
     <ClInclude Include="rbTreeIterUnitTest.h">
       <Filter>Class Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassTest.h" />
+    <ClInclude Include="CharTest.h">
+      <Filter>ScopeTesting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
