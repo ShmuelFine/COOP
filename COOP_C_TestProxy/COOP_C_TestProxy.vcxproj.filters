@@ -34,6 +34,15 @@
     <ClCompile Include="vectorIteratorUnitTest.c">
       <Filter>Class Tests</Filter>
     </ClCompile>
+    <ClCompile Include="setUnitTest.c">
+      <Filter>Class Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="rbTreeUnitTest.c">
+      <Filter>Class Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="rbTreeIterUnitTest.c">
+      <Filter>Class Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProxyExportDefs.h" />
@@ -68,6 +77,15 @@
       <Filter>Class Tests</Filter>
     </ClInclude>
     <ClInclude Include="vectorIteratorUnitTest.h">
+      <Filter>Class Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="setUnitTest.h">
+      <Filter>Class Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="rbTreeUnitTest.h">
+      <Filter>Class Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="rbTreeIterUnitTest.h">
       <Filter>Class Tests</Filter>
     </ClInclude>
   </ItemGroup>

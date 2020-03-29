@@ -11,6 +11,9 @@
     <ClCompile Include="Class_UnitTest.cpp" />
     <ClCompile Include="vectorUnitTest.cpp" />
     <ClCompile Include="vectorIteratorUnitTest.cpp" />
+    <ClCompile Include="setUnitTest.cpp" />
+    <ClCompile Include="rbTreeUnitTest.cpp" />
+    <ClCompile Include="rbTreeIterUnitTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="misc">

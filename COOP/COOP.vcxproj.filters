@@ -52,6 +52,9 @@
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Shared_ptr.h" />
     <ClInclude Include="vectorIterator.h" />
+    <ClInclude Include="set.h" />
+    <ClInclude Include="redBlackTree.h" />
+    <ClInclude Include="redBlackTreeIterator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cache.c">
@@ -76,5 +79,8 @@
     <ClCompile Include="Vector.c" />
     <ClCompile Include="Shared_ptr.c" />
     <ClCompile Include="vectorIterator.c" />
+    <ClCompile Include="set.c" />
+    <ClCompile Include="redBlackTree.c" />
+    <ClCompile Include="redBlackTreeIterator.c" />
   </ItemGroup>
 </Project>

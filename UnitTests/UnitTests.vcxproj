@@ -50,7 +50,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="rbTreeIterUnitTest.cpp" />
+    <ClCompile Include="rbTreeUnitTest.cpp" />
     <ClCompile Include="Scopes_UnitTest.cpp" />
+    <ClCompile Include="setUnitTest.cpp" />
     <ClCompile Include="vectorIteratorUnitTest.cpp" />
     <ClCompile Include="vectorUnitTest.cpp" />
   </ItemGroup>
