@@ -152,6 +152,9 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="obj_base_structs.h" />
     <ClInclude Include="obj_lifecycle_management.h" />
+    <ClInclude Include="redBlackTree.h" />
+    <ClInclude Include="set.h" />
+    <ClInclude Include="redBlackTreeIterator.h" />
     <ClInclude Include="Shared_ptr.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="vectorIterator.h" />
@@ -164,6 +167,9 @@
     <ClCompile Include="iCache.c" />
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="obj_lifecycle_management.c" />
+    <ClCompile Include="redBlackTree.c" />
+    <ClCompile Include="set.c" />
+    <ClCompile Include="redBlackTreeIterator.c" />
     <ClCompile Include="Shared_ptr.c" />
     <ClCompile Include="Vector.c" />
     <ClCompile Include="vectorIterator.c" />
