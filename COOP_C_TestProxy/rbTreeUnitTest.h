@@ -12,6 +12,9 @@ extern "C" {
 	COOP_API FUN_DECL(rbTree_find_SanityTest);
 	COOP_API FUN_DECL(rbTree_delete_SanityTest);
 	COOP_API FUN_DECL(rbTree_iteration_SanityTest);
+	COOP_API FUN_DECL(rbTree_rectangle_as_node_data_insert_SanityTest);
+	COOP_API FUN_DECL(rbTree_rectangle_as_node_data_find_SanityTest);
+	COOP_API FUN_DECL(rbTree_rectangle_as_node_data_delete_SanityTest);
 
 #endif
 
