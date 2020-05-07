@@ -11,7 +11,7 @@ extern "C" {
 	//A Red-Black tree node structure
 	typedef struct node_t
 	{
-		int data;
+		void * data;
 		char color;
 		bool isHead;
 		struct node_t* left, * right, * parent;

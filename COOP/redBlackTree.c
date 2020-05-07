@@ -1,16 +1,19 @@
 #include "redBlackTree.h"
 
-DEF_CTOR(redBlackTree)
+DEF_CTOR(redBlackTree, void(*compFunc)(void*, void*, bool *))
 {
 	_this->root = NULL;
     _this->size = 0;
+    //_this->elementSize = elemSize;
+
+    _this->comparisonFunctionPtr = compFunc;
     
     //construct header node
     NEW(_this->head, node);
     //could be anything
-    _this->head->data = -10;
+    //_this->head->data = -10;
+    _this->head->data = NULL;
     _this->head->parent = _this->head->right = _this->head->left = NULL;
-
     _this->head->color = 'B';
     _this->head->isHead = true;
 }
@@ -190,7 +193,7 @@ MEM_FUN_IMPL(redBlackTree, insertFixUp, node* pt)
    
 }END_FUN;
 
-MEM_FUN_IMPL(redBlackTree, insert, int data, node ** insertednode, bool * retBool)
+MEM_FUN_IMPL(redBlackTree, insert, void * data, node ** insertednode, bool * retBool)
 {
     //if we prefer code cleanliness to avoiding extra allocation
     // Allocate memory for new node
@@ -201,6 +204,8 @@ MEM_FUN_IMPL(redBlackTree, insert, int data, node ** insertednode, bool * retBoo
     //z->left = z->right = z->parent = NULL;
 
      node* z = NULL;
+     //used for comparison function ptr return value
+     bool compBool = false, compBool1 = false;
 
     //if root is null make z the root
     if (_this->root == NULL)
@@ -227,15 +232,21 @@ MEM_FUN_IMPL(redBlackTree, insert, int data, node ** insertednode, bool * retBoo
         {
             y = x;
             //only allow unique elements
-            if (data == x->data)
+            //equivalence => !comp(a, b) && !comp(b, a).
+            //if (data == x->data)
+            (*(_this->comparisonFunctionPtr))(data, x->data, &compBool);
+            (*(_this->comparisonFunctionPtr))(x->data, data, &compBool1);
+            if (!compBool && !compBool1)
             {
                 *insertednode = x;
                 *retBool = false;
                 return;
             }
                 
-
-            if (data < x->data)
+            //(*functionPtr)(2, 3)
+            //data < x->data
+            (*(_this->comparisonFunctionPtr))(data, x->data, &compBool);
+            if (compBool)
                 x = x->left;
             else
                 x = x->right;
@@ -248,7 +259,9 @@ MEM_FUN_IMPL(redBlackTree, insert, int data, node ** insertednode, bool * retBoo
         z->left = z->right = NULL;
 
         z->parent = y;
-        if (z->data > y->data)
+        //if (z->data > y->data)
+        (*(_this->comparisonFunctionPtr))(y->data, z->data, &compBool);
+        if (compBool)
             y->right = z;
         else
             y->left = z;
@@ -259,7 +272,9 @@ MEM_FUN_IMPL(redBlackTree, insert, int data, node ** insertednode, bool * retBoo
         FUN(_this, insertFixUp), z CALL
         * insertednode = z;
 
-        if (z->data > _this->head->right->data)
+        //if (z->data > _this->head->right->data)
+        (*(_this->comparisonFunctionPtr))(_this->head->right->data, z->data, &compBool);
+        if (compBool)
             _this->head->right = z;
     }
     
@@ -272,22 +287,26 @@ MEM_FUN_IMPL(redBlackTree, getRootNode, node ** retRootnode)
     *retRootnode = _this->root;
 }END_FUN;
 
+//TODO: we need to pass a function ptr for printing if we want to print
+//only for int data!
 MEM_FUN_IMPL(redBlackTree, inOrderTraversal, node * rootnode)
 {
         static int last = 0;
         if (rootnode == NULL || rootnode->isHead == true)
             return;
         FUN(_this, inOrderTraversal), rootnode->left CALL
-        printf("Data: %d ", rootnode->data);
+        printf("Data: %d ", *(int*)(rootnode->data));
         printf("Color: %c ", rootnode->color);
-        if(rootnode->parent != NULL)
-           printf("Parent: %d ", rootnode->parent->data);
+        if (rootnode->parent->isHead)
+            printf("root node ");
+        if(rootnode->parent != NULL && !rootnode->parent->isHead)
+           printf("Parent: %d ", *(int *)(rootnode->parent->data));
         if (rootnode->right != NULL)
-            printf("Right: %d ", rootnode->right->data);
+            printf("Right: %d ", *(int*)(rootnode->right->data));
         if (rootnode->left != NULL)
-            printf("Left: %d ", rootnode->left->data);
+            printf("Left: %d ", *(int *)(rootnode->left->data));
         printf("\n");
-        last = rootnode->data;
+        //last = rootnode->data;
         FUN(_this, inOrderTraversal), rootnode->right CALL
         
 }END_FUN;
@@ -324,8 +343,9 @@ MEM_FUN_IMPL(redBlackTree, size, int * _size)
 }END_FUN;
 
 //TODO: Question on last line
-MEM_FUN_IMPL(redBlackTree, find, int val, redBlackTreeIterator* foundVal)
+MEM_FUN_IMPL(redBlackTree, find, void * val, redBlackTreeIterator* foundVal)
 {
+    bool compBool = false, compBool1 = false;
     if (_this->root == NULL)
     {
         (*foundVal).nodePtr = _this->head;
@@ -334,7 +354,10 @@ MEM_FUN_IMPL(redBlackTree, find, int val, redBlackTreeIterator* foundVal)
     node* temp = _this->root;
     while (temp != NULL) {
         SCOPE_START;
-        if (val < temp->data) {
+        //if (val < temp->data) 
+        (*(_this->comparisonFunctionPtr))(val, temp->data, &compBool);
+        if (compBool)
+        {
             if (temp->left == NULL)
             {
                 BREAK;
@@ -342,7 +365,11 @@ MEM_FUN_IMPL(redBlackTree, find, int val, redBlackTreeIterator* foundVal)
             else
                 temp = temp->left;
         }
-        else if (val == temp->data) {
+        //else if (val == temp->data) 
+        (*(_this->comparisonFunctionPtr))(val, temp->data, &compBool);
+        (*(_this->comparisonFunctionPtr))(temp->data, val, &compBool1);
+        if (!compBool && !compBool1)
+        {
             BREAK;
         }
         else {
@@ -355,24 +382,32 @@ MEM_FUN_IMPL(redBlackTree, find, int val, redBlackTreeIterator* foundVal)
         END_SCOPE;
     }
 
+    //(temp->data == val)
+    (*(_this->comparisonFunctionPtr))(temp->data, val, &compBool);
+    (*(_this->comparisonFunctionPtr))(val, temp->data, &compBool1);
     //is it okay that we access the nodePtr directly? Is this a breach
     //of the priniciple of abstraction? 
     //If we use  getContensOf will the changes persist?
-    (*foundVal).nodePtr = (temp->data == val) ? temp : _this->head;
+    (*foundVal).nodePtr = (!compBool && !compBool1) ? temp : _this->head;
 }END_FUN;
 
-MEM_FUN_IMPL(redBlackTree, erase, int val, int* numElemsErased)
+MEM_FUN_IMPL(redBlackTree, erase, void * val, int* numElemsErased)
 {
     //just for initialization purposes
     node* valNode = _this->head;
+    bool compBool = false, compBool1 = false;
     
     CREATE(redBlackTreeIterator, rbIt), NULL);
 
-    FUN(_this, find), val, &rbIt CALL
+    FUN(_this, find), val, & rbIt CALL
 
-    FUN(&rbIt, getContentsOf), &valNode CALL
+    FUN(&rbIt, getContentsOf), & valNode CALL
 
-    if (valNode->data != val) {
+    //if they were not equal, we set nodePtr in the iterator that find returns
+    //to the header node, whose data is NULL
+    //if (valNode->data != val) 
+    if(valNode->data == NULL)
+    {
         *numElemsErased = 0;
         return;
     }
@@ -465,7 +500,7 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node * dNode)
     }
 
     // dNode has 2 children, swap values with successor and recurse 
-    int temp;
+    void * temp;
     temp = replaceNode->data;
     replaceNode->data = dNode->data;
     dNode->data = temp;

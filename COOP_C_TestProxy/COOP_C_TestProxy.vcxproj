@@ -32,6 +32,7 @@
     <ClCompile Include="ScopesUnitTest.c" />
     <ClCompile Include="ScopeTester.c" />
     <ClCompile Include="CharTest.c" />
+    <ClCompile Include="setUnitTest.c" />
     <ClCompile Include="TypeTest.c" />
     <ClCompile Include="vectorIteratorUnitTest.c" />
     <ClCompile Include="vectorUnitTest.c" />
@@ -51,6 +52,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />
+    <ClInclude Include="setUnitTest.h" />
     <ClInclude Include="TypeTest.h" />
     <ClInclude Include="vectorIteratorUnitTest.h" />
     <ClInclude Include="vectorUnitTest.h" />
