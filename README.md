@@ -14,7 +14,5 @@ Currently this repo features a Visual Studio 2019 solution with 3 projects:
 
 ## You can find [Usage Crash Course in the Wiki](https://github.com/ShmuelFine/COOP/wiki).
 
-For any question, feel free to contact us at Dream@fineALGs.com
-
 Have fun!
 
