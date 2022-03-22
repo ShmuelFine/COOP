@@ -53,7 +53,6 @@
     <ClCompile Include="rbTreeIterUnitTest.cpp" />
     <ClCompile Include="rbTreeUnitTest.cpp" />
     <ClCompile Include="Scopes_UnitTest.cpp" />
-    <ClCompile Include="setUnitTest.cpp" />
     <ClCompile Include="vectorIteratorUnitTest.cpp" />
     <ClCompile Include="vectorUnitTest.cpp" />
   </ItemGroup>

@@ -47,9 +47,6 @@
     <ClCompile Include="rbTreeIterUnitTest.c">
       <Filter>Class Tests</Filter>
     </ClCompile>
-    <ClCompile Include="setUnitTest.c">
-      <Filter>Class Tests</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProxyExportDefs.h" />
@@ -98,9 +95,6 @@
     <ClInclude Include="ClassTest.h" />
     <ClInclude Include="CharTest.h">
       <Filter>ScopeTesting</Filter>
-    </ClInclude>
-    <ClInclude Include="setUnitTest.h">
-      <Filter>Class Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

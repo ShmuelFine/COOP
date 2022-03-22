@@ -101,6 +101,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_BASE_COOP_EXPORTING_;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,7 +155,6 @@
     <ClInclude Include="obj_base_structs.h" />
     <ClInclude Include="obj_lifecycle_management.h" />
     <ClInclude Include="redBlackTree.h" />
-    <ClInclude Include="set.h" />
     <ClInclude Include="redBlackTreeIterator.h" />
     <ClInclude Include="Shared_ptr.h" />
     <ClInclude Include="Vector.h" />
@@ -168,7 +169,6 @@
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="obj_lifecycle_management.c" />
     <ClCompile Include="redBlackTree.c" />
-    <ClCompile Include="set.c" />
     <ClCompile Include="redBlackTreeIterator.c" />
     <ClCompile Include="Shared_ptr.c" />
     <ClCompile Include="Vector.c" />
