@@ -14,12 +14,12 @@ END_DERIVED_DTOR
 
 FUN_OVERRIDE_IMPL(DerivedClassExample, BaseClassExample, GetVolume, int* retVal)
 {
-	int retVal = 0;
+	*retVal = 0;
 	
-	FUN_BASE(_this, GetVolume), & retVal CALL;
+	FUN_BASE(_this, GetVolume), retVal CALL;
 
-	retVal *= _this->depth;
-
+	*retVal= (*retVal) *_this->depth;
+	
 }
 END_FUN
 
