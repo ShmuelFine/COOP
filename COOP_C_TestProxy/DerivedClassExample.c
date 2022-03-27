@@ -1,5 +1,7 @@
 #include "DerivedClassExample.h"
 
+
+
 DEF_DERIVED_CTOR(DerivedClassExample, BaseClassExample, int hight, int width, int depth) SUPER, hight, width ME
 {
 	_this->depth = depth;
