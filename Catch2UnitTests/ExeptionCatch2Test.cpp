@@ -1,17 +1,18 @@
-#define CATCH_CONFIG_MAIN
+//#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
+
 
 TEST_CASE("Exception_is_thrown_as_well", "[Exceptions]") 
 	{
 		int tester;
 		SECTION("Exception_WhenThrown_ThenGoesStraightToScopeEnd") {
 			auto ret = Exception_WhenThrown_ThenGoesStraightToScopeEnd(&tester);
-			CHECK_THROW(IN_THROWING_VALUE, ret);
+			CHECK_THROWS(IN_THROWING_VALUE, ret);
 			CHECK(0, tester);
 		}
 		SECTION("Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd") {
 			auto ret = Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd(&tester);
-			CHECK_THROW(IN_THROWING_VALUE, ret);
+			CHECK_THROWS(IN_THROWING_VALUE, ret);
 			CHECK(0, tester);
 		}
 		SECTION("CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing") {
@@ -23,7 +24,7 @@ TEST_CASE("Exception_is_thrown_as_well", "[Exceptions]")
 			char outMsg[100];
 			Exception_WhenUsingTHROW_MSG_ThenTheMessageIsSaved(errMsg.c_str(), outMsg);
 			std::string outMsgStr = outMsg;
-			CHECK(errMsg, outMsgStr);
+			REQUIRE(errMsg, outMsgStr);
 		}
 		SECTION("BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly") {
 			CHECK_FALSE(Class_CallSimpleFunction_SanityTest());
