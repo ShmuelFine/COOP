@@ -19,7 +19,7 @@
 #    pragma GCC system_header
 #endif
 
-#include "internal/catch_suppress_warnings.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_suppress_warnings.h"
 
 #if defined(CATCH_CONFIG_MAIN) || defined(CATCH_CONFIG_RUNNER)
 #  define CATCH_IMPL
@@ -39,7 +39,7 @@
 #endif
 
 #if !defined(CATCH_CONFIG_IMPL_ONLY)
-#include "internal/catch_platform.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_platform.h"
 
 #ifdef CATCH_IMPL
 #  ifndef CLARA_CONFIG_MAIN
@@ -48,27 +48,27 @@
 #  endif
 #endif
 
-#include "internal/catch_user_interfaces.h"
-#include "internal/catch_tag_alias_autoregistrar.h"
-#include "internal/catch_test_registry.h"
-#include "internal/catch_capture.hpp"
-#include "internal/catch_section.h"
-#include "internal/catch_interfaces_exception.h"
-#include "internal/catch_approx.h"
-#include "internal/catch_compiler_capabilities.h"
-#include "internal/catch_string_manip.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal\catch_user_interfaces.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_tag_alias_autoregistrar.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_test_registry.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_capture.hpp"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_section.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_interfaces_exception.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_approx.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_compiler_capabilities.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_string_manip.h"
 
 #ifndef CATCH_CONFIG_DISABLE_MATCHERS
-#include "internal/catch_capture_matchers.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_capture_matchers.h"
 #endif
-#include "internal/catch_generators.hpp"
-#include "internal/catch_generators_generic.hpp"
-#include "internal/catch_generators_specific.hpp"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_generators.hpp"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_generators_generic.hpp"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_generators_specific.hpp"
 
 // These files are included here so the single_include script doesn't put them
 // in the conditionally compiled sections
-#include "internal/catch_test_case_info.h"
-#include "internal/catch_interfaces_runner.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_test_case_info.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_interfaces_runner.h"
 
 #ifdef __OBJC__
 #include "internal/catch_objc.hpp"
@@ -76,7 +76,7 @@
 
 // Benchmarking needs the externally-facing parts of reporters to work
 #if defined(CATCH_CONFIG_EXTERNAL_INTERFACES) || defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
-#include "internal/catch_external_interfaces.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_external_interfaces.h"
 #endif
 
 #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
@@ -86,11 +86,11 @@
 #endif // ! CATCH_CONFIG_IMPL_ONLY
 
 #ifdef CATCH_IMPL
-#include "internal/catch_impl.hpp"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_impl.hpp"
 #endif
 
 #ifdef CATCH_CONFIG_MAIN
-#include "internal/catch_default_main.hpp"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_default_main.hpp"
 #endif
 
 
@@ -491,6 +491,6 @@ using Catch::Detail::Approx;
 
 #endif // ! CATCH_CONFIG_IMPL_ONLY
 
-#include "internal/catch_reenable_warnings.h"
+#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_reenable_warnings.h"
 
 #endif // TWOBLUECUBES_CATCH_HPP_INCLUDED
