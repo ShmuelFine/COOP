@@ -15,4 +15,5 @@ TEST_CASE("MemManagement", "[MemManagement]")
 	{
 		CHECK(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource());
 	}
+
 }
