@@ -1,6 +1,7 @@
 #include "vector.h"
 #include <stdio.h>
 
+
 DEF_CTOR(vector)
 {
 	_this->size = 0;
