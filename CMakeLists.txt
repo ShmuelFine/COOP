@@ -85,7 +85,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ################################################################################
 # Sub-projects
 ################################################################################
-add_subdirectory(Catch2UnitTests)
+#add_subdirectory(Catch2UnitTests)
 add_subdirectory(COOP)
 #add_subdirectory(COOP_C_TestProxy)
 # add_subdirectory(UnitTests)
