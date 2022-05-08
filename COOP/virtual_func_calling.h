@@ -12,7 +12,7 @@ extern "C" {
 // Call function of base class:
 
 // Call any member function: // TODO:Tested?
-// The C CALL syntax does not work for C++, here we need full qualification of the inner struct
+ //The C CALL syntax does not work for C++, here we need full qualification of the inner struct
 //#define TOKEN_PASTE(x, y) x##y
 //#define CAT(x,y) TOKEN_PASTE(x,y)
 //#define UNIQUE_INT \
