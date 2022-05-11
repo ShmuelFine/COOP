@@ -12,7 +12,7 @@ extern "C" {
 // Call function of base class:
 
 // Call any member function: // TODO:Tested?
-// The C CALL syntax does not work for C++, here we need full qualification of the inner struct
+ //The C CALL syntax does not work for C++, here we need full qualification of the inner struct
 //#define TOKEN_PASTE(x, y) x##y
 //#define CAT(x,y) TOKEN_PASTE(x,y)
 //#define UNIQUE_INT \
@@ -20,7 +20,7 @@ extern "C" {
 
 #define FUN(_this, funcName)\
 { int _retVal_ = ((_this)->vTable->funcName).outer_function((_this))(_this
-#define CALL ); if (IN_THROWING_VALUE == _retVal_) {THROW;} }
+#define CALL ); if (IN_THROWING_VALUE == _retVal_) {THROW;} } 
 
 #define FUN_BASE(_this, funcName)\
 { int _retVal_ = _this->_base.vTable->GetVolume.inner_function(&(_this->_base)
