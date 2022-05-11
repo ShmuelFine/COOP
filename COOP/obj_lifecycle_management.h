@@ -50,7 +50,7 @@ COOP_API extern const char* LAST_EXCEPTION_ERROR_MSG;
 #define THROW_MSG(msg) LAST_EXCEPTION_ERROR_MSG = msg; THROW
 
 #define SCOPE_START					\
-object _scope_obj_list;				\
+object _scope_obj_list;			\
 TRY									\
 	_scope_obj_list.vTable=NULL;	\
 	_scope_obj_list._next=NULL		
