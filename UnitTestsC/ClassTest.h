@@ -1,4 +1,13 @@
-#include "test_defs.h"
-#include "../COOP/COOP.h"
+#include"test_defs.h"
+#include"../COOP/COOP.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
 #include"BaseClassExample.h"
-int is_the_test_platform_run_as_well();
+#include"Rectangle.h"
+
+
+
+int checkTestPlatform();
+int Class_CallSimpleFunction_SanityTest();
+int Rectangle_SanityTest();

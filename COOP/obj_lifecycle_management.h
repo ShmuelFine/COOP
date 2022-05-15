@@ -50,7 +50,7 @@ COOP_API extern const char* LAST_EXCEPTION_ERROR_MSG;
 #define THROW_MSG(msg) LAST_EXCEPTION_ERROR_MSG = msg; THROW
 
 #define SCOPE_START					\
-object _scope_obj_list;			\
+object _scope_obj_list;             \	
 TRY									\
 	_scope_obj_list.vTable=NULL;	\
 	_scope_obj_list._next=NULL		
@@ -69,7 +69,7 @@ int __RET_VAL__ = SUCCESS_VALUE;\
 int IS_BREAKING = false;\
 SCOPE_START;
 
-#define END_FUN \
+#define END_FUN` \
 }FreeMostInnerScope(&_scope_obj_list);\
 return __RET_VAL__;\
 }

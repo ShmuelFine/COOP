@@ -155,6 +155,11 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="test_defs.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\COOP\COOP.vcxproj">
+      <Project>{8b47ee4b-47f6-48c1-bd78-4600c05f911f}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
