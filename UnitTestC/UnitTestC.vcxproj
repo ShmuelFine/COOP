@@ -140,9 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ClassTest.c" />
+    <ClCompile Include="InheritTest.c" />
+    <ClCompile Include="runTest.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassTest.h" />
+    <ClInclude Include="InheritTest.h" />
+    <ClInclude Include="runTest.h" />
     <ClInclude Include="test_defs.h" />
   </ItemGroup>
   <ItemGroup>
