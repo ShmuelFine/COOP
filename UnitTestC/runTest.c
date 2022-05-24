@@ -7,5 +7,7 @@ int main() {
 	RUN_TEST(Inheritence_WhenCallingNonVirtualFunciton_Sanity);
 	RUN_TEST(Inheritence_WhenVirtualFunctionOverriden_ThenCallInvokesOverridingFunc);
 	RUN_TEST(Inheritence_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell);
-
+	RUN_TEST(redBlacktreeIterator_increment_Sanity);
+	RUN_TEST(redBlacktreeIterator_decrement_Sanity);
+	
 }
