@@ -24,7 +24,7 @@ FUN_IMPL(Class_CallSimpleFunction) {
 	FUN(&B, GetVolume), & retVal CALL
 		// Assert
 		TEST_ASSERT(retVal == 10 * 3);
-	return TEST_PASS;
+	
 }END_FUN;
 
 FUN_IMPL(Rectangle_SanityTest)
@@ -38,16 +38,9 @@ FUN_IMPL(Rectangle_SanityTest)
 
 	// Assert
 		TEST_ASSERT(retVal == 10 * 3);
-	return TEST_PASS;
+	
 
 
 }END_FUN
 
-int main() {
-	INIT_TESTS();
-	RUN_TEST(is_the_test_platform_run_as_well);
-	RUN_TEST(Class_CallSimpleFunction);
-	RUN_TEST(Rectangle_SanityTest);
-
-}
 
