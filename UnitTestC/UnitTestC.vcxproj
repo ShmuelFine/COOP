@@ -139,19 +139,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseClassExample.c" />
     <ClCompile Include="ClassTest.c" />
-    <ClCompile Include="DerivedClassExample.c" />
-    <ClCompile Include="ExeptionUnitTest.c" />
-    <ClCompile Include="rbTreeIterTest.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseClassExample.h" />
     <ClInclude Include="ClassTest.h" />
-    <ClInclude Include="DerivedClassExample.h" />
-    <ClInclude Include="ExeptionUnitTest.h" />
-    <ClInclude Include="rbTreeIterTest.h" />
     <ClInclude Include="test_defs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\COOP\COOP.vcxproj">
+      <Project>{8b47ee4b-47f6-48c1-bd78-4600c05f911f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\COOP_C_TestProxy\COOP_C_TestProxy.vcxproj">
+      <Project>{61048cff-00af-4e22-a0aa-5f09ac9dc499}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
