@@ -5,7 +5,8 @@
 extern "C" {
 #endif
 
-#include "coop.h"
+#include "../COOP/COOP.h"
+//#include "coop.h"
 
 	DEF_CLASS(BaseClassExample);
 	int hight;

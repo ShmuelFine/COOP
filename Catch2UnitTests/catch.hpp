@@ -19,7 +19,7 @@
 #    pragma GCC system_header
 #endif
 
-#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_suppress_warnings.h"
+//#include "C:\Users\212377808\Desktop\Catch2-2.x\Catch2-2.x\include\internal/catch_suppress_warnings.h"
 
 #if defined(CATCH_CONFIG_MAIN) || defined(CATCH_CONFIG_RUNNER)
 #  define CATCH_IMPL

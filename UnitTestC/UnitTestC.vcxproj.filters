@@ -15,36 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseClassExample.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ClassTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DerivedClassExample.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ExeptionUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rbTreeIterTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseClassExample.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ClassTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DerivedClassExample.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ExeptionUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rbTreeIterTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test_defs.h">
