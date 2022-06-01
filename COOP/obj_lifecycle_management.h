@@ -6,6 +6,7 @@
 #include "obj_base_structs.h"
 #include <setjmp.h>
 
+
 COOP_API void _scope_obj_list_add(object* scope_list, object* obj);
 COOP_API void _scope_obj_list_free(object* scope_list);
 COOP_API void FreeMostInnerScope(object* _scope_obj_list);
@@ -50,10 +51,10 @@ COOP_API extern const char* LAST_EXCEPTION_ERROR_MSG;
 #define THROW_MSG(msg) LAST_EXCEPTION_ERROR_MSG = msg; THROW
 
 #define SCOPE_START					\
-object _scope_obj_list;             \	
+object _scope_obj_list;				\
 TRY									\
 	_scope_obj_list.vTable=NULL;	\
-	_scope_obj_list._next=NULL		
+	_scope_obj_list._next=NULL
 
 #define END_SCOPE\
 	FreeMostInnerScope(&_scope_obj_list); \
@@ -69,9 +70,9 @@ int __RET_VAL__ = SUCCESS_VALUE;\
 int IS_BREAKING = false;\
 SCOPE_START;
 
-#define END_FUN` \
-}FreeMostInnerScope(&_scope_obj_list);\
-return __RET_VAL__;\
+#define END_FUN \
+}FreeMostInnerScope(&_scope_obj_list); \
+return __RET_VAL__; \
 }
 
 #define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)

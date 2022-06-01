@@ -39,5 +39,3 @@ void FreeMostInnerScope(object* _scope_obj_list_ptr)
 
 
 const char* LAST_EXCEPTION_ERROR_MSG;
-
-
