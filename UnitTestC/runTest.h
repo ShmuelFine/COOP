@@ -2,3 +2,4 @@
 #include "ClassTest.h"
 #include "InheritTest.h"
 #include "rbTreeIterUnitTest.h"
+#include "rbTreeUnitTest.h"
