@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#include "COOP.h"
+#include "../COOP/COOP.h"
 
 	DEF_CLASS(Rectangle);
 	// Define member fields here. e.g:

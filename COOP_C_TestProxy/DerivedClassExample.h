@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 #include "BaseClassExample.h"
-#include "ExportDefs.h"
+#include "../COOP/ExportDefs.h"
 
 	DEF_DERIVED_CLASS(DerivedClassExample, BaseClassExample);
 	int depth;
