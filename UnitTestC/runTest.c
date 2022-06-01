@@ -9,5 +9,15 @@ int main() {
 	RUN_TEST(Inheritence_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell);
 	RUN_TEST(redBlacktreeIterator_increment_Sanity);
 	RUN_TEST(redBlacktreeIterator_decrement_Sanity);
+
+
+	RUN_TEST(rbTree_insert_SanityTest);
+	RUN_TEST(rbTree_find_SanityTest);
+	RUN_TEST(rbTree_delete_SanityTest);
+	RUN_TEST(rbTree_iteration_SanityTest);
+	RUN_TEST(rbTree_rectangle_as_node_data_insert_SanityTest);
+	RUN_TEST(rbTree_rectangle_as_node_data_find_SanityTest);
+	RUN_TEST(rbTree_rectangle_as_node_data_delete_SanityTest);
+
 	
 }
