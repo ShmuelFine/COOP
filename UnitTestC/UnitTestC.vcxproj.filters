@@ -42,6 +42,15 @@
     <ClCompile Include="MemManagementUnitTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CharTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScopesUnitTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TypeTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassTest.h">
@@ -72,6 +81,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MemManagementUnitTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScopesUnitTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

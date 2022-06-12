@@ -5,11 +5,11 @@
 extern "C" {
 #endif
 
-#include "ExportDefs.h"
-#include "COOP.h"
+#include "../COOP/ExportDefs.h"
+#include "../COOP/COOP.h"
 
-	COOP_API FUN_DECL(Class_CallSimpleFunction_SanityTest);
-	COOP_API FUN_DECL(Rectangle_SanityTest);
+	FUN_DECL(Class_CallSimpleFunction_SanityTest);
+	FUN_DECL(Rectangle_SanityTest);
 
 #endif
 

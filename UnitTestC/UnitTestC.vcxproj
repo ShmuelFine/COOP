@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharTest.c" />
     <ClCompile Include="ClassTest.c" />
     <ClCompile Include="ExeptionUnitTest.c" />
     <ClCompile Include="InheritTest.c" />
@@ -147,10 +148,13 @@
     <ClCompile Include="rbTreeIterUnitTest.c" />
     <ClCompile Include="rbTreeUnitTest.c" />
     <ClCompile Include="runTest.c" />
+    <ClCompile Include="ScopesUnitTest.c" />
+    <ClCompile Include="TypeTest.c" />
     <ClCompile Include="vectorIteratorUnitTest.c" />
     <ClCompile Include="vectorUnitTest.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharTest.h" />
     <ClInclude Include="ClassTest.h" />
     <ClInclude Include="ExeptionUnitTest.h" />
     <ClInclude Include="InheritTest.h" />
@@ -158,7 +162,9 @@
     <ClInclude Include="rbTreeIterUnitTest.h" />
     <ClInclude Include="rbTreeUnitTest.h" />
     <ClInclude Include="runTest.h" />
+    <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="test_defs.h" />
+    <ClInclude Include="TypeTest.h" />
     <ClInclude Include="vectorIteratorUnitTest.h" />
     <ClInclude Include="vectorUnitTest.h" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 
 #include "ProxyExportDefs.h"
-#include "COOP.h"
+#include "../COOP/COOP.h"
 
 
 #ifdef __cplusplus
