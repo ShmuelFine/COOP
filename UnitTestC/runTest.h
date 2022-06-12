@@ -10,3 +10,4 @@
 #include "CharTest.h"
 #include "ScopesUnitTest.h"
 #include "TypeTest.h"
+#include "ClassTestC.h"
