@@ -1,7 +1,7 @@
 #ifndef _COOP_TEST__SCOPE_TEST__
 #define _COOP_TEST__SCOPE_TEST__
 
-#include "COOP.h"
+#include "../COOP/COOP.h"
 
 DEF_CLASS(ScopeTester);
 char* buff;

@@ -80,17 +80,17 @@ FUN_IMPL(redBlacktreeIterator_decrement_Sanity)
 		FUN(&rbTree, end), & rbIt CALL
 			FUN(&rbIt, decrement) CALL
 			FUN(&rbIt, getContentsOf), & retPtr7 CALL
-			ASSERT(*(int*)(retPtr7->data) == 35);
+			TEST_ASSERT(*(int*)(retPtr7->data) == 35);
 
 		FUN(&rbIt, decrement) CALL
 			FUN(&rbIt, getContentsOf), & retPtr3 CALL
-			ASSERT(*(int*)(retPtr3->data) == 10);
+			TEST_ASSERT(*(int*)(retPtr3->data) == 10);
 
 		FUN(&rbIt, decrement) CALL
 			FUN(&rbIt, getContentsOf), & retPtr4 CALL
-			ASSERT(*(int*)(retPtr4->data) == 4);
+			TEST_ASSERT(*(int*)(retPtr4->data) == 4);
 
 		FUN(&rbIt, decrement) CALL
 			FUN(&rbIt, getContentsOf), & retPtr5 CALL
-			ASSERT(*(int*)(retPtr5->data) == 2);
+			TEST_ASSERT(*(int*)(retPtr5->data) == 2);
 }END_FUN
