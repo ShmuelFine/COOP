@@ -30,6 +30,18 @@
     <ClCompile Include="rbTreeUnitTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="vectorIteratorUnitTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vectorUnitTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExeptionUnitTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MemManagementUnitTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassTest.h">
@@ -48,6 +60,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rbTreeUnitTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vectorIteratorUnitTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vectorUnitTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExeptionUnitTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemManagementUnitTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

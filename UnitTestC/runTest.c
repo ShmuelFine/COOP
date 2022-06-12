@@ -10,7 +10,7 @@ int main() {
 	RUN_TEST(redBlacktreeIterator_increment_Sanity);
 	RUN_TEST(redBlacktreeIterator_decrement_Sanity);
 
-
+	//rbTreeUnitTest
 	RUN_TEST(rbTree_insert_SanityTest);
 	RUN_TEST(rbTree_find_SanityTest);
 	RUN_TEST(rbTree_delete_SanityTest);
@@ -18,6 +18,28 @@ int main() {
 	RUN_TEST(rbTree_rectangle_as_node_data_insert_SanityTest);
 	RUN_TEST(rbTree_rectangle_as_node_data_find_SanityTest);
 	RUN_TEST(rbTree_rectangle_as_node_data_delete_SanityTest);
+
+	//vectorIteratorUnitTest
+	RUN_TEST(vectorIterator_getContentsOf_Sanity);
+	RUN_TEST(vectorIterator_increment_Sanity);
+
+	//vectorUnitTest
+	RUN_TEST(vector_push_back_SanityTest);
+	RUN_TEST(vector_iteration_SanityTest);
+
+
+	
+	//ExeptionUnitTest
+	RUN_TEST(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing);
+	RUN_TEST(BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly);
+	RUN_TEST(BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly);
+	RUN_TEST(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope);
+
+	//MemManagementUnitTest
+	RUN_TEST(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy);
+	RUN_TEST(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy);
+	RUN_TEST(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource);
+
 
 	
 }
