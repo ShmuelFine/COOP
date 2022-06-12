@@ -40,6 +40,20 @@ int main() {
 	RUN_TEST(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy);
 	RUN_TEST(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource);
 
+	//CharTest
+	RUN_TEST(check_type_char);
 
+	//ScopesUnitTest
+	RUN_TEST(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed);
+	RUN_TEST(LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed);
+	RUN_TEST(LOCAL_SCOPE__DoesNotFreeUnrelatedObjects);
+	RUN_TEST(LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost);
+	RUN_TEST(LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash);
+	RUN_TEST(LOCAL_SCOPE__LoopScopeSanityTest);
+	RUN_TEST(Shared_ptr__CopyTo__PointsOnTheSameValue);
+
+
+	//TypeTest
+	RUN_TEST(check_type);
 	
 }

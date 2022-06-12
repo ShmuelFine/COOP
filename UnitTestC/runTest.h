@@ -7,3 +7,6 @@
 #include "vectorUnitTest.h"
 #include "ExeptionUnitTest.h"
 #include "MemManagementUnitTest.h"
+#include "CharTest.h"
+#include "ScopesUnitTest.h"
+#include "TypeTest.h"
