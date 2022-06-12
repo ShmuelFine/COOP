@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="CharTest.c" />
     <ClCompile Include="ClassTest.c" />
+    <ClCompile Include="ClassTestC.c" />
     <ClCompile Include="ExeptionUnitTest.c" />
     <ClCompile Include="InheritTest.c" />
     <ClCompile Include="MemManagementUnitTest.c" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="CharTest.h" />
     <ClInclude Include="ClassTest.h" />
+    <ClInclude Include="ClassTestC.h" />
     <ClInclude Include="ExeptionUnitTest.h" />
     <ClInclude Include="InheritTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />

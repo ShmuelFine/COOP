@@ -55,5 +55,8 @@ int main() {
 
 	//TypeTest
 	RUN_TEST(check_type);
+
+	///ClassTestC
+	RUN_TEST(Class_test);
 	
 }

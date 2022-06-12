@@ -51,6 +51,9 @@
     <ClCompile Include="TypeTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ClassTestC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassTest.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TypeTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassTestC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
