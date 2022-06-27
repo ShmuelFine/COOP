@@ -54,6 +54,7 @@
     <ClInclude Include="vectorIterator.h" />
     <ClInclude Include="redBlackTree.h" />
     <ClInclude Include="redBlackTreeIterator.h" />
+    <ClInclude Include="hashTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cache.c">
@@ -80,5 +81,6 @@
     <ClCompile Include="vectorIterator.c" />
     <ClCompile Include="redBlackTree.c" />
     <ClCompile Include="redBlackTreeIterator.c" />
+    <ClCompile Include="hashTable.c" />
   </ItemGroup>
 </Project>

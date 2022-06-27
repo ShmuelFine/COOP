@@ -147,6 +147,7 @@
     <ClInclude Include="COOP.h" />
     <ClInclude Include="dynamic_memory_management.h" />
     <ClInclude Include="ExportDefs.h" />
+    <ClInclude Include="hashTable.h" />
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="iCache.h" />
     <ClInclude Include="inheritence_def_macros.h" />
@@ -164,6 +165,7 @@
   <ItemGroup>
     <ClCompile Include="Cache.c" />
     <ClCompile Include="dynamic_memory_management.c" />
+    <ClCompile Include="hashTable.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="iCache.c" />
     <ClCompile Include="MemoryManager.cpp" />
