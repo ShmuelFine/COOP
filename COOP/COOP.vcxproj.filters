@@ -83,4 +83,7 @@
     <ClCompile Include="redBlackTreeIterator.c" />
     <ClCompile Include="hashTable.c" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
 </Project>
