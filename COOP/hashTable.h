@@ -3,6 +3,7 @@
 DEF_CLASS(DataItem);
 int key;
 int data;
+
 END_DEF(DataItem);
 FUNCTIONS(DataItem, int key, int data);
 END_FUNCTIONS(DataItem);
