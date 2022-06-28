@@ -11,15 +11,17 @@ END_DTOR
 
 DEF_CTOR(DataItemArry)
 {
-	int* arry = NULL;
+	DataItem* arry = NULL;
 	NEW(arry, DataItem*);
 	_this->size = 0;
 }
 END_CTOR
 DEF_DTOR(DataItemArry)
 {
-	////how to free the memory??
-	//very important
+	for (int i = 0; i < _this->size; i++)
+	{
+		DELETE_OBJ(_this->arry[i]);
+	}
 }
 END_DTOR
 
@@ -27,19 +29,28 @@ DEF_CTOR(HashTable, int capacity)
 {
 	_this->capacity = capacity;
 	_this->size = 0;
-	int* table = NULL;
-	NEW(table, DataItemArry*);
+	DataItemArry* table = NULL;
+	/*NEW(table, DataItemArry* );*/
+	NEW_OF_SIZE(_this->table, DataItemArry*, capacity);
 }
 END_CTOR
 DEF_DTOR(HashTable)
 {
-	///how to free the memory??
-	//very important
+	for (int i = 0; i < _this->capacity; i++)
+	{
+		for (int j = 0; j < _this->table[i].size; j++)
+		{
+		/*	DataItem obj = ;&obj*/
+			DELETE_OBJ(&(_this->table[i].arry[j]));
+		}
+		DELETE_OBJ(&(_this->table[i]));
+	}
 }
 END_DTOR
+
 MEM_FUN_IMPL(HashTable, getHashIndex, int key, int* retVal)
 {
-	int HashIndex = key % _this->size;
+	int HashIndex = key % _this->capacity;
 	*retVal = HashIndex;
 }
 END_FUN;
@@ -49,7 +60,8 @@ MEM_FUN_IMPL(HashTable, search, int key, DataItem* retVal)
 	DataItemArry currentDataItemArry = _this->table[HashIndex];
 	while (currentDataItemArry.arry != NULL) {
 		if ((*currentDataItemArry.arry).key == key) {
-			*retVal = *currentDataItemArry.arry;
+			DataItem res = *currentDataItemArry.arry;
+			*retVal = res;
 			BREAK;
 		}
 		else
