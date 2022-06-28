@@ -11,3 +11,4 @@
 #include "ScopesUnitTest.h"
 #include "TypeTest.h"
 #include "ClassTestC.h"
+#include "HashTableUnitTest.h"

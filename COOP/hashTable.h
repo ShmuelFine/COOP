@@ -8,7 +8,7 @@ FUNCTIONS(DataItem, int key, int data);
 END_FUNCTIONS(DataItem);
 
 DEF_CLASS(DataItemArry);
-int size;
+int sizeOfArray;
 DataItem* arry;
 END_DEF(DataItemArry);
 FUNCTIONS(DataItemArry);
@@ -16,7 +16,7 @@ END_FUNCTIONS(DataItemArry);
 
 DEF_CLASS(HashTable);
 int capacity;
-int size ;
+int amountOfElements ;
 DataItemArry* table;
 END_DEF(HashTable);
 FUNCTIONS(HashTable,  int capacity);
