@@ -13,12 +13,12 @@ DEF_CTOR(DataItemArry)
 {
 	DataItem* arry = NULL;
 	NEW(arry, DataItem*);
-	_this->size = 0;
+	_this->sizeOfArray = 0;
 }
 END_CTOR
 DEF_DTOR(DataItemArry)
 {
-	for (int i = 0; i < _this->size; i++)
+	for (int i = 0; i < _this->sizeOfArray; i++)
 	{
 		DELETE_OBJ(_this->arry[i]);
 	}
@@ -28,7 +28,7 @@ END_DTOR
 DEF_CTOR(HashTable, int capacity)
 {
 	_this->capacity = capacity;
-	_this->size = 0;
+	_this->amountOfElements = 0;
 	DataItemArry* table = NULL;
 	/*NEW(table, DataItemArry* );*/
 	NEW_OF_SIZE(_this->table, DataItemArry*, capacity);
@@ -38,9 +38,9 @@ DEF_DTOR(HashTable)
 {
 	for (int i = 0; i < _this->capacity; i++)
 	{
-		for (int j = 0; j < _this->table[i].size; j++)
+		for (int j = 0; j < _this->table[i].sizeOfArray; j++)
 		{
-		/*	DataItem obj = ;&obj*/
+			/*	DataItem obj = ;&obj*/
 			DELETE_OBJ(&(_this->table[i].arry[j]));
 		}
 		DELETE_OBJ(&(_this->table[i]));
@@ -75,18 +75,21 @@ MEM_FUN_IMPL(HashTable, insert, DataItem newDataItem, int* retVal)
 {
 	int HashIndex = getHashIndex(newDataItem.key);
 	DataItemArry currentDataItemArry = _this->table[HashIndex];
-	//to add try and catch 
-	currentDataItemArry.arry[currentDataItemArry.size] = newDataItem;
-	currentDataItemArry.size++;
-	_this->size++;
-	*retVal = 1;
-	///////////to complete!!!
-
-
-
+	TRY
+	{
+		currentDataItemArry.arry[currentDataItemArry.sizeOfArray] = newDataItem;
+		currentDataItemArry.sizeOfArray++;
+		_this->amountOfElements++;
+		*retVal = 1;
+	}
+	CATCH
+	{
+		  *retVal = 0;
+	}END_TRY;
+	
 }
 END_FUN;
-INIT_CLASS(HashTable)
+INIT_CLASS(HashTable);
 BIND(HashTable, getHashIndex);
 BIND(HashTable, search);
 BIND(HashTable, insert);

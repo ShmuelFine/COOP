@@ -58,5 +58,9 @@ int main() {
 
 	///ClassTestC
 	RUN_TEST(Class_test);
-	
+
+	////HashTableC! 
+	RUN_TEST(check_insert_to_hash_table);
+
+
 }
