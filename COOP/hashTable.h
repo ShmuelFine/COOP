@@ -23,4 +23,5 @@ FUNCTIONS(HashTable,  int capacity);
 MEM_FUN_DECL(HashTable,  getHashIndex,  int key, int*retVal );
 MEM_FUN_DECL(HashTable, search, int key, DataItem* retVal);
 MEM_FUN_DECL(HashTable, insert, DataItem newDataItem, int* retVal);
+MEM_FUN_DECL(HashTable, deleteItem, int key, int* retVal);
 END_FUNCTIONS(HashTable);
