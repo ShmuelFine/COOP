@@ -60,9 +60,9 @@ int main() {
 	RUN_TEST(Class_test);
 
 	////HashTableC! 
-	RUN_TEST(check_insert_SanityTest);
-	RUN_TEST(check_insert_when_already_exists_then_throw);
-	RUN_TEST(check_search_when_founded_then_return_instance);
-	RUN_TEST(check_search_when_not_founded_then_return_null);
-	RUN_TEST(check_delete_when_exist_then_delete);
+	//RUN_TEST(check_insert_SanityTest);
+	//RUN_TEST(check_insert_when_already_exists_then_throw);
+	//RUN_TEST(check_search_when_founded_then_return_instance);
+	//RUN_TEST(check_search_when_not_founded_then_return_null);
+	//RUN_TEST(check_delete_when_exist_then_delete);
 }

@@ -1,7 +1,9 @@
 #include "test_defs.h"
 #include "../COOP/COOP.h"
 #include "../COOP/redBlackTree.h"
-#include "../COOP_C_TestProxy/Rectangle.h"
+#include "Rectangle.h"
+
+// #include "../COOP_C_TestProxy/Rectangle.h"
 
 FUN_DECL(rectComp, void* a, void* b, bool* retBool);
 FUN_DECL(intComparison, void* a, void* b, bool* retBool);

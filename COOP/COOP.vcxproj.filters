@@ -55,6 +55,7 @@
     <ClInclude Include="redBlackTree.h" />
     <ClInclude Include="redBlackTreeIterator.h" />
     <ClInclude Include="hashTable.h" />
+    <ClInclude Include="Ndarray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cache.c">
@@ -82,6 +83,7 @@
     <ClCompile Include="redBlackTree.c" />
     <ClCompile Include="redBlackTreeIterator.c" />
     <ClCompile Include="hashTable.c" />
+    <ClCompile Include="Ndarray.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

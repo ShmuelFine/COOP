@@ -1,4 +1,4 @@
-#include"MemManagementUnitTest.h"
+#include "MemManagementUnitTest.h"
 FUN_IMPL(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)
 {
 	//Arrange

@@ -1,4 +1,13 @@
-#include"ClassTestC.h"
+#include "ClassTestC.h"
+
+DEF_CLASS(BaseClassExample);
+int hight;
+int width;
+END_DEF(BaseClassExample);
+
+FUNCTIONS(BaseClassExample, int hight, int width);
+MEM_FUN_DECL(BaseClassExample, GetVolume, int* retVal);
+END_FUNCTIONS(BaseClassExample);
 
 FUN_IMPL(Class_test)
 {

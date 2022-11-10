@@ -1,6 +1,5 @@
 #include"vectorUnitTest.h"
 
-
 FUN_IMPL(vector_push_back_SanityTest)
 {
 	// Arrange
