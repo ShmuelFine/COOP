@@ -98,7 +98,7 @@ END_FUN
 
 MEM_FUN_IMPL(Ndarray, fill, float val)
 {
-	memset(_this->data, val, _this->size*sizeof(float));
+	memset(_this->data, (int)val, _this->size*sizeof(float));
 	//_this->min = _this->max = val;
 
 }
@@ -106,7 +106,7 @@ END_FUN
 
 MEM_FUN_IMPL(Ndarray, sum, float* ret_value)
 {
-	int sum = 0;
+	float sum = 0;
 	for (size_t i = 0; i < _this->ndim; i++)
 	{
 		sum += _this->data[i];

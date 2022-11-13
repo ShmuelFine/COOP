@@ -74,6 +74,8 @@ SCOPE_START;
 }FreeMostInnerScope(&_scope_obj_list); \
 return __RET_VAL__; \
 }
+#define RETURN_NONE \
+{ FreeMostInnerScope(&_scope_obj_list); return __RET_VAL__; }
 
 #define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)
 

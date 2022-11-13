@@ -17,8 +17,8 @@ FUN_IMPL(redBlacktreeIterator_increment_Sanity)
 
 	CREATE(redBlackTree, rbTree), functionPtr);
 
-	node* retPtr, * retPtr1, * retPtr2, * retPtr3, * retPtr4, * retPtr5, * retPtr6,
-		* retPtr7;
+	node* retPtr, * retPtr1, * retPtr2, * retPtr3, * retPtr4, * retPtr5, * retPtr6;
+		//* retPtr7;
 	bool retBool;
 	int a = 2, b = 10, c = 4, d = 35;
 

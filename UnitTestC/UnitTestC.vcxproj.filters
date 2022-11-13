@@ -66,6 +66,12 @@
     <ClCompile Include="DerivedClassExample.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ScopeTester.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NdarrayTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassTest.h">
@@ -123,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DerivedClassExample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NdarrayTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

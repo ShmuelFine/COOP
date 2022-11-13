@@ -1,9 +1,9 @@
 #ifndef __COOP__VECTOR__H_
 #define __COOP__VECTOR__H_
 
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "coop.h"
 #include "vectorIterator.h"

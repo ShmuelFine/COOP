@@ -11,11 +11,11 @@ FUN_IMPL(check_type)
 
 	float* i = NULL;
 	NEW(i, float);
-	*i = 10.5;
+	*i = 10.5f;
 
 	float* j = NULL;
 	NEW(j, float);
-	*j = 300.3;
+	*j = 300.3f;
 
 	FUN(&ptr, Reset), i CALL;//10.5
 	FUN(&ptr2, Reset), j CALL;//300.3
