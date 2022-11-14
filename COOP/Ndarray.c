@@ -138,13 +138,27 @@ END_FUN
 
 MEM_FUN_IMPL(Ndarray, min, float* ret_val)
 {
-
+	float min = _this->data[0];
+	for (int i = 1; i < _this->size; i++) {
+		if (_this->data[i] < min)
+		{
+			min = _this->data[i];
+		}
+	}
+	*ret_val = min;
 }
 END_FUN
 
 MEM_FUN_IMPL(Ndarray, max, float* ret_val)
 {
-
+	float max = _this->data[0];
+	for (int i = 1; i < _this->size; i++) {
+		if (_this->data[i] > max)
+		{
+			max = _this->data[i];
+		}
+	}
+	*ret_val = max;
 }
 END_FUN
 
