@@ -2,8 +2,8 @@
 //FUN_IMPL(check_insert_SanityTest)
 //{
 //	// Arrange
-//	CREATE(HashTable, hashTable), 20 );
-//	CREATE(DataItem, item), 6,8 );
+//	CREATE(HashTable, hashTable), 20  CALL;
+//	CREATE(DataItem, item), 6,8  CALL;
 // 
 //	// Act
 //	int retVal = 0;
@@ -17,9 +17,9 @@
 //{
 //	// Arrange
 //	
-//	CREATE(HashTable, hashTable), 20 );
-//	CREATE(DataItem, item1), 6, 8 );
-//	CREATE(DataItem, item2), 6, 7 );
+//	CREATE(HashTable, hashTable), 20  CALL;
+//	CREATE(DataItem, item1), 6, 8  CALL;
+//	CREATE(DataItem, item2), 6, 7  CALL;
 //	
 //
 //	// Act
@@ -34,11 +34,11 @@
 //FUN_IMPL(check_search_when_founded_then_return_instance)
 //{
 //	// Arrange
-//	CREATE(HashTable, hashTable), 20 );
-//	CREATE(DataItem, item1), 6, 8 );
-//	CREATE(DataItem, item2), 4, 14 );
-//	CREATE(DataItem, item3), 6, 16 );
-//	CREATE(DataItem, item4), 45, 320 );
+//	CREATE(HashTable, hashTable), 20  CALL;
+//	CREATE(DataItem, item1), 6, 8  CALL;
+//	CREATE(DataItem, item2), 4, 14  CALL;
+//	CREATE(DataItem, item3), 6, 16  CALL;
+//	CREATE(DataItem, item4), 45, 320  CALL;
 //
 //	// Act
 //	DataItem* retVal = NULL;
@@ -59,11 +59,11 @@
 //FUN_IMPL(check_search_when_not_founded_then_return_null)
 //{
 //	// Arrange
-//	CREATE(HashTable, hashTable), 20 );
-//	CREATE(DataItem, item1), 6, 8 );
-//	CREATE(DataItem, item2), 4, 14 );
-//	CREATE(DataItem, item3), 6, 16 );
-//	CREATE(DataItem, item4), 45, 320 );
+//	CREATE(HashTable, hashTable), 20  CALL;
+//	CREATE(DataItem, item1), 6, 8  CALL;
+//	CREATE(DataItem, item2), 4, 14  CALL;
+//	CREATE(DataItem, item3), 6, 16  CALL;
+//	CREATE(DataItem, item4), 45, 320  CALL;
 //
 //	// Act
 //	DataItem* retVal = NULL;
@@ -84,9 +84,9 @@
 //FUN_IMPL(check_delete_when_exist_then_delete)
 //{
 //	// Arrange
-//	CREATE(HashTable, hashTable), 20 );
-//	CREATE(DataItem, item1), 6, 8 );
-//	CREATE(DataItem, item2), 4, 14 );
+//	CREATE(HashTable, hashTable), 20  CALL;
+//	CREATE(DataItem, item1), 6, 8  CALL;
+//	CREATE(DataItem, item2), 4, 14  CALL;
 //
 //	// Act
 //	int retVal =-1;

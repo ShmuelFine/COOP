@@ -5,7 +5,7 @@
 //FUN_IMPL(Class_CallSimpleFunction_SanityTest)
 //{
 //	// Arrange
-//	CREATE(BaseClassExample, B), 10, 3);
+//	CREATE(BaseClassExample, B), 10, 3 CALL;
 //
 //	// Act
 //	int retVal = 0;

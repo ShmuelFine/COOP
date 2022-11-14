@@ -3,7 +3,7 @@ FUN_IMPL(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy)
 {
 	//Arrange
 
-	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY CALL;
 
 	//Act
 	int* buff = NULL;
@@ -33,7 +33,7 @@ FUN_IMPL(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy)
 	//Arrange
 	SCOPE_START;
 
-	CREATE(MemoryManager, memManager), sizeof(BaseClassExample), STACK_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(BaseClassExample), STACK_BASED_MEMORY CALL;
 
 	//Act
 	BaseClassExample* m = NULL;
@@ -64,7 +64,7 @@ FUN_IMPL(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)
 	SCOPE_START;
 
 	//Arrange
-	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY CALL;
 
 	//Act
 	int* buff;

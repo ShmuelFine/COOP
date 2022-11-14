@@ -3,11 +3,11 @@
 FUN_IMPL(check_type)
 {
 	// Arrange
-	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY CALL;
 
 
-	CREATE(Shared_ptr, ptr));
-	CREATE(Shared_ptr, ptr2));
+	CREATE(Shared_ptr, ptr) CALL;
+	CREATE(Shared_ptr, ptr2) CALL;
 
 	float* i = NULL;
 	NEW(i, float);

@@ -326,7 +326,7 @@ MEM_FUN_IMPL(redBlackTree, begin, redBlackTreeIterator * beginNode)
     }
         
 
-    CREATE(redBlackTreeIterator, it), minNode);
+    CREATE(redBlackTreeIterator, it), minNode CALL;
 
     *beginNode = it;
 }END_FUN;
@@ -334,7 +334,7 @@ MEM_FUN_IMPL(redBlackTree, begin, redBlackTreeIterator * beginNode)
 //returns the header node
 MEM_FUN_IMPL(redBlackTree, end, redBlackTreeIterator * endNode)
 {
-    CREATE(redBlackTreeIterator, it), _this->head);
+    CREATE(redBlackTreeIterator, it), _this->head CALL;
 
     *endNode = it;
 }END_FUN;
@@ -399,7 +399,7 @@ MEM_FUN_IMPL(redBlackTree, erase, void * val, int* numElemsErased)
     node* valNode = _this->head;
     bool compBool = false, compBool1 = false;
     
-    CREATE(redBlackTreeIterator, rbIt), NULL);
+    CREATE(redBlackTreeIterator, rbIt), NULL CALL;
 
     FUN(_this, find), val, & rbIt CALL
 

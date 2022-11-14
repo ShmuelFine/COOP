@@ -30,12 +30,12 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 
 // Macro that begins derived class func definition section
 #define DERIVED_FUNCTIONS(class_name, base, ...)			\
-	void __ctor__ ##class_name(class_name * _this, __VA_ARGS__);	\
-	void __dtor__ ##class_name(class_name * _this);					\
+	int __ctor__ ##class_name(class_name * _this, __VA_ARGS__);	\
+	int __dtor__ ##class_name(class_name * _this);					\
 	typedef struct class_name ##VirtualTable_t{				\
 	base ##VirtualTable _base;								\
-	void (*_ctor)(class_name * _this, __VA_ARGS__);			\
-	void (*_dtor)(class_name * _this); 
+	int (*_ctor)(class_name * _this, __VA_ARGS__);			\
+	int (*_dtor)(class_name * _this); 
 
 // Macro that defines an overriding version of a virtual function:
 #define FUN_OVERRIDE(base_class, function_name, ...)	\
@@ -55,7 +55,7 @@ struct base_class ##_ ##function_name ##_t_ function_name
 // In order to call the base class ctor. e.g.:
 // DEF_DERIVED_CTOR(Derived_Class, Base_Class, width, height, type, step) SUPER, width, height, type ME
 #define DEF_DERIVED_CTOR(class_name, baseName, ...)    \
-void __ctor__ ##class_name(class_name * _this, __VA_ARGS__)  \
+int __ctor__ ##class_name(class_name * _this, __VA_ARGS__)  \
 {                                                \
 	__ctor__ ##baseName
 
@@ -64,7 +64,7 @@ void __ctor__ ##class_name(class_name * _this, __VA_ARGS__)  \
 
 // Macro that begins a derived dtor definiton. It calls the base class dtor, 
 // and you should fill in the extra work needed.
-#define DEF_DERIVED_DTOR(class_name, BaseName) void __dtor__ ##class_name(class_name * _this)	\
+#define DEF_DERIVED_DTOR(class_name, BaseName) int __dtor__ ##class_name(class_name * _this)	\
 {																			\
 	__dtor__ ##BaseName(&(_this->_base));
 

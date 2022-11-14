@@ -2,13 +2,13 @@
 
 FUN_IMPL(vectorIterator_getContentsOf_Sanity)
 {
-	CREATE(vector, v1));
+	CREATE(vector, v1) CALL;
 
-	CREATE(MemoryManager, memManager), sizeof(int) * 1, HEAP_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 1, HEAP_BASED_MEMORY CALL;
 
 	FUN(&v1, push_back), 3 CALL
 
-		CREATE(vectorIterator, vecIt), & v1, 0);
+		CREATE(vectorIterator, vecIt), & v1, 0 CALL;
 
 		int retVal = 0;
 		FUN(&vecIt, getContentsOf), & retVal CALL
@@ -19,17 +19,17 @@ FUN_IMPL(vectorIterator_getContentsOf_Sanity)
 }END_FUN
 FUN_IMPL(vectorIterator_increment_Sanity)
 {
-	CREATE(vector, v1));
+	CREATE(vector, v1) CALL;
 
-	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 
 	FUN(&v1, push_back), 3 CALL
 		FUN(&v1, push_back), 4 CALL
 		FUN(&v1, push_back), 5 CALL
 
-		CREATE(vectorIterator, vecIt), & v1, 0);
+		CREATE(vectorIterator, vecIt), & v1, 0 CALL;
 
-		CREATE(vectorIterator, vecIt1), & v1, 1);
+		CREATE(vectorIterator, vecIt1), & v1, 1 CALL;
 
 		int retVal = 0;
 		int retVal1 = 0;

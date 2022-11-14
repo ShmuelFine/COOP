@@ -6,7 +6,6 @@
 #include "obj_base_structs.h"
 #include <setjmp.h>
 
-
 COOP_API void _scope_obj_list_add(object* scope_list, object* obj);
 COOP_API void _scope_obj_list_free(object* scope_list);
 COOP_API void FreeMostInnerScope(object* _scope_obj_list);
@@ -19,7 +18,7 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 	instance_name._next= NULL;										\
 	instance_name.vTable=&type ##VTable;							\
 	REGISTER_OBJECT(&instance_name);								\
-	instance_name.vTable->_ctor(&instance_name
+    { int _retVal_ = instance_name.vTable->_ctor(&instance_name
 
 
 // The obj lifecycle built upon scopes, that has to account with exception handling:

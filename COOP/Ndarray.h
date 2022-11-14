@@ -10,8 +10,6 @@ int* shape;
 int ndim;
 int size;
 float* data;
-//float min;
-//float max;
 END_DEF(Ndarray);
 
 FUNCTIONS(Ndarray, int ndim, int* shape);

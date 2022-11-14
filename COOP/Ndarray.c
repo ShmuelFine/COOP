@@ -3,6 +3,8 @@
 DEF_CTOR(Ndarray, int ndim, int* shape)
 {
 	_this->ndim = ndim;
+	_this->shape = NULL;
+	_this->data = NULL;
 	if (ndim < 0) {
 		THROW_MSG("dimension can't be negative")
 	}
@@ -29,16 +31,15 @@ DEF_CTOR(Ndarray, int ndim, int* shape)
 		NEW_OF_SIZE(_this->data, float, _this->size);
 		memset(_this->data, 0, _this->size * sizeof(float));
 
-		//_this->min = _this->max = 0;
 	}
 }
 END_CTOR
 
 DEF_DTOR(Ndarray)
 {
-	if (_this->shape != NULL)
+	if (_this->shape)
 		DELETE_OBJ(_this->shape);
-	if (_this->data != NULL)
+	if (_this->data)
 		DELETE_OBJ(_this->data);
 }
 END_DTOR
@@ -72,13 +73,6 @@ MEM_FUN_IMPL(Ndarray, set, int* pos, float val)
 	FUN(_this, get_location), pos, & index CALL;
 
 	_this->data[index] = val;
-
-	//if (val > _this->max) {
-	//	_this->max = val;
-	//}
-	//if (val < _this->min) {
-	//	_this->min = val;
-	//}
 }
 END_FUN
 
@@ -112,7 +106,6 @@ MEM_FUN_IMPL(Ndarray, fill, float val)
 		_this->data[i] = val;
 	}
 	//memset(_this->data, val, _this->size * sizeof(float));
-	//_this->min = _this->max = val;
 
 }
 END_FUN

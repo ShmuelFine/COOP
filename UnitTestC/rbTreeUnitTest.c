@@ -14,12 +14,12 @@ FUN_IMPL(rbTree_insert_SanityTest)
 {
 	//also checked with an inorder traversal after each insert (before switch to void *)
 	//Arrange
-	CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &intComparison;
 
-	CREATE(redBlackTree, rbTree), functionPtr);
+	CREATE(redBlackTree, rbTree), functionPtr CALL;
 
 	node* retPtr = NULL, * retPtr1 = NULL, * retPtr2 = NULL, * retPtr3 = NULL,
 		* retPtr4 = NULL, * retPtr5 = NULL, * retPtr6 = NULL, * retPtr7 = NULL,
@@ -87,12 +87,12 @@ FUN_IMPL(rbTree_insert_SanityTest)
 }END_FUN
 FUN_IMPL(rbTree_find_SanityTest)
 	{
-		CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY);
+		CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
 
 		void (*functionPtr)(void*, void*, bool*);
 		functionPtr = &intComparison;
 
-		CREATE(redBlackTree, rbTree), functionPtr);
+		CREATE(redBlackTree, rbTree), functionPtr CALL;
 
 		bool retBool;
 		node* retPtr, * retNode1, * retNode2, * retNode3;
@@ -103,7 +103,7 @@ FUN_IMPL(rbTree_find_SanityTest)
 			FUN(&rbTree, insert), & d, & retPtr, & retBool CALL
 			FUN(&rbTree, insert), & e, & retPtr, & retBool CALL
 
-			CREATE(redBlackTreeIterator, rbIt), retPtr);
+			CREATE(redBlackTreeIterator, rbIt), retPtr CALL;
 
 			FUN(&rbTree, find), & b, & rbIt CALL
 				FUN(&rbIt, getContentsOf), & retNode1 CALL
@@ -124,12 +124,12 @@ FUN_IMPL(rbTree_delete_SanityTest)
 				//also checked the inOrderTraversal after each erase-before switch to void *
 				//and some after
 				//ARRANGE
-				CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY);
+				CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
 
 				void (*functionPtr)(void*, void*, bool*);
 				functionPtr = &intComparison;
 
-				CREATE(redBlackTree, rbTree), functionPtr);
+				CREATE(redBlackTree, rbTree), functionPtr CALL;
 
 
 				node* retPtr = NULL, * rootPtr2 = NULL, * rootPtr3 = NULL, * retNode1 = NULL,
@@ -179,7 +179,7 @@ FUN_IMPL(rbTree_delete_SanityTest)
 					FUN(&rbTree, getRootNode), & rootPtr CALL
 					FUN(&rbTree, inOrderTraversal), rootPtr CALL
 
-					CREATE(redBlackTreeIterator, rbIt), retPtr);
+					CREATE(redBlackTreeIterator, rbIt), retPtr CALL;
 
 					FUN(&rbTree, find), & c, & rbIt CALL
 						FUN(&rbIt, getContentsOf), & retNode1 CALL
@@ -218,12 +218,12 @@ FUN_IMPL(rbTree_delete_SanityTest)
 			}END_FUN
 FUN_IMPL(rbTree_iteration_SanityTest)
 					{
-						CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY);
+						CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
 
 						void (*functionPtr)(void*, void*, bool*);
 						functionPtr = &intComparison;
 
-						CREATE(redBlackTree, rbTree), functionPtr);
+						CREATE(redBlackTree, rbTree), functionPtr CALL;
 
 						bool retBool;
 						node* retPtr, * beginNode, * endNode;
@@ -243,11 +243,11 @@ FUN_IMPL(rbTree_iteration_SanityTest)
 							FUN(&rbTree, insert), & j, & retPtr, & retBool CALL
 							FUN(&rbTree, insert), & k, & retPtr, & retBool CALL
 
-							CREATE(redBlackTreeIterator, beginIt), retPtr);
+							CREATE(redBlackTreeIterator, beginIt), retPtr CALL;
 							FUN(&rbTree, begin), & beginIt CALL
 								FUN(&beginIt, getContentsOf), & beginNode CALL
 
-								CREATE(redBlackTreeIterator, endIt), retPtr);
+								CREATE(redBlackTreeIterator, endIt), retPtr CALL;
 								FUN(&rbTree, end), & endIt CALL
 									FUN(&endIt, getContentsOf), & endNode CALL
 
@@ -275,7 +275,7 @@ FUN_IMPL(rbTree_iteration_SanityTest)
 					}END_FUN
 FUN_IMPL(rbTree_rectangle_as_node_data_insert_SanityTest)
 								{
-									CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY);
+									CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
 
 									void (*functionPtr)(void*, void*, bool*);
 									functionPtr = &rectComp;
@@ -285,15 +285,15 @@ FUN_IMPL(rbTree_rectangle_as_node_data_insert_SanityTest)
 									node* retPtr1, * retPtr2, * retPtr3, * retPtr4, * retPtr5, * retPtr6,
 										* retPtr7, * retPtr8, * rootPtr1, * rootPtr2, * rootPtr3, * rootPtr4,
 										* rootPtr5, * rootPtr6, * rootPtr7;
-									CREATE(redBlackTree, rbTree), functionPtr);
+									CREATE(redBlackTree, rbTree), functionPtr CALL;
 
-									CREATE(Rectangle, rect1), 1, 1);
-									CREATE(Rectangle, rect2), 2, 2);
-									CREATE(Rectangle, rect3), 3, 3);
-									CREATE(Rectangle, rect4), 4, 4);
-									CREATE(Rectangle, rect5), 5, 5);
-									CREATE(Rectangle, rect6), 6, 6);
-									CREATE(Rectangle, rect7), 7, 7);
+									CREATE(Rectangle, rect1), 1, 1 CALL;
+									CREATE(Rectangle, rect2), 2, 2 CALL;
+									CREATE(Rectangle, rect3), 3, 3 CALL;
+									CREATE(Rectangle, rect4), 4, 4 CALL;
+									CREATE(Rectangle, rect5), 5, 5 CALL;
+									CREATE(Rectangle, rect6), 6, 6 CALL;
+									CREATE(Rectangle, rect7), 7, 7 CALL;
 
 									//test insert operation
 									FUN(&rbTree, insert), & rect1, & retPtr1, & retBool1 CALL
@@ -362,25 +362,25 @@ FUN_IMPL(rbTree_rectangle_as_node_data_insert_SanityTest)
 								}END_FUN
 FUN_IMPL(rbTree_rectangle_as_node_data_find_SanityTest)
 								{
-									CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY);
+									CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
 
 									void (*functionPtr)(void*, void*, bool*);
 									functionPtr = &rectComp;
 
 									bool retBool1 = false;
 									node* retPtr1, * retNode1, * retNode2, * retNode3, * retNode4;
-									CREATE(redBlackTree, rbTree), functionPtr);
+									CREATE(redBlackTree, rbTree), functionPtr CALL;
 
-									CREATE(Rectangle, rect1), 1, 1);
-									CREATE(Rectangle, rect2), 2, 2);
-									CREATE(Rectangle, rect3), 3, 3);
-									CREATE(Rectangle, rect4), 4, 4);
+									CREATE(Rectangle, rect1), 1, 1 CALL;
+									CREATE(Rectangle, rect2), 2, 2 CALL;
+									CREATE(Rectangle, rect3), 3, 3 CALL;
+									CREATE(Rectangle, rect4), 4, 4 CALL;
 
 									FUN(&rbTree, insert), & rect1, & retPtr1, & retBool1 CALL
 										FUN(&rbTree, insert), & rect2, & retPtr1, & retBool1 CALL
 										FUN(&rbTree, insert), & rect3, & retPtr1, & retBool1 CALL
 
-										CREATE(redBlackTreeIterator, rbIt), retPtr1);
+										CREATE(redBlackTreeIterator, rbIt), retPtr1 CALL;
 
 										FUN(&rbTree, find), & rect1, & rbIt CALL
 											FUN(&rbIt, getContentsOf), & retNode1 CALL
@@ -407,7 +407,7 @@ FUN_IMPL(rbTree_rectangle_as_node_data_find_SanityTest)
 								}END_FUN
 FUN_IMPL(rbTree_rectangle_as_node_data_delete_SanityTest)
 										{
-											CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY);
+											CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
 
 											void (*functionPtr)(void*, void*, bool*);
 											functionPtr = &rectComp;
@@ -416,15 +416,15 @@ FUN_IMPL(rbTree_rectangle_as_node_data_delete_SanityTest)
 											node* retPtr1, * retNode, * rootPtr1, * rootPtr2, * rootPtr3;
 											int numElemsErased1, numElemsErased2, numElemsErased3;
 
-											CREATE(redBlackTree, rbTree), functionPtr);
+											CREATE(redBlackTree, rbTree), functionPtr CALL;
 
-											CREATE(Rectangle, rect1), 1, 1);
-											CREATE(Rectangle, rect2), 2, 2);
-											CREATE(Rectangle, rect3), 3, 3);
-											CREATE(Rectangle, rect4), 4, 4);
-											CREATE(Rectangle, rect5), 5, 5);
-											CREATE(Rectangle, rect6), 6, 6);
-											CREATE(Rectangle, rect7), 7, 7);
+											CREATE(Rectangle, rect1), 1, 1 CALL;
+											CREATE(Rectangle, rect2), 2, 2 CALL;
+											CREATE(Rectangle, rect3), 3, 3 CALL;
+											CREATE(Rectangle, rect4), 4, 4 CALL;
+											CREATE(Rectangle, rect5), 5, 5 CALL;
+											CREATE(Rectangle, rect6), 6, 6 CALL;
+											CREATE(Rectangle, rect7), 7, 7 CALL;
 
 											FUN(&rbTree, insert), & rect1, & retPtr1, & retBool1 CALL
 												FUN(&rbTree, insert), & rect2, & retPtr1, & retBool1 CALL
@@ -452,7 +452,7 @@ FUN_IMPL(rbTree_rectangle_as_node_data_delete_SanityTest)
 												TEST_ASSERT((*(Rectangle*)(rootPtr3->data)).width == 4);
 											TEST_ASSERT(numElemsErased3 == 0);
 
-											CREATE(redBlackTreeIterator, rbIt), retPtr1);
+											CREATE(redBlackTreeIterator, rbIt), retPtr1 CALL;
 
 											FUN(&rbTree, find), & rect5, & rbIt CALL
 												FUN(&rbIt, getContentsOf), & retNode CALL
