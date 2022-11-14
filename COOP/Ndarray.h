@@ -17,6 +17,7 @@ END_DEF(Ndarray);
 // min, max, sum, fill, contain
 //avarage, sort, product, clip, round, arrange, index, count, append,...
 FUNCTIONS(Ndarray, int ndim, int* shape);
+MEM_FUN_DECL(Ndarray, get_location, int* coords, int* ret_val);
 MEM_FUN_DECL(Ndarray, set, int* pos, float value);
 MEM_FUN_DECL(Ndarray, at, int* pos, float* ret_val);
 MEM_FUN_DECL(Ndarray, reshape, int ndim, int* shape);

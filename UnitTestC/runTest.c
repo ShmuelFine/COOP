@@ -69,5 +69,11 @@ int main() {
 	//Ndarray
 	RUN_TEST(Ndarray_init_sanity_case);
 	RUN_TEST(Ndarray_init_invalid_shape);
+	RUN_TEST(Ndarray_get_location_3D);
 	RUN_TEST(Ndarray_set_sanity_case);
+	RUN_TEST(Ndarray_set_index_out_of_range);
+	RUN_TEST(Ndarray_at_sanity_case);
+	//RUN_TEST(Ndarray_at_index_out_of_range);
+	RUN_TEST(Ndarray_fill_sanity_case);
+	
 }

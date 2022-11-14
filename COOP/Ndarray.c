@@ -27,7 +27,7 @@ DEF_CTOR(Ndarray, int ndim, int* shape)
 		}
 
 		NEW_OF_SIZE(_this->data, float, _this->size);
-		memset(_this->data, 0, _this->size*sizeof(float));
+		memset(_this->data, 0, _this->size * sizeof(float));
 
 		//_this->min = _this->max = 0;
 	}
@@ -43,18 +43,34 @@ DEF_DTOR(Ndarray)
 }
 END_DTOR
 
+MEM_FUN_IMPL(Ndarray, get_location, int* coords, int* ret_val)
+{
+	int index = 0;
+	int dim = 1;
+	for (int i = _this->ndim - 1; i >= 0; i--)
+	{
+		if (coords[i] >= _this->shape[i])
+		{
+			THROW_MSG("index out of range")
+		}
+		index += coords[i] * dim;
+		dim *= _this->shape[i];
+	}
+
+	//if (index >= _this->size)
+	//{
+	//	THROW_MSG("index out of range")
+	//}
+	(*ret_val) = index;
+
+}
+END_FUN
+
 MEM_FUN_IMPL(Ndarray, set, int* pos, float val)
 {
 	int index = 0;
-	for (size_t i = 0; i < _this->ndim - 1; i++)
-	{
-		index += pos[i] * _this->shape[i+1];
-	}
-	index += pos[_this->ndim - 1];
-	if (index > _this->size)
-	{
-		THROW_MSG("index out of range")
-	}
+	FUN(_this, get_location), pos, & index CALL;
+
 	_this->data[index] = val;
 
 	//if (val > _this->max) {
@@ -68,15 +84,8 @@ END_FUN
 
 MEM_FUN_IMPL(Ndarray, at, int* pos, float* ret_val) {
 	int index = 0;
-	for (size_t i = 0; i < _this->ndim - 1; i++)
-	{
-		index += pos[i] * _this->shape[i+1];
-	}
-	index += pos[_this->ndim - 1];
-	if (index > _this->size)
-	{
-		THROW_MSG("index out of range")
-	}
+	FUN(_this, get_location), pos, & index CALL;
+
 	*ret_val = _this->data[index];
 }
 END_FUN
@@ -98,7 +107,11 @@ END_FUN
 
 MEM_FUN_IMPL(Ndarray, fill, float val)
 {
-	memset(_this->data, (int)val, _this->size*sizeof(float));
+	for (int i = 0; i < _this->size; i++)
+	{
+		_this->data[i] = val;
+	}
+	//memset(_this->data, val, _this->size * sizeof(float));
 	//_this->min = _this->max = val;
 
 }
@@ -137,6 +150,7 @@ END_FUN
 
 
 INIT_CLASS(Ndarray)
+BIND(Ndarray, get_location);
 BIND(Ndarray, set);
 BIND(Ndarray, at);
 BIND(Ndarray, reshape);
