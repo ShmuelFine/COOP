@@ -80,7 +80,7 @@ MEM_FUN_IMPL(Ndarray, at, int* pos, float* ret_val) {
 	int index = 0;
 	FUN(_this, get_location), pos, & index CALL;
 
-	*ret_val = _this->data[index];
+	(*ret_val) = _this->data[index];
 }
 END_FUN
 

@@ -80,6 +80,8 @@ int main() {
 	RUN_TEST(Ndarray_contains_when_true);
 	RUN_TEST(Ndarray_contains_when_false);
 	RUN_TEST(Ndarray_min_sanity_case);
-	RUN_TEST(Ndarray_max_sanity_case)
+	RUN_TEST(Ndarray_max_sanity_case);
+	RUN_TEST(Ndarray_general_test);
+	FINISH_TESTS();
 }
 

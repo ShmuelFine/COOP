@@ -72,6 +72,9 @@
     <ClCompile Include="NdarrayTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="infrastructureTest.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClassTest.h">
@@ -132,6 +135,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NdarrayTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="infrastructureTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

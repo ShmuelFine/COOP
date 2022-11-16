@@ -150,6 +150,7 @@
     <ClCompile Include="DerivedClassExample.c" />
     <ClCompile Include="ExeptionUnitTest.c" />
     <ClCompile Include="HashTableUnitTest.c" />
+    <ClCompile Include="infrastructureTest.c" />
     <ClCompile Include="InheritTest.c" />
     <ClCompile Include="MemManagementUnitTest.c" />
     <ClCompile Include="NdarrayTest.c" />
@@ -171,6 +172,7 @@
     <ClInclude Include="DerivedClassExample.h" />
     <ClInclude Include="ExeptionUnitTest.h" />
     <ClInclude Include="HashTableUnitTest.h" />
+    <ClInclude Include="infrastructureTest.h" />
     <ClInclude Include="InheritTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />
     <ClInclude Include="NdarrayTest.h" />

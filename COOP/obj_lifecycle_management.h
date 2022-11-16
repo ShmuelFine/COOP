@@ -39,7 +39,8 @@ for (int i_ ##__LINE__= 0; i_ ##__LINE__ < 1; i_ ##__LINE__++)\
 if (IS_BREAKING) {break;} \
 else if (IS_IN_THROWING) { __RET_VAL__ = SUCCESS_VALUE;
 
-#define END_TRY }\
+#define END_TRY \
+}\
 {if (IS_BREAKING || IS_IN_THROWING) break;}
 
 #define THROW \

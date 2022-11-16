@@ -17,4 +17,5 @@ FUN_DECL(Ndarray_contains_when_true);
 FUN_DECL(Ndarray_contains_when_false);
 FUN_DECL(Ndarray_min_sanity_case);
 FUN_DECL(Ndarray_max_sanity_case);
+FUN_DECL(Ndarray_general_test);
 

@@ -25,8 +25,32 @@ FUN_IMPL(Ndarray_init_sanity_case)
 END_FUN
 
 FUN_IMPL(Ndarray_init_invalid_dims)
-{	//Arragne
+{
+	//Arragne
 	int dims = -1;
+	int shape[] = { 0, 4 };
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+
+	TRY
+	{
+		//Act
+		CREATE(Ndarray, arr), dims, shape CALL;
+
+	//Assert
+	TEST_ASSERT(false); // we shouldn't have gotten here.
+	}
+		CATCH{
+		//TEST_ASSERT(strcmp(LAST_EXCEPTION_ERROR_MSG, "dimension can't be negative")==0);
+	}
+	END_TRY;
+
+}
+END_FUN
+
+FUN_IMPL(Ndarray_init_invalid_shape)
+{
+	//Arragne
+	int dims = 2;
 	int shape[] = { 0, 4 };
 	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 
@@ -35,28 +59,7 @@ FUN_IMPL(Ndarray_init_invalid_dims)
 		CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Assert
-	TEST_ASSERT(false); // we shouldn't have gotten here.
-	}
-	CATCH{
-			TEST_ASSERT(true);
-	}
-	END_TRY
-
-}
-END_FUN
-
-FUN_IMPL(Ndarray_init_invalid_shape)
-{	//Arragne
-	int dims = 2;
-	int shape[] = { 0, 4 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
-
-	TRY{
-		//Act
-		CREATE(Ndarray, arr), dims, shape CALL;
-
-	//Assert
-	TEST_ASSERT(false); // we shouldn't have gotten here.
+	TEST_ASSERT(false);
 	}CATCH{
 			TEST_ASSERT(true);
 	}END_TRY
@@ -68,7 +71,7 @@ FUN_IMPL(Ndarray_get_location_3D)
 	int dims = 3;
 	int shape[] = { 3, 4, 5 };
 	int pos[] = { 2,3,4 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Act
@@ -86,7 +89,7 @@ FUN_IMPL(Ndarray_set_sanity_case)
 	int dims = 2;
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,3 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Act
@@ -104,20 +107,20 @@ FUN_IMPL(Ndarray_set_index_out_of_range)
 	int dims = 2;
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,4 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	TRY{
 		//Act
 		FUN(&arr, set), pos, 5 CALL;
 
-		//Assert
-		TEST_ASSERT(false); 
+	//Assert
+	TEST_ASSERT(false);
 	}
-	CATCH{
-		TEST_ASSERT(true);
+		CATCH{
+			TEST_ASSERT(true);
 	}
-	END_TRY
+		END_TRY
 }
 END_FUN
 
@@ -127,7 +130,7 @@ FUN_IMPL(Ndarray_at_sanity_case)
 	int dims = 2;
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,3 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Act
@@ -145,20 +148,20 @@ FUN_IMPL(Ndarray_at_index_out_of_range)
 	int dims = 2;
 	int shape[] = { 3, 4 };
 	int pos[] = { 4,3 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
-	
+
 	TRY{
 		//Act
 		FUN(&arr, set), pos, 5 CALL;
 
-		//Assert
-		TEST_ASSERT(false);
+	//Assert
+	TEST_ASSERT(false);
 	}CATCH{
 
 		TEST_ASSERT(true);
 	}
-	END_TRY
+		END_TRY
 }
 END_FUN
 
@@ -168,7 +171,7 @@ FUN_IMPL(Ndarray_fill_sanity_case)
 	int dims = 2;
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,3 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Act
@@ -189,7 +192,7 @@ FUN_IMPL(Ndarray_contains_when_true)
 	// Arrange
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
 	int pos[] = { 2,2,2 };
 
@@ -209,7 +212,7 @@ FUN_IMPL(Ndarray_contains_when_false)
 	// Arrange
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Act
@@ -227,7 +230,7 @@ FUN_IMPL(Ndarray_min_sanity_case)
 	// Arrange
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//float values[] = { 4,5,2,7,4,3,6 };
@@ -255,7 +258,7 @@ FUN_IMPL(Ndarray_max_sanity_case)
 	// Arrange
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
-//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//float values[] = { 4,5,2,7,4,3,6 };
@@ -275,5 +278,49 @@ FUN_IMPL(Ndarray_max_sanity_case)
 
 	//Assert
 	TEST_ASSERT(actual == 7);
+}
+END_FUN
+
+FUN_IMPL(Ndarray_general_test)
+{
+	// Arrange
+	int dims = 4;
+	int shape[] = { 2,3, 4 ,5 };
+
+	//Act
+
+	CREATE(Ndarray, arr), dims, shape CALL;
+	float value = 0;
+	for (int i = 0; i < shape[0]; i++) {
+		for (int j = 0; j < shape[1]; j++) {
+			for (int k = 0; k < shape[2]; k++) {
+				for (int l = 0; l < shape[3]; l++) {
+					int coords[] = { i,j,k,l };
+					FUN(&arr, set), coords, value CALL;
+					value += 1;
+				}
+			}
+		}
+	}
+
+	//Assert
+	TEST_ASSERT(arr.size == shape[0] * shape[1] * shape[2] * shape[3]);
+	for (int i = 0; i < arr.size; i++) {
+		TEST_ASSERT(arr.data[i] == i);
+	}
+	value = 0;
+	for (int i = 0; i < shape[0]; i++) {
+		for (int j = 0; j < shape[1]; j++) {
+			for (int k = 0; k < shape[2]; k++) {
+				for (int l = 0; l < shape[3]; l++) {
+					int coords[] = { i,j,k,l };
+					float actual_value = 0;
+					FUN(&arr, at), coords, & actual_value CALL;
+					TEST_ASSERT(actual_value == value);
+					value += 1;
+				}
+			}
+		}
+	}
 }
 END_FUN
