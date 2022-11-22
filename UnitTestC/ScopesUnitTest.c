@@ -7,9 +7,9 @@ FUN_IMPL(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
 
 	//Arrange
 
-	CREATE(ScopeTester, s1), feedback + 0);
-	CREATE(ScopeTester, s2), feedback + 1);
-	CREATE(ScopeTester, s3), feedback + 2);
+	CREATE(ScopeTester, s1), feedback + 0 CALL;
+	CREATE(ScopeTester, s2), feedback + 1 CALL;
+	CREATE(ScopeTester, s3), feedback + 2 CALL;
 
 	// - The ctor of ScopeTester sets the feedback val:
 	TEST_ASSERT(feedback[0] == 'A');
@@ -32,7 +32,7 @@ FUN_IMPL(LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 	char feedback[4] = { 0, 0, 0, 0 };
 	SCOPE_START;
 
-	CREATE(ScopeTester, outer_scope_obj), feedback + 0);
+	CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
 	TEST_ASSERT(feedback[0] == 'A');
 
 	bool is_get_into_if = true;
@@ -41,9 +41,9 @@ FUN_IMPL(LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 		SCOPE_START;
 
 		//Arrange
-		CREATE(ScopeTester, inner_scope_obj1), feedback + 1);
-		CREATE(ScopeTester, inner_scope_obj2), feedback + 2);
-		CREATE(ScopeTester, inner_scope_obj3), feedback + 3);
+		CREATE(ScopeTester, inner_scope_obj1), feedback + 1 CALL;
+		CREATE(ScopeTester, inner_scope_obj2), feedback + 2 CALL;
+		CREATE(ScopeTester, inner_scope_obj3), feedback + 3 CALL;
 
 		// - The ctor of ScopeTester sets the feedback val:
 		TEST_ASSERT(feedback[1] == 'A');
@@ -77,14 +77,14 @@ FUN_IMPL(LOCAL_SCOPE__DoesNotFreeUnrelatedObjects)
 
 	//Arrange
 
-	CREATE(ScopeTester, outer_obj1), feedback + 0);
-	CREATE(ScopeTester, outer_obj2), feedback + 1);
+	CREATE(ScopeTester, outer_obj1), feedback + 0 CALL;
+	CREATE(ScopeTester, outer_obj2), feedback + 1 CALL;
 
 	//Act
 	if (1)
 	{
 		SCOPE_START;
-		CREATE(ScopeTester, inner_obj), feedback + 2);
+		CREATE(ScopeTester, inner_obj), feedback + 2 CALL;
 		END_SCOPE;
 	}
 
@@ -104,18 +104,18 @@ FUN_IMPL(LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost)
 	SCOPE_START;
 
 	//Arrange 
-	CREATE(ScopeTester, outer_scope_obj), feedback + 0);
+	CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
 	TEST_ASSERT(feedback[0] == 'A');
 
 	//Act
 	if (1) {
 		SCOPE_START;
-		CREATE(ScopeTester, inner_scope_1), feedback + 1);
+		CREATE(ScopeTester, inner_scope_1), feedback + 1 CALL;
 
 		if (1)
 		{
 			SCOPE_START;
-			CREATE(ScopeTester, inner_scope_2), feedback + 2);
+			CREATE(ScopeTester, inner_scope_2), feedback + 2 CALL;
 
 			//Assert
 			TEST_ASSERT(feedback[0] != 0);
@@ -152,13 +152,13 @@ FUN_IMPL(LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash)
 	SCOPE_START;
 
 	//Arrange 
-	CREATE(ScopeTester, outer_scope_obj), feedback + 0);
+	CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
 	TEST_ASSERT(feedback[0] == 'A');
 
 	//Act
 	if (1) {
 		SCOPE_START;
-		CREATE(ScopeTester, inner_scope_1), feedback + 1);
+		CREATE(ScopeTester, inner_scope_1), feedback + 1 CALL;
 		if (1) {
 			SCOPE_START;
 			END_SCOPE;
@@ -181,7 +181,7 @@ FUN_IMPL(LOCAL_SCOPE__LoopScopeSanityTest)
 	for (int i = 0; i < 100; i++)
 	{
 		SCOPE_START;
-		CREATE(ScopeTester, inner_scope_1), feedback + i % 4);
+		CREATE(ScopeTester, inner_scope_1), feedback + i % 4 CALL;
 		END_SCOPE;
 	}
 
@@ -195,11 +195,11 @@ END_FUN
 FUN_IMPL(Shared_ptr__CopyTo__PointsOnTheSameValue)
 {
 	// Arrange
-	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY CALL;
 
 
-	CREATE(Shared_ptr, ptr));
-	CREATE(Shared_ptr, ptr2));
+	CREATE(Shared_ptr, ptr) CALL;
+	CREATE(Shared_ptr, ptr2) CALL;
 
 	int* i = NULL;
 	NEW(i, int);

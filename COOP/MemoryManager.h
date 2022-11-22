@@ -1,9 +1,9 @@
-//#ifndef __COOP_MEM_MANAGER__
-//#define __COOP_MEM_MANAGER__
+//#ifndef __coop_mem_manager__
+//#define __coop_mem_manager__
 //
 //
 //#ifdef __cplusplus
-//extern "C" {
+//extern "c" {
 //#endif
 //
 //#include "coop.h"

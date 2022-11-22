@@ -71,14 +71,14 @@ END_FUN;
 
 MEM_FUN_IMPL(vector, begin, vectorIterator * retVecIt)
 {
-	CREATE(vectorIterator, retVecIter), _this, 0);
+	CREATE(vectorIterator, retVecIter), _this, 0 CALL;
 	*retVecIt = retVecIter;
 }
 END_FUN;
 
 MEM_FUN_IMPL(vector, end, vectorIterator * retVecIt)
 {
-	CREATE(vectorIterator, retVecIter), _this, _this->size);
+	CREATE(vectorIterator, retVecIter), _this, _this->size CALL;
 	* retVecIt = retVecIter;
 }
 END_FUN;

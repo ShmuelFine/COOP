@@ -6,7 +6,6 @@
 #include "obj_base_structs.h"
 #include <setjmp.h>
 
-
 COOP_API void _scope_obj_list_add(object* scope_list, object* obj);
 COOP_API void _scope_obj_list_free(object* scope_list);
 COOP_API void FreeMostInnerScope(object* _scope_obj_list);
@@ -19,7 +18,7 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 	instance_name._next= NULL;										\
 	instance_name.vTable=&type ##VTable;							\
 	REGISTER_OBJECT(&instance_name);								\
-	instance_name.vTable->_ctor(&instance_name
+    { int _retVal_ = instance_name.vTable->_ctor(&instance_name
 
 
 // The obj lifecycle built upon scopes, that has to account with exception handling:
@@ -40,7 +39,8 @@ for (int i_ ##__LINE__= 0; i_ ##__LINE__ < 1; i_ ##__LINE__++)\
 if (IS_BREAKING) {break;} \
 else if (IS_IN_THROWING) { __RET_VAL__ = SUCCESS_VALUE;
 
-#define END_TRY }\
+#define END_TRY \
+}\
 {if (IS_BREAKING || IS_IN_THROWING) break;}
 
 #define THROW \
@@ -74,6 +74,8 @@ SCOPE_START;
 }FreeMostInnerScope(&_scope_obj_list); \
 return __RET_VAL__; \
 }
+#define RETURN_NONE \
+{ FreeMostInnerScope(&_scope_obj_list); return __RET_VAL__; }
 
 #define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)
 

@@ -20,7 +20,7 @@ FUN_IMPL(Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd, int*
 	(*tester) = 0;
 	char feedback[3] = { 0, 0, 0 };
 
-	CREATE(ScopeTester, s), feedback + 0);
+	CREATE(ScopeTester, s), feedback + 0 CALL;
 	if (1)
 	{
 		SCOPE_START;
@@ -45,7 +45,7 @@ FUN_IMPL(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing)
 
 		TRY
 		{
-			CREATE(ScopeTester,s),feedback + 0);
+			CREATE(ScopeTester,s),feedback + 0 CALL;
 			// cause throwing from within a function:
 			FUN(&s, ThrowingIfEQ), 3, 3 CALL
 		}CATCH{
@@ -153,7 +153,7 @@ FUN_IMPL(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope)
 		{
 			SCOPE_START;
 
-			CREATE(ScopeTester, s), feedback + i);
+			CREATE(ScopeTester, s), feedback + i CALL;
 
 			if (true)
 				BREAK;
