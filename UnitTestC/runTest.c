@@ -1,6 +1,12 @@
 #include "runTest.h"
+
+IMPORT_TESTS(NDarray_Tests);
+
+
 int main() {
-	INIT_TESTS();
+
+	//INIT_TESTS();
+	RUN_TESTS(NDarray_Tests);
 
 	//RUN_TEST(is_the_test_platform_run_as_well);
 	//RUN_TEST(Class_CallSimpleFunction);
@@ -68,20 +74,21 @@ int main() {
 	////RUN_TEST(check_delete_when_exist_then_delete);
 
 	//Ndarray
-	RUN_TEST(Ndarray_init_sanity_case);
-	RUN_TEST(Ndarray_init_invalid_dims);
-	RUN_TEST(Ndarray_init_invalid_shape);
-	RUN_TEST(Ndarray_get_location_3D);
-	RUN_TEST(Ndarray_set_sanity_case);
-	RUN_TEST(Ndarray_set_index_out_of_range);
-	RUN_TEST(Ndarray_at_sanity_case);
-	RUN_TEST(Ndarray_at_index_out_of_range);
-	RUN_TEST(Ndarray_fill_sanity_case);
-	RUN_TEST(Ndarray_contains_when_true);
-	RUN_TEST(Ndarray_contains_when_false);
-	RUN_TEST(Ndarray_min_sanity_case);
-	RUN_TEST(Ndarray_max_sanity_case);
-	RUN_TEST(Ndarray_general_test);
-	FINISH_TESTS();
+	//RUN_TEST(Ndarray_init_sanity_case);
+	//RUN_TEST(Ndarray_init_invalid_dims);
+	//RUN_TEST(Ndarray_init_invalid_shape);
+	//RUN_TEST(Ndarray_get_location_3D);
+	//RUN_TEST(Ndarray_set_sanity_case);
+	//RUN_TEST(Ndarray_set_index_out_of_range);
+	//RUN_TEST(Ndarray_at_sanity_case);
+	//RUN_TEST(Ndarray_at_index_out_of_range);
+	//RUN_TEST(Ndarray_fill_sanity_case);
+	//RUN_TEST(Ndarray_contains_when_true);
+	//RUN_TEST(Ndarray_contains_when_false);
+	//RUN_TEST(Ndarray_min_sanity_case);
+	//RUN_TEST(Ndarray_max_sanity_case);
+	//RUN_TEST(Ndarray_general_test);
+	//FINISH_TESTS();
+
 }
 

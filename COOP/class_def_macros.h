@@ -74,8 +74,6 @@ FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
 class_name ##VTable._ctor = __ctor__ ##class_name;  \
 class_name ##VTable._dtor = __dtor__ ##class_name; 
 
-//printf("initializing class %s\n", #type);			\
-
 // At the end of the C file, we bind the function implementations to the pointers of the vTable.
 // It begins with:
 #define INIT_CLASS(type)							\
