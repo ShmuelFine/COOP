@@ -1,4 +1,5 @@
 #include "redBlackTree.h"
+#include <stdio.h>
 
 DEF_CTOR(redBlackTree, void(*compFunc)(void*, void*, bool *))
 {
@@ -40,7 +41,8 @@ MEM_FUN_IMPL(redBlackTree, destroyRecursive, node * nodePtr)
 MEM_FUN_IMPL(redBlackTree, LeftRotate, node * x)
 {
     if (!x || !x->right)
-        return;
+        RETURN_NONE;
+
     //y stored pointer of right child of x
     node* y = x->right;
 
@@ -76,7 +78,7 @@ END_FUN;
 MEM_FUN_IMPL(redBlackTree, RightRotate, node* y)
 {
     if (!y || !y->left)
-        return;
+        RETURN_NONE;
     node* x = y->left;
     y->left = x->right;
     if (x->right != NULL)
@@ -240,7 +242,7 @@ MEM_FUN_IMPL(redBlackTree, insert, void * data, node ** insertednode, bool * ret
             {
                 *insertednode = x;
                 *retBool = false;
-                return;
+                RETURN_NONE;
             }
                 
             //(*functionPtr)(2, 3)
@@ -293,7 +295,7 @@ MEM_FUN_IMPL(redBlackTree, inOrderTraversal, node * rootnode)
 {
         static int last = 0;
         if (rootnode == NULL || rootnode->isHead == true)
-            return;
+            RETURN_NONE;
         FUN(_this, inOrderTraversal), rootnode->left CALL
         printf("Data: %d ", *(int*)(rootnode->data));
         printf("Color: %c ", rootnode->color);
@@ -324,7 +326,7 @@ MEM_FUN_IMPL(redBlackTree, begin, redBlackTreeIterator * beginNode)
     }
         
 
-    CREATE(redBlackTreeIterator, it), minNode);
+    CREATE(redBlackTreeIterator, it), minNode CALL;
 
     *beginNode = it;
 }END_FUN;
@@ -332,7 +334,7 @@ MEM_FUN_IMPL(redBlackTree, begin, redBlackTreeIterator * beginNode)
 //returns the header node
 MEM_FUN_IMPL(redBlackTree, end, redBlackTreeIterator * endNode)
 {
-    CREATE(redBlackTreeIterator, it), _this->head);
+    CREATE(redBlackTreeIterator, it), _this->head CALL;
 
     *endNode = it;
 }END_FUN;
@@ -349,7 +351,7 @@ MEM_FUN_IMPL(redBlackTree, find, void * val, redBlackTreeIterator* foundVal)
     if (_this->root == NULL)
     {
         (*foundVal).nodePtr = _this->head;
-        return;
+        RETURN_NONE;
     }
     node* temp = _this->root;
     while (temp != NULL) {
@@ -397,7 +399,7 @@ MEM_FUN_IMPL(redBlackTree, erase, void * val, int* numElemsErased)
     node* valNode = _this->head;
     bool compBool = false, compBool1 = false;
     
-    CREATE(redBlackTreeIterator, rbIt), NULL);
+    CREATE(redBlackTreeIterator, rbIt), NULL CALL;
 
     FUN(_this, find), val, & rbIt CALL
 
@@ -409,7 +411,7 @@ MEM_FUN_IMPL(redBlackTree, erase, void * val, int* numElemsErased)
     if(valNode->data == NULL)
     {
         *numElemsErased = 0;
-        return;
+        RETURN_NONE;
     }
 
     FUN(_this, deleteNode), valNode CALL
@@ -466,7 +468,7 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node * dNode)
             }
         }
         DELETE_OBJ(dNode);
-        return;
+        RETURN_NONE;
     }
 
     if (dNode->left == NULL || dNode->right == NULL) {
@@ -496,7 +498,7 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node * dNode)
                 replaceNode->color = 'B';
             }
         }
-        return;
+        RETURN_NONE;
     }
 
     // dNode has 2 children, swap values with successor and recurse 
@@ -511,7 +513,7 @@ MEM_FUN_IMPL(redBlackTree, fixDoubleBlack, node* node_p)
 {
         if (node_p == _this->root)
             // Reached root 
-            return;
+            RETURN_NONE;
 
         node* sibling = NULL, * parent = node_p->parent;
 
@@ -611,7 +613,7 @@ MEM_FUN_IMPL(redBlackTree, findReplacingNode, node* what, node** withWhat)
             temp = temp->right;
 
         *withWhat = temp;
-        return;
+        RETURN_NONE;
     }
 
     // when leaf 

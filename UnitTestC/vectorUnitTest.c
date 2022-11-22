@@ -1,12 +1,11 @@
 #include"vectorUnitTest.h"
 
-
 FUN_IMPL(vector_push_back_SanityTest)
 {
 	// Arrange
-	CREATE(vector, v1));
+	CREATE(vector, v1) CALL;
 
-	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 
 	// Act
 	int retVal = 0;
@@ -44,12 +43,12 @@ FUN_IMPL(vector_push_back_SanityTest)
 }END_FUN
 FUN_IMPL(vector_at_throws_when_idx_is_outOfRange, int* tester)
 {
-	CREATE(vector, v1));
+	CREATE(vector, v1) CALL;
 	(*tester) = 0;
 	char feedback[3] = { 0, 0, 0 };
 	int retVal = 0;
 
-	CREATE(ScopeTester, s), feedback + 0);
+	CREATE(ScopeTester, s), feedback + 0 CALL;
 	if (1)
 	{
 		SCOPE_START;
@@ -63,9 +62,9 @@ FUN_IMPL(vector_at_throws_when_idx_is_outOfRange, int* tester)
 }END_FUN
 FUN_IMPL(vector_iteration_SanityTest)
 {
-	CREATE(vector, v1));
+	CREATE(vector, v1) CALL;
 
-	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 
 	FUN(&v1, push_back), 3 CALL
 		FUN(&v1, push_back), 4 CALL
@@ -74,11 +73,11 @@ FUN_IMPL(vector_iteration_SanityTest)
 
 
 		int beginVal;
-	CREATE(vectorIterator, vecItBegin), & v1, 2);
+	CREATE(vectorIterator, vecItBegin), & v1, 2 CALL;
 	FUN(&v1, begin), & vecItBegin CALL;
 	FUN(&vecItBegin, getContentsOf), & beginVal CALL
 
-		CREATE(vectorIterator, vecItEnd), & v1, 2);
+		CREATE(vectorIterator, vecItEnd), & v1, 2 CALL;
 		FUN(&v1, end), & vecItEnd CALL;
 
 		bool isAtEnd = false;

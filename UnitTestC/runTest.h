@@ -12,3 +12,4 @@
 #include "TypeTest.h"
 #include "ClassTestC.h"
 #include "HashTableUnitTest.h"
+#include "NdarrayTest.h"

@@ -4,7 +4,7 @@
 FUN_IMPL(Inheritence_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell)
 {
 	// Arrange, Act
-	CREATE(DerivedClassExample, cube), 6, 8, 2);
+	CREATE(DerivedClassExample, cube), 6, 8, 2 CALL;
 
 	//Assert
 	TEST_ASSERT(cube._base.hight == 6);
@@ -19,7 +19,7 @@ FUN_IMPL(Inheritence_WhenVirtualFunctionOverriden_ThenCallInvokesOverridingFunc)
 	//Arrange
 	int expectedVolume, actualVolume;
 
-	CREATE(DerivedClassExample, cube), 4, 4, 2);
+	CREATE(DerivedClassExample, cube), 4, 4, 2 CALL;
 
 	//Act
 	expectedVolume = cube._base.width * cube._base.hight * cube.depth;
@@ -35,7 +35,7 @@ END_FUN
 FUN_IMPL(Inheritence_WhenCallingNonVirtualFunciton_Sanity)
 {
 	// Arrange
-	CREATE(DerivedClassExample, cube), 4, 5, 6);
+	CREATE(DerivedClassExample, cube), 4, 5, 6 CALL;
 	// Act
 	int retVal;
 	FUN(&cube, JustReturn10), & retVal CALL;
