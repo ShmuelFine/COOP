@@ -1,14 +1,23 @@
-#include"ClassTestC.h"
+#include "ClassTestC.h"
+
+DEF_CLASS(BaseClassExample);
+int hight;
+int width;
+END_DEF(BaseClassExample);
+
+FUNCTIONS(BaseClassExample, int hight, int width);
+MEM_FUN_DECL(BaseClassExample, GetVolume, int* retVal);
+END_FUNCTIONS(BaseClassExample);
 
 FUN_IMPL(Class_test)
 {
-	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY CALL;
 
-	CREATE(Shared_ptr, ptr));
-	CREATE(Shared_ptr, ptr2));
+	CREATE(Shared_ptr, ptr) CALL;
+	CREATE(Shared_ptr, ptr2) CALL;
 
-	CREATE(BaseClassExample, B), 10, 3);
-	CREATE(BaseClassExample, C), 3, 10);
+	CREATE(BaseClassExample, B), 10, 3 CALL;
+	CREATE(BaseClassExample, C), 3, 10 CALL;
 
 	FUN(&ptr, Reset), & B CALL;
 	FUN(&ptr2, Reset), & C CALL;

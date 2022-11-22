@@ -152,6 +152,7 @@
     <ClInclude Include="iCache.h" />
     <ClInclude Include="inheritence_def_macros.h" />
     <ClInclude Include="MemoryManager.h" />
+    <ClInclude Include="Ndarray.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="obj_base_structs.h" />
     <ClInclude Include="obj_lifecycle_management.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="iCache.c" />
     <ClCompile Include="MemoryManager.cpp" />
+    <ClCompile Include="Ndarray.c" />
     <ClCompile Include="obj_lifecycle_management.c" />
     <ClCompile Include="redBlackTree.c" />
     <ClCompile Include="redBlackTreeIterator.c" />

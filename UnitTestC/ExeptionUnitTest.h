@@ -1,8 +1,9 @@
-#include "../COOP_C_TestProxy/ScopeTester.h"
+// #include "../COOP_C_TestProxy/ScopeTester.h"
 #include "../COOP/dynamic_memory_management.h"
 #include <string.h>
 #include "test_defs.h"
 #include "../COOP/COOP.h"
+#include "ScopeTester.h"
 
 FUN_DECL(Exception_WhenThrown_ThenGoesStraightToScopeEnd, int* tester);
 FUN_DECL(Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd, int* tester);

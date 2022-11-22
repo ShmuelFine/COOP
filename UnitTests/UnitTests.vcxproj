@@ -63,9 +63,6 @@
     <ProjectReference Include="..\COOP\COOP.vcxproj">
       <Project>{8b47ee4b-47f6-48c1-bd78-4600c05f911f}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\COOP_C_TestProxy\COOP_C_TestProxy.vcxproj">
-      <Project>{61048cff-00af-4e22-a0aa-5f09ac9dc499}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

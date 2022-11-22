@@ -121,6 +121,9 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies);</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -140,33 +143,45 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseClassExample.c" />
     <ClCompile Include="CharTest.c" />
     <ClCompile Include="ClassTest.c" />
     <ClCompile Include="ClassTestC.c" />
+    <ClCompile Include="DerivedClassExample.c" />
     <ClCompile Include="ExeptionUnitTest.c" />
     <ClCompile Include="HashTableUnitTest.c" />
+    <ClCompile Include="infrastructureTest.c" />
     <ClCompile Include="InheritTest.c" />
     <ClCompile Include="MemManagementUnitTest.c" />
+    <ClCompile Include="NdarrayTest.c" />
     <ClCompile Include="rbTreeIterUnitTest.c" />
     <ClCompile Include="rbTreeUnitTest.c" />
+    <ClCompile Include="Rectangle.c" />
     <ClCompile Include="runTest.c" />
     <ClCompile Include="ScopesUnitTest.c" />
+    <ClCompile Include="ScopeTester.c" />
     <ClCompile Include="TypeTest.c" />
     <ClCompile Include="vectorIteratorUnitTest.c" />
     <ClCompile Include="vectorUnitTest.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseClassExample.h" />
     <ClInclude Include="CharTest.h" />
     <ClInclude Include="ClassTest.h" />
     <ClInclude Include="ClassTestC.h" />
+    <ClInclude Include="DerivedClassExample.h" />
     <ClInclude Include="ExeptionUnitTest.h" />
     <ClInclude Include="HashTableUnitTest.h" />
+    <ClInclude Include="infrastructureTest.h" />
     <ClInclude Include="InheritTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />
+    <ClInclude Include="NdarrayTest.h" />
     <ClInclude Include="rbTreeIterUnitTest.h" />
     <ClInclude Include="rbTreeUnitTest.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="runTest.h" />
     <ClInclude Include="ScopesUnitTest.h" />
+    <ClInclude Include="ScopeTester.h" />
     <ClInclude Include="test_defs.h" />
     <ClInclude Include="TypeTest.h" />
     <ClInclude Include="vectorIteratorUnitTest.h" />
@@ -175,9 +190,6 @@
   <ItemGroup>
     <ProjectReference Include="..\COOP\COOP.vcxproj">
       <Project>{8b47ee4b-47f6-48c1-bd78-4600c05f911f}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\COOP_C_TestProxy\COOP_C_TestProxy.vcxproj">
-      <Project>{61048cff-00af-4e22-a0aa-5f09ac9dc499}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
