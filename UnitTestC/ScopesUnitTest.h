@@ -2,7 +2,9 @@
 #include "../COOP/COOP.h"
 #include "../COOP/Cache.h"
 #include "../COOP/dynamic_memory_management.h"
-#include "../COOP_C_TestProxy/ScopeTester.h"
+#include "ScopeTester.h"
+
+//// #include "../COOP_C_TestProxy/ScopeTester.h"
 
 FUN_DECL(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed);
 FUN_DECL(LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed);

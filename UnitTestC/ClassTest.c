@@ -18,7 +18,7 @@ int is_the_test_platform_run_as_well()
 
 FUN_IMPL(Class_CallSimpleFunction) {
 	// Arrange
-	CREATE(BaseClassExample, B), 10, 3);
+	CREATE(BaseClassExample, B), 10, 3 CALL;
 	// Act
 	int retVal = 0;
 	FUN(&B, GetVolume), & retVal CALL
@@ -30,7 +30,7 @@ FUN_IMPL(Class_CallSimpleFunction) {
 FUN_IMPL(Rectangle_SanityTest)
 {
 	// Arrange
-	CREATE(Rectangle, Rect), 10, 3);
+	CREATE(Rectangle, Rect), 10, 3 CALL;
 
 	// Act
 	int retVal = 0;

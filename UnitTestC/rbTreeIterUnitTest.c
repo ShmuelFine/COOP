@@ -10,15 +10,15 @@ FUN_IMPL(intComp, void* a, void* b, bool* retBool)
 
 FUN_IMPL(redBlacktreeIterator_increment_Sanity)
 {
-	CREATE(MemoryManager, memManager), sizeof(int) * 100, HEAP_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 100, HEAP_BASED_MEMORY CALL;
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &intComp;
 
-	CREATE(redBlackTree, rbTree), functionPtr);
+	CREATE(redBlackTree, rbTree), functionPtr CALL;
 
-	node* retPtr, * retPtr1, * retPtr2, * retPtr3, * retPtr4, * retPtr5, * retPtr6,
-		* retPtr7;
+	node* retPtr, * retPtr1, * retPtr2, * retPtr3, * retPtr4, * retPtr5, * retPtr6;
+		//* retPtr7;
 	bool retBool;
 	int a = 2, b = 10, c = 4, d = 35;
 
@@ -27,9 +27,9 @@ FUN_IMPL(redBlacktreeIterator_increment_Sanity)
 		FUN(&rbTree, insert), & c, & retPtr6, & retBool CALL
 		FUN(&rbTree, insert), & d, & retPtr2, & retBool CALL
 
-		CREATE(redBlackTreeIterator, rbIt), retPtr);
+		CREATE(redBlackTreeIterator, rbIt), retPtr CALL;
 
-		CREATE(redBlackTreeIterator, rbIt2), retPtr1);
+		CREATE(redBlackTreeIterator, rbIt2), retPtr1 CALL;
 
 		FUN(&rbIt, increment) CALL
 			FUN(&rbIt, getContentsOf), & retPtr3 CALL
@@ -57,12 +57,12 @@ FUN_IMPL(redBlacktreeIterator_increment_Sanity)
 
 FUN_IMPL(redBlacktreeIterator_decrement_Sanity)
 {
-	CREATE(MemoryManager, memManager), sizeof(int) * 100, HEAP_BASED_MEMORY);
+	CREATE(MemoryManager, memManager), sizeof(int) * 100, HEAP_BASED_MEMORY CALL;
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &intComp;
 
-	CREATE(redBlackTree, rbTree), functionPtr);
+	CREATE(redBlackTree, rbTree), functionPtr CALL;
 
 	node* retPtr, * retPtr1, * retPtr2, * retPtr3, * retPtr4, * retPtr5, * retPtr6,
 		* retPtr7;
@@ -75,7 +75,7 @@ FUN_IMPL(redBlacktreeIterator_decrement_Sanity)
 		FUN(&rbTree, insert), & c, & retPtr6, & retBool CALL
 		FUN(&rbTree, insert), & d, & retPtr2, & retBool CALL
 
-		CREATE(redBlackTreeIterator, rbIt), retPtr2);
+		CREATE(redBlackTreeIterator, rbIt), retPtr2 CALL;
 
 		FUN(&rbTree, end), & rbIt CALL
 			FUN(&rbIt, decrement) CALL
