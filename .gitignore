@@ -28,3 +28,4 @@
 /UnitTests/x64/Release
 /COOP_C_TestProxy/x64/Release
 /.vs/*
+*/x64/Debug
