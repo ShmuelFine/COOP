@@ -21,4 +21,4 @@ END_FUN
 
 INIT_CLASS(BaseClassExample)
 BIND(BaseClassExample, GetVolume);
-END_INIT_CLASS
+END_INIT_CLASS(BaseClassExample)

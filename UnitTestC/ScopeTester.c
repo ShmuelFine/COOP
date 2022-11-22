@@ -28,4 +28,4 @@ END_FUN
 
 INIT_CLASS(ScopeTester)
 BIND(ScopeTester, ThrowingIfEQ);
-END_INIT_CLASS
+END_INIT_CLASS(ScopeTester)

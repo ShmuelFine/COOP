@@ -97,5 +97,5 @@ BIND(vector, at);
 BIND(vector, begin);
 BIND(vector, end);
 BIND(vector, print);
-END_INIT_CLASS
+END_INIT_CLASS(vector)
 

@@ -28,5 +28,5 @@ END_FUN;
 INIT_CLASS(Rectangle)
 BIND(Rectangle, GetArea);
 BIND(Rectangle, GetSideLength);
-END_INIT_CLASS
+END_INIT_CLASS(Rectangle)
 

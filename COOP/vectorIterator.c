@@ -39,5 +39,5 @@ INIT_CLASS(vectorIterator)
 BIND(vectorIterator, increment);
 BIND(vectorIterator, equals);
 BIND(vectorIterator, getContentsOf);
-END_INIT_CLASS
+END_INIT_CLASS(vectorIterator)
 

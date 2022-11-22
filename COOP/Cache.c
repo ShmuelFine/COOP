@@ -50,7 +50,7 @@ END_FUN
 INIT_DERIVED_CLASS(InMemoryCache, iCache);
 BIND_OVERIDE(InMemoryCache, iCache, AddNewBlock);
 BIND_OVERIDE(InMemoryCache, iCache, RemoveBlock);
-END_INIT_CLASS
+END_INIT_CLASS(InMemoryCache)
 
 
 void Cache_InitCache(InMemoryCache* c)

@@ -643,4 +643,4 @@ BIND(redBlackTree, deleteNode);
 BIND(redBlackTree, fixDoubleBlack);
 BIND(redBlackTree, findReplacingNode);
 BIND(redBlackTree, destroyRecursive);
-END_INIT_CLASS
+END_INIT_CLASS(redBlackTree)

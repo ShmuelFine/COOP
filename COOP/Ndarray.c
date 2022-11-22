@@ -166,4 +166,4 @@ BIND(Ndarray, sum);
 BIND(Ndarray, min);
 BIND(Ndarray, max);
 BIND(Ndarray, contains);
-END_INIT_CLASS
+END_INIT_CLASS(Ndarray)

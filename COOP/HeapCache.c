@@ -24,7 +24,7 @@ END_FUN
 INIT_DERIVED_CLASS(HeapCache, iCache);
 BIND_OVERIDE(HeapCache, iCache, AddNewBlock);
 BIND_OVERIDE(HeapCache, iCache, RemoveBlock);
-END_INIT_CLASS
+END_INIT_CLASS(HeapCache)
 
 
 

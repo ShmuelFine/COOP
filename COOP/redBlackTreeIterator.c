@@ -115,5 +115,5 @@ BIND(redBlackTreeIterator, increment);
 BIND(redBlackTreeIterator, decrement);
 BIND(redBlackTreeIterator, equals);
 BIND(redBlackTreeIterator, getContentsOf);
-END_INIT_CLASS
+END_INIT_CLASS(redBlackTreeIterator)
 

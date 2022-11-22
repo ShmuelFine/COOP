@@ -121,4 +121,4 @@
 //BIND(HashTable, search);
 //BIND(HashTable, insert);
 //BIND(HashTable, deleteItem);
-//END_INIT_CLASS
+//END_INIT_CLASS(HashTable)

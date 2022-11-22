@@ -17,4 +17,4 @@ END_FUN
 INIT_CLASS(iCache)
 BIND(iCache, AddNewBlock);
 BIND(iCache, RemoveBlock);
-END_INIT_CLASS
+END_INIT_CLASS(iCache)
