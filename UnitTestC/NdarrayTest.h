@@ -4,18 +4,19 @@
 #include "../COOP/Ndarray.h"
 #include "ScopeTester.h"
 
-FUN_DECL(Ndarray_init_sanity_case);
-FUN_DECL(Ndarray_init_invalid_dims);
-FUN_DECL(Ndarray_init_invalid_shape);
-FUN_DECL(Ndarray_get_location_3D);
-FUN_DECL(Ndarray_set_sanity_case);
-FUN_DECL(Ndarray_set_index_out_of_range);
-FUN_DECL(Ndarray_at_sanity_case);
-FUN_DECL(Ndarray_at_index_out_of_range);
-FUN_DECL(Ndarray_fill_sanity_case);
-FUN_DECL(Ndarray_contains_when_true);
-FUN_DECL(Ndarray_contains_when_false);
-FUN_DECL(Ndarray_min_sanity_case);
-FUN_DECL(Ndarray_max_sanity_case);
-FUN_DECL(Ndarray_general_test);
-
+DEF_TEST_SUITE(NDarray_Tests);
+ADD_TEST(NDarray_Tests, init_sanity_case);
+ADD_TEST(NDarray_Tests, init_invalid_dims);
+ADD_TEST(NDarray_Tests, init_invalid_shape);
+ADD_TEST(NDarray_Tests, get_location_3D);
+ADD_TEST(NDarray_Tests, set_sanity_case);
+ADD_TEST(NDarray_Tests, set_index_out_of_range);
+ADD_TEST(NDarray_Tests, at_sanity_case);
+ADD_TEST(NDarray_Tests, at_index_out_of_range);
+ADD_TEST(NDarray_Tests, fill_sanity_case);
+ADD_TEST(NDarray_Tests, contains_when_true);
+ADD_TEST(NDarray_Tests, contains_when_false);
+ADD_TEST(NDarray_Tests, min_sanity_case);
+ADD_TEST(NDarray_Tests, max_sanity_case);
+ADD_TEST(NDarray_Tests, general_test);
+END_TEST_SUITE(NDarray_Tests);

@@ -20,10 +20,10 @@ FUN_IMPL(check_type_char)
 	FUN(&ptr, Reset), i CALL;//a
 	FUN(&ptr2, Reset), j CALL;//b
 
-	TEST_ASSERT(*GET(ptr2, char) == 'b')
+	TEST_ASSERT(*GET(ptr2, char) == 'b');
 
-		// Act 
-		FUN(&ptr, CopyTo), & ptr2 CALL;
+	// Act 
+	FUN(&ptr, CopyTo), & ptr2 CALL;
 	FUN(&ptr2, CopyFrom), & ptr CALL;
 
 	// Assert

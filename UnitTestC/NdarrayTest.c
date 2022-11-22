@@ -1,6 +1,6 @@
 #include "NdarrayTest.h"
 
-FUN_IMPL(Ndarray_init_sanity_case)
+TEST_FUN_IMPL(NDarray_Tests, init_sanity_case)
 {	//Arrange
 	int dims = 2;
 	int shape[] = { 3, 4 };
@@ -10,21 +10,21 @@ FUN_IMPL(Ndarray_init_sanity_case)
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Assert
-	TEST_ASSERT(arr.size == 12);
-	TEST_ASSERT(arr.ndim == dims);
+	NTEST_ASSERT(arr.size == 12);
+	NTEST_ASSERT(arr.ndim == dims);
 	for (size_t i = 0; i < dims; i++)
 	{
-		TEST_ASSERT(arr.shape[i] == shape[i]);
+		NTEST_ASSERT(arr.shape[i] == shape[i]);
 	}
 
 	for (size_t i = 0; i < arr.size; i++)
 	{
-		TEST_ASSERT(arr.data[i] == 0);
+		NTEST_ASSERT(arr.data[i] == 0);
 	}
 }
 END_FUN
 
-FUN_IMPL(Ndarray_init_invalid_dims)
+TEST_FUN_IMPL(NDarray_Tests, init_invalid_dims)
 {
 	//Arragne
 	int dims = -1;
@@ -37,17 +37,17 @@ FUN_IMPL(Ndarray_init_invalid_dims)
 		CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Assert
-	TEST_ASSERT(false); // we shouldn't have gotten here.
+	NTEST_ASSERT(false); // we shouldn't have gotten here.
 	}
 		CATCH{
-		//TEST_ASSERT(strcmp(LAST_EXCEPTION_ERROR_MSG, "dimension can't be negative")==0);
+		//NTEST_ASSERT(strcmp(LAST_EXCEPTION_ERROR_MSG, "dimension can't be negative")==0);
 	}
 	END_TRY;
 
 }
 END_FUN
 
-FUN_IMPL(Ndarray_init_invalid_shape)
+TEST_FUN_IMPL(NDarray_Tests, init_invalid_shape)
 {
 	//Arragne
 	int dims = 2;
@@ -59,14 +59,14 @@ FUN_IMPL(Ndarray_init_invalid_shape)
 		CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Assert
-	TEST_ASSERT(false);
+	NTEST_ASSERT(false);
 	}CATCH{
-			TEST_ASSERT(true);
+			NTEST_ASSERT(true);
 	}END_TRY
 }
 END_FUN
 
-FUN_IMPL(Ndarray_get_location_3D)
+TEST_FUN_IMPL(NDarray_Tests, get_location_3D)
 {	//Arrange
 	int dims = 3;
 	int shape[] = { 3, 4, 5 };
@@ -79,12 +79,12 @@ FUN_IMPL(Ndarray_get_location_3D)
 	FUN(&arr, get_location), pos, & actual CALL;
 
 	//Assert
-	TEST_ASSERT(actual == 59);
+	NTEST_ASSERT(actual == 59);
 
 }
 END_FUN
 
-FUN_IMPL(Ndarray_set_sanity_case)
+TEST_FUN_IMPL(NDarray_Tests, set_sanity_case)
 {	//Arrange
 	int dims = 2;
 	int shape[] = { 3, 4 };
@@ -96,12 +96,12 @@ FUN_IMPL(Ndarray_set_sanity_case)
 	FUN(&arr, set), pos, 5 CALL;
 
 	//Assert
-	TEST_ASSERT(arr.data[7] == 5);
+	NTEST_ASSERT(arr.data[7] == 5);
 
 }
 END_FUN
 
-FUN_IMPL(Ndarray_set_index_out_of_range)
+TEST_FUN_IMPL(NDarray_Tests, set_index_out_of_range)
 {
 	//Arrange
 	int dims = 2;
@@ -115,16 +115,16 @@ FUN_IMPL(Ndarray_set_index_out_of_range)
 		FUN(&arr, set), pos, 5 CALL;
 
 	//Assert
-	TEST_ASSERT(false);
+	NTEST_ASSERT(false);
 	}
 		CATCH{
-			TEST_ASSERT(true);
+			NTEST_ASSERT(true);
 	}
 		END_TRY
 }
 END_FUN
 
-FUN_IMPL(Ndarray_at_sanity_case)
+TEST_FUN_IMPL(NDarray_Tests, at_sanity_case)
 {
 	// Arrange
 	int dims = 2;
@@ -139,11 +139,11 @@ FUN_IMPL(Ndarray_at_sanity_case)
 	FUN(&arr, at), pos, & actual  CALL;
 
 	//Assert
-	TEST_ASSERT(actual == 5);
+	NTEST_ASSERT(actual == 5);
 }
 END_FUN
 
-FUN_IMPL(Ndarray_at_index_out_of_range)
+TEST_FUN_IMPL(NDarray_Tests, at_index_out_of_range)
 {	// Arrange
 	int dims = 2;
 	int shape[] = { 3, 4 };
@@ -156,16 +156,16 @@ FUN_IMPL(Ndarray_at_index_out_of_range)
 		FUN(&arr, set), pos, 5 CALL;
 
 	//Assert
-	TEST_ASSERT(false);
+	NTEST_ASSERT(false);
 	}CATCH{
 
-		TEST_ASSERT(true);
+		NTEST_ASSERT(true);
 	}
 		END_TRY
 }
 END_FUN
 
-FUN_IMPL(Ndarray_fill_sanity_case)
+TEST_FUN_IMPL(NDarray_Tests, fill_sanity_case)
 {
 	// Arrange
 	int dims = 2;
@@ -182,12 +182,12 @@ FUN_IMPL(Ndarray_fill_sanity_case)
 
 	for (size_t i = 0; i < arr.size; i++)
 	{
-		TEST_ASSERT(arr.data[i] == val);
+		NTEST_ASSERT(arr.data[i] == val);
 	}
 }
 END_FUN
 
-FUN_IMPL(Ndarray_contains_when_true)
+TEST_FUN_IMPL(NDarray_Tests, contains_when_true)
 {
 	// Arrange
 	int dims = 3;
@@ -203,11 +203,11 @@ FUN_IMPL(Ndarray_contains_when_true)
 	FUN(&arr, contains), val, & actual CALL;
 
 	//Assert
-	TEST_ASSERT(actual == true);
+	NTEST_ASSERT(actual == true);
 }
 END_FUN
 
-FUN_IMPL(Ndarray_contains_when_false)
+TEST_FUN_IMPL(NDarray_Tests, contains_when_false)
 {
 	// Arrange
 	int dims = 3;
@@ -221,11 +221,11 @@ FUN_IMPL(Ndarray_contains_when_false)
 	FUN(&arr, contains), val, & actual CALL;
 
 	//Assert
-	TEST_ASSERT(actual == false);
+	NTEST_ASSERT(actual == false);
 }
 END_FUN
 
-FUN_IMPL(Ndarray_min_sanity_case)
+TEST_FUN_IMPL(NDarray_Tests, min_sanity_case)
 {
 	// Arrange
 	int dims = 3;
@@ -249,11 +249,11 @@ FUN_IMPL(Ndarray_min_sanity_case)
 	FUN(&arr, min), & actual CALL;
 
 	//Assert
-	TEST_ASSERT(actual == -1.5);
+	NTEST_ASSERT(actual == -1.5);
 }
 END_FUN
 
-FUN_IMPL(Ndarray_max_sanity_case)
+TEST_FUN_IMPL(NDarray_Tests, max_sanity_case)
 {
 	// Arrange
 	int dims = 3;
@@ -281,11 +281,11 @@ FUN_IMPL(Ndarray_max_sanity_case)
 	FUN(&arr, max), & actual CALL;
 
 	//Assert
-	TEST_ASSERT(actual == 7);
+	NTEST_ASSERT(actual == 7);
 }
 END_FUN
 
-FUN_IMPL(Ndarray_general_test)
+TEST_FUN_IMPL(NDarray_Tests, general_test)
 {
 	// Arrange
 	int dims = 4;
@@ -308,9 +308,9 @@ FUN_IMPL(Ndarray_general_test)
 	}
 
 	//Assert
-	TEST_ASSERT(arr.size == shape[0] * shape[1] * shape[2] * shape[3]);
+	NTEST_ASSERT(arr.size == shape[0] * shape[1] * shape[2] * shape[3]);
 	for (int i = 0; i < arr.size; i++) {
-		TEST_ASSERT(arr.data[i] == i);
+		NTEST_ASSERT(arr.data[i] == i);
 	}
 	value = 0;
 	for (int i = 0; i < shape[0]; i++) {
@@ -320,7 +320,7 @@ FUN_IMPL(Ndarray_general_test)
 					int coords[] = { i,j,k,l };
 					float actual_value = 0;
 					FUN(&arr, at), coords, & actual_value CALL;
-					TEST_ASSERT(actual_value == value);
+					NTEST_ASSERT(actual_value == value);
 					value += 1;
 				}
 			}
@@ -328,3 +328,23 @@ FUN_IMPL(Ndarray_general_test)
 	}
 }
 END_FUN
+
+
+
+
+INIT_TEST_SUITE(NDarray_Tests)
+BIND_TEST(NDarray_Tests, init_sanity_case)
+BIND_TEST(NDarray_Tests, init_invalid_dims)
+BIND_TEST(NDarray_Tests, init_invalid_shape)
+BIND_TEST(NDarray_Tests, get_location_3D)
+BIND_TEST(NDarray_Tests, set_sanity_case)
+BIND_TEST(NDarray_Tests, set_index_out_of_range)
+BIND_TEST(NDarray_Tests, at_sanity_case)
+BIND_TEST(NDarray_Tests, at_index_out_of_range)
+BIND_TEST(NDarray_Tests, fill_sanity_case)
+BIND_TEST(NDarray_Tests, contains_when_true)
+BIND_TEST(NDarray_Tests, contains_when_false)
+BIND_TEST(NDarray_Tests, min_sanity_case)
+BIND_TEST(NDarray_Tests, max_sanity_case)
+BIND_TEST(NDarray_Tests, general_test)
+END_INIT_TEST_SUITE(NDarray_Tests)

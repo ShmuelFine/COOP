@@ -29,3 +29,4 @@
 /COOP_C_TestProxy/x64/Release
 /.vs/*
 */x64/Debug
+/Catch2UnitTests/Catch2UnitTests.vcxproj.user
