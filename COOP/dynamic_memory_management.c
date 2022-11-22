@@ -49,5 +49,5 @@ END_DTOR
 
 
 INIT_CLASS(MemoryManager)
-END_INIT_CLASS
+END_INIT_CLASS(MemoryManager)
 

@@ -79,4 +79,4 @@ BIND(Shared_ptr, CopyTo);
 BIND(Shared_ptr, CopyFrom);
 BIND(Shared_ptr, Release);
 BIND(Shared_ptr, IsEmpty);
-END_INIT_CLASS
+END_INIT_CLASS(Shared_ptr)

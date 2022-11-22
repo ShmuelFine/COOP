@@ -34,4 +34,4 @@ END_FUN
 INIT_DERIVED_CLASS(DerivedClassExample, BaseClassExample);
 BIND_OVERIDE(DerivedClassExample, BaseClassExample, GetVolume);
 BIND(DerivedClassExample, JustReturn10);
-END_INIT_CLASS
+END_INIT_CLASS(DerivedClassExample)

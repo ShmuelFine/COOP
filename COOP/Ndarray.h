@@ -23,9 +23,3 @@ MEM_FUN_DECL(Ndarray, contains, float val, bool* ret_val);
 MEM_FUN_DECL(Ndarray, min, float * ret_val);
 MEM_FUN_DECL(Ndarray, max, float * ret_val);
 END_FUNCTIONS(Ndarray);
-
-//min, max, _
-// min, max, sum, fill, contains
-//avarage, sort, product, clip, round, arrange, index, count, append,...
-
-//throw, memory, memset

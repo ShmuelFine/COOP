@@ -260,6 +260,10 @@ FUN_IMPL(Ndarray_max_sanity_case)
 	int shape[] = { 3, 4 ,5 };
 	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Ndarray, arr1), dims, shape CALL;
+	CREATE(Ndarray, arr2), dims, shape CALL;
+	CREATE(Ndarray, arr3), dims, shape CALL;
+	CREATE(Ndarray, arr4), dims, shape CALL;
 
 	//float values[] = { 4,5,2,7,4,3,6 };
 	//for (int i = 0; i < sizeof(values) / sizeof(float); i++)

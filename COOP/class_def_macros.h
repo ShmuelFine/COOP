@@ -5,6 +5,7 @@
 #include "obj_lifecycle_management.h"
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 #include "ExportDefs.h"
 
 ///////////// The H file structure : //////////////////////////////////
@@ -73,6 +74,8 @@ FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
 class_name ##VTable._ctor = __ctor__ ##class_name;  \
 class_name ##VTable._dtor = __dtor__ ##class_name; 
 
+//printf("initializing class %s\n", #type);			\
+
 // At the end of the C file, we bind the function implementations to the pointers of the vTable.
 // It begins with:
 #define INIT_CLASS(type)							\
@@ -80,7 +83,7 @@ bool is_ ##type ##VirtualTable__initialized = false;\
 type ##VirtualTable type ##VTable;					\
 	void type ##_init(){							\
 	/*For safety, set all ptrs to NULL instead of garbage: */\
-	memset(& type ##VTable, sizeof(type ##VTable), 0); \
+	memset(& type ##VTable, sizeof(type ##VTable), 0);	\
 	ATTACH_TORs_ToClass(type)
 
 
@@ -90,7 +93,9 @@ type ##VirtualTable type ##VTable;					\
 	type ##VTable.function_name.next = NULL
 
 // Finally, it ends with:
-#define END_INIT_CLASS } 
+#define END_INIT_CLASS(type) \
+is_ ##type ##VirtualTable__initialized = true;\
+} 
 
 //////////////////////////////////////////////////////////////////////
 
