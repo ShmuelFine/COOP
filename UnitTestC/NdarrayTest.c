@@ -1,4 +1,7 @@
 #include "NdarrayTest.h"
+#include "../COOP/ExportDefs.h"
+#include "../COOP/Ndarray.h"
+#include "ScopeTester.h"
 
 TEST_FUN_IMPL(NDarray_Tests, init_sanity_case)
 {	//Arrange

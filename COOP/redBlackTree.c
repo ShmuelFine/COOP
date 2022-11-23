@@ -575,14 +575,15 @@ MEM_FUN_IMPL(redBlackTree, fixDoubleBlack, node* node_p)
 					}
 				}
 				parent->color = 'B';
-			}
-			else {
+			} else {
 				// 2 black children 
 				sibling->color = 'R';
-				if (parent->color == 'B')
+				if (parent->color == 'B') {
 					FUN(_this, fixDoubleBlack), parent CALL;
-				else
+				}
+				else {
 					parent->color = 'B';
+				}
 			}
 		}
 	}

@@ -1,8 +1,5 @@
 #include "test_defs.h"
 #include "../COOP/COOP.h"
-#include "../COOP/ExportDefs.h"
-#include "../COOP/Ndarray.h"
-#include "ScopeTester.h"
 
 DEF_TEST_SUITE(NDarray_Tests);
 ADD_TEST(NDarray_Tests, init_sanity_case);
