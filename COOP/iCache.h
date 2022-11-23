@@ -3,8 +3,9 @@
 
 #include "object.h"
 
-DEF_CLASS(iCache);
+typedef int MEM_SIZE_T;
 
+DEF_CLASS(iCache);
 END_DEF(iCache);
 
 FUNCTIONS(iCache);
