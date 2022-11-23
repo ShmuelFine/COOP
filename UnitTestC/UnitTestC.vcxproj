@@ -144,7 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseClassExample.c" />
-    <ClCompile Include="CharTest.c" />
+    <ClCompile Include="shared_ptr_test.c" />
     <ClCompile Include="ClassTest.c" />
     <ClCompile Include="ClassTestC.c" />
     <ClCompile Include="DerivedClassExample.c" />

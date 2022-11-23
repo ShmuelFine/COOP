@@ -9,7 +9,7 @@ FUN_IMPL(Inheritence_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell)
 	//Assert
 	TEST_ASSERT(cube._base.hight == 6);
 	TEST_ASSERT(cube._base.width == 8);
-	
+
 }
 END_FUN
 
@@ -24,10 +24,10 @@ FUN_IMPL(Inheritence_WhenVirtualFunctionOverriden_ThenCallInvokesOverridingFunc)
 	//Act
 	expectedVolume = cube._base.width * cube._base.hight * cube.depth;
 
-	FUN(&cube, GetVolume), & actualVolume CALL
+	FUN(&cube, GetVolume), & actualVolume CALL;
 
-		//Assert
-		TEST_ASSERT(expectedVolume == actualVolume);
+	//Assert
+	TEST_ASSERT(expectedVolume == actualVolume);
 
 }
 END_FUN
