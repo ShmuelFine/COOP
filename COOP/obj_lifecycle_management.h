@@ -12,13 +12,16 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 
 #define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
 
-#define CREATE(type, instance_name)							\
-	if (! is_ ##type ##VirtualTable__initialized) type ##_init();   \
+#define INITIALIZE_INSTANCE(type, instance_name)					\
+	if (!is_ ##type ##VirtualTable__initialized) type ##_init();	\
+	instance_name._next = NULL;										\
+	instance_name.vTable = &V_TABLE_INSTANCE(type);							\
+	{ int _retVal_ = instance_name.vTable->_ctor(&instance_name
+
+#define CREATE(type, instance_name)									\
 	type instance_name;                  							\
-	instance_name._next= NULL;										\
-	instance_name.vTable=&type ##VTable;							\
 	REGISTER_OBJECT(&instance_name);								\
-    { int _retVal_ = instance_name.vTable->_ctor(&instance_name
+	INITIALIZE_INSTANCE(type, instance_name)
 
 
 // The obj lifecycle built upon scopes, that has to account with exception handling:
@@ -26,7 +29,7 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 #define SUCCESS_VALUE 0
 #define ERROR_VALUE -1
 #define IN_THROWING_VALUE -10
-#define IS_IN_THROWING (__RET_VAL__ == IN_THROWING_VALUE)
+#define IS_IN_THROWING() (__RET_VAL__ == IN_THROWING_VALUE)
 
 #define TRY IS_BREAKING = false; \
 for (int i_ ##__LINE__= 0; i_ ##__LINE__ < 1; i_ ##__LINE__++)\
@@ -37,11 +40,11 @@ for (int i_ ##__LINE__= 0; i_ ##__LINE__ < 1; i_ ##__LINE__++)\
 #define CATCH \
 }\
 if (IS_BREAKING) {break;} \
-else if (IS_IN_THROWING) { __RET_VAL__ = SUCCESS_VALUE;
+else if (IS_IN_THROWING()) { __RET_VAL__ = SUCCESS_VALUE;
 
 #define END_TRY \
 }\
-{if (IS_BREAKING || IS_IN_THROWING) break;}
+{if (IS_BREAKING || IS_IN_THROWING()) break;}
 
 #define THROW \
 __RET_VAL__ = IN_THROWING_VALUE; break;
@@ -60,7 +63,7 @@ TRY									\
 	FreeMostInnerScope(&_scope_obj_list); \
 	}\
 	{if (IS_BREAKING) {IS_BREAKING = false; break;}\
-	else if (IS_IN_THROWING) break;}
+	else if (IS_IN_THROWING()) break;}
 
 
 #define FUN_IMPL(function_name, ...)\
@@ -74,13 +77,14 @@ SCOPE_START;
 }FreeMostInnerScope(&_scope_obj_list); \
 return __RET_VAL__; \
 }
-#define RETURN_NONE \
+#define RETURN \
 { FreeMostInnerScope(&_scope_obj_list); return __RET_VAL__; }
 
 #define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)
 
-#define RETURN(i) __RET_VAL__ = i; break;
+//#define RETURN(i) __RET_VAL__ = i; break;
 #define ASSERT(x) if (!(x)) {THROW;}
+#define ASSERT_NOT_NULL(x) if (!(x)) {THROW_MSG(#x "is null");}
 
 #endif
 

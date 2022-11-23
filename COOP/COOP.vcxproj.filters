@@ -48,7 +48,6 @@
     <ClInclude Include="virtual_func_calling.h">
       <Filter>OOP</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Shared_ptr.h" />
     <ClInclude Include="vectorIterator.h" />
@@ -76,7 +75,6 @@
     <ClCompile Include="virtual_func_calling.c">
       <Filter>OOP</Filter>
     </ClCompile>
-    <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="Vector.c" />
     <ClCompile Include="Shared_ptr.c" />
     <ClCompile Include="vectorIterator.c" />
@@ -84,8 +82,5 @@
     <ClCompile Include="redBlackTreeIterator.c" />
     <ClCompile Include="hashTable.c" />
     <ClCompile Include="Ndarray.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

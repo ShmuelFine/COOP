@@ -8,16 +8,18 @@
 #define DELTA_SIZE(classA, classB) (sizeof(classA) - sizeof(classB))
 #define PLACE_HOLDER_MEM_BUFF(base) char __dummy__[DELTA_SIZE(base, object) > 0 ? DELTA_SIZE(base, object) : 1]
 
+
+
 // Macro that defines a DERRIVED class:
 #define DEF_DERIVED_CLASS(class_name, base)											\
-typedef struct class_name ##VirtualTable_t class_name ##VirtualTable;						\
+typedef struct class_name ##VirtualTable_t V_TABLE_TYPE(class_name);						\
 typedef struct class_name ##_t {														\
 union {																			\
 	base _base;																	\
 	struct {																	\
 		/*this first part is parallel to _base structure and of the same size:*/\
 		object *_next;															\
-		class_name ##VirtualTable* vTable;											\
+		V_TABLE_TYPE(class_name)* vTable;											\
 		PLACE_HOLDER_MEM_BUFF(base)
 
 // Define the derived class members here, in between.
@@ -33,7 +35,7 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 	int __ctor__ ##class_name(class_name * _this, __VA_ARGS__);	\
 	int __dtor__ ##class_name(class_name * _this);					\
 	typedef struct class_name ##VirtualTable_t{				\
-	base ##VirtualTable _base;								\
+	V_TABLE_TYPE(base) _base;								\
 	int (*_ctor)(class_name * _this, __VA_ARGS__);			\
 	int (*_dtor)(class_name * _this); 
 
@@ -102,21 +104,21 @@ FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
 // It begins with:
 #define INIT_DERIVED_CLASS(type,base)					\
 bool is_ ##type ##VirtualTable__initialized = false;	\
-type ##VirtualTable type ##VTable;						\
+V_TABLE_TYPE(type) V_TABLE_INSTANCE(type);						\
 void type ##_init()		{							\
 	if(!(is_ ##base ##VirtualTable__initialized))		\
 		base ##_init();									\
 	ATTACH_TORs_ToClass(type);							\
-	type ##VTable._base = base ##VTable
+	V_TABLE_INSTANCE(type)._base = base ##VTable
 
 // Than, for each implemented, overriding func. : 
 #define BIND_OVERIDE(type,base,function) \
-	type ##VTable.function.next = NULL;\
-	type ##VTable.function.inner_function = inner_function_ ##type ##_ ##function;\
-	type ##VTable._base.function.next = &(type ##VTable.##function);\
-	type ##VTable.function.outer_function = type ##VTable._base.function.outer_function;
+	V_TABLE_INSTANCE(type).function.next = NULL;\
+	V_TABLE_INSTANCE(type).function.inner_function = inner_function_ ##type ##_ ##function;\
+	V_TABLE_INSTANCE(type)._base.function.next = &(V_TABLE_INSTANCE(type).##function);\
+	V_TABLE_INSTANCE(type).function.outer_function = V_TABLE_INSTANCE(type)._base.function.outer_function;
 
-//type ##VTable.__ ##function.outer_function = NULL; /*outer function called only on the base. otherwise let's crash.*/\
+//V_TABLE_INSTANCE(type).__ ##function.outer_function = NULL; /*outer function called only on the base. otherwise let's crash.*/\
 //
 // Or, if it's not overriding anything it's just BIND or BIND...
 // And finally, we put END_INIT_CLASS as ususal.

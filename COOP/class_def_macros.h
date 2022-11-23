@@ -10,11 +10,15 @@
 
 ///////////// The H file structure : //////////////////////////////////
 // Macro that begins class name + member definitions:
+
+#define V_TABLE_TYPE(class_name) class_name ##VirtualTable
+#define V_TABLE_INSTANCE(class_name) class_name ##VTable
+
 #define DEF_CLASS(class_name)                                              \
-typedef struct class_name ##VirtualTable_t class_name ##VirtualTable;            \
+typedef struct class_name ##VirtualTable_t V_TABLE_TYPE(class_name);            \
 typedef struct class_name ##_t{                                            \
 	object *_next;                                                   \
-	class_name ##VirtualTable* vTable
+	V_TABLE_TYPE(class_name)* vTable
 
 // Define your members here, between DEF_CLASS and END_DEF
 
@@ -43,7 +47,7 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 
 // Macro that ends class function definitions section:
 #define END_FUNCTIONS(class_name) } class_name ##VirtualTalbe;   \
-COOP_API extern class_name ##VirtualTalbe class_name ##VTable;\
+COOP_API extern class_name ##VirtualTalbe V_TABLE_INSTANCE(class_name);\
 COOP_API void class_name ##_init()
 
 ///////////// The C file structure : //////////////////////////////////
@@ -71,24 +75,24 @@ FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
 		
 // Macro for inner use in INIT_CLASS:
 #define ATTACH_TORs_ToClass(class_name)       \
-class_name ##VTable._ctor = __ctor__ ##class_name;  \
-class_name ##VTable._dtor = __dtor__ ##class_name; 
+V_TABLE_INSTANCE(class_name)._ctor = __ctor__ ##class_name;  \
+V_TABLE_INSTANCE(class_name)._dtor = __dtor__ ##class_name; 
 
 // At the end of the C file, we bind the function implementations to the pointers of the vTable.
 // It begins with:
 #define INIT_CLASS(type)							\
 bool is_ ##type ##VirtualTable__initialized = false;\
-type ##VirtualTable type ##VTable;					\
+V_TABLE_TYPE(type) V_TABLE_INSTANCE(type);					\
 	void type ##_init(){							\
 	/*For safety, set all ptrs to NULL instead of garbage: */\
-	memset(& type ##VTable, sizeof(type ##VTable), 0);	\
+	memset(& V_TABLE_INSTANCE(type), sizeof(V_TABLE_INSTANCE(type)), 0);	\
 	ATTACH_TORs_ToClass(type)
 
 
 #define BIND(type, function_name)\
-	type ##VTable.function_name.outer_function = type ##_ ##function_name ##_outer_function;				\
-	type ##VTable.function_name.inner_function = inner_function_ ##type ##_ ##function_name;				\
-	type ##VTable.function_name.next = NULL
+	V_TABLE_INSTANCE(type).function_name.outer_function = type ##_ ##function_name ##_outer_function;				\
+	V_TABLE_INSTANCE(type).function_name.inner_function = inner_function_ ##type ##_ ##function_name;				\
+	V_TABLE_INSTANCE(type).function_name.next = NULL
 
 // Finally, it ends with:
 #define END_INIT_CLASS(type) \

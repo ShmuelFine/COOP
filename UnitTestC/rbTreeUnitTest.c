@@ -14,7 +14,7 @@ FUN_IMPL(rbTree_insert_SanityTest)
 {
 	//also checked with an inorder traversal after each insert (before switch to void *)
 	//Arrange
-	CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
+	init_global_memory( sizeof(node) * 100, HEAP_BASED_MEMORY );
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &intComparison;
@@ -87,7 +87,7 @@ FUN_IMPL(rbTree_insert_SanityTest)
 }END_FUN
 FUN_IMPL(rbTree_find_SanityTest)
 	{
-		CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
+		init_global_memory( sizeof(node) * 100, HEAP_BASED_MEMORY );
 
 		void (*functionPtr)(void*, void*, bool*);
 		functionPtr = &intComparison;
@@ -124,7 +124,7 @@ FUN_IMPL(rbTree_find_SanityTest)
 			//also checked the inOrderTraversal after each erase-before switch to void *
 			//and some after
 			//ARRANGE
-			CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
+			init_global_memory( sizeof(node) * 100, HEAP_BASED_MEMORY );
 
 			void (*functionPtr)(void*, void*, bool*);
 			functionPtr = &intComparison;
@@ -218,7 +218,7 @@ FUN_IMPL(rbTree_find_SanityTest)
 		}END_FUN
 			FUN_IMPL(rbTree_iteration_SanityTest)
 			{
-				CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
+				init_global_memory( sizeof(node) * 100, HEAP_BASED_MEMORY );
 
 				void (*functionPtr)(void*, void*, bool*);
 				functionPtr = &intComparison;
@@ -275,7 +275,7 @@ FUN_IMPL(rbTree_find_SanityTest)
 			}END_FUN
 				FUN_IMPL(rbTree_rectangle_as_node_data_insert_SanityTest)
 				{
-					CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
+					init_global_memory( sizeof(node) * 100, HEAP_BASED_MEMORY );
 
 					void (*functionPtr)(void*, void*, bool*);
 					functionPtr = &rectComp;
@@ -362,7 +362,7 @@ FUN_IMPL(rbTree_find_SanityTest)
 				}END_FUN
 					FUN_IMPL(rbTree_rectangle_as_node_data_find_SanityTest)
 				{
-					CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
+					init_global_memory( sizeof(node) * 100, HEAP_BASED_MEMORY );
 
 					void (*functionPtr)(void*, void*, bool*);
 					functionPtr = &rectComp;
@@ -407,7 +407,7 @@ FUN_IMPL(rbTree_find_SanityTest)
 				}END_FUN
 					FUN_IMPL(rbTree_rectangle_as_node_data_delete_SanityTest)
 					{
-						CREATE(MemoryManager, memManager), sizeof(node) * 100, HEAP_BASED_MEMORY CALL;
+						init_global_memory( sizeof(node) * 100, HEAP_BASED_MEMORY );
 
 						void (*functionPtr)(void*, void*, bool*);
 						functionPtr = &rectComp;

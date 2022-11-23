@@ -3,7 +3,7 @@
 FUN_IMPL(check_type)
 {
 	// Arrange
-	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY CALL;
+	init_global_memory( sizeof(int) * 20, STACK_BASED_MEMORY );
 
 
 	CREATE(Shared_ptr, ptr) CALL;

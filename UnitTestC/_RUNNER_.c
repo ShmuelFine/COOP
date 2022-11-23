@@ -3,14 +3,16 @@
 IMPORT_TESTS(NDarray_Tests);
 IMPORT_TESTS(DemoClassTest);
 IMPORT_TESTS(VectorTest);
-
+IMPORT_TESTS(MemoryManagementTest);
 
 int main() {
 
+	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
 	RUN_TESTS(NDarray_Tests);
 	RUN_TESTS(DemoClassTest);
 	RUN_TESTS(VectorTest);
+	RUN_TESTS(MemoryManagementTest);
 
 	//////HashTableC! 
 	////RUN_TEST(check_insert_SanityTest);
@@ -49,7 +51,7 @@ int main() {
 	//RUN_TEST(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope);
 
 	////MemManagementUnitTest
-	//RUN_TEST(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy);
+	//RUN_TEST(NEW_AllocatesSufficientMemory);
 	//RUN_TEST(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy);
 	//RUN_TEST(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource);
 

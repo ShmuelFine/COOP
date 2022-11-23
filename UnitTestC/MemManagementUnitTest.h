@@ -6,10 +6,7 @@
 
 #include "BaseClassExample.h"
 
-// #include "../COOP_C_TestProxy/ScopeTester.h"
-// #include "../COOP_C_TestProxy/BaseClassExample.h"
-
-FUN_DECL(New_WhenAllocatingBuffer_ThenReturnsRightAmountOfMemroy);
-FUN_DECL(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy);
-FUN_DECL(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource);
-
+DEF_TEST_SUITE(MemoryManagementTest);
+ADD_TEST(MemoryManagementTest, NEW_AllocatesSufficientMemory);
+ADD_TEST(MemoryManagementTest, Delete_WhenDeletingAllocMemory_ThenItFreesTheResource);
+END_TEST_SUITE(MemoryManagementTest);

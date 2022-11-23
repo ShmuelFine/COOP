@@ -58,7 +58,7 @@ TEST_FUN_IMPL(VectorTest, iteration_SanityTest)
 {
 	CREATE(vector, v1) CALL;
 
-	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
 	FUN(&v1, push_back), 3 CALL;
 	FUN(&v1, push_back), 4 CALL;
