@@ -42,7 +42,7 @@
     <ClCompile Include="MemManagementUnitTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CharTest.c">
+    <ClCompile Include="shared_ptr_test.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ScopesUnitTest.c">

@@ -25,7 +25,7 @@ FUN_IMPL(Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd, int*
 	{
 		SCOPE_START;
 		// Cause throwing from within a func:
-		FUN(&s, ThrowingIfEQ), 3, 3 CALL
+		FUN(&s, ThrowingIfEQ), 3, 3 CALL;
 		(*tester)++;
 		END_SCOPE;
 	}
@@ -46,15 +46,15 @@ FUN_IMPL(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing)
 		TRY
 		{
 			CREATE(ScopeTester,s),feedback + 0 CALL;
-			// cause throwing from within a function:
-			FUN(&s, ThrowingIfEQ), 3, 3 CALL
+		// cause throwing from within a function:
+		FUN(&s, ThrowingIfEQ), 3, 3 CALL;
 		}CATCH{
 			isCaught = true;
 		}END_TRY;
 
-			isContinuedExecution = true;
+		isContinuedExecution = true;
 
-			END_SCOPE;
+		END_SCOPE;
 	}
 
 	TEST_ASSERT(isCaught);

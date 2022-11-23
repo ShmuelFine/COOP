@@ -21,10 +21,10 @@ FUN_IMPL(Class_CallSimpleFunction) {
 	CREATE(BaseClassExample, B), 10, 3 CALL;
 	// Act
 	int retVal = 0;
-	FUN(&B, GetVolume), & retVal CALL
-		// Assert
-		TEST_ASSERT(retVal == 10 * 3);
-	
+	FUN(&B, GetVolume), & retVal CALL;
+	// Assert
+	TEST_ASSERT(retVal == 10 * 3);
+
 }END_FUN;
 
 FUN_IMPL(Rectangle_SanityTest)
@@ -34,11 +34,11 @@ FUN_IMPL(Rectangle_SanityTest)
 
 	// Act
 	int retVal = 0;
-	FUN(&Rect, GetArea), & retVal CALL
+	FUN(&Rect, GetArea), & retVal CALL;
 
 	// Assert
-		TEST_ASSERT(retVal == 10 * 3);
-	
+	TEST_ASSERT(retVal == 10 * 3);
+
 
 
 }END_FUN

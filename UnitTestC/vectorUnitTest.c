@@ -13,28 +13,28 @@ FUN_IMPL(vector_push_back_SanityTest)
 	int retVal2 = 0;
 	int retVal3 = 0;
 	int retVal4 = 0;
-	FUN(&v1, push_back), 3 CALL
-		FUN(&v1, print) CALL
-		FUN(&v1, at), 0, & retVal CALL
+	FUN(&v1, push_back), 3 CALL;
+	FUN(&v1, print) CALL;
+	FUN(&v1, at), 0, & retVal CALL;
 
-		FUN(&v1, push_back), 4 CALL
-		FUN(&v1, print) CALL
-		FUN(&v1, at), 1, & retVal1 CALL
+	FUN(&v1, push_back), 4 CALL;
+	FUN(&v1, print) CALL;
+	FUN(&v1, at), 1, & retVal1 CALL;
 
-		FUN(&v1, push_back), 5 CALL
-		FUN(&v1, print) CALL
-		FUN(&v1, at), 2, & retVal2 CALL
+	FUN(&v1, push_back), 5 CALL;
+	FUN(&v1, print) CALL;
+	FUN(&v1, at), 2, & retVal2 CALL;
 
-		FUN(&v1, push_back), 6 CALL
-		FUN(&v1, print) CALL
-		FUN(&v1, at), 3, & retVal3 CALL
+	FUN(&v1, push_back), 6 CALL;
+	FUN(&v1, print) CALL;
+	FUN(&v1, at), 3, & retVal3 CALL;
 
-		FUN(&v1, push_back), 7 CALL
-		FUN(&v1, print) CALL
-		FUN(&v1, at), 4, & retVal4 CALL
+	FUN(&v1, push_back), 7 CALL;
+	FUN(&v1, print) CALL;
+	FUN(&v1, at), 4, & retVal4 CALL;
 
-		// Assert
-		TEST_ASSERT(retVal == 3);
+	// Assert
+	TEST_ASSERT(retVal == 3);
 	TEST_ASSERT(retVal1 == 4);
 	TEST_ASSERT(retVal2 == 5);
 	TEST_ASSERT(retVal3 == 6);
@@ -53,7 +53,7 @@ FUN_IMPL(vector_at_throws_when_idx_is_outOfRange, int* tester)
 	{
 		SCOPE_START;
 		// Cause throwing from within a func:
-		FUN(&v1, at), 6, & retVal CALL
+		FUN(&v1, at), 6, & retVal CALL;
 		(*tester)++;
 		END_SCOPE;
 	}
@@ -66,35 +66,35 @@ FUN_IMPL(vector_iteration_SanityTest)
 
 	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 
-	FUN(&v1, push_back), 3 CALL
-		FUN(&v1, push_back), 4 CALL
-		FUN(&v1, push_back), 5 CALL
-		FUN(&v1, push_back), 6 CALL
+	FUN(&v1, push_back), 3 CALL;
+	FUN(&v1, push_back), 4 CALL;
+	FUN(&v1, push_back), 5 CALL;
+	FUN(&v1, push_back), 6 CALL;
 
 
-		int beginVal;
+	int beginVal;
 	CREATE(vectorIterator, vecItBegin), & v1, 2 CALL;
 	FUN(&v1, begin), & vecItBegin CALL;
-	FUN(&vecItBegin, getContentsOf), & beginVal CALL
+	FUN(&vecItBegin, getContentsOf), & beginVal CALL;
 
-		CREATE(vectorIterator, vecItEnd), & v1, 2 CALL;
-		FUN(&v1, end), & vecItEnd CALL;
+	CREATE(vectorIterator, vecItEnd), & v1, 2 CALL;
+	FUN(&v1, end), & vecItEnd CALL;
 
-		bool isAtEnd = false;
-		while (!isAtEnd)
-		{
-			SCOPE_START;
-			int intermediateVal = 0;
-			FUN(&vecItBegin, getContentsOf), & intermediateVal CALL
-				printf("%d ", intermediateVal);
+	bool isAtEnd = false;
+	while (!isAtEnd)
+	{
+		SCOPE_START;
+		int intermediateVal = 0;
+		FUN(&vecItBegin, getContentsOf), & intermediateVal CALL;
+		printf("%d ", intermediateVal);
 
-			FUN(&vecItBegin, increment) CALL
-				FUN(&vecItBegin, equals), vecItEnd, & isAtEnd CALL;
-			END_SCOPE;
-		}
+		FUN(&vecItBegin, increment) CALL;
+		FUN(&vecItBegin, equals), vecItEnd, & isAtEnd CALL;
+		END_SCOPE;
+	}
 
 
-		//checks that begin is working properly
-		TEST_ASSERT(beginVal == 3);
+	//checks that begin is working properly
+	TEST_ASSERT(beginVal == 3);
 
 }END_FUN
