@@ -4,6 +4,7 @@ IMPORT_TESTS(NDarray_Tests);
 IMPORT_TESTS(DemoClassTest);
 IMPORT_TESTS(VectorTest);
 IMPORT_TESTS(MemoryManagementTest);
+//IMPORT_TESTS(VectorIteratorTest);
 
 int main() {
 
@@ -13,6 +14,7 @@ int main() {
 	RUN_TESTS(DemoClassTest);
 	RUN_TESTS(VectorTest);
 	RUN_TESTS(MemoryManagementTest);
+	//RUN_TESTS(VectorIteratorTest);
 
 	//////HashTableC! 
 	////RUN_TEST(check_insert_SanityTest);
@@ -40,20 +42,11 @@ int main() {
 	//RUN_TEST(rbTree_rectangle_as_node_data_find_SanityTest);
 	//RUN_TEST(rbTree_rectangle_as_node_data_delete_SanityTest);
 
-	////vectorIteratorUnitTest
-	//RUN_TEST(vectorIterator_getContentsOf_Sanity);
-	//RUN_TEST(vectorIterator_increment_Sanity);
-
 	////ExeptionUnitTest
 	//RUN_TEST(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing);
 	//RUN_TEST(BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly);
 	//RUN_TEST(BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly);
 	//RUN_TEST(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope);
-
-	////MemManagementUnitTest
-	//RUN_TEST(NEW_AllocatesSufficientMemory);
-	//RUN_TEST(New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy);
-	//RUN_TEST(Delete_WhenDeletingAllocMemory_ThenItFreesTheResource);
 
 	////CharTest
 	//RUN_TEST(check_type_char);

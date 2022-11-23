@@ -32,12 +32,10 @@ TEST_FUN_IMPL(NDarray_Tests, init_invalid_dims)
 	//Arragne
 	int dims = -1;
 	int shape[] = { 0, 4 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
 	EXPECT_THROW;
 	CREATE(Ndarray, arr), dims, shape CALL;
 	ASSERT_THROW;
-
 }
 END_FUN
 
@@ -46,7 +44,7 @@ TEST_FUN_IMPL(NDarray_Tests, init_invalid_shape)
 	//Arragne
 	int dims = 2;
 	int shape[] = { 0, 4 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 
 	TRY{
 		//Act
@@ -65,7 +63,7 @@ TEST_FUN_IMPL(NDarray_Tests, get_location_3D)
 	int dims = 3;
 	int shape[] = { 3, 4, 5 };
 	int pos[] = { 2,3,4 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Act
@@ -83,7 +81,7 @@ TEST_FUN_IMPL(NDarray_Tests, set_sanity_case)
 	int dims = 2;
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,3 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Act
@@ -101,7 +99,7 @@ TEST_FUN_IMPL(NDarray_Tests, set_index_out_of_range)
 	int dims = 2;
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,4 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	TRY{
@@ -124,7 +122,7 @@ TEST_FUN_IMPL(NDarray_Tests, at_sanity_case)
 	int dims = 2;
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,3 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Act
@@ -142,7 +140,7 @@ TEST_FUN_IMPL(NDarray_Tests, at_index_out_of_range)
 	int dims = 2;
 	int shape[] = { 3, 4 };
 	int pos[] = { 4,3 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	TRY{
@@ -165,7 +163,7 @@ TEST_FUN_IMPL(NDarray_Tests, fill_sanity_case)
 	int dims = 2;
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,3 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Act
@@ -173,7 +171,6 @@ TEST_FUN_IMPL(NDarray_Tests, fill_sanity_case)
 	FUN(&arr, fill), val CALL;
 
 	//Assert
-
 	for (size_t i = 0; i < arr.size; i++)
 	{
 		NTEST_ASSERT(arr.data[i] == val);
@@ -186,7 +183,7 @@ TEST_FUN_IMPL(NDarray_Tests, contains_when_true)
 	// Arrange
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 	CREATE(Ndarray, arr), dims, shape CALL;
 	int pos[] = { 2,2,2 };
 
@@ -206,7 +203,7 @@ TEST_FUN_IMPL(NDarray_Tests, contains_when_false)
 	// Arrange
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//Act
@@ -224,7 +221,7 @@ TEST_FUN_IMPL(NDarray_Tests, min_sanity_case)
 	// Arrange
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 	CREATE(Ndarray, arr), dims, shape CALL;
 
 	//float values[] = { 4,5,2,7,4,3,6 };
@@ -252,7 +249,7 @@ TEST_FUN_IMPL(NDarray_Tests, max_sanity_case)
 	// Arrange
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
-	//init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
+	
 	CREATE(Ndarray, arr), dims, shape CALL;
 	CREATE(Ndarray, arr1), dims, shape CALL;
 	CREATE(Ndarray, arr2), dims, shape CALL;

@@ -5,6 +5,7 @@
 #include "../COOP/vector.h"
 
 
-
-FUN_DECL(vectorIterator_getContentsOf_Sanity);
-FUN_DECL(vectorIterator_increment_Sanity);
+DEF_TEST_SUITE(VectorIteratorTest);
+ADD_TEST(VectorIteratorTest, getContentsOf_Sanity);
+ADD_TEST(VectorIteratorTest, increment_Sanity);
+END_TEST_SUITE(VectorIteratorTest);

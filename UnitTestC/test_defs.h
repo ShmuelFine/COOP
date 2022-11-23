@@ -82,7 +82,6 @@ printf("PASSED:%d\tFAILED:%d\n", num_passed, num_failed);\
 
 #define ASSERT_THROW __exception_tester__++; } CATCH {} END_TRY; } \
 if (__exception_tester__ != 0) {printf("\tFAIL: exception was not thrown\t"); *__is_fail__ = true; return TEST_FAILED;} }
-//
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //old defs:
