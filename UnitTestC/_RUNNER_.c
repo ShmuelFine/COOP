@@ -12,6 +12,17 @@ int main() {
 	RUN_TESTS(DemoClassTest);
 	RUN_TESTS(VectorTest);
 
+	//////HashTableC! 
+	////RUN_TEST(check_insert_SanityTest);
+	////RUN_TEST(check_insert_when_already_exists_then_throw);
+	////RUN_TEST(check_search_when_founded_then_return_instance);
+	////RUN_TEST(check_search_when_not_founded_then_return_null);
+	////RUN_TEST(check_delete_when_exist_then_delete);
+
+
+	//////////////////////////
+
+
 	//RUN_TEST(Inheritence_WhenCallingNonVirtualFunciton_Sanity);
 	//RUN_TEST(Inheritence_WhenVirtualFunctionOverriden_ThenCallInvokesOverridingFunc);
 	//RUN_TEST(Inheritence_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell);
@@ -57,12 +68,6 @@ int main() {
 
 	////TypeTest
 	//RUN_TEST(check_type);
-	//////HashTableC! 
-	////RUN_TEST(check_insert_SanityTest);
-	////RUN_TEST(check_insert_when_already_exists_then_throw);
-	////RUN_TEST(check_search_when_founded_then_return_instance);
-	////RUN_TEST(check_search_when_not_founded_then_return_null);
-	////RUN_TEST(check_delete_when_exist_then_delete);
 
 
 }
