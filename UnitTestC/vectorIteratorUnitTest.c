@@ -1,10 +1,8 @@
 #include "vectorIteratorUnitTest.h"
 
-FUN_IMPL(vectorIterator_getContentsOf_Sanity)
+TEST_FUN_IMPL(VectorIteratorTest, getContentsOf_Sanity)
 {
 	CREATE(vector, v1) CALL;
-
-	init_global_memory(sizeof(int) * 1, HEAP_BASED_MEMORY);
 
 	FUN(&v1, push_back), 3 CALL;
 
@@ -17,11 +15,10 @@ FUN_IMPL(vectorIterator_getContentsOf_Sanity)
 
 
 }END_FUN
-FUN_IMPL(vectorIterator_increment_Sanity)
+
+TEST_FUN_IMPL(VectorIteratorTest, increment_Sanity)
 {
 	CREATE(vector, v1) CALL;
-
-	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
 	FUN(&v1, push_back), 3 CALL;
 	FUN(&v1, push_back), 4 CALL;
@@ -51,3 +48,8 @@ FUN_IMPL(vectorIterator_increment_Sanity)
 	TEST_ASSERT(eq == true);
 
 }END_FUN
+
+INIT_TEST_SUITE(VectorIteratorTest)
+BIND_TEST(VectorIteratorTest, getContentsOf_Sanity);
+BIND_TEST(VectorIteratorTest, increment_Sanity);
+END_INIT_TEST_SUITE(VectorIteratorTest);
