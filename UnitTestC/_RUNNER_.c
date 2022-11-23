@@ -8,14 +8,10 @@ IMPORT_TESTS(VectorTest);
 int main() {
 
 
-	//INIT_TESTS();
 	RUN_TESTS(NDarray_Tests);
 	RUN_TESTS(DemoClassTest);
 	RUN_TESTS(VectorTest);
 
-	//RUN_TEST(is_the_test_platform_run_as_well);
-	//RUN_TEST(Class_CallSimpleFunction);
-	//RUN_TEST(Rectangle_SanityTest);
 	//RUN_TEST(Inheritence_WhenCallingNonVirtualFunciton_Sanity);
 	//RUN_TEST(Inheritence_WhenVirtualFunctionOverriden_ThenCallInvokesOverridingFunc);
 	//RUN_TEST(Inheritence_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell);
@@ -35,12 +31,6 @@ int main() {
 	//RUN_TEST(vectorIterator_getContentsOf_Sanity);
 	//RUN_TEST(vectorIterator_increment_Sanity);
 
-	//vectorUnitTest
-	//RUN_TEST(vector_push_back_SanityTest);
-	//RUN_TEST(vector_iteration_SanityTest);
-
-
-	//
 	////ExeptionUnitTest
 	//RUN_TEST(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing);
 	//RUN_TEST(BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly);
@@ -67,10 +57,6 @@ int main() {
 
 	////TypeTest
 	//RUN_TEST(check_type);
-
-	/////ClassTestC
-	//RUN_TEST(Class_test);
-
 	//////HashTableC! 
 	////RUN_TEST(check_insert_SanityTest);
 	////RUN_TEST(check_insert_when_already_exists_then_throw);
@@ -78,22 +64,6 @@ int main() {
 	////RUN_TEST(check_search_when_not_founded_then_return_null);
 	////RUN_TEST(check_delete_when_exist_then_delete);
 
-	//Ndarray
-	//RUN_TEST(Ndarray_init_sanity_case);
-	//RUN_TEST(Ndarray_init_invalid_dims);
-	//RUN_TEST(Ndarray_init_invalid_shape);
-	//RUN_TEST(Ndarray_get_location_3D);
-	//RUN_TEST(Ndarray_set_sanity_case);
-	//RUN_TEST(Ndarray_set_index_out_of_range);
-	//RUN_TEST(Ndarray_at_sanity_case);
-	//RUN_TEST(Ndarray_at_index_out_of_range);
-	//RUN_TEST(Ndarray_fill_sanity_case);
-	//RUN_TEST(Ndarray_contains_when_true);
-	//RUN_TEST(Ndarray_contains_when_false);
-	//RUN_TEST(Ndarray_min_sanity_case);
-	//RUN_TEST(Ndarray_max_sanity_case);
-	//RUN_TEST(Ndarray_general_test);
-	//FINISH_TESTS();
 
 }
 
