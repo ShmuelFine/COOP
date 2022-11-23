@@ -1,11 +1,9 @@
 #include "vectorUnitTest.h"
 
-FUN_IMPL(vector_push_back_SanityTest)
+TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 {
 	// Arrange
 	CREATE(vector, v1) CALL;
-
-	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 
 	// Act
 	int retVal = 0;
@@ -34,33 +32,29 @@ FUN_IMPL(vector_push_back_SanityTest)
 	FUN(&v1, at), 4, & retVal4 CALL;
 
 	// Assert
-	TEST_ASSERT(retVal == 3);
-	TEST_ASSERT(retVal1 == 4);
-	TEST_ASSERT(retVal2 == 5);
-	TEST_ASSERT(retVal3 == 6);
-	TEST_ASSERT(retVal4 == 7);
+	NTEST_ASSERT(retVal == 3);
+	NTEST_ASSERT(retVal1 == 4);
+	NTEST_ASSERT(retVal2 == 5);
+	NTEST_ASSERT(retVal3 == 6);
+	NTEST_ASSERT(retVal4 == 7);
 
 }END_FUN
-FUN_IMPL(vector_at_throws_when_idx_is_outOfRange, int* tester)
+
+TEST_FUN_IMPL(VectorTest, at_throws_when_idx_is_outOfRange)
 {
 	CREATE(vector, v1) CALL;
-	(*tester) = 0;
+	
 	char feedback[3] = { 0, 0, 0 };
 	int retVal = 0;
 
 	CREATE(ScopeTester, s), feedback + 0 CALL;
-	if (1)
-	{
-		SCOPE_START;
-		// Cause throwing from within a func:
-		FUN(&v1, at), 6, & retVal CALL;
-		(*tester)++;
-		END_SCOPE;
-	}
-	(*tester)++;
+	EXPECT_THROW;
+	FUN(&v1, at), 6, & retVal CALL;
+	ASSERT_THROW;
 
 }END_FUN
-FUN_IMPL(vector_iteration_SanityTest)
+
+TEST_FUN_IMPL(VectorTest, iteration_SanityTest)
 {
 	CREATE(vector, v1) CALL;
 
@@ -70,7 +64,6 @@ FUN_IMPL(vector_iteration_SanityTest)
 	FUN(&v1, push_back), 4 CALL;
 	FUN(&v1, push_back), 5 CALL;
 	FUN(&v1, push_back), 6 CALL;
-
 
 	int beginVal;
 	CREATE(vectorIterator, vecItBegin), & v1, 2 CALL;
@@ -95,6 +88,12 @@ FUN_IMPL(vector_iteration_SanityTest)
 
 
 	//checks that begin is working properly
-	TEST_ASSERT(beginVal == 3);
+	NTEST_ASSERT(beginVal == 3);
 
 }END_FUN
+
+INIT_TEST_SUITE(VectorTest)
+BIND_TEST(VectorTest, push_back_SanityTest);
+BIND_TEST(VectorTest, at_throws_when_idx_is_outOfRange);
+BIND_TEST(VectorTest, iteration_SanityTest);
+END_INIT_TEST_SUITE(VectorTest)
