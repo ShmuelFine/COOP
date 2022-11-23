@@ -76,6 +76,10 @@ printf("PASSED:%d\tFAILED:%d\n", num_passed, num_failed);\
 #define RUN_TESTS(SUITE_NAME) __run__all__tests ##SUITE_NAME();
 
 #define NTEST_ASSERT(x) if (!(x)) {printf("\tFAIL: %s is False\t", #x ); *__is_fail__ = true; return TEST_FAILED;}
+#define EXPECT_THROW { int __exception_tester__ = 0; if (1) { SCOPE_START; 
+
+#define ASSERT_THROW __exception_tester__++; END_SCOPE; } \
+if (__exception_tester__ != 0) {printf("\tFAIL: exception was not thrown\t"); *__is_fail__ = true; return TEST_FAILED;} }
 //
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

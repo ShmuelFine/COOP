@@ -7,6 +7,8 @@
 // #include "../COOP_C_TestProxy/ScopeTester.h"
 #include "../COOP/vector.h"
 
-FUN_DECL(vector_push_back_SanityTest);
-FUN_DECL(vector_at_throws_when_idx_is_outOfRange, int* tester);
-FUN_DECL(vector_iteration_SanityTest);
+DEF_TEST_SUITE(VectorTest);
+ADD_TEST(VectorTest, push_back_SanityTest);
+ADD_TEST(VectorTest, at_throws_when_idx_is_outOfRange);
+ADD_TEST(VectorTest, iteration_SanityTest);
+END_TEST_SUITE(VectorTest);
