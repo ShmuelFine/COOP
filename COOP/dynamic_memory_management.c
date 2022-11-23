@@ -4,7 +4,7 @@
 #include "HeapCache.h"
 
 
-iCache * TheGlobalCache;
+iCache * TheGlobalCache = NULL;
 #define MAX_CACHE_SIZE (sizeof(InMemoryCache))
 char BuffForCacheObject[MAX_CACHE_SIZE];
 
@@ -17,6 +17,11 @@ char BuffForCacheObject[MAX_CACHE_SIZE];
 
 bool CreateGlobalCache(int size, CACHE_TYPES type)
 {
+	if (TheGlobalCache != NULL) {
+		printf("Global cache is already initialized\n");
+		return true;
+	}
+
 	switch (type)
 	{
 	case STACK_BASED_MEMORY: { CREATE_GLOBAL_CACHE(InMemoryCache, size); } break;

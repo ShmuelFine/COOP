@@ -21,7 +21,7 @@
     <ClCompile Include="InheritTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="runTest.c">
+    <ClCompile Include="_RUNNER_.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rbTreeIterUnitTest.c">
