@@ -4,24 +4,26 @@
 
 
 /// in the H file:
+#define TESTS_LINKED_LIST_TYPE(SUITE_NAME) __single__test_link ##SUITE_NAME ##_t_
+
 #define DEF_TEST_SUITE(SUITE_NAME)\
 DEF_CLASS(SUITE_NAME);\
 END_DEF(SUITE_NAME);  \
 					  \
 FUNCTIONS(SUITE_NAME);\
-struct __single_test_link_t_ {								\
+struct TESTS_LINKED_LIST_TYPE(SUITE_NAME) {								\
 	int (*_test_func)(SUITE_NAME* _this, int* __is_fail__);		\
 	char* name;												\
-	struct __single_test_link_t_* next;						\
+	struct TESTS_LINKED_LIST_TYPE(SUITE_NAME)* next;						\
 }__tests_anchor;											\
-MEM_FUN_DECL(SUITE_NAME, __run_all_tests__, struct __single_test_link_t_* tests_anchor, int* num_passed, int* num_failed)
+MEM_FUN_DECL(SUITE_NAME, __run_all_tests__, struct TESTS_LINKED_LIST_TYPE(SUITE_NAME)* tests_anchor, int* num_passed, int* num_failed)
 
 #define TEST_LINK_NAME(test_name) __ ##test_name ##__LINK_
 #define TESTS_ANCHOR(SUITE_NAME) (SUITE_NAME ##VTable.__tests_anchor)
 
 #define ADD_TEST(SUITE_NAME, TEST_NAME)\
 MEM_FUN_DECL(SUITE_NAME, TEST_NAME, int * __is_fail__);\
-struct __single_test_link_t_ TEST_LINK_NAME(TEST_NAME)
+struct TESTS_LINKED_LIST_TYPE(SUITE_NAME) TEST_LINK_NAME(TEST_NAME)
 
 #define END_TEST_SUITE(SUITE_NAME)\
 END_FUNCTIONS(SUITE_NAME);
@@ -35,11 +37,11 @@ MEM_FUN_IMPL(SUITE_NAME, test_name, int* __is_fail__)
 #define INIT_TEST_SUITE(SUITE_NAME)\
 DEF_CTOR(SUITE_NAME) { CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL; } END_CTOR; \
 DEF_DTOR(SUITE_NAME) {} END_DTOR; \
-MEM_FUN_IMPL(SUITE_NAME, __run_all_tests__, struct __single_test_link_t_* tests_anchor, int* num_passed, int* num_failed)\
+MEM_FUN_IMPL(SUITE_NAME, __run_all_tests__, struct TESTS_LINKED_LIST_TYPE(SUITE_NAME)* tests_anchor, int* num_passed, int* num_failed)\
 {\
-	printf("Running %s...\n", #SUITE_NAME); fflush(stdout);\
+	printf("\n========================\nRunning %s...\n", #SUITE_NAME); fflush(stdout);\
 	*num_passed = 0; *num_failed = 0;\
-	for (struct __single_test_link_t_* it = tests_anchor; it != NULL; it = it->next) {\
+	for (struct TESTS_LINKED_LIST_TYPE(SUITE_NAME)* it = tests_anchor; it != NULL; it = it->next) {\
 		printf("... Running %s --> ", it->name); fflush(stdout);\
 		int is_fail = false; it->_test_func(_this, &is_fail);\
 		if (false != is_fail) { (*num_failed)++; printf("FAILED\n"); fflush(stdout); }\
@@ -66,7 +68,7 @@ FUN_IMPL(__run__all__tests ##SUITE_NAME)\
 {\
 CREATE(SUITE_NAME, suite) CALL;\
 int num_passed, num_failed;\
-struct __single_test_link_t_* anchor = TESTS_ANCHOR(SUITE_NAME).next;\
+struct TESTS_LINKED_LIST_TYPE(SUITE_NAME)* anchor = TESTS_ANCHOR(SUITE_NAME).next;\
 FUN(&suite, __run_all_tests__), anchor, & num_passed, & num_failed CALL;\
 printf("PASSED:%d\tFAILED:%d\n", num_passed, num_failed);\
 }END_FUN

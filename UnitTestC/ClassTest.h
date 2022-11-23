@@ -1,14 +1,7 @@
 #include "test_defs.h"
 #include "../COOP/COOP.h"
-#include "BaseClassExample.h"
-#include "Rectangle.h"
 
-//#include "../COOP_C_TestProxy/BaseClassExample.h"
-//#include "../COOP_C_TestProxy/Rectangle.h"
-// #include "../COOP_C_TestProxy/BaseClassExample.h"
-
-int is_the_test_platform_run_as_well();
-FUN_DECL(Class_CallSimpleFunction);
-FUN_DECL(Rectangle_SanityTest);
-
-
+DEF_TEST_SUITE(DemoClassTest);
+ADD_TEST(DemoClassTest, Class_CallSimpleFunction);
+ADD_TEST(DemoClassTest, Rectangle_SanityTest);
+END_TEST_SUITE(DemoClassTest);

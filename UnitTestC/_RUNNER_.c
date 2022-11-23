@@ -1,6 +1,7 @@
 #include "runTest.h"
 
 IMPORT_TESTS(NDarray_Tests);
+IMPORT_TESTS(DemoClassTest);
 
 
 int main() {
@@ -8,6 +9,7 @@ int main() {
 
 	//INIT_TESTS();
 	RUN_TESTS(NDarray_Tests);
+	RUN_TESTS(DemoClassTest);
 
 	//RUN_TEST(is_the_test_platform_run_as_well);
 	//RUN_TEST(Class_CallSimpleFunction);
