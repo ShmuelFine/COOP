@@ -6,43 +6,96 @@
 #include <string.h>
 #include <assert.h>
 
-DEF_DERIVED_CTOR(InMemoryCache,iCache, int size) SUPER ME
+#define BLOCK_METADATA_SIZE (3*sizeof(int))
+
+#define BLOCK_SIZE(i) *((int*)(_this->buffer + i))
+#define BLOCK_SIZE_WITH_METADATA(i) (BLOCK_METADATA_SIZE + BLOCK_SIZE(i))
+
+#define JUMP_TILL_NEXT_BLOCK(i) *((int*)(_this->buffer + i + sizeof(int)))
+#define NEXT_BLOCK_LOCATION(i) (i + JUMP_TILL_NEXT_BLOCK(i))
+
+#define JUMP_TILL_PREV_BLOCK(i) *((int*)(_this->buffer + i + 2*sizeof(int)))
+#define PREV_BLOCK_LOCATION(i) (i - JUMP_TILL_PREV_BLOCK(i))
+
+#define BLOCK_MEM_START(i) (_this->buffer + i + BLOCK_METADATA_SIZE )
+#define BLOCK_MEM_END(i) (_this->buffer + i + BLOCK_METADATA_SIZE + BLOCK_SIZE(i))
+
+#define END_OF_BLOCKS_IDX (_this->size - BLOCK_METADATA_SIZE)
+void print_mem(char* buf, long idx)
 {
-	Cache_InitCache(_this);
-	Cache_AllocateCache(_this, size);
+	//int* ibuf = (int*)(buf + idx);
+	//printf("B[%d]:Size=%d,Next=%d,Prev=%d\n", idx, ibuf[0], ibuf[1], ibuf[2]);
+}
+
+DEF_DERIVED_CTOR(InMemoryCache, iCache, int size) SUPER ME
+{
+	_this->size = size;
+	_this->buffer = (char*)malloc(sizeof(char) * size);
+	if (NULL == _this->buffer)
+	{
+		THROW("Could not allocate buffer");
+	}
+	memset(_this->buffer, 0, _this->size);
+
+	// anchor and suffix: (a.k.a "begin" and "end")
+	long anchor_idx = 0, suffix_idx = END_OF_BLOCKS_IDX;
+	BLOCK_SIZE(anchor_idx) = 0;
+	JUMP_TILL_NEXT_BLOCK(anchor_idx) = suffix_idx - anchor_idx;
+	JUMP_TILL_PREV_BLOCK(anchor_idx) = 0;
+	print_mem(_this->buffer, anchor_idx);
+
+	BLOCK_SIZE(suffix_idx) = 0;
+	JUMP_TILL_NEXT_BLOCK(suffix_idx) = 0;
+	JUMP_TILL_PREV_BLOCK(suffix_idx) = suffix_idx - anchor_idx;
+	print_mem(_this->buffer, suffix_idx);
+
 }
 END_DERIVED_CTOR
 
-DEF_DERIVED_DTOR(InMemoryCache,iCache)
+DEF_DERIVED_DTOR(InMemoryCache, iCache)
 {
-	Cache_Destroy(_this);
+	if (_this->buffer)
+		free(_this->buffer);
 }
 END_DERIVED_DTOR
 
-FUN_OVERRIDE_IMPL(InMemoryCache, iCache, AddNewBlock,int block_size,void ** returned)
+FUN_OVERRIDE_IMPL(InMemoryCache, iCache, AddNewBlock, int num_bytes_to_alloc, void** returned)
 {
 	*returned = NULL;
-	Block* lowerBound = Cache_FindAvailableInterval(_this, block_size);
-	if (lowerBound)
+
+	for (long mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
 	{
-		char* block_buff_pos = lowerBound->buff + lowerBound->size;
+		print_mem(_this->buffer, mem_idx);
 
-		Block* newBlock = Cache_allocateBlock(_this, block_size, block_buff_pos);
-		if (newBlock)
+		char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+		long this_block_end_idx = this_block_end_ptr - _this->buffer;
+		long space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+		if (space_between_blocks >= num_bytes_to_alloc + BLOCK_METADATA_SIZE)
 		{
-			newBlock->next = lowerBound->next;
-			lowerBound->next = newBlock;
+			long new_block_idx = NEXT_BLOCK_LOCATION(mem_idx);
+			BLOCK_SIZE(new_block_idx) = num_bytes_to_alloc;
+			JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+			JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
 
-			*returned = newBlock->buff;
+			JUMP_TILL_NEXT_BLOCK(mem_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+			*returned = BLOCK_MEM_START(new_block_idx);
+			RETURN;
 		}
 	}
+	THROW_MSG("Could not allocate new block");
 }
 END_FUN
 
-FUN_OVERRIDE_IMPL(InMemoryCache, iCache, RemoveBlock,void * toDelete)
+FUN_OVERRIDE_IMPL(InMemoryCache, iCache, RemoveBlock, void* toDelete)
 {
-	Block *block = Cache_FindBlockByBuffAddress(_this, toDelete);
-	Cache_DeleteBlock(_this, block);
+	long mem_idx = (((char*)toDelete) - _this->buffer) - BLOCK_METADATA_SIZE;
+	
+	// prev block should now point to next block: (anchor is never removed)
+	long prev_block_idx = PREV_BLOCK_LOCATION(mem_idx);
+	long next_block_idx = NEXT_BLOCK_LOCATION(mem_idx);
+
+	JUMP_TILL_PREV_BLOCK(next_block_idx) = 
+		JUMP_TILL_NEXT_BLOCK(prev_block_idx) = next_block_idx - prev_block_idx;
 }
 END_FUN
 
@@ -51,207 +104,3 @@ INIT_DERIVED_CLASS(InMemoryCache, iCache);
 BIND_OVERIDE(InMemoryCache, iCache, AddNewBlock);
 BIND_OVERIDE(InMemoryCache, iCache, RemoveBlock);
 END_INIT_CLASS(InMemoryCache)
-
-
-void Cache_InitCache(InMemoryCache* c)
-{
-	c->size = 0;
-	c->buffer = NULL;
-	for (int i = 2; i < MAX_NUM_BLOCKS; i++)
-	{
-		c->IsBlockUsed[i] = false;
-	}
-}
-
-bool Cache_isEmpty(InMemoryCache* c)
-{
-	return c->size == 0;
-}
-
-
-void Cache_Destroy(InMemoryCache* c)
-{
-	if (!Cache_isEmpty(c))
-	{
-		free(c->buffer);
-		//recursive_free_blocks(c->allBlockPointers);
-	}
-}
-
-Block* Cache_getAvailableBlock(InMemoryCache* c)
-{
-	if (c->numBlocks == MAX_NUM_BLOCKS)
-		return NULL;
-
-
-	Block* tempBlock = &(c->allBlocks[c->nextFreeBlock]);
-	c->IsBlockUsed[c->nextFreeBlock] = true;
-	c->numBlocks++;
-
-	if (MAX_NUM_BLOCKS == c->nextFreeBlock)
-		c->nextFreeBlock = 0;
-
-	while (c->nextFreeBlock < MAX_NUM_BLOCKS && c->IsBlockUsed[c->nextFreeBlock] == true)
-		c->nextFreeBlock++;
-
-	return tempBlock;
-}
-
-Block* Cache_allocateBlock(InMemoryCache* c, int block_size, char* pos_in_Cache_buff)
-{
-	Block* tempBlock = Cache_getAvailableBlock(c);
-	if (!tempBlock)
-		return NULL;
-	tempBlock->size = block_size;
-	tempBlock->buff = pos_in_Cache_buff;
-	tempBlock->next = NULL;
-	return tempBlock;
-}
-
-
-void Cache_AllocateCacheFromExisingBuf(InMemoryCache* c, char* cacheMemroy, int newSize)
-{
-	Cache_Destroy(c);
-	//Cache_Init(c);
-
-	c->buffer = cacheMemroy;
-	c->size = newSize;
-
-	c->allBlocks[0].buff = c->buffer;
-	c->allBlocks[0].size = 0;
-	c->IsBlockUsed[0] = true;
-
-	c->allBlocks[1].buff = c->buffer + c->size;
-	c->allBlocks[1].size = 0;
-	c->allBlocks[1].next = NULL;
-	c->IsBlockUsed[1] = true;
-
-	c->allBlockPointers = &(c->allBlocks[0]);
-	c->allBlockPointers->next = &(c->allBlocks[1]);
-	c->nextFreeBlock = 2;
-	c->numBlocks = 2;
-
-	//Block* endOfList = Cache_allocateBlock("__END__OF__LIST", 0, c->buffer + c->size);
-	//c->allBlocks = Cache_allocateBlock("__START__OF__LIST", 0, c->buffer);
-	//c->allBlocks->next = endOfList;
-
-
-	//c->allBlocks->isSealed = true;
-	//endOfList->isSealed = true;
-
-}
-
-void Cache_AllocateCache(InMemoryCache* c, int newSize)
-{
-	if (c->size == newSize)
-		return;
-
-	Cache_AllocateCacheFromExisingBuf(c, (char*)malloc(sizeof(char) * newSize), newSize);
-}
-
-
-Block* Cache_FindAvailableInterval(InMemoryCache* c, int dstSizeInBytes)
-{
-	for (Block* it = c->allBlockPointers; it->next != NULL; it = it->next)
-	{
-		if (it->next->buff - (it->buff + it->size) >= dstSizeInBytes)
-			return it;
-	}
-
-	return NULL;
-}
-
-Block* _Cache_AddNewBlock(InMemoryCache* c, int size)
-{
-	Block* lowerBound = Cache_FindAvailableInterval(c, size);
-	if (!lowerBound)
-		return NULL;
-
-	char* block_buff_pos = lowerBound->buff + lowerBound->size;
-
-	Block* newBlock = Cache_allocateBlock(c, size, block_buff_pos);
-	if (!newBlock)
-		return NULL;
-	newBlock->next = lowerBound->next;
-	lowerBound->next = newBlock;
-
-	return newBlock;
-}
-
-
-//Block* Cache_AddNewBlock(InMemoryCache* c, int block_size)
-//{
-//	Block* lowerBound = Cache_FindAvailableInterval(c, block_size);
-//	if (!lowerBound)
-//		return NULL;
-//
-//
-//	char* block_buff_pos = lowerBound->buff + lowerBound->size;
-//
-//	Block* newBlock = Cache_allocateBlock(c, block_size, block_buff_pos);
-//	if (!newBlock)
-//		return NULL;
-//	newBlock->next = lowerBound->next;
-//	lowerBound->next = newBlock;
-//
-//	return newBlock;
-//}
-
-//void Cache_RemoveBlock(InMemoryCache* c, Block* toDelete)
-//{
-//	Cache_DeleteBlock(c, toDelete);
-//}
-
-void Cache_DeleteBlock(InMemoryCache* c, Block* toDelete)
-{
-	if (!toDelete)
-		return;
-
-	Block* prev = NULL;
-	for (Block* it = c->allBlocks; it->next != NULL; it = it->next)
-	{
-		if (it->next == toDelete)
-		{
-			toDelete = it->next;
-			prev = it;
-			break;
-		}
-	}
-
-	if (prev)
-		prev->next = toDelete->next;
-
-	int myIdx = (int)((char*)toDelete - (char*)c->allBlocks) / sizeof(Block);
-	c->IsBlockUsed[myIdx] = false;
-	c->numBlocks--;
-}
-
-Block* Cache_FindBlockByBuffAddress(InMemoryCache* c, void* buff)
-{
-	Block* it = c->allBlockPointers->next;
-	while (it->next)
-	{
-		if (it->buff == buff)
-			return it;
-		it = it->next;
-	}
-	return NULL;
-}
-
-
-
-unsigned long Cache_GetAllocAmount(InMemoryCache* c)
-{
-	unsigned long sum = 0;
-	for (Block* it = c->allBlockPointers; it->next != NULL; it = it->next)
-	{
-		sum += (unsigned long)it->size;
-	}
-
-	return sum;
-}
-
-void external_symbol()
-{
-	int t = 5;
-}

@@ -7,22 +7,12 @@
 #include <stdbool.h>
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 COOP_API extern iCache* TheGlobalCache;
 
 typedef enum CACHE_TYPES_t { STACK_BASED_MEMORY, HEAP_BASED_MEMORY, NUM_MEMORY_TYPES } CACHE_TYPES;
 
-COOP_API bool CreateGlobalCache(int size, CACHE_TYPES type);
-COOP_API void DestroyGlobalCache();
 
-DEF_CLASS(MemoryManager);
-END_DEF(MemoryManager);
-
-FUNCTIONS(MemoryManager, int size, CACHE_TYPES type);
-END_FUNCTIONS(MemoryManager);
+FUN_DECL(init_global_memory, int size, CACHE_TYPES type);
 
 
 #define NEW(dest,whatToPutThere)\
@@ -38,9 +28,6 @@ END_FUNCTIONS(MemoryManager);
 
 #define DELETE_OBJ(buff) FUN(TheGlobalCache, RemoveBlock), buff CALL buff = NULL
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif
 

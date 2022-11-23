@@ -21,12 +21,6 @@ DEF_DTOR(vector)
 		if (_this->data[i] != NULL)
 			DELETE_OBJ(_this->data[i]);
 	}
-/*
-	if (_this->capacity > 0)
-	{		
-		DELETE_OBJ(_this->data);	
-	}*/	
-	
 }
 END_DTOR
 

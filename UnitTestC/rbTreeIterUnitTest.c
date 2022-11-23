@@ -10,7 +10,7 @@ FUN_IMPL(intComp, void* a, void* b, bool* retBool)
 
 FUN_IMPL(redBlacktreeIterator_increment_Sanity)
 {
-	CREATE(MemoryManager, memManager), sizeof(int) * 100, HEAP_BASED_MEMORY CALL;
+	init_global_memory( sizeof(int) * 100, HEAP_BASED_MEMORY );
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &intComp;
@@ -57,7 +57,7 @@ FUN_IMPL(redBlacktreeIterator_increment_Sanity)
 
 FUN_IMPL(redBlacktreeIterator_decrement_Sanity)
 {
-	CREATE(MemoryManager, memManager), sizeof(int) * 100, HEAP_BASED_MEMORY CALL;
+	init_global_memory( sizeof(int) * 100, HEAP_BASED_MEMORY );
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &intComp;

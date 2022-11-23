@@ -1,58 +1,35 @@
-
 #include "dynamic_memory_management.h"
 #include "Cache.h"
 #include "HeapCache.h"
+#include <stdlib.h>
 
 
-iCache * TheGlobalCache = NULL;
-#define MAX_CACHE_SIZE (sizeof(InMemoryCache))
-char BuffForCacheObject[MAX_CACHE_SIZE];
+iCache* TheGlobalCache = NULL;
 
-#define CREATE_GLOBAL_CACHE(type, ...)				                     \
-	if (! is_ ##type ##VirtualTable__initialized) type ##_init();            \
-	type * __g_cache_##type = (type *)BuffForCacheObject;					     \
-	__g_cache_##type->vTable = &type ##VTable;									 \
-	__g_cache_##type->vTable->_ctor(__g_cache_##type, __VA_ARGS__);            \
-	TheGlobalCache = (iCache*)BuffForCacheObject
+///////////////
 
-bool CreateGlobalCache(int size, CACHE_TYPES type)
+FUN_IMPL(init_global_memory, int size, CACHE_TYPES type)
 {
 	if (TheGlobalCache != NULL) {
-		printf("Global cache is already initialized\n");
-		return true;
+		printf("Global cache is already initialized. Re-defining.\n");
+		TheGlobalCache->vTable->_dtor(TheGlobalCache);
+		free(TheGlobalCache);
 	}
 
 	switch (type)
 	{
-	case STACK_BASED_MEMORY: { CREATE_GLOBAL_CACHE(InMemoryCache, size); } break;
-	case HEAP_BASED_MEMORY: {CREATE_GLOBAL_CACHE(HeapCache); } break;
-	
-	default: return false;
+	case STACK_BASED_MEMORY: {
+		(InMemoryCache*)(TheGlobalCache) = (InMemoryCache*)malloc(sizeof(InMemoryCache));
+		ASSERT_NOT_NULL(TheGlobalCache);
+		INITIALIZE_INSTANCE(InMemoryCache, (*((InMemoryCache*)TheGlobalCache))), size CALL;
+	} break;
+	case HEAP_BASED_MEMORY: {
+		(HeapCache*)(TheGlobalCache) = (HeapCache*)malloc(sizeof(HeapCache));
+		ASSERT_NOT_NULL(TheGlobalCache);
+		INITIALIZE_INSTANCE(HeapCache, (*((HeapCache*)TheGlobalCache))) CALL;
+	} break;
+	default:
+		THROW_MSG("Unknown memory type");
 	}
-
-	return true;
 }
-
-void DestroyGlobalCache()
-{
-	TheGlobalCache->vTable->_dtor(TheGlobalCache);
-}
-
-///////////////
-
-DEF_CTOR(MemoryManager, int size, CACHE_TYPES type)
-{
-	CreateGlobalCache(size, type);
-}
-END_CTOR
-
-DEF_DTOR(MemoryManager)
-{
-	DestroyGlobalCache();
-}
-END_DTOR
-
-
-INIT_CLASS(MemoryManager)
-END_INIT_CLASS(MemoryManager)
-
+END_FUN;

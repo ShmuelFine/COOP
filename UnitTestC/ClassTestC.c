@@ -11,7 +11,7 @@ END_FUNCTIONS(BaseClassExample);
 
 FUN_IMPL(Class_test)
 {
-	CREATE(MemoryManager, memManager), sizeof(int) * 20, STACK_BASED_MEMORY CALL;
+	init_global_memory( sizeof(int) * 20, STACK_BASED_MEMORY );
 
 	CREATE(Shared_ptr, ptr) CALL;
 	CREATE(Shared_ptr, ptr2) CALL;

@@ -4,7 +4,7 @@ FUN_IMPL(vectorIterator_getContentsOf_Sanity)
 {
 	CREATE(vector, v1) CALL;
 
-	CREATE(MemoryManager, memManager), sizeof(int) * 1, HEAP_BASED_MEMORY CALL;
+	init_global_memory(sizeof(int) * 1, HEAP_BASED_MEMORY);
 
 	FUN(&v1, push_back), 3 CALL;
 
@@ -21,7 +21,7 @@ FUN_IMPL(vectorIterator_increment_Sanity)
 {
 	CREATE(vector, v1) CALL;
 
-	CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
+	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
 	FUN(&v1, push_back), 3 CALL;
 	FUN(&v1, push_back), 4 CALL;

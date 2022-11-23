@@ -151,7 +151,6 @@
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="iCache.h" />
     <ClInclude Include="inheritence_def_macros.h" />
-    <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="Ndarray.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="obj_base_structs.h" />
@@ -169,7 +168,6 @@
     <ClCompile Include="hashTable.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="iCache.c" />
-    <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="Ndarray.c" />
     <ClCompile Include="obj_lifecycle_management.c" />
     <ClCompile Include="redBlackTree.c" />
@@ -178,9 +176,6 @@
     <ClCompile Include="Vector.c" />
     <ClCompile Include="vectorIterator.c" />
     <ClCompile Include="virtual_func_calling.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
