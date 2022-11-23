@@ -34,18 +34,9 @@ TEST_FUN_IMPL(NDarray_Tests, init_invalid_dims)
 	int shape[] = { 0, 4 };
 	//CREATE(MemoryManager, memManager), sizeof(int) * 10, HEAP_BASED_MEMORY CALL;
 
-	TRY
-	{
-		//Act
-		CREATE(Ndarray, arr), dims, shape CALL;
-
-	//Assert
-	NTEST_ASSERT(false); // we shouldn't have gotten here.
-	}
-		CATCH{
-		//NTEST_ASSERT(strcmp(LAST_EXCEPTION_ERROR_MSG, "dimension can't be negative")==0);
-	}
-	END_TRY;
+	EXPECT_THROW;
+	CREATE(Ndarray, arr), dims, shape CALL;
+	ASSERT_THROW;
 
 }
 END_FUN
