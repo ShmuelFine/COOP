@@ -17,35 +17,6 @@ TEST_FUN_IMPL(MemoryManagementTest, NEW_AllocatesSufficientMemory)
 		buff[i] = i;
 
 }END_FUN
-//
-//TEST_FUN_IMPL(MemoryManagementTest, New_WhenAllocatingClassInstance_ThenReturnsRightAmountOfMemroy)
-//{
-//	//Arrange
-//	init_global_memory( sizeof(BaseClassExample)*10, STACK_BASED_MEMORY );
-//
-//	//Act
-//	BaseClassExample* m = NULL;
-//	NEW(m, BaseClassExample);
-//	ASSERT_NOT_NULL(m);
-//	// Make sure we can access all our memory:
-//	m->width = 32;
-//	m->hight = 345;
-//
-//	//Assert
-//	bool canAllocMore = true;
-//	TRY
-//	{
-//		char* otherBuff;
-//		NEW(otherBuff, char);
-//	}CATCH{
-//		canAllocMore = false;
-//	}
-//	END_TRY;
-//
-//	NTEST_ASSERT(canAllocMore == false);
-//
-//	
-//}END_FUN
 
 TEST_FUN_IMPL(MemoryManagementTest, Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)
 {
