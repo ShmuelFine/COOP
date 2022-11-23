@@ -67,7 +67,7 @@ END_INIT_CLASS(SUITE_NAME);\
 FUN_IMPL(__run__all__tests ##SUITE_NAME)\
 {\
 CREATE(SUITE_NAME, suite) CALL;\
-int num_passed, num_failed;\
+int num_passed = 0, num_failed = 0;\
 struct TESTS_LINKED_LIST_TYPE(SUITE_NAME)* anchor = TESTS_ANCHOR(SUITE_NAME).next;\
 FUN(&suite, __run_all_tests__), anchor, & num_passed, & num_failed CALL;\
 printf("PASSED:%d\tFAILED:%d\n", num_passed, num_failed);\
