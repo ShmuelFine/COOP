@@ -1,4 +1,4 @@
-#include"CharTest.h"
+#include "CharTest.h"
 
 FUN_IMPL(check_type_char)
 {
