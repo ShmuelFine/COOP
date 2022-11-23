@@ -1,4 +1,4 @@
-#include"vectorIteratorUnitTest.h"
+#include "vectorIteratorUnitTest.h"
 
 FUN_IMPL(vectorIterator_getContentsOf_Sanity)
 {

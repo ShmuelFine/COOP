@@ -1,4 +1,4 @@
-#include"ScopesUnitTest.h"
+#include "ScopesUnitTest.h"
 
 FUN_IMPL(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
 {

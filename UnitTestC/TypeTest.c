@@ -1,4 +1,4 @@
-#include"TypeTest.h"
+#include "TypeTest.h"
 
 FUN_IMPL(check_type)
 {
