@@ -5,11 +5,12 @@
 #include "../COOP/COOP.h"
 #include "ScopeTester.h"
 
-FUN_DECL(Exception_WhenThrown_ThenGoesStraightToScopeEnd, int* tester);
-FUN_DECL(Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd, int* tester);
-FUN_DECL(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing);
-FUN_DECL(Exception_WhenUsingTHROW_MSG_ThenTheMessageIsSaved, const char* whatToThrow, char* outThrowingMsg);
-FUN_DECL(BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly);
-FUN_DECL(BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly);
-FUN_DECL(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope);
-
+DEF_TEST_SUITE(ExceptionTests);
+ADD_TEST(ExceptionTests, WhenThrown_ThenGoesStraightToScopeEnd);
+ADD_TEST(ExceptionTests, WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd);
+ADD_TEST(ExceptionTests, CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing);
+ADD_TEST(ExceptionTests, WhenUsingTHROW_MSG_ThenTheMessageIsSaved);
+ADD_TEST(ExceptionTests, BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly);
+ADD_TEST(ExceptionTests, BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly);
+ADD_TEST(ExceptionTests, BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope);
+END_TEST_SUITE(ExceptionTests);

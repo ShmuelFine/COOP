@@ -7,7 +7,7 @@
 #include "vectorUnitTest.h"
 #include "ExeptionUnitTest.h"
 #include "MemManagementUnitTest.h"
-#include "CharTest.h"
+#include "shared_ptr_test.h"
 #include "ScopesUnitTest.h"
 #include "TypeTest.h"
 #include "ClassTestC.h"
@@ -19,6 +19,9 @@ IMPORT_TESTS(NDarray_Tests);
 IMPORT_TESTS(DemoClassTest);
 IMPORT_TESTS(VectorTest);
 IMPORT_TESTS(MemoryManagementTest);
+IMPORT_TESTS(InheritanceTest);
+IMPORT_TESTS(ExceptionTests);
+IMPORT_TESTS(SharedPtrTest);
 //IMPORT_TESTS(VectorIteratorTest);
 
 int main() {
@@ -26,9 +29,20 @@ int main() {
 	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
 	RUN_TESTS(MemoryManagementTest);
+	RUN_TESTS(InheritanceTest);
+	RUN_TESTS(ExceptionTests);
+	RUN_TESTS(SharedPtrTest);
+
 	RUN_TESTS(NDarray_Tests);
 	RUN_TESTS(DemoClassTest);
 	RUN_TESTS(VectorTest);
+
+	////ExeptionUnitTest
+	//RUN_TEST(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing);
+	//RUN_TEST(BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly);
+	//RUN_TEST(BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly);
+	//RUN_TEST(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope);
+
 	return 0;
 	//RUN_TESTS(VectorIteratorTest);
 
@@ -42,10 +56,6 @@ int main() {
 
 	//////////////////////////
 
-
-	//RUN_TEST(Inheritence_WhenCallingNonVirtualFunciton_Sanity);
-	//RUN_TEST(Inheritence_WhenVirtualFunctionOverriden_ThenCallInvokesOverridingFunc);
-	//RUN_TEST(Inheritence_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell);
 	//RUN_TEST(redBlacktreeIterator_increment_Sanity);
 	//RUN_TEST(redBlacktreeIterator_decrement_Sanity);
 
@@ -57,12 +67,6 @@ int main() {
 	//RUN_TEST(rbTree_rectangle_as_node_data_insert_SanityTest);
 	//RUN_TEST(rbTree_rectangle_as_node_data_find_SanityTest);
 	//RUN_TEST(rbTree_rectangle_as_node_data_delete_SanityTest);
-
-	////ExeptionUnitTest
-	//RUN_TEST(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing);
-	//RUN_TEST(BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly);
-	//RUN_TEST(BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly);
-	//RUN_TEST(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope);
 
 	////CharTest
 	//RUN_TEST(check_type_char);

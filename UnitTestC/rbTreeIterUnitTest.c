@@ -33,25 +33,25 @@ FUN_IMPL(redBlacktreeIterator_increment_Sanity)
 
 	FUN(&rbIt, increment) CALL;
 	FUN(&rbIt, getContentsOf), & retPtr3 CALL;
-	TEST_ASSERT(*(int*)(retPtr3->data) == 4);
+	NTEST_ASSERT(*(int*)(retPtr3->data) == 4);
 
 	FUN(&rbIt, increment) CALL;
 	FUN(&rbIt, getContentsOf), & retPtr4 CALL;
-	TEST_ASSERT(*(int*)(retPtr4->data) == 10);
+	NTEST_ASSERT(*(int*)(retPtr4->data) == 10);
 
 
 	//test equals
 	FUN(&rbIt, equals), rbIt2, & retBool CALL;
-	TEST_ASSERT(retBool == true);
+	NTEST_ASSERT(retBool == true);
 
 	FUN(&rbIt, increment) CALL;
 	FUN(&rbIt, getContentsOf), & retPtr5 CALL;
-	TEST_ASSERT(*(int*)(retPtr5->data) == 35);
+	NTEST_ASSERT(*(int*)(retPtr5->data) == 35);
 
 	//reaches end()
 	FUN(&rbIt, increment) CALL;
 	FUN(&rbIt, getContentsOf), & retPtr6 CALL;
-	TEST_ASSERT(retPtr6->data == NULL);
+	NTEST_ASSERT(retPtr6->data == NULL);
 
 }END_FUN
 
@@ -80,17 +80,17 @@ FUN_IMPL(redBlacktreeIterator_decrement_Sanity)
 	FUN(&rbTree, end), & rbIt CALL;
 	FUN(&rbIt, decrement) CALL;
 	FUN(&rbIt, getContentsOf), & retPtr7 CALL;
-	TEST_ASSERT(*(int*)(retPtr7->data) == 35);
+	NTEST_ASSERT(*(int*)(retPtr7->data) == 35);
 
 	FUN(&rbIt, decrement) CALL;
 	FUN(&rbIt, getContentsOf), & retPtr3 CALL;
-	TEST_ASSERT(*(int*)(retPtr3->data) == 10);
+	NTEST_ASSERT(*(int*)(retPtr3->data) == 10);
 
 	FUN(&rbIt, decrement) CALL;
 	FUN(&rbIt, getContentsOf), & retPtr4 CALL;
-	TEST_ASSERT(*(int*)(retPtr4->data) == 4);
+	NTEST_ASSERT(*(int*)(retPtr4->data) == 4);
 
 	FUN(&rbIt, decrement) CALL;
 	FUN(&rbIt, getContentsOf), & retPtr5 CALL;
-	TEST_ASSERT(*(int*)(retPtr5->data) == 2);
+	NTEST_ASSERT(*(int*)(retPtr5->data) == 2);
 }END_FUN

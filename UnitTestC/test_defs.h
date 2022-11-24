@@ -77,48 +77,49 @@ printf("PASSED:%d\tFAILED:%d\n", num_passed, num_failed);\
 
 #define RUN_TESTS(SUITE_NAME) __run__all__tests ##SUITE_NAME();
 
-#define NTEST_ASSERT(x) if (!(x)) {printf("\tFAIL: %s is False\t", #x ); *__is_fail__ = true; return TEST_FAILED;}
+//#define TEST_FAILED 1
+//#define TEST_PASS 0
+
+#define NTEST_ASSERT(x) if (!(x)) {printf("\tFAIL: %s is False\t", #x ); *__is_fail__ = true; RETURN;}
 #define EXPECT_THROW { int __exception_tester__ = 0; if (1) { TRY {
 
 #define ASSERT_THROW __exception_tester__++; } CATCH {} END_TRY; } \
-if (__exception_tester__ != 0) {printf("\tFAIL: exception was not thrown\t"); *__is_fail__ = true; return TEST_FAILED;} }
+if (__exception_tester__ != 0) {printf("\tFAIL: exception was not thrown\t"); *__is_fail__ = true; RETURN;} }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //old defs:
-
-#define TEST_FAILED 1
-#define TEST_PASS 0
-
-#define INIT_TESTS() \
-bool isAllPass = true;
-
-#define TEST_ASSERT(x) if (!(x)) { printf("\tFAIL: %s is False\t", #x ); return TEST_FAILED; }
-
-
-#define RUN_TEST(T) \
-{ printf("%s -->\t", #T); \
-int res = T();\
-printf(res == TEST_PASS ? "PASS" : "FAIL");\
-printf("\n");\
-if (res != TEST_PASS)\
-	isAllPass = false;\
-}
-
-#define FINISH_TESTS() \
-return isAllPass ? TEST_PASS : TEST_FAILED;
-
-#define RUN_TESTS_SUITE(S) { \
-printf("\n**************************************************************************************\n");\
-printf("*** STARTING:       %s       \n", #S);\
-printf("**************************************************************************************\n");\
-int res = S();\
-printf("**************************************************************************************\n");\
-printf("*** FINISHED        %s  ==>   %s \n", #S, res == TEST_PASS ? "PASS" : "FAIL");\
-printf("**************************************************************************************\n");\
-if (res != TEST_PASS)\
-	isAllPass = false;\
-}
-
-#define PRINT_ALL_TESTS_RES()\
-printf("\n------- Did all tests pass ? %s ---------- \n", isAllPass ? "PASS" : "FAIL")
-
+//
+//
+//#define INIT_TESTS() \
+//bool isAllPass = true;
+//
+//#define NTEST_ASSERT(x) if (!(x)) { printf("\tFAIL: %s is False\t", #x ); return TEST_FAILED; }
+//
+//
+//#define RUN_TEST(T) \
+//{ printf("%s -->\t", #T); \
+//int res = T();\
+//printf(res == TEST_PASS ? "PASS" : "FAIL");\
+//printf("\n");\
+//if (res != TEST_PASS)\
+//	isAllPass = false;\
+//}
+//
+//#define FINISH_TESTS() \
+//return isAllPass ? TEST_PASS : TEST_FAILED;
+//
+//#define RUN_TESTS_SUITE(S) { \
+//printf("\n**************************************************************************************\n");\
+//printf("*** STARTING:       %s       \n", #S);\
+//printf("**************************************************************************************\n");\
+//int res = S();\
+//printf("**************************************************************************************\n");\
+//printf("*** FINISHED        %s  ==>   %s \n", #S, res == TEST_PASS ? "PASS" : "FAIL");\
+//printf("**************************************************************************************\n");\
+//if (res != TEST_PASS)\
+//	isAllPass = false;\
+//}
+//
+//#define PRINT_ALL_TESTS_RES()\
+//printf("\n------- Did all tests pass ? %s ---------- \n", isAllPass ? "PASS" : "FAIL")
+//

@@ -12,18 +12,18 @@ FUN_IMPL(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
 	CREATE(ScopeTester, s3), feedback + 2 CALL;
 
 	// - The ctor of ScopeTester sets the feedback val:
-	TEST_ASSERT(feedback[0] == 'A');
-	TEST_ASSERT(feedback[1] == 'A');
-	TEST_ASSERT(feedback[2] == 'A');
+	NTEST_ASSERT(feedback[0] == 'A');
+	NTEST_ASSERT(feedback[1] == 'A');
+	NTEST_ASSERT(feedback[2] == 'A');
 
 	// Act
 	END_SCOPE;
 
 	// Assert
 	// - The dtor of ScopeTester sets the feedback vals again:
-	TEST_ASSERT(feedback[0] == 0);
-	TEST_ASSERT(feedback[1] == 0);
-	TEST_ASSERT(feedback[2] == 0);
+	NTEST_ASSERT(feedback[0] == 0);
+	NTEST_ASSERT(feedback[1] == 0);
+	NTEST_ASSERT(feedback[2] == 0);
 }
 END_FUN
 
@@ -33,7 +33,7 @@ FUN_IMPL(LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 	SCOPE_START;
 
 	CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
-	TEST_ASSERT(feedback[0] == 'A');
+	NTEST_ASSERT(feedback[0] == 'A');
 
 	bool is_get_into_if = true;
 	if (is_get_into_if)
@@ -46,19 +46,19 @@ FUN_IMPL(LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 		CREATE(ScopeTester, inner_scope_obj3), feedback + 3 CALL;
 
 		// - The ctor of ScopeTester sets the feedback val:
-		TEST_ASSERT(feedback[1] == 'A');
-		TEST_ASSERT(feedback[2] == 'A');
-		TEST_ASSERT(feedback[3] == 'A');
+		NTEST_ASSERT(feedback[1] == 'A');
+		NTEST_ASSERT(feedback[2] == 'A');
+		NTEST_ASSERT(feedback[3] == 'A');
 
 		// Act
 		END_SCOPE;
 
 		// - The dtor of ScopeTester sets the feedback val again:
-		TEST_ASSERT(feedback[1] == 0);
-		TEST_ASSERT(feedback[2] == 0);
-		TEST_ASSERT(feedback[3] == 0);
+		NTEST_ASSERT(feedback[1] == 0);
+		NTEST_ASSERT(feedback[2] == 0);
+		NTEST_ASSERT(feedback[3] == 0);
 
-		TEST_ASSERT(feedback[0] == 'A');
+		NTEST_ASSERT(feedback[0] == 'A');
 
 	}
 
@@ -90,8 +90,8 @@ FUN_IMPL(LOCAL_SCOPE__DoesNotFreeUnrelatedObjects)
 
 	//Assert
 	// Outer objects were not yet freed:
-	TEST_ASSERT(feedback[0] != 0);
-	TEST_ASSERT(feedback[1] != 0);
+	NTEST_ASSERT(feedback[0] != 0);
+	NTEST_ASSERT(feedback[1] != 0);
 
 	END_SCOPE;
 }
@@ -105,7 +105,7 @@ FUN_IMPL(LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost)
 
 	//Arrange 
 	CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
-	TEST_ASSERT(feedback[0] == 'A');
+	NTEST_ASSERT(feedback[0] == 'A');
 
 	//Act
 	if (1) {
@@ -118,30 +118,30 @@ FUN_IMPL(LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost)
 			CREATE(ScopeTester, inner_scope_2), feedback + 2 CALL;
 
 			//Assert
-			TEST_ASSERT(feedback[0] != 0);
-			TEST_ASSERT(feedback[1] != 0);
-			TEST_ASSERT(feedback[2] != 0);
+			NTEST_ASSERT(feedback[0] != 0);
+			NTEST_ASSERT(feedback[1] != 0);
+			NTEST_ASSERT(feedback[2] != 0);
 
 			END_SCOPE;
 
-			TEST_ASSERT(feedback[0] != 0);
-			TEST_ASSERT(feedback[1] != 0);
-			TEST_ASSERT(feedback[2] == 0);
+			NTEST_ASSERT(feedback[0] != 0);
+			NTEST_ASSERT(feedback[1] != 0);
+			NTEST_ASSERT(feedback[2] == 0);
 		}
 
 		END_SCOPE;
 
-		TEST_ASSERT(feedback[0] != 0);
-		TEST_ASSERT(feedback[1] == 0);
-		TEST_ASSERT(feedback[2] == 0);
+		NTEST_ASSERT(feedback[0] != 0);
+		NTEST_ASSERT(feedback[1] == 0);
+		NTEST_ASSERT(feedback[2] == 0);
 
 	}
 
 	END_SCOPE;
 
-	TEST_ASSERT(feedback[0] == 0);
-	TEST_ASSERT(feedback[1] == 0);
-	TEST_ASSERT(feedback[2] == 0);
+	NTEST_ASSERT(feedback[0] == 0);
+	NTEST_ASSERT(feedback[1] == 0);
+	NTEST_ASSERT(feedback[2] == 0);
 }
 END_FUN
 
@@ -153,7 +153,7 @@ FUN_IMPL(LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash)
 
 	//Arrange 
 	CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
-	TEST_ASSERT(feedback[0] == 'A');
+	NTEST_ASSERT(feedback[0] == 'A');
 
 	//Act
 	if (1) {
@@ -165,9 +165,9 @@ FUN_IMPL(LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash)
 		}
 
 		// Assert
-		TEST_ASSERT(feedback[1] != 0);
+		NTEST_ASSERT(feedback[1] != 0);
 		END_SCOPE;
-		TEST_ASSERT(feedback[1] == 0);
+		NTEST_ASSERT(feedback[1] == 0);
 	}
 
 	END_SCOPE;
@@ -186,7 +186,7 @@ FUN_IMPL(LOCAL_SCOPE__LoopScopeSanityTest)
 	}
 
 	for (int i = 0; i < 4; i++)
-		TEST_ASSERT(feedback[i] == 0);
+		NTEST_ASSERT(feedback[i] == 0);
 
 }
 END_FUN
@@ -215,7 +215,7 @@ FUN_IMPL(Shared_ptr__CopyTo__PointsOnTheSameValue)
 	FUN(&ptr2, Reset), j CALL;//300
 
 	//int* actualValue = ((int*)(ptr2.px));
-	TEST_ASSERT(*GET(ptr2, int) == 300)
+	NTEST_ASSERT(*GET(ptr2, int) == 300)
 
 		// Act
 		FUN(&ptr, CopyTo), & ptr2 CALL;
@@ -224,15 +224,15 @@ FUN_IMPL(Shared_ptr__CopyTo__PointsOnTheSameValue)
 	FUN(&ptr2, CopyFrom), & ptr CALL;
 
 	// Assert
-	TEST_ASSERT(*GET(ptr2, int) == 110);
+	NTEST_ASSERT(*GET(ptr2, int) == 110);
 
 	*i = 220;
-	TEST_ASSERT(*GET(ptr, int) == 220);
-	TEST_ASSERT(*GET(ptr2, int) == 220);
+	NTEST_ASSERT(*GET(ptr, int) == 220);
+	NTEST_ASSERT(*GET(ptr2, int) == 220);
 
 	bool out;
 	FUN(&ptr, IsEmpty), & out CALL;
-	TEST_ASSERT(!(out == 0));
+	NTEST_ASSERT(!(out == 0));
 
 	FUN(&ptr, Release) CALL;
 
