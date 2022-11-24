@@ -3,7 +3,7 @@
 
 #include "object.h"
 
-typedef int MEM_SIZE_T;
+typedef unsigned short MEM_SIZE_T;
 
 DEF_CLASS(iCache);
 END_DEF(iCache);
