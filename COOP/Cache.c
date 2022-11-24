@@ -69,7 +69,7 @@ FUN_OVERRIDE_IMPL(InMemoryCache, iCache, AddNewBlock, MEM_SIZE_T num_bytes_to_al
 		long space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
 		if (space_between_blocks >= num_bytes_to_alloc + BLOCK_METADATA_SIZE)
 		{
-			long new_block_idx = NEXT_BLOCK_LOCATION(mem_idx);
+			long new_block_idx = mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx);
 			BLOCK_SIZE(new_block_idx) = num_bytes_to_alloc;
 			JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
 			JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);

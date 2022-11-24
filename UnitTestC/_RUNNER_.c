@@ -1,4 +1,19 @@
-#include "runTest.h"
+#include "test_defs.h"
+#include "ClassTest.h"
+#include "InheritTest.h"
+#include "rbTreeIterUnitTest.h"
+#include "rbTreeUnitTest.h"
+#include "vectorIteratorUnitTest.h"
+#include "vectorUnitTest.h"
+#include "ExeptionUnitTest.h"
+#include "MemManagementUnitTest.h"
+#include "CharTest.h"
+#include "ScopesUnitTest.h"
+#include "TypeTest.h"
+#include "ClassTestC.h"
+#include "HashTableUnitTest.h"
+#include "NdarrayTest.h"
+
 
 IMPORT_TESTS(NDarray_Tests);
 IMPORT_TESTS(DemoClassTest);
@@ -10,10 +25,11 @@ int main() {
 
 	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
+	RUN_TESTS(MemoryManagementTest);
 	RUN_TESTS(NDarray_Tests);
 	RUN_TESTS(DemoClassTest);
 	RUN_TESTS(VectorTest);
-	RUN_TESTS(MemoryManagementTest);
+	return 0;
 	//RUN_TESTS(VectorIteratorTest);
 
 	//////HashTableC! 
