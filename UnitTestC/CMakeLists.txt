@@ -1,87 +1,73 @@
-set(PROJECT_NAME COOP)
+set(PROJECT_NAME UnitTestC)
 
 ################################################################################
 # Source groups
 ################################################################################
-set(no_group_source_files
-    "hashTable.c"
-    "hashTable.h"
-    "Ndarray.c"
-    "Ndarray.h"
-    "redBlackTree.c"
-    "redBlackTree.h"
-    "redBlackTreeIterator.c"
-    "redBlackTreeIterator.h"
-    "Shared_ptr.c"
-    "Shared_ptr.h"
-    "vector.c"
-    "vector.h"
-    "vectorIterator.c"
-    "vectorIterator.h"
+set(Header_Files
+    "BaseClassExample.h"
+    "CharTest.h"
+    "ClassTest.h"
+    "ClassTestC.h"
+    "DerivedClassExample.h"
+    "ExeptionUnitTest.h"
+    "HashTableUnitTest.h"
+    "infrastructureTest.h"
+    "InheritTest.h"
+    "MemManagementUnitTest.h"
+    "NdarrayTest.h"
+    "rbTreeIterUnitTest.h"
+    "rbTreeUnitTest.h"
+    "Rectangle.h"
+    "runTest.h"
+    "ScopesUnitTest.h"
+    "ScopeTester.h"
+    "test_defs.h"
+    "TypeTest.h"
+    "vectorIteratorUnitTest.h"
+    "vectorUnitTest.h"
 )
-source_group("" FILES ${no_group_source_files})
+source_group("Header Files" FILES ${Header_Files})
 
-set(Infra
-    "COOP.h"
-    "ExportDefs.h"
+set(Source_Files
+    "_RUNNER_.c"
+    "BaseClassExample.c"
+    "ClassTest.c"
+    "ClassTestC.c"
+    "DerivedClassExample.c"
+    "ExeptionUnitTest.c"
+    "HashTableUnitTest.c"
+    "infrastructureTest.c"
+    "InheritTest.c"
+    "MemManagementUnitTest.c"
+    "NdarrayTest.c"
+    "rbTreeIterUnitTest.c"
+    "rbTreeUnitTest.c"
+    "Rectangle.c"
+    "ScopesUnitTest.c"
+    "ScopeTester.c"
+    "shared_ptr_test.c"
+    "TypeTest.c"
+    "vectorIteratorUnitTest.c"
+    "vectorUnitTest.c"
 )
-source_group("Infra" FILES ${Infra})
-
-set(MemoryManagement
-    "Cache.c"
-    "Cache.h"
-    "dynamic_memory_management.c"
-    "dynamic_memory_management.h"
-    "HeapCache.c"
-    "HeapCache.h"
-    "iCache.c"
-    "iCache.h"
-)
-source_group("MemoryManagement" FILES ${MemoryManagement})
-
-set(OOP
-    "class_def_macros.h"
-    "inheritence_def_macros.h"
-    "obj_base_structs.h"
-    "obj_lifecycle_management.c"
-    "obj_lifecycle_management.h"
-    "object.h"
-    "virtual_func_calling.c"
-    "virtual_func_calling.h"
-)
-source_group("OOP" FILES ${OOP})
+source_group("Source Files" FILES ${Source_Files})
 
 set(ALL_FILES
-    ${no_group_source_files}
-    ${Infra}
-    ${MemoryManagement}
-    ${OOP}
+    ${Header_Files}
+    ${Source_Files}
 )
 
 ################################################################################
 # Target
 ################################################################################
-add_library(${PROJECT_NAME} SHARED ${ALL_FILES})
+add_executable(${PROJECT_NAME} ${ALL_FILES})
 
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
-set(ROOT_NAMESPACE COOP)
+set(ROOT_NAMESPACE UnitTestC)
 
-################################################################################
-# Target name
-################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        TARGET_NAME_DEBUG   "${PROJECT_NAME}_d"
-    )
-endif()
-################################################################################
-# Output directory
-################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/${CMAKE_VS_PLATFORM_NAME}/bin/"
-    )
-endif()
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    VS_GLOBAL_KEYWORD "Win32Proj"
+)
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     set_target_properties(${PROJECT_NAME} PROPERTIES
         INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
@@ -102,7 +88,6 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
         "$<$<CONFIG:Release>:"
             "NDEBUG"
         ">"
-        "_BASE_COOP_EXPORTING_;"
         "_CONSOLE;"
         "UNICODE;"
         "_UNICODE"
@@ -115,6 +100,7 @@ elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
         "$<$<CONFIG:Release>:"
             "NDEBUG"
         ">"
+        "WIN32;"
         "_CONSOLE;"
         "UNICODE;"
         "_UNICODE"
@@ -152,10 +138,15 @@ if(MSVC)
     endif()
     if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
         target_link_options(${PROJECT_NAME} PRIVATE
+            $<$<CONFIG:Debug>:
+                /INCREMENTAL
+            >
             $<$<CONFIG:Release>:
                 /OPT:REF;
-                /OPT:ICF
+                /OPT:ICF;
+                /INCREMENTAL:NO
             >
+            /DEBUG;
             /SUBSYSTEM:CONSOLE
         )
     elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
@@ -173,4 +164,12 @@ if(MSVC)
         )
     endif()
 endif()
+
+################################################################################
+# Dependencies
+################################################################################
+# Link with other targets.
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    COOP
+)
 
