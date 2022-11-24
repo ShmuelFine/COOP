@@ -5,8 +5,6 @@
 TEST_FUN_IMPL(SharedPtrTest, check_type_char)
 {
 	// Arrange
-
-
 	CREATE(Shared_ptr, ptr) CALL;
 	CREATE(Shared_ptr, ptr2) CALL;
 
@@ -34,9 +32,9 @@ TEST_FUN_IMPL(SharedPtrTest, check_type_char)
 	NTEST_ASSERT(*GET(ptr, char) == 'c');
 	NTEST_ASSERT(*GET(ptr2, char) == 'c');
 
-	bool out;
-	FUN(&ptr, IsEmpty), & out CALL;
-	NTEST_ASSERT(!(out == 0));
+	bool is_empty = true;
+	FUN(&ptr, IsEmpty), & is_empty CALL;
+	NTEST_ASSERT(is_empty == false);
 
 	FUN(&ptr, Release) CALL;
 
@@ -62,9 +60,9 @@ TEST_FUN_IMPL(SharedPtrTest, pointing_to_class_test)
 	FUN(&ptr2, CopyFrom), & ptr CALL;
 
 
-	bool out;
-	FUN(&ptr, IsEmpty), & out CALL;
-	NTEST_ASSERT(!(out == 0));
+	bool is_empty = true;
+	FUN(&ptr, IsEmpty), & is_empty CALL;
+	NTEST_ASSERT(is_empty == false);
 
 	FUN(&ptr, Release) CALL;
 
@@ -105,9 +103,9 @@ TEST_FUN_IMPL(SharedPtrTest, CopyTo__PointsOnTheSameValue)
 	NTEST_ASSERT(*GET(ptr, int) == 220);
 	NTEST_ASSERT(*GET(ptr2, int) == 220);
 
-	bool out;
-	FUN(&ptr, IsEmpty), & out CALL;
-	NTEST_ASSERT(!(out == 0));
+	bool is_empty = true;
+	FUN(&ptr, IsEmpty), & is_empty CALL;
+	NTEST_ASSERT(is_empty == false);
 
 	FUN(&ptr, Release) CALL;
 
@@ -119,9 +117,6 @@ END_FUN
 TEST_FUN_IMPL(SharedPtrTest, check_type)
 {
 	// Arrange
-	
-
-
 	CREATE(Shared_ptr, ptr) CALL;
 	CREATE(Shared_ptr, ptr2) CALL;
 
@@ -136,11 +131,8 @@ TEST_FUN_IMPL(SharedPtrTest, check_type)
 	FUN(&ptr, Reset), i CALL;//10.5
 	FUN(&ptr2, Reset), j CALL;//300.3
 
-	//int* actualValue = ((int*)(ptr2.px));
 	float tst1 = *GET(ptr2, float);
 	bool isOK = (300.3 - 0.01 < tst1) && (tst1 < 300.3 + 0.01);
-	//IS_IN_RANGE(tst1, 300 + 1, 300 - 1);
-	//IS_FLOATS_EQ(F1, F2, tolerance)
 	NTEST_ASSERT(isOK);
 	// Act 
 	FUN(&ptr, CopyTo), & ptr2 CALL;
@@ -155,13 +147,30 @@ TEST_FUN_IMPL(SharedPtrTest, check_type)
 	NTEST_ASSERT(*GET(ptr, float) == 12.5);
 	NTEST_ASSERT(*GET(ptr2, float) == 12.5);
 
-	bool out;
-	FUN(&ptr, IsEmpty), & out CALL;
-	NTEST_ASSERT(!(out == 0));
+	bool is_empty = true;
+	FUN(&ptr, IsEmpty), & is_empty CALL;
+	NTEST_ASSERT(is_empty == false);
 
 	FUN(&ptr, Release) CALL;
 
 }END_FUN
+
+
+TEST_FUN_IMPL(SharedPtrTest, CREATE_SHARED__macro_test)
+{
+	// Arrange, Act
+	int height = 10;
+	int width = 3;
+	CREATE_SHARED(BaseClassExample, B_ptr, height, width);
+	
+	// Assert
+	int actual_height = GET(B_ptr, BaseClassExample)->hight;
+	int actual_width = GET(B_ptr, BaseClassExample)->width;
+	NTEST_ASSERT(actual_height == height);
+	NTEST_ASSERT(actual_width == width);
+
+}END_FUN
+
 
 
 INIT_TEST_SUITE(SharedPtrTest);
@@ -169,4 +178,5 @@ BIND_TEST(SharedPtrTest, check_type_char);
 BIND_TEST(SharedPtrTest, CopyTo__PointsOnTheSameValue);
 BIND_TEST(SharedPtrTest, pointing_to_class_test);
 BIND_TEST(SharedPtrTest, check_type);
+BIND_TEST(SharedPtrTest, CREATE_SHARED__macro_test);
 END_INIT_TEST_SUITE(SharedPtrTest);

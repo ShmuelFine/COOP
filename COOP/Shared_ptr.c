@@ -68,9 +68,7 @@ END_FUN
 
 MEM_FUN_IMPL(Shared_ptr, IsEmpty, bool* out)
 {
-	if (_this->px == NULL)
-		*out = true;
-
+	*out = (_this->px == NULL);
 }
 END_FUN
 
