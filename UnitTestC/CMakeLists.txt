@@ -18,7 +18,6 @@ set(Header_Files
     "rbTreeIterUnitTest.h"
     "rbTreeUnitTest.h"
     "Rectangle.h"
-    "runTest.h"
     "ScopesUnitTest.h"
     "ScopeTester.h"
     "test_defs.h"

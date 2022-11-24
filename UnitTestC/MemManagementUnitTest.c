@@ -4,13 +4,13 @@
 TEST_FUN_IMPL(MemoryManagementTest, NEW_AllocatesSufficientMemory)
 {
 	//Arrange
-	init_global_memory( sizeof(int) * 40, STACK_BASED_MEMORY );
+	init_global_memory(sizeof(int) * 40, STACK_BASED_MEMORY);
 
 	//Act
 	int* buff = NULL;
-	NEW(buff, int[20]);
+	NEW_OF_SIZE(buff, int, 20);
 	ASSERT_NOT_NULL(buff);
-	
+
 	// Assert:
 	// Make sure we can access all our memory:
 	for (int i = 0; i < 20; i++)
@@ -21,7 +21,7 @@ TEST_FUN_IMPL(MemoryManagementTest, NEW_AllocatesSufficientMemory)
 TEST_FUN_IMPL(MemoryManagementTest, Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)
 {
 	//Arrange
-	init_global_memory( sizeof(int) * 20, STACK_BASED_MEMORY );
+	init_global_memory(sizeof(int) * 20, STACK_BASED_MEMORY);
 	// MD = 3 ints
 	// 2xMD for anchor and suffix
 	// 1xMD for new block

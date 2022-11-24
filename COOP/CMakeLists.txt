@@ -61,7 +61,7 @@ set(ALL_FILES
 ################################################################################
 # Target
 ################################################################################
-add_library(${PROJECT_NAME} SHARED ${ALL_FILES})
+add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 set(ROOT_NAMESPACE COOP)
@@ -160,15 +160,10 @@ if(MSVC)
         )
     elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
         target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Debug>:
-                /INCREMENTAL
-            >
             $<$<CONFIG:Release>:
                 /OPT:REF;
-                /OPT:ICF;
-                /INCREMENTAL:NO
+                /OPT:ICF
             >
-            /DEBUG;
             /SUBSYSTEM:CONSOLE
         )
     endif()
