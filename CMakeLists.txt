@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16.0 FATAL_ERROR)
 
 set(CMAKE_SYSTEM_VERSION 10.0 CACHE STRING "" FORCE)
 
-project(COOP C CXX)
+project(COOP C)
 
 ################################################################################
 # Set target arch type if empty. Visual studio solution generator provides it.
@@ -34,9 +34,6 @@ if(MSVC)
     set(CMAKE_C_FLAGS "")
     set(CMAKE_C_FLAGS_DEBUG "")
     set(CMAKE_C_FLAGS_RELEASE "")
-    set(CMAKE_CXX_FLAGS "")
-    set(CMAKE_CXX_FLAGS_DEBUG "")
-    set(CMAKE_CXX_FLAGS_RELEASE "")
 endif()
 
 ################################################################################
@@ -85,8 +82,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ################################################################################
 # Sub-projects
 ################################################################################
-#add_subdirectory(Catch2UnitTests)
 add_subdirectory(COOP)
-#add_subdirectory(COOP_C_TestProxy)
-# add_subdirectory(UnitTests)
+add_subdirectory(UnitTestC)
 
