@@ -71,7 +71,7 @@ set(ROOT_NAMESPACE COOP)
 ################################################################################
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     set_target_properties(${PROJECT_NAME} PROPERTIES
-        TARGET_NAME_DEBUG   "${PROJECT_NAME}_d"
+        TARGET_NAME_DEBUG   "${PROJECT_NAME}"
     )
 endif()
 ################################################################################
