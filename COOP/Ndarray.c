@@ -11,13 +11,13 @@ DEF_CTOR(Ndarray, int ndim, int* shape)
 	if (ndim == 0) {
 		_this->size = 0;
 		_this->data = NULL;
-		NEW_OF_SIZE(_this->shape, int, 1);
+		NEW_ARRAY(_this->shape, int, 1);
 		_this->shape[0] = 0;
 	}
 	else {
 		_this->size = 1;
 
-		NEW_OF_SIZE(_this->shape, int, ndim);
+		NEW_ARRAY(_this->shape, int, ndim);
 
 		for (size_t i = 0; i < ndim; i++)
 		{
@@ -28,7 +28,7 @@ DEF_CTOR(Ndarray, int ndim, int* shape)
 			_this->size *= shape[i];
 		}
 
-		NEW_OF_SIZE(_this->data, float, _this->size);
+		NEW_ARRAY(_this->data, float, _this->size);
 		memset(_this->data, 0, _this->size * sizeof(float));
 
 	}

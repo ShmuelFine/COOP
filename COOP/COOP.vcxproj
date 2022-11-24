@@ -142,7 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Cache.h" />
+    <ClInclude Include="InMemoryCache.h" />
     <ClInclude Include="class_def_macros.h" />
     <ClInclude Include="COOP.h" />
     <ClInclude Include="dynamic_memory_management.h" />
@@ -163,7 +163,7 @@
     <ClInclude Include="virtual_func_calling.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cache.c" />
+    <ClCompile Include="InMemoryCache.c" />
     <ClCompile Include="dynamic_memory_management.c" />
     <ClCompile Include="hashTable.c" />
     <ClCompile Include="HeapCache.c" />

@@ -10,7 +10,7 @@ DEF_CTOR(redBlackTree, void(*compFunc)(void*, void*, bool*))
 	_this->comparisonFunctionPtr = compFunc;
 
 	//construct header node
-	NEW(_this->head, node);
+	NEW_VARIABLE(_this->head, node);
 	//could be anything
 	//_this->head->data = -10;
 	_this->head->data = NULL;
@@ -201,7 +201,7 @@ MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBoo
 	// Allocate memory for new node
 	//node* z = (node*)malloc(sizeof(node));
 	//node* z = NULL;
-	//NEW(z, node);
+	//NEW_VARIABLE(z, node);
 	//z->data = data;
 	//z->left = z->right = z->parent = NULL;
 
@@ -213,7 +213,7 @@ MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBoo
 	if (_this->root == NULL)
 	{
 		//if we want to allocate only if the element is not already present
-		NEW(_this->root, node);
+		NEW_VARIABLE(_this->root, node);
 		_this->root->data = data;
 		_this->root->left = _this->root->right = NULL;
 		_this->root->color = 'B';
@@ -255,7 +255,7 @@ MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBoo
 		}
 		//if we want to allocate only if the element is not already present
 
-		NEW(z, node);
+		NEW_VARIABLE(z, node);
 		z->data = data;
 		z->isHead = false;
 		z->left = z->right = NULL;

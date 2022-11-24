@@ -42,7 +42,7 @@
 //
 //	// Act
 //	DataItem* retVal = NULL;
-//	NEW(retVal, DataItem*);
+//	NEW_VARIABLE(retVal, DataItem*);
 //
 //	FUN(&hashTable, insert), item1,  retVal  CALL;
 //	FUN(&hashTable, insert), item2,  retVal  CALL;
@@ -67,7 +67,7 @@
 //
 //	// Act
 //	DataItem* retVal = NULL;
-//	NEW(retVal, DataItem*);
+//	NEW_VARIABLE(retVal, DataItem*);
 //
 //	FUN(&hashTable, insert), item1, retVal  CALL;
 //	FUN(&hashTable, insert), item2, retVal  CALL;

@@ -1,6 +1,6 @@
 #include "ScopesUnitTest.h"
 
-FUN_IMPL(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
+TEST_FUN_IMPL(Infra_ScopesTest, SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
 {
 	char feedback[3] = { 0, 0, 0 };
 	SCOPE_START;
@@ -27,7 +27,7 @@ FUN_IMPL(SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
 }
 END_FUN
 
-FUN_IMPL(LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
+TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 	SCOPE_START;
@@ -70,7 +70,7 @@ FUN_IMPL(LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 }
 END_FUN
 
-FUN_IMPL(LOCAL_SCOPE__DoesNotFreeUnrelatedObjects)
+TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__DoesNotFreeUnrelatedObjects)
 {
 	char feedback[3] = { 0, 0, 0 };
 	SCOPE_START;
@@ -97,7 +97,7 @@ FUN_IMPL(LOCAL_SCOPE__DoesNotFreeUnrelatedObjects)
 }
 END_FUN
 
-FUN_IMPL(LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost)
+TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost)
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 
@@ -145,7 +145,7 @@ FUN_IMPL(LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost)
 }
 END_FUN
 
-FUN_IMPL(LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash)
+TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash)
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 
@@ -174,7 +174,7 @@ FUN_IMPL(LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash)
 }
 END_FUN
 
-FUN_IMPL(LOCAL_SCOPE__LoopScopeSanityTest)
+TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__LoopScopeSanityTest)
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 
@@ -191,53 +191,11 @@ FUN_IMPL(LOCAL_SCOPE__LoopScopeSanityTest)
 }
 END_FUN
 
-#include "../COOP/Shared_ptr.h"
-FUN_IMPL(Shared_ptr__CopyTo__PointsOnTheSameValue)
-{
-	// Arrange
-	init_global_memory( sizeof(int) * 20, STACK_BASED_MEMORY );
-
-
-	CREATE(Shared_ptr, ptr) CALL;
-	CREATE(Shared_ptr, ptr2) CALL;
-
-	int* i = NULL;
-	NEW(i, int);
-	*i = 110;
-
-	int* j = NULL;
-	NEW(j, int);
-	*j = 300;
-
-
-
-	FUN(&ptr, Reset), i CALL;//110
-	FUN(&ptr2, Reset), j CALL;//300
-
-	//int* actualValue = ((int*)(ptr2.px));
-	NTEST_ASSERT(*GET(ptr2, int) == 300)
-
-		// Act
-		FUN(&ptr, CopyTo), & ptr2 CALL;
-
-
-	FUN(&ptr2, CopyFrom), & ptr CALL;
-
-	// Assert
-	NTEST_ASSERT(*GET(ptr2, int) == 110);
-
-	*i = 220;
-	NTEST_ASSERT(*GET(ptr, int) == 220);
-	NTEST_ASSERT(*GET(ptr2, int) == 220);
-
-	bool out;
-	FUN(&ptr, IsEmpty), & out CALL;
-	NTEST_ASSERT(!(out == 0));
-
-	FUN(&ptr, Release) CALL;
-
-
-}
-END_FUN
-
-
+INIT_TEST_SUITE(Infra_ScopesTest);
+BIND_TEST(Infra_ScopesTest, SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed);
+BIND_TEST(Infra_ScopesTest, LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed);
+BIND_TEST(Infra_ScopesTest, LOCAL_SCOPE__DoesNotFreeUnrelatedObjects);
+BIND_TEST(Infra_ScopesTest, LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenFreesOnlyTheInnerMost);
+BIND_TEST(Infra_ScopesTest, LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_ThenDoesntCrash);
+BIND_TEST(Infra_ScopesTest, LOCAL_SCOPE__LoopScopeSanityTest);
+END_INIT_TEST_SUITE(Infra_ScopesTest);

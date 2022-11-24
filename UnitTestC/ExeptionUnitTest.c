@@ -13,7 +13,7 @@ TEST_FUN_IMPL(ExceptionTests, WhenThrown_ThenGoesStraightToScopeEnd)
 }
 END_FUN
 
-TEST_FUN_IMPL(ExceptionTests, WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd, int* tester)
+TEST_FUN_IMPL(ExceptionTests, WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd)
 {
 	int exception_tester = 0;
 

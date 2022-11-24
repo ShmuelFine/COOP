@@ -15,16 +15,20 @@ typedef enum CACHE_TYPES_t { STACK_BASED_MEMORY, HEAP_BASED_MEMORY, NUM_MEMORY_T
 FUN_DECL(init_global_memory, int size, CACHE_TYPES type);
 
 
-#define NEW(dest,whatToPutThere)\
+#define NEW_VARIABLE(dest,whatToPutThere)\
 	{\
-		FUN(TheGlobalCache, AddNewBlock),(sizeof(whatToPutThere)),(void*)&(dest) CALL\
+		FUN(TheGlobalCache, AddNewBlock),(MEM_SIZE_T)(sizeof(whatToPutThere)),(void*)&(dest) CALL\
 	}
 
-#define NEW_OF_SIZE(dest,type,howMuchToPutThere)\
+#define NEW_ARRAY(dest,type,howMuchToPutThere)\
 	{\
-		FUN(TheGlobalCache, AddNewBlock),(sizeof(type)*howMuchToPutThere),(void*)&(dest) CALL\
+		FUN(TheGlobalCache, AddNewBlock),(MEM_SIZE_T)(sizeof(type)*howMuchToPutThere),(void*)&(dest) CALL\
 	}
 
+#define CREATE_PTR(type, instance_name)							\
+	type * instance_name;                  							\
+	NEW_VARIABLE(instance_name, type)\
+	INITIALIZE_INSTANCE(type, (*instance_name))
 
 #define DELETE_OBJ(buff) FUN(TheGlobalCache, RemoveBlock), buff CALL buff = NULL
 

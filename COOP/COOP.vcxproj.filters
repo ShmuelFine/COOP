@@ -18,7 +18,7 @@
     <ClInclude Include="ExportDefs.h">
       <Filter>Infra</Filter>
     </ClInclude>
-    <ClInclude Include="Cache.h">
+    <ClInclude Include="InMemoryCache.h">
       <Filter>MemoryManagement</Filter>
     </ClInclude>
     <ClInclude Include="dynamic_memory_management.h">
@@ -57,7 +57,7 @@
     <ClInclude Include="Ndarray.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cache.c">
+    <ClCompile Include="InMemoryCache.c">
       <Filter>MemoryManagement</Filter>
     </ClCompile>
     <ClCompile Include="dynamic_memory_management.c">
