@@ -30,3 +30,7 @@
 /.vs/*
 */x64/Debug
 /Catch2UnitTests/Catch2UnitTests.vcxproj.user
+/COOP/Debug
+/Debug
+/out/build/x64-Debug
+/UnitTestC/Debug
