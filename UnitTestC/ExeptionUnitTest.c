@@ -1,39 +1,37 @@
 #include "ExeptionUnitTest.h"
 
-FUN_IMPL(Exception_WhenThrown_ThenGoesStraightToScopeEnd, int* tester)
+TEST_FUN_IMPL(ExceptionTests, WhenThrown_ThenGoesStraightToScopeEnd)
 {
-	*tester = 0;
+	int exception_tester = 0;
 
-	if (1)
-	{
-		SCOPE_START;
-		THROW;
-		(*tester)++;
-		END_SCOPE;
-	}
-	(*tester)++;
+	EXPECT_THROW;
+	THROW;
+	exception_tester++;
+	ASSERT_THROW;
+
+	NTEST_ASSERT(exception_tester == 0);
 }
 END_FUN
 
-FUN_IMPL(Exception_WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd, int* tester)
+TEST_FUN_IMPL(ExceptionTests, WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd, int* tester)
 {
-	(*tester) = 0;
+	int exception_tester = 0;
+
 	char feedback[3] = { 0, 0, 0 };
 
 	CREATE(ScopeTester, s), feedback + 0 CALL;
-	if (1)
-	{
-		SCOPE_START;
-		// Cause throwing from within a func:
-		FUN(&s, ThrowingIfEQ), 3, 3 CALL;
-		(*tester)++;
-		END_SCOPE;
-	}
-	(*tester)++;
+
+	EXPECT_THROW;
+	// Cause throwing from within a func:
+	FUN(&s, ThrowingIfEQ), 3, 3 CALL;
+	exception_tester++;
+	ASSERT_THROW;
+
+	NTEST_ASSERT(exception_tester == 0);
 }
 END_FUN
 
-FUN_IMPL(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing)
+TEST_FUN_IMPL(ExceptionTests, CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing)
 {
 	//Arrange
 	bool isCaught = false;
@@ -41,42 +39,42 @@ FUN_IMPL(CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing)
 
 	char feedback[3] = { 0, 0, 0 };
 	{
-		SCOPE_START;
-
 		TRY
 		{
-			CREATE(ScopeTester,s),feedback + 0 CALL;
-		// cause throwing from within a function:
-		FUN(&s, ThrowingIfEQ), 3, 3 CALL;
-		}CATCH{
+			CREATE(ScopeTester,s), (feedback + 0) CALL;
+			// cause throwing from within a function
+			FUN(&s, ThrowingIfEQ), 3, 3 CALL;
+		} CATCH {
 			isCaught = true;
 		}END_TRY;
 
 		isContinuedExecution = true;
 
-		END_SCOPE;
 	}
 
-	TEST_ASSERT(isCaught);
-	TEST_ASSERT(isContinuedExecution);
+	NTEST_ASSERT(isCaught);
+	NTEST_ASSERT(isContinuedExecution);
 }
 END_FUN
 
-FUN_IMPL(Exception_WhenUsingTHROW_MSG_ThenTheMessageIsSaved, const char* whatToThrow, char* outThrowingMsg)
+TEST_FUN_IMPL(ExceptionTests, WhenUsingTHROW_MSG_ThenTheMessageIsSaved)
 {
-
+	char* whatToThrow = "ERROR! Help!";
+	char* expected = whatToThrow;
+	char actual[100] = { 0 };
 	TRY
 	{
 		THROW_MSG(whatToThrow);
 
 	}CATCH{
-		memcpy(outThrowingMsg, LAST_EXCEPTION_ERROR_MSG, strlen(LAST_EXCEPTION_ERROR_MSG) + 1);
+		memcpy(actual, LAST_EXCEPTION_ERROR_MSG, strlen(LAST_EXCEPTION_ERROR_MSG) + 1);
 	}END_TRY;
 
+	NTEST_ASSERT(0 == strcmp(actual, expected));
 }
 END_FUN
 
-FUN_IMPL(BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly)
+TEST_FUN_IMPL(ExceptionTests, BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly)
 {
 	SCOPE_START;
 
@@ -102,12 +100,12 @@ FUN_IMPL(BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly)
 		END_SCOPE;
 	}
 
-	TEST_ASSERT(4509 == counter);
+	NTEST_ASSERT(4509 == counter);
 	END_SCOPE;
 }
 END_FUN
 
-FUN_IMPL(BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly)
+TEST_FUN_IMPL(ExceptionTests, BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly)
 {
 	SCOPE_START;
 
@@ -135,12 +133,12 @@ FUN_IMPL(BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly)
 		END_SCOPE;
 	}
 
-	TEST_ASSERT(4509 == counter);
+	NTEST_ASSERT(4509 == counter);
 	END_SCOPE;
 }
 END_FUN
 
-FUN_IMPL(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope)
+TEST_FUN_IMPL(ExceptionTests, BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope)
 {
 	SCOPE_START;
 	char feedback[3] = { 0, 0, 0 };
@@ -163,9 +161,19 @@ FUN_IMPL(BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope)
 		END_SCOPE;
 	}
 
-	TEST_ASSERT(feedback[0] == 0);
-	TEST_ASSERT(feedback[1] == 0);
-	TEST_ASSERT(feedback[2] == 0);
+	NTEST_ASSERT(feedback[0] == 0);
+	NTEST_ASSERT(feedback[1] == 0);
+	NTEST_ASSERT(feedback[2] == 0);
 	END_SCOPE;
 }
 END_FUN
+
+INIT_TEST_SUITE(ExceptionTests)
+BIND_TEST(ExceptionTests, WhenThrown_ThenGoesStraightToScopeEnd);
+BIND_TEST(ExceptionTests, WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd);
+BIND_TEST(ExceptionTests, CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing);
+BIND_TEST(ExceptionTests, WhenUsingTHROW_MSG_ThenTheMessageIsSaved);
+BIND_TEST(ExceptionTests, BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly);
+BIND_TEST(ExceptionTests, BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly);
+BIND_TEST(ExceptionTests, BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope);
+END_INIT_TEST_SUITE(ExceptionTests);

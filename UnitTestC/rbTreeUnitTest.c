@@ -55,34 +55,34 @@ FUN_IMPL(rbTree_insert_SanityTest)
 	FUN(&rbTree, size), & treeSize CALL;
 
 	//Assert
-	TEST_ASSERT(retBool == true);
-	TEST_ASSERT(retBool1 == true);
-	TEST_ASSERT(retBool2 == true);
-	TEST_ASSERT(retBool3 == true);
-	TEST_ASSERT(retBool4 == true);
-	TEST_ASSERT(retBool5 == true);
-	TEST_ASSERT(retBool6 == true);
-	TEST_ASSERT(retBool7 == true);
-	TEST_ASSERT(retBool8 == false);
-	TEST_ASSERT(retBool9 == false);
+	NTEST_ASSERT(retBool == true);
+	NTEST_ASSERT(retBool1 == true);
+	NTEST_ASSERT(retBool2 == true);
+	NTEST_ASSERT(retBool3 == true);
+	NTEST_ASSERT(retBool4 == true);
+	NTEST_ASSERT(retBool5 == true);
+	NTEST_ASSERT(retBool6 == true);
+	NTEST_ASSERT(retBool7 == true);
+	NTEST_ASSERT(retBool8 == false);
+	NTEST_ASSERT(retBool9 == false);
 
-	TEST_ASSERT(*(int*)(retPtr->data) == 10);
-	TEST_ASSERT(*(int*)(retPtr1->data) == 20);
-	TEST_ASSERT(*(int*)(retPtr2->data) == 40);
-	TEST_ASSERT(*(int*)(retPtr3->data) == 30);
-	TEST_ASSERT(*(int*)(retPtr4->data) == 50);
-	TEST_ASSERT(*(int*)(retPtr5->data) == 35);
-	TEST_ASSERT(*(int*)(retPtr6->data) == 25);
-	TEST_ASSERT(*(int*)(retPtr7->data) == 37);
-	TEST_ASSERT(*(int*)(retPtr8->data) == 10);
-	TEST_ASSERT(*(int*)(retPtr9->data) == 37);
+	NTEST_ASSERT(*(int*)(retPtr->data) == 10);
+	NTEST_ASSERT(*(int*)(retPtr1->data) == 20);
+	NTEST_ASSERT(*(int*)(retPtr2->data) == 40);
+	NTEST_ASSERT(*(int*)(retPtr3->data) == 30);
+	NTEST_ASSERT(*(int*)(retPtr4->data) == 50);
+	NTEST_ASSERT(*(int*)(retPtr5->data) == 35);
+	NTEST_ASSERT(*(int*)(retPtr6->data) == 25);
+	NTEST_ASSERT(*(int*)(retPtr7->data) == 37);
+	NTEST_ASSERT(*(int*)(retPtr8->data) == 10);
+	NTEST_ASSERT(*(int*)(retPtr9->data) == 37);
 
 	//check that rebalancing happens and doesn't happen at the right places
-	TEST_ASSERT(*(int*)(rootPtr1->data) == 20)
-		TEST_ASSERT(*(int*)(rootPtr2->data) == 20)
-		TEST_ASSERT(*(int*)(rootPtr3->data) == 30)
+	NTEST_ASSERT(*(int*)(rootPtr1->data) == 20)
+		NTEST_ASSERT(*(int*)(rootPtr2->data) == 20)
+		NTEST_ASSERT(*(int*)(rootPtr3->data) == 30)
 
-		TEST_ASSERT(treeSize == 8)
+		NTEST_ASSERT(treeSize == 8)
 
 }END_FUN
 FUN_IMPL(rbTree_find_SanityTest)
@@ -114,9 +114,9 @@ FUN_IMPL(rbTree_find_SanityTest)
 		FUN(&rbTree, find), & f, & rbIt CALL;
 		FUN(&rbIt, getContentsOf), & retNode3 CALL;
 
-		TEST_ASSERT(*(int*)(retNode1->data) == 20)
-			TEST_ASSERT(*(int*)(retNode2->data) == 50)
-			TEST_ASSERT(retNode3->data == NULL) //value of header node (end())
+		NTEST_ASSERT(*(int*)(retNode1->data) == 20)
+			NTEST_ASSERT(*(int*)(retNode2->data) == 50)
+			NTEST_ASSERT(retNode3->data == NULL) //value of header node (end())
 
 	}END_FUN
 		FUN_IMPL(rbTree_delete_SanityTest)
@@ -156,24 +156,24 @@ FUN_IMPL(rbTree_find_SanityTest)
 
 			FUN(&rbTree, erase), & c, & numElemsErased1 CALL;
 			FUN(&rbTree, getRootNode), & rootPtr CALL;
-			TEST_ASSERT(*(int*)(rootPtr->data) == 10)
-				TEST_ASSERT(*(int*)(rootPtr->right->data) == 13)
+			NTEST_ASSERT(*(int*)(rootPtr->data) == 10)
+				NTEST_ASSERT(*(int*)(rootPtr->right->data) == 13)
 
 				FUN(&rbTree, erase), & a, & numElemsErased2 CALL;
 			FUN(&rbTree, getRootNode), & rootPtr CALL;
-			TEST_ASSERT(*(int*)(rootPtr->data) == 10)
-				TEST_ASSERT(*(int*)(rootPtr->left->data) == 6)
+			NTEST_ASSERT(*(int*)(rootPtr->data) == 10)
+				NTEST_ASSERT(*(int*)(rootPtr->left->data) == 6)
 
 				FUN(&rbTree, erase), & d, & numElemsErased3 CALL;
 			FUN(&rbTree, getRootNode), & rootPtr CALL;
-			TEST_ASSERT(*(int*)(rootPtr->data) == 8)
-				TEST_ASSERT(*(int*)(rootPtr->left->data) == 3)
-				TEST_ASSERT(*(int*)(rootPtr->right->data) == 13)
+			NTEST_ASSERT(*(int*)(rootPtr->data) == 8)
+				NTEST_ASSERT(*(int*)(rootPtr->left->data) == 3)
+				NTEST_ASSERT(*(int*)(rootPtr->right->data) == 13)
 				FUN(&rbTree, size), & treeSize CALL;
 
 			FUN(&rbTree, erase), & l, & numElemsErased4 CALL;
 			FUN(&rbTree, getRootNode), & rootPtr CALL;
-			TEST_ASSERT(*(int*)(rootPtr->data) == 8)
+			NTEST_ASSERT(*(int*)(rootPtr->data) == 8)
 				FUN(&rbTree, size), & treeSize1 CALL;
 
 			FUN(&rbTree, getRootNode), & rootPtr CALL;
@@ -198,21 +198,21 @@ FUN_IMPL(rbTree_find_SanityTest)
 
 			//Assert
 			//check that the correct number of deleted elements is returned
-			TEST_ASSERT(numElemsErased1 == 1)
-				TEST_ASSERT(numElemsErased2 == 1)
-				TEST_ASSERT(numElemsErased3 == 1)
-				TEST_ASSERT(numElemsErased4 == 0)
+			NTEST_ASSERT(numElemsErased1 == 1)
+				NTEST_ASSERT(numElemsErased2 == 1)
+				NTEST_ASSERT(numElemsErased3 == 1)
+				NTEST_ASSERT(numElemsErased4 == 0)
 
 				//size is correctly maintained
-				TEST_ASSERT(treeSize == 8)
-				TEST_ASSERT(treeSize1 == 8)
+				NTEST_ASSERT(treeSize == 8)
+				NTEST_ASSERT(treeSize1 == 8)
 
 				//erased data is no longer in the tree
-				TEST_ASSERT(retNode1->data == NULL)
-				TEST_ASSERT(retNode2->data == NULL)
-				TEST_ASSERT(retNode3->data == NULL)
-				TEST_ASSERT(retNode4->data == NULL)
-				TEST_ASSERT(*(int*)(retNode5->data) == 13)
+				NTEST_ASSERT(retNode1->data == NULL)
+				NTEST_ASSERT(retNode2->data == NULL)
+				NTEST_ASSERT(retNode3->data == NULL)
+				NTEST_ASSERT(retNode4->data == NULL)
+				NTEST_ASSERT(*(int*)(retNode5->data) == 13)
 
 
 		}END_FUN
@@ -268,9 +268,9 @@ FUN_IMPL(rbTree_find_SanityTest)
 				}
 
 				//check begin() and end()
-				TEST_ASSERT(*(int*)(beginNode->data) == 2)
+				NTEST_ASSERT(*(int*)(beginNode->data) == 2)
 					//data of head ptr
-					TEST_ASSERT(endNode->data == NULL)
+					NTEST_ASSERT(endNode->data == NULL)
 
 			}END_FUN
 				FUN_IMPL(rbTree_rectangle_as_node_data_insert_SanityTest)
@@ -299,66 +299,66 @@ FUN_IMPL(rbTree_find_SanityTest)
 					FUN(&rbTree, insert), & rect1, & retPtr1, & retBool1 CALL;
 
 					FUN(&rbTree, getRootNode), & rootPtr1 CALL;
-					TEST_ASSERT((*(Rectangle*)(rootPtr1->data)).width == 1);
-					TEST_ASSERT(retBool1 == true);
-					TEST_ASSERT((*(Rectangle*)(retPtr1->data)).width == 1);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr1->data)).width == 1);
+					NTEST_ASSERT(retBool1 == true);
+					NTEST_ASSERT((*(Rectangle*)(retPtr1->data)).width == 1);
 
 					FUN(&rbTree, insert), & rect2, & retPtr2, & retBool2 CALL;
 
 					FUN(&rbTree, getRootNode), & rootPtr2 CALL;
-					TEST_ASSERT((*(Rectangle*)(rootPtr2->data)).width == 1);
-					TEST_ASSERT((*(Rectangle*)(rootPtr2->right->data)).width == 2);
-					TEST_ASSERT(retBool2 == true);
-					TEST_ASSERT((*(Rectangle*)(retPtr2->data)).width == 2);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr2->data)).width == 1);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr2->right->data)).width == 2);
+					NTEST_ASSERT(retBool2 == true);
+					NTEST_ASSERT((*(Rectangle*)(retPtr2->data)).width == 2);
 
 					FUN(&rbTree, insert), & rect3, & retPtr3, & retBool3 CALL;
 					FUN(&rbTree, getRootNode), & rootPtr3 CALL;
-					TEST_ASSERT((*(Rectangle*)(rootPtr3->data)).width == 2);
-					TEST_ASSERT((*(Rectangle*)(rootPtr3->right->data)).width == 3);
-					TEST_ASSERT((*(Rectangle*)(rootPtr3->left->data)).width == 1);
-					TEST_ASSERT(retBool3 == true);
-					TEST_ASSERT((*(Rectangle*)(retPtr3->data)).width == 3);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr3->data)).width == 2);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr3->right->data)).width == 3);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr3->left->data)).width == 1);
+					NTEST_ASSERT(retBool3 == true);
+					NTEST_ASSERT((*(Rectangle*)(retPtr3->data)).width == 3);
 
 					FUN(&rbTree, insert), & rect4, & retPtr4, & retBool4 CALL;
 					FUN(&rbTree, getRootNode), & rootPtr4 CALL;
-					TEST_ASSERT((*(Rectangle*)(rootPtr4->data)).width == 2);
-					TEST_ASSERT((*(Rectangle*)(rootPtr4->right->right->data)).width == 4);
-					TEST_ASSERT((*(Rectangle*)(rootPtr4->left->data)).width == 1);
-					TEST_ASSERT(retBool4 == true);
-					TEST_ASSERT((*(Rectangle*)(retPtr4->data)).width == 4);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr4->data)).width == 2);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr4->right->right->data)).width == 4);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr4->left->data)).width == 1);
+					NTEST_ASSERT(retBool4 == true);
+					NTEST_ASSERT((*(Rectangle*)(retPtr4->data)).width == 4);
 
 					FUN(&rbTree, insert), & rect5, & retPtr5, & retBool5 CALL;
 					FUN(&rbTree, getRootNode), & rootPtr5 CALL;
-					TEST_ASSERT((*(Rectangle*)(rootPtr5->data)).width == 2);
-					TEST_ASSERT((*(Rectangle*)(rootPtr5->right->data)).width == 4);
-					TEST_ASSERT((*(Rectangle*)(rootPtr5->right->right->data)).width == 5);
-					TEST_ASSERT((*(Rectangle*)(rootPtr5->right->left->data)).width == 3);
-					TEST_ASSERT((*(Rectangle*)(rootPtr5->left->data)).width == 1);
-					TEST_ASSERT(retBool5 == true);
-					TEST_ASSERT((*(Rectangle*)(retPtr5->data)).width == 5);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr5->data)).width == 2);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr5->right->data)).width == 4);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr5->right->right->data)).width == 5);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr5->right->left->data)).width == 3);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr5->left->data)).width == 1);
+					NTEST_ASSERT(retBool5 == true);
+					NTEST_ASSERT((*(Rectangle*)(retPtr5->data)).width == 5);
 
 					FUN(&rbTree, insert), & rect6, & retPtr6, & retBool6 CALL;
 					FUN(&rbTree, getRootNode), & rootPtr6 CALL;
 
-					TEST_ASSERT((*(Rectangle*)(rootPtr6->data)).width == 2);
-					TEST_ASSERT(retBool6 == true);
-					TEST_ASSERT((*(Rectangle*)(retPtr6->data)).width == 6);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr6->data)).width == 2);
+					NTEST_ASSERT(retBool6 == true);
+					NTEST_ASSERT((*(Rectangle*)(retPtr6->data)).width == 6);
 
 					FUN(&rbTree, insert), & rect7, & retPtr7, & retBool7 CALL;
 					FUN(&rbTree, getRootNode), & rootPtr7 CALL;
-					TEST_ASSERT((*(Rectangle*)(rootPtr7->data)).width == 2);
-					TEST_ASSERT((*(Rectangle*)(rootPtr7->left->data)).width == 1);
-					TEST_ASSERT((*(Rectangle*)(rootPtr7->right->data)).width == 4);
-					TEST_ASSERT((*(Rectangle*)(rootPtr7->right->right->data)).width == 6);
-					TEST_ASSERT((*(Rectangle*)(rootPtr7->right->left->data)).width == 3);
-					TEST_ASSERT((*(Rectangle*)(rootPtr7->right->right->right->data)).width == 7);
-					TEST_ASSERT(retBool7 == true);
-					TEST_ASSERT((*(Rectangle*)(retPtr7->data)).width == 7);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr7->data)).width == 2);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr7->left->data)).width == 1);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr7->right->data)).width == 4);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr7->right->right->data)).width == 6);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr7->right->left->data)).width == 3);
+					NTEST_ASSERT((*(Rectangle*)(rootPtr7->right->right->right->data)).width == 7);
+					NTEST_ASSERT(retBool7 == true);
+					NTEST_ASSERT((*(Rectangle*)(retPtr7->data)).width == 7);
 
 					FUN(&rbTree, insert), & rect3, & retPtr8, & retBool8 CALL;
-					TEST_ASSERT(retBool8 == false);
-					TEST_ASSERT((*(Rectangle*)(retPtr8->data)).width == 3);
-					TEST_ASSERT(retPtr8 == retPtr3);
+					NTEST_ASSERT(retBool8 == false);
+					NTEST_ASSERT((*(Rectangle*)(retPtr8->data)).width == 3);
+					NTEST_ASSERT(retPtr8 == retPtr3);
 				}END_FUN
 					FUN_IMPL(rbTree_rectangle_as_node_data_find_SanityTest)
 				{
@@ -394,16 +394,16 @@ FUN_IMPL(rbTree_find_SanityTest)
 					FUN(&rbTree, find), & rect4, & rbIt CALL;
 					FUN(&rbIt, getContentsOf), & retNode4 CALL;
 
-					TEST_ASSERT((*(Rectangle*)(retNode1->data)).width == 1)
-						TEST_ASSERT((Rectangle*)(retNode1->data) = &rect1);
+					NTEST_ASSERT((*(Rectangle*)(retNode1->data)).width == 1)
+						NTEST_ASSERT((Rectangle*)(retNode1->data) = &rect1);
 
-					TEST_ASSERT((*(Rectangle*)(retNode2->data)).width == 2)
-						TEST_ASSERT((Rectangle*)(retNode2->data) = &rect2);
+					NTEST_ASSERT((*(Rectangle*)(retNode2->data)).width == 2)
+						NTEST_ASSERT((Rectangle*)(retNode2->data) = &rect2);
 
-					TEST_ASSERT((*(Rectangle*)(retNode3->data)).width == 3)
-						TEST_ASSERT((Rectangle*)(retNode3->data) = &rect3);
+					NTEST_ASSERT((*(Rectangle*)(retNode3->data)).width == 3)
+						NTEST_ASSERT((Rectangle*)(retNode3->data) = &rect3);
 
-					TEST_ASSERT(retNode4->data == NULL) //value of header node (end())
+					NTEST_ASSERT(retNode4->data == NULL) //value of header node (end())
 				}END_FUN
 					FUN_IMPL(rbTree_rectangle_as_node_data_delete_SanityTest)
 					{
@@ -435,29 +435,29 @@ FUN_IMPL(rbTree_find_SanityTest)
 
 						FUN(&rbTree, erase), & rect2, & numElemsErased1 CALL;
 						FUN(&rbTree, getRootNode), & rootPtr1 CALL;
-						TEST_ASSERT((*(Rectangle*)(rootPtr1->data)).width == 4);
-						TEST_ASSERT((*(Rectangle*)(rootPtr1->left->data)).width == 1);
-						TEST_ASSERT((*(Rectangle*)(rootPtr1->right->data)).width == 5);
-						TEST_ASSERT(numElemsErased1 == 1);
+						NTEST_ASSERT((*(Rectangle*)(rootPtr1->data)).width == 4);
+						NTEST_ASSERT((*(Rectangle*)(rootPtr1->left->data)).width == 1);
+						NTEST_ASSERT((*(Rectangle*)(rootPtr1->right->data)).width == 5);
+						NTEST_ASSERT(numElemsErased1 == 1);
 
 						FUN(&rbTree, erase), & rect5, & numElemsErased2 CALL;
 						FUN(&rbTree, getRootNode), & rootPtr2 CALL;
-						TEST_ASSERT((*(Rectangle*)(rootPtr2->data)).width == 4);
-						TEST_ASSERT((*(Rectangle*)(rootPtr1->left->data)).width == 1);
-						TEST_ASSERT((*(Rectangle*)(rootPtr1->right->data)).width == 6);
-						TEST_ASSERT(numElemsErased2 == 1);
+						NTEST_ASSERT((*(Rectangle*)(rootPtr2->data)).width == 4);
+						NTEST_ASSERT((*(Rectangle*)(rootPtr1->left->data)).width == 1);
+						NTEST_ASSERT((*(Rectangle*)(rootPtr1->right->data)).width == 6);
+						NTEST_ASSERT(numElemsErased2 == 1);
 
 						FUN(&rbTree, erase), & rect7, & numElemsErased3 CALL;
 						FUN(&rbTree, getRootNode), & rootPtr3 CALL;
-						TEST_ASSERT((*(Rectangle*)(rootPtr3->data)).width == 4);
-						TEST_ASSERT(numElemsErased3 == 0);
+						NTEST_ASSERT((*(Rectangle*)(rootPtr3->data)).width == 4);
+						NTEST_ASSERT(numElemsErased3 == 0);
 
 						CREATE(redBlackTreeIterator, rbIt), retPtr1 CALL;
 
 						FUN(&rbTree, find), & rect5, & rbIt CALL;
 						FUN(&rbIt, getContentsOf), & retNode CALL;
 
-						TEST_ASSERT(retNode->data == NULL) //value of header node (end())
+						NTEST_ASSERT(retNode->data == NULL) //value of header node (end())
 					}END_FUN
 
 

@@ -11,7 +11,7 @@ TEST_FUN_IMPL(VectorIteratorTest, getContentsOf_Sanity)
 	int retVal = 0;
 	FUN(&vecIt, getContentsOf), & retVal CALL;
 
-	TEST_ASSERT(retVal == 3);
+	NTEST_ASSERT(retVal == 3);
 
 
 }END_FUN
@@ -42,10 +42,10 @@ TEST_FUN_IMPL(VectorIteratorTest, increment_Sanity)
 	FUN(&vecIt, increment) CALL;
 	FUN(&vecIt, getContentsOf), & retVal2 CALL;
 
-	TEST_ASSERT(retVal == 3);
-	TEST_ASSERT(retVal1 == 4);
-	TEST_ASSERT(retVal2 == 5);
-	TEST_ASSERT(eq == true);
+	NTEST_ASSERT(retVal == 3);
+	NTEST_ASSERT(retVal1 == 4);
+	NTEST_ASSERT(retVal2 == 5);
+	NTEST_ASSERT(eq == true);
 
 }END_FUN
 

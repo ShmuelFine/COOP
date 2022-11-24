@@ -10,7 +10,7 @@
 //	FUN( &hashTable,  insert), item, &retVal  CALL;
 //
 //	// Assert
-//	TEST_ASSERT(retVal == 1);
+//	NTEST_ASSERT(retVal == 1);
 //
 //}END_FUN
 //FUN_IMPL(check_insert_when_already_exists_then_throw)
@@ -28,7 +28,7 @@
 //	FUN(&hashTable, insert), item2, &retVal  CALL;
 //
 //	// Assert
-//	TEST_ASSERT(retVal == -1);
+//	NTEST_ASSERT(retVal == -1);
 //
 //}END_FUN
 //FUN_IMPL(check_search_when_founded_then_return_instance)
@@ -52,8 +52,8 @@
 //
 //	// Assert
 //	// //why not?
-//	//TEST_ASSERT(*retVal  == item1);
-//	TEST_ASSERT(retVal->key == item1.key && retVal->data == item1.data);
+//	//NTEST_ASSERT(*retVal  == item1);
+//	NTEST_ASSERT(retVal->key == item1.key && retVal->data == item1.data);
 //
 //}END_FUN
 //FUN_IMPL(check_search_when_not_founded_then_return_null)
@@ -77,8 +77,8 @@
 //
 //	// Assert
 //	// //why not?
-//	//TEST_ASSERT(*retVal  == item1);
-//	TEST_ASSERT(retVal==NULL);
+//	//NTEST_ASSERT(*retVal  == item1);
+//	NTEST_ASSERT(retVal==NULL);
 //
 //}END_FUN
 //FUN_IMPL(check_delete_when_exist_then_delete)
@@ -96,9 +96,9 @@
 //	FUN(&hashTable, insert), item2, &retVal  CALL;
 //
 //	FUN(&hashTable, deleteItem), item2.key, &retVal  CALL;
-//	TEST_ASSERT(retVal == 1);
+//	NTEST_ASSERT(retVal == 1);
 //
 //	FUN(&hashTable, search), item2.key, retVal  CALL;
-//	TEST_ASSERT(retVal == 0);
+//	NTEST_ASSERT(retVal == 0);
 //
 //}END_FUN

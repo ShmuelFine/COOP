@@ -3,6 +3,8 @@
 #include "DerivedClassExample.h"
 //#include "../COOP_C_TestProxy/DerivedClassExample.h"
 
-FUN_DECL(Inheritence_WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell);
-FUN_DECL(Inheritence_WhenVirtualFunctionOverriden_ThenCallInvokesOverridingFunc);
-FUN_DECL(Inheritence_WhenCallingNonVirtualFunciton_Sanity);
+DEF_TEST_SUITE(InheritanceTest);
+ADD_TEST(InheritanceTest, WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell);
+ADD_TEST(InheritanceTest, WhenVirtualFunctionOverriden_ThenCallInvokesOverridingFunc);
+ADD_TEST(InheritanceTest, WhenCallingNonVirtualFunciton_Sanity);
+END_TEST_SUITE(InheritanceTest);

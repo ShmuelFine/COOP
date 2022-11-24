@@ -25,7 +25,7 @@ FUN_IMPL(check_type)
 	bool isOK = (300.3 - 0.01 < tst1) && (tst1 < 300.3 + 0.01);
 	//IS_IN_RANGE(tst1, 300 + 1, 300 - 1);
 	//IS_FLOATS_EQ(F1, F2, tolerance)
-	TEST_ASSERT(isOK)
+	NTEST_ASSERT(isOK)
 		// Act 
 		FUN(&ptr, CopyTo), & ptr2 CALL;
 
@@ -33,15 +33,15 @@ FUN_IMPL(check_type)
 	FUN(&ptr2, CopyFrom), & ptr CALL;
 
 	// Assert
-	TEST_ASSERT(*GET(ptr2, float) == 10.5);
+	NTEST_ASSERT(*GET(ptr2, float) == 10.5);
 
 	*i = 12.5;
-	TEST_ASSERT(*GET(ptr, float) == 12.5);
-	TEST_ASSERT(*GET(ptr2, float) == 12.5);
+	NTEST_ASSERT(*GET(ptr, float) == 12.5);
+	NTEST_ASSERT(*GET(ptr2, float) == 12.5);
 
 	bool out;
 	FUN(&ptr, IsEmpty), & out CALL;
-	TEST_ASSERT(!(out == 0));
+	NTEST_ASSERT(!(out == 0));
 
 	FUN(&ptr, Release) CALL;
 
