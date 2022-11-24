@@ -1,5 +1,5 @@
-#ifndef __BASE_CLASS_EXAMPLE___H__
-#define __BASE_CLASS_EXAMPLE___H__
+#ifndef __COOP_TESTS__BASE_CLASS_EXAMPLE___H__
+#define __COOP_TESTS__BASE_CLASS_EXAMPLE___H__
 
 #ifdef __cplusplus
 extern "C" {

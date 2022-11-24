@@ -145,13 +145,11 @@
   <ItemGroup>
     <ClCompile Include="BaseClassExample.c" />
     <ClCompile Include="shared_ptr_test.c" />
-    <ClCompile Include="ClassTest.c" />
-    <ClCompile Include="ClassTestC.c" />
+    <ClCompile Include="DemoClassTest.c" />
     <ClCompile Include="DerivedClassExample.c" />
     <ClCompile Include="ExeptionUnitTest.c" />
     <ClCompile Include="HashTableUnitTest.c" />
-    <ClCompile Include="infrastructureTest.c" />
-    <ClCompile Include="InheritTest.c" />
+    <ClCompile Include="InheritanceTest.c" />
     <ClCompile Include="MemManagementUnitTest.c" />
     <ClCompile Include="NdarrayTest.c" />
     <ClCompile Include="rbTreeIterUnitTest.c" />
@@ -160,30 +158,24 @@
     <ClCompile Include="_RUNNER_.c" />
     <ClCompile Include="ScopesUnitTest.c" />
     <ClCompile Include="ScopeTester.c" />
-    <ClCompile Include="TypeTest.c" />
     <ClCompile Include="vectorIteratorUnitTest.c" />
     <ClCompile Include="vectorUnitTest.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClassExample.h" />
-    <ClInclude Include="CharTest.h" />
-    <ClInclude Include="ClassTest.h" />
-    <ClInclude Include="ClassTestC.h" />
+    <ClInclude Include="DemoClassTest.h" />
     <ClInclude Include="DerivedClassExample.h" />
     <ClInclude Include="ExeptionUnitTest.h" />
     <ClInclude Include="HashTableUnitTest.h" />
-    <ClInclude Include="infrastructureTest.h" />
-    <ClInclude Include="InheritTest.h" />
+    <ClInclude Include="InheritanceTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />
     <ClInclude Include="NdarrayTest.h" />
     <ClInclude Include="rbTreeIterUnitTest.h" />
     <ClInclude Include="rbTreeUnitTest.h" />
     <ClInclude Include="Rectangle.h" />
-    <ClInclude Include="runTest.h" />
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />
     <ClInclude Include="test_defs.h" />
-    <ClInclude Include="TypeTest.h" />
     <ClInclude Include="vectorIteratorUnitTest.h" />
     <ClInclude Include="vectorUnitTest.h" />
   </ItemGroup>

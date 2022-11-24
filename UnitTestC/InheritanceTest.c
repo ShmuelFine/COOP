@@ -1,4 +1,4 @@
-#include "InheritTest.h"
+#include "InheritanceTest.h"
 
 
 TEST_FUN_IMPL(InheritanceTest, WhenCallingCtorOfDrivedClass_BaseClassCtorIsCalledAsWell)

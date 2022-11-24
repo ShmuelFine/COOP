@@ -12,7 +12,7 @@
 //DEF_CTOR(DataItemArry)
 //{
 //	DataItem* arry = NULL;
-//	NEW(arry, DataItem*);
+//	NEW_VARIABLE(arry, DataItem*);
 //	_this->sizeOfArray = 0;
 //}
 //END_CTOR
@@ -30,8 +30,8 @@
 //	_this->capacity = capacity;
 //	_this->amountOfElements = 0;
 //	DataItemArry* table = NULL;
-//	/*NEW(table, DataItemArry* );*/
-//	NEW_OF_SIZE(_this->table, DataItemArry*, capacity);
+//	/*NEW_VARIABLE(table, DataItemArry* );*/
+//	NEW_ARRAY(_this->table, DataItemArry*, capacity);
 //}
 //END_CTOR
 //DEF_DTOR(HashTable)

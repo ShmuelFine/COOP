@@ -1,5 +1,5 @@
 
-#include "Cache.h"
+#include "InMemoryCache.h"
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -22,7 +22,7 @@
 #define BLOCK_MEM_END(i) (_this->buffer + i + BLOCK_METADATA_SIZE + BLOCK_SIZE(i))
 
 #define END_OF_BLOCKS_IDX (_this->size - BLOCK_METADATA_SIZE)
-void print_mem_metadata(char* buf, long idx)
+void print_mem_metadata(char* buf, MEM_SIZE_T idx)
 {
 	MEM_SIZE_T* ibuf = (MEM_SIZE_T*)(buf + idx);
 	printf("B[%d]:Size=%d,Next=%d,Prev=%d\n", idx, ibuf[0], ibuf[1], ibuf[2]);
@@ -39,7 +39,7 @@ DEF_DERIVED_CTOR(InMemoryCache, iCache, MEM_SIZE_T size) SUPER ME
 	memset(_this->buffer, 0, _this->size);
 
 	// anchor and suffix: (a.k.a "begin" and "end")
-	long anchor_idx = 0, suffix_idx = END_OF_BLOCKS_IDX;
+	MEM_SIZE_T anchor_idx = 0, suffix_idx = END_OF_BLOCKS_IDX;
 	BLOCK_SIZE(anchor_idx) = 0;
 	JUMP_TILL_NEXT_BLOCK(anchor_idx) = suffix_idx - anchor_idx;
 	JUMP_TILL_PREV_BLOCK(anchor_idx) = 0;
@@ -62,14 +62,14 @@ FUN_OVERRIDE_IMPL(InMemoryCache, iCache, AddNewBlock, MEM_SIZE_T num_bytes_to_al
 {
 	*returned = NULL;
 
-	for (long mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+	for (MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
 	{
 		char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
-		long this_block_end_idx = this_block_end_ptr - _this->buffer;
-		long space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+		MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
+		MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
 		if (space_between_blocks >= num_bytes_to_alloc + BLOCK_METADATA_SIZE)
 		{
-			long new_block_idx = mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx);
+			MEM_SIZE_T new_block_idx = mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx);
 			BLOCK_SIZE(new_block_idx) = num_bytes_to_alloc;
 			JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
 			JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
@@ -85,11 +85,11 @@ END_FUN
 
 FUN_OVERRIDE_IMPL(InMemoryCache, iCache, RemoveBlock, void* toDelete)
 {
-	long mem_idx = (((char*)toDelete) - _this->buffer) - BLOCK_METADATA_SIZE;
+	MEM_SIZE_T mem_idx = (MEM_SIZE_T)((((char*)toDelete) - _this->buffer) - BLOCK_METADATA_SIZE);
 	
 	// prev block should now point to next block: (anchor is never removed)
-	long prev_block_idx = PREV_BLOCK_LOCATION(mem_idx);
-	long next_block_idx = NEXT_BLOCK_LOCATION(mem_idx);
+	MEM_SIZE_T prev_block_idx = PREV_BLOCK_LOCATION(mem_idx);
+	MEM_SIZE_T next_block_idx = NEXT_BLOCK_LOCATION(mem_idx);
 
 	JUMP_TILL_PREV_BLOCK(next_block_idx) = 
 		JUMP_TILL_NEXT_BLOCK(prev_block_idx) = next_block_idx - prev_block_idx;

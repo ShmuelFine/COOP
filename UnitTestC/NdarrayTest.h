@@ -1,3 +1,6 @@
+#ifndef __COOP_TESTS__NDARRAY_TEST__H__
+#define __COOP_TESTS__NDARRAY_TEST__H__
+
 #include "test_defs.h"
 #include "../COOP/COOP.h"
 
@@ -17,3 +20,5 @@ ADD_TEST(NDarray_Tests, min_sanity_case);
 ADD_TEST(NDarray_Tests, max_sanity_case);
 ADD_TEST(NDarray_Tests, general_test);
 END_TEST_SUITE(NDarray_Tests);
+
+#endif

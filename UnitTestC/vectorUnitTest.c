@@ -1,4 +1,8 @@
 #include "vectorUnitTest.h"
+#include "../COOP/ExportDefs.h"
+#include "../COOP/vectorIterator.h"
+#include "../COOP/vector.h"
+#include "ScopeTester.h"
 
 TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 {

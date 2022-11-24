@@ -1,5 +1,6 @@
 #include "rbTreeIterUnitTest.h"
 
+FUN_DECL(intComp, void* a, void* b, bool* retBool);
 
 FUN_IMPL(intComp, void* a, void* b, bool* retBool)
 {
@@ -8,7 +9,7 @@ FUN_IMPL(intComp, void* a, void* b, bool* retBool)
 	*retBool = *(int*)a < *(int*)b;
 }END_FUN;
 
-FUN_IMPL(redBlacktreeIterator_increment_Sanity)
+TEST_FUN_IMPL(RedBlackTreeIteratorTest, redBlacktreeIterator_increment_Sanity)
 {
 	init_global_memory( sizeof(int) * 100, HEAP_BASED_MEMORY );
 
@@ -55,7 +56,7 @@ FUN_IMPL(redBlacktreeIterator_increment_Sanity)
 
 }END_FUN
 
-FUN_IMPL(redBlacktreeIterator_decrement_Sanity)
+TEST_FUN_IMPL(RedBlackTreeIteratorTest, redBlacktreeIterator_decrement_Sanity)
 {
 	init_global_memory( sizeof(int) * 100, HEAP_BASED_MEMORY );
 
@@ -94,3 +95,8 @@ FUN_IMPL(redBlacktreeIterator_decrement_Sanity)
 	FUN(&rbIt, getContentsOf), & retPtr5 CALL;
 	NTEST_ASSERT(*(int*)(retPtr5->data) == 2);
 }END_FUN
+
+INIT_TEST_SUITE(RedBlackTreeIteratorTest);
+BIND_TEST(RedBlackTreeIteratorTest, redBlacktreeIterator_decrement_Sanity);
+BIND_TEST(RedBlackTreeIteratorTest, redBlacktreeIterator_increment_Sanity);
+END_INIT_TEST_SUITE(RedBlackTreeIteratorTest);

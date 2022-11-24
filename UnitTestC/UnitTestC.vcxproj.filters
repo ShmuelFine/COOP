@@ -9,16 +9,15 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="AuxClasses">
+      <UniqueIdentifier>{bbd8e8d6-62bc-4fdd-acf0-42a1f1ab1a18}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClassTest.c">
+    <ClCompile Include="DemoClassTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InheritTest.c">
+    <ClCompile Include="InheritanceTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="_RUNNER_.c">
@@ -48,45 +47,33 @@
     <ClCompile Include="ScopesUnitTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TypeTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ClassTestC.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HashTableUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseClassExample.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Rectangle.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DerivedClassExample.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScopeTester.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NdarrayTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="infrastructureTest.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="BaseClassExample.c">
+      <Filter>AuxClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="DerivedClassExample.c">
+      <Filter>AuxClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.c">
+      <Filter>AuxClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="ScopeTester.c">
+      <Filter>AuxClasses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClassTest.h">
+    <ClInclude Include="DemoClassTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test_defs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InheritTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="runTest.h">
+    <ClInclude Include="InheritanceTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rbTreeIterUnitTest.h">
@@ -107,38 +94,26 @@
     <ClInclude Include="MemManagementUnitTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CharTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ScopesUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TypeTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ClassTestC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HashTableUnitTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BaseClassExample.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rectangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScopeTester.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DerivedClassExample.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="NdarrayTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="infrastructureTest.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BaseClassExample.h">
+      <Filter>AuxClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DerivedClassExample.h">
+      <Filter>AuxClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>AuxClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="ScopeTester.h">
+      <Filter>AuxClasses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

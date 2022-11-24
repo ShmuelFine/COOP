@@ -1,4 +1,4 @@
-#include "ClassTest.h"
+#include "DemoClassTest.h"
 #include "BaseClassExample.h"
 #include "Rectangle.h"
 

@@ -1,4 +1,6 @@
-// #include "../COOP_C_TestProxy/ScopeTester.h"
+#ifndef __COOP_TESTS__EXCEPTION_UNIT_TEST__H__
+#define __COOP_TESTS__EXCEPTION_UNIT_TEST__H__
+
 #include "../COOP/dynamic_memory_management.h"
 #include <string.h>
 #include "test_defs.h"
@@ -14,3 +16,5 @@ ADD_TEST(ExceptionTests, BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly);
 ADD_TEST(ExceptionTests, BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly);
 ADD_TEST(ExceptionTests, BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope);
 END_TEST_SUITE(ExceptionTests);
+
+#endif

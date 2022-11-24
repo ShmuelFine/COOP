@@ -1,5 +1,5 @@
 #include "dynamic_memory_management.h"
-#include "Cache.h"
+#include "InMemoryCache.h"
 #include "HeapCache.h"
 #include <stdlib.h>
 

@@ -37,7 +37,7 @@ MEM_FUN_IMPL(vector, push_back, int val)
 		else
 			newCapacity = (_this->capacity) * 2;
 		
-		NEW_OF_SIZE(_this->data[newBuffIdx], int, newCapacity);
+		NEW_ARRAY(_this->data[newBuffIdx], int, newCapacity);
 		
 		for (int i = 0; i < _this->size; i++)
 			_this->data[newBuffIdx][i] = _this->data[currBuffIdx][i];
