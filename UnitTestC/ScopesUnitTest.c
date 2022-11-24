@@ -1,23 +1,31 @@
 #include "ScopesUnitTest.h"
 
+FUN_IMPL(ChangeValueWithScopeTester, char* whoToChange)
+{
+	CREATE(ScopeTester, outer_scope_obj), whoToChange CALL;
+	if (*whoToChange != 'A')
+	{
+		THROW_MSG("BUG in ScopeTester");
+	}
+}
+END_FUN;
+
+FUN_IMPL(Call_Inner_ChangeValueWithScopeTester, char* whoToChange)
+{
+	ChangeValueWithScopeTester(whoToChange);
+}
+END_FUN;
+
+
 TEST_FUN_IMPL(Infra_ScopesTest, SCOPE_END__WhenObjectsDefinedInsideScope_ThenAllGetFreed)
 {
-	char feedback[3] = { 0, 0, 0 };
-	SCOPE_START;
-
 	//Arrange
-
-	CREATE(ScopeTester, s1), feedback + 0 CALL;
-	CREATE(ScopeTester, s2), feedback + 1 CALL;
-	CREATE(ScopeTester, s3), feedback + 2 CALL;
-
-	// - The ctor of ScopeTester sets the feedback val:
-	NTEST_ASSERT(feedback[0] == 'A');
-	NTEST_ASSERT(feedback[1] == 'A');
-	NTEST_ASSERT(feedback[2] == 'A');
-
+	char feedback[3] = { 0, 0, 0 };
+	
 	// Act
-	END_SCOPE;
+	ChangeValueWithScopeTester(feedback + 0);
+	ChangeValueWithScopeTester(feedback + 1);
+	ChangeValueWithScopeTester(feedback + 2);
 
 	// Assert
 	// - The dtor of ScopeTester sets the feedback vals again:
@@ -29,46 +37,27 @@ END_FUN
 
 TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope_ThenAllGetFreed)
 {
+	// Arrange:
 	char feedback[4] = { 0, 0, 0, 0 };
-	SCOPE_START;
 
+	// Sanity:
 	CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
-	NTEST_ASSERT(feedback[0] == 'A');
-
-	bool is_get_into_if = true;
-	if (is_get_into_if)
-	{
-		SCOPE_START;
-
-		//Arrange
-		CREATE(ScopeTester, inner_scope_obj1), feedback + 1 CALL;
-		CREATE(ScopeTester, inner_scope_obj2), feedback + 2 CALL;
-		CREATE(ScopeTester, inner_scope_obj3), feedback + 3 CALL;
-
-		// - The ctor of ScopeTester sets the feedback val:
-		NTEST_ASSERT(feedback[1] == 'A');
-		NTEST_ASSERT(feedback[2] == 'A');
-		NTEST_ASSERT(feedback[3] == 'A');
-
-		// Act
-		END_SCOPE;
-
-		// - The dtor of ScopeTester sets the feedback val again:
-		NTEST_ASSERT(feedback[1] == 0);
-		NTEST_ASSERT(feedback[2] == 0);
-		NTEST_ASSERT(feedback[3] == 0);
-
-		NTEST_ASSERT(feedback[0] == 'A');
-
-	}
-
-	END_SCOPE;
+	
+	// Act:
+	Call_Inner_ChangeValueWithScopeTester(feedback);
+	ChangeValueWithScopeTester(feedback + 1);
+	ChangeValueWithScopeTester(feedback + 2);
+	ChangeValueWithScopeTester(feedback + 3);
 
 	// Assert
-	ASSERT(feedback[0] == 0);
+	// - The dtor of ScopeTester sets the feedback val to zero again:
+	NTEST_ASSERT(feedback[0] == 0);
+	NTEST_ASSERT(feedback[1] == 0);
+	NTEST_ASSERT(feedback[2] == 0);
+	NTEST_ASSERT(feedback[3] == 0);
 
 }
-END_FUN
+END_FUN;
 
 TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__DoesNotFreeUnrelatedObjects)
 {
