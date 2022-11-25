@@ -29,9 +29,6 @@
     <ClCompile Include="rbTreeUnitTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vectorIteratorUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="vectorUnitTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -80,9 +77,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rbTreeUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vectorIteratorUnitTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vectorUnitTest.h">

@@ -1,10 +1,10 @@
-#include "dynamic_memory_management.h"
+#include "DynamicMemoryManagement.h"
 #include "InMemoryCache.h"
 #include "HeapCache.h"
 #include <stdlib.h>
 
 
-iCache* TheGlobalCache = NULL;
+ICache* TheGlobalCache = NULL;
 
 ///////////////
 

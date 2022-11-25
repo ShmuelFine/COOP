@@ -4,7 +4,7 @@
 #include "test_defs.h"
 #include "../COOP/COOP.h"
 #include "../COOP/InMemoryCache.h"
-#include "../COOP/dynamic_memory_management.h"
+#include "../COOP/DynamicMemoryManagement.h"
 #include "ScopeTester.h"
 
 DEF_TEST_SUITE(Infra_ScopesTest);

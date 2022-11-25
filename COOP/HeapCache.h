@@ -1,15 +1,15 @@
 #ifndef __HEAP_CACHE__H_
 #define __HEAP_CACHE__H_
 
-#include "object.h"
-#include "iCache.h"
+#include "Object.h"
+#include "ICache.h"
 
-DEF_DERIVED_CLASS(HeapCache, iCache);
+DEF_DERIVED_CLASS(HeapCache, ICache);
 END_DEF_DERIVED(HeapCache);
 
-DERIVED_FUNCTIONS(HeapCache, iCache)
-FUN_OVERRIDE(iCache, AddNewBlock, MEM_SIZE_T block_size, void** returned);
-FUN_OVERRIDE(iCache, RemoveBlock, void* toDelete);
+DERIVED_FUNCTIONS(HeapCache, ICache);
+FUN_OVERRIDE(ICache, AddNewBlock, MEM_SIZE_T block_size, void** returned);
+FUN_OVERRIDE(ICache, RemoveBlock, void* toDelete);
 END_DERIVED_FUNCTIONS(HeapCache);
 
 #endif

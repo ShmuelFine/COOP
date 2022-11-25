@@ -28,7 +28,7 @@ void print_mem_metadata(char* buf, MEM_SIZE_T idx)
 	printf("B[%d]:Size=%d,Next=%d,Prev=%d\n", idx, ibuf[0], ibuf[1], ibuf[2]);
 }
 
-DEF_DERIVED_CTOR(InMemoryCache, iCache, MEM_SIZE_T size) SUPER ME
+DEF_DERIVED_CTOR(InMemoryCache, ICache, MEM_SIZE_T size) SUPER ME
 {
 	_this->size = size;
 	_this->buffer = (char*)malloc(sizeof(char) * size);
@@ -51,14 +51,14 @@ DEF_DERIVED_CTOR(InMemoryCache, iCache, MEM_SIZE_T size) SUPER ME
 }
 END_DERIVED_CTOR
 
-DEF_DERIVED_DTOR(InMemoryCache, iCache)
+DEF_DERIVED_DTOR(InMemoryCache, ICache)
 {
 	if (_this->buffer)
 		free(_this->buffer);
 }
 END_DERIVED_DTOR
 
-FUN_OVERRIDE_IMPL(InMemoryCache, iCache, AddNewBlock, MEM_SIZE_T num_bytes_to_alloc, void** returned)
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, AddNewBlock, MEM_SIZE_T num_bytes_to_alloc, void** returned)
 {
 	*returned = NULL;
 
@@ -83,7 +83,7 @@ FUN_OVERRIDE_IMPL(InMemoryCache, iCache, AddNewBlock, MEM_SIZE_T num_bytes_to_al
 }
 END_FUN
 
-FUN_OVERRIDE_IMPL(InMemoryCache, iCache, RemoveBlock, void* toDelete)
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, RemoveBlock, void* toDelete)
 {
 	MEM_SIZE_T mem_idx = (MEM_SIZE_T)((((char*)toDelete) - _this->buffer) - BLOCK_METADATA_SIZE);
 	
@@ -97,7 +97,7 @@ FUN_OVERRIDE_IMPL(InMemoryCache, iCache, RemoveBlock, void* toDelete)
 END_FUN
 
 
-INIT_DERIVED_CLASS(InMemoryCache, iCache);
-BIND_OVERIDE(InMemoryCache, iCache, AddNewBlock);
-BIND_OVERIDE(InMemoryCache, iCache, RemoveBlock);
+INIT_DERIVED_CLASS(InMemoryCache, ICache);
+BIND_OVERIDE(InMemoryCache, ICache, AddNewBlock);
+BIND_OVERIDE(InMemoryCache, ICache, RemoveBlock);
 END_INIT_CLASS(InMemoryCache)

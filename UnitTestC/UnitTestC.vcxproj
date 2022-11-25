@@ -158,7 +158,6 @@
     <ClCompile Include="_RUNNER_.c" />
     <ClCompile Include="ScopesUnitTest.c" />
     <ClCompile Include="ScopeTester.c" />
-    <ClCompile Include="vectorIteratorUnitTest.c" />
     <ClCompile Include="vectorUnitTest.c" />
   </ItemGroup>
   <ItemGroup>
@@ -176,7 +175,6 @@
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />
     <ClInclude Include="test_defs.h" />
-    <ClInclude Include="vectorIteratorUnitTest.h" />
     <ClInclude Include="vectorUnitTest.h" />
   </ItemGroup>
   <ItemGroup>

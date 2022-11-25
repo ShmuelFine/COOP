@@ -1,7 +1,7 @@
 #ifndef __COOP_TESTS__EXCEPTION_UNIT_TEST__H__
 #define __COOP_TESTS__EXCEPTION_UNIT_TEST__H__
 
-#include "../COOP/dynamic_memory_management.h"
+#include "../COOP/DynamicMemoryManagement.h"
 #include <string.h>
 #include "test_defs.h"
 #include "../COOP/COOP.h"

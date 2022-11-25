@@ -9,7 +9,7 @@ DEF_DERIVED_CLASS(DerivedClassExample, BaseClassExample);
 int depth;
 END_DEF_DERIVED(DerivedClassExample);
 
-DERIVED_FUNCTIONS(DerivedClassExample, BaseClassExample, int hight, int width, int depth)
+DERIVED_FUNCTIONS(DerivedClassExample, BaseClassExample, int hight, int width, int depth);
 FUN_OVERRIDE(BaseClassExample, GetVolume, int* retVal);
 MEM_FUN_DECL(DerivedClassExample, JustReturn10, int* retVal);
 END_DERIVED_FUNCTIONS(DerivedClassExample);

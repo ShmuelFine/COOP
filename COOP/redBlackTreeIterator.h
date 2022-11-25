@@ -18,10 +18,10 @@ node* nodePtr;
 END_DEF(redBlackTreeIterator);
 
 FUNCTIONS(redBlackTreeIterator, node* node_ptr);
-MEM_FUN_DECL(redBlackTreeIterator, /*func. name:*/ increment);
-MEM_FUN_DECL(redBlackTreeIterator, /*func. name:*/ decrement);
-MEM_FUN_DECL(redBlackTreeIterator, /*func. name:*/ equals, redBlackTreeIterator other, bool* retVal);
-MEM_FUN_DECL(redBlackTreeIterator, /*func. name:*/ getContentsOf, node** retVal);
+MEM_FUN_DECL(redBlackTreeIterator, increment);
+MEM_FUN_DECL(redBlackTreeIterator, decrement);
+MEM_FUN_DECL(redBlackTreeIterator, equals, redBlackTreeIterator other, bool* retVal);
+MEM_FUN_DECL(redBlackTreeIterator, getContentsOf, node** retVal);
 END_FUNCTIONS(redBlackTreeIterator);
 
 

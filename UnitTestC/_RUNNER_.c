@@ -29,17 +29,17 @@ int main() {
 
 	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
-	RUN_TESTS(Infra_ScopesTest);
-	RUN_TESTS(MemoryManagementTest);
-	RUN_TESTS(InheritanceTest);
-	RUN_TESTS(ExceptionTests);
-	RUN_TESTS(SharedPtrTest);
-	
-	RUN_TESTS(NDarray_Tests);
-	RUN_TESTS(DemoClassTest);
+	//RUN_TESTS(Infra_ScopesTest);
+	//RUN_TESTS(MemoryManagementTest);
+	//RUN_TESTS(InheritanceTest);
+	//RUN_TESTS(ExceptionTests);
+	//RUN_TESTS(SharedPtrTest);
+	//
+	//RUN_TESTS(NDarray_Tests);
+	//RUN_TESTS(DemoClassTest);
 	RUN_TESTS(VectorTest);
-	RUN_TESTS(RedBlackTreeTest);
-	RUN_TESTS(RedBlackTreeIteratorTest);
+	//RUN_TESTS(RedBlackTreeTest);
+	//RUN_TESTS(RedBlackTreeIteratorTest);
 
 	return 0;
 	//RUN_TESTS(VectorIteratorTest);

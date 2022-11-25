@@ -1,7 +1,6 @@
 #include "test_defs.h"
 #include "../COOP/COOP.h"
 #include "../COOP/ExportDefs.h"
-#include "../COOP/vectorIterator.h"
 #include "../COOP/vector.h"
 
 

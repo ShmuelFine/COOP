@@ -2,7 +2,7 @@
 #define __MY__SHARED_PTR__H__
 
 #include "coop.h"
-#include "dynamic_memory_management.h"
+#include "DynamicMemoryManagement.h"
 
 #define GET_VARIABLE_NAME(Variable) (#Variable)
 
