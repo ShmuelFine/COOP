@@ -19,7 +19,9 @@ MEM_FUN_DECL(GenericVector, at_int, MEM_SIZE_T i, int * val);
 MEM_FUN_DECL(GenericVector, at_char, MEM_SIZE_T i, char * val);
 MEM_FUN_DECL(GenericVector, at_float, MEM_SIZE_T i, float * val);
 
-MEM_FUN_DECL(GenericVector, __push_back_generic, char * buff, MEM_SIZE_T size);
+MEM_FUN_DECL(GenericVector, resize, MEM_SIZE_T new_capacity);
+
+MEM_FUN_DECL(GenericVector, __push_back_generic, char * buff, MEM_SIZE_T buff_size);
 
 MEM_FUN_DECL(GenericVector, push_back_int, int val);
 MEM_FUN_DECL(GenericVector, push_back_char, char val);
@@ -30,13 +32,9 @@ MEM_FUN_DECL(GenericVector, pop_back_int, int * val);
 MEM_FUN_DECL(GenericVector, pop_back_char, char* val);
 MEM_FUN_DECL(GenericVector, pop_back_float, float * val);
 
-END_FUNCTIONS(GenericVector);
-//
-//#define VEC_PTR_AT(v,i,type) (GET(v.data, type) + (i))
-//#define VEC_AT(v, i, type) (*VEC_PTR_AT(v,i,type))
-//#define VEC_PRINT(v, type)\
-//{ for (int i = 0; i < (v)->size; i++) { printf("%d ", VEC_AT(v,i,type)); } }
+MEM_FUN_DECL(GenericVector, zero_all);
 
+END_FUNCTIONS(GenericVector);
 
 ////////////////////////////////////////////////
 
@@ -48,6 +46,7 @@ DERIVED_FUNCTIONS(Vector_ ##type, GenericVector);			\
 MEM_FUN_DECL(Vector_ ##type, push_back, type val);			\
 MEM_FUN_DECL(Vector_ ##type, pop_back, type * val);			\
 MEM_FUN_DECL(Vector_ ##type, at, MEM_SIZE_T i, type* val);	\
+MEM_FUN_DECL(Vector_ ##type, resize, MEM_SIZE_T new_capacity);	\
 MEM_FUN_DECL(Vector_ ##type, print);	\
 END_DERIVED_FUNCTIONS(Vector_ ##type);
 

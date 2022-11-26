@@ -14,14 +14,17 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 #define INITIALIZE_INSTANCE(type, instance_name)					\
 	if (!is_ ##type ##VirtualTable__initialized) type ##_init();	\
 	instance_name._next = NULL;										\
-	instance_name.vTable = &V_TABLE_INSTANCE(type);							\
+	instance_name.vTable = &V_TABLE_INSTANCE(type);					\
 	{ int _retVal_ = instance_name.vTable->_ctor(&instance_name
+
 
 #define CREATE(type, instance_name)									\
 	type instance_name;                  							\
 	REGISTER_OBJECT(&instance_name);								\
 	INITIALIZE_INSTANCE(type, instance_name)
 
+#define DESTROY(instance_ptr)\
+{ int _retVal_ = (instance_ptr)->vTable->_dtor(instance_ptr); }
 
 // The obj lifecycle built upon scopes, that has to account with exception handling:
 
@@ -82,7 +85,7 @@ return __RET_VAL__; \
 #define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)
 
 #define ASSERT(x) if (!(x)) {THROW;}
-#define ASSERT_MSG(x, msg) if (!(x)) {THROW_MSG(msg);}
+#define THROW_MSG_UNLESS(x, msg) if (!(x)) {THROW_MSG(msg);}
 #define ASSERT_NOT_NULL(x) if (!(x)) {THROW_MSG(#x "is null");}
 
 #endif

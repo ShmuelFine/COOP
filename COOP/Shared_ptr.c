@@ -15,8 +15,8 @@ DEF_DTOR(Shared_ptr)
 		*(_this->pn) -= 1;
 		if (*(_this->pn) == 0)
 		{
-			DELETE_OBJ(_this->pn);
-			DELETE_OBJ(_this->px);
+			DELETE(_this->pn);
+			DELETE(_this->px);
 		}
 	}
 }
@@ -57,8 +57,8 @@ MEM_FUN_IMPL(Shared_ptr, Release)
 		*(_this->pn) -= 1;
 		if (*(_this->pn) == 0)
 		{
-			DELETE_OBJ(_this->pn);
-			DELETE_OBJ(_this->px);
+			DELETE(_this->pn);
+			DELETE(_this->px);
 		}
 		_this->pn = NULL;
 		_this->px = NULL;

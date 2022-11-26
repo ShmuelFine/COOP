@@ -11,15 +11,15 @@
 
 
 // Macro that defines a DERRIVED class:
-#define DEF_DERIVED_CLASS(class_name, base)											\
-typedef struct class_name ##VirtualTable_t V_TABLE_TYPE(class_name);						\
-typedef struct class_name ##_t {														\
+#define DEF_DERIVED_CLASS(class_name, base)										\
+typedef struct class_name ##VirtualTable_t V_TABLE_TYPE(class_name);			\
+typedef struct class_name ##_t {												\
 union {																			\
 	base _base;																	\
 	struct {																	\
 		/*this first part is parallel to _base structure and of the same size:*/\
 		object *_next;															\
-		V_TABLE_TYPE(class_name)* vTable;											\
+		V_TABLE_TYPE(class_name)* vTable;										\
 		PLACE_HOLDER_MEM_BUFF(base)
 
 // Define the derived class members here, in between.
@@ -55,30 +55,16 @@ struct base_class ##_ ##function_name ##_t_ function_name
 // Macro that begins a derived ctor definition.
 // Should be used followed by SUPER <base class ctor args> ME
 // In order to call the base class ctor. e.g.:
-// DEF_DERIVED_CTOR(Derived_Class, Base_Class, width, height, type, step) SUPER, width, height, type ME
-
-//#define DEF_DERIVED_CTOR(class_name, baseName, ...)    \
-//int __ctor__ ##class_name(class_name * _this, __VA_ARGS__)  \
-//{                                                \
-//	__ctor__ ##baseName
-//
-//// Implement derived ctor here in between
-//#define END_DERIVED_CTOR }
 
 #define DEF_DERIVED_CTOR(class_name, baseName, ...)  FUN_IMPL(__ctor__ ##class_name, class_name * _this, __VA_ARGS__)  \
 { \
 	__ctor__ ##baseName
+
+
 #define  END_DERIVED_CTOR }END_FUN
 
 // Macro that begins a derived dtor definiton. It calls the base class dtor, 
 // and you should fill in the extra work needed.
-
-//#define DEF_DERIVED_DTOR(class_name, BaseName) int __dtor__ ##class_name(class_name * _this)	\
-//{																			\
-//	__dtor__ ##BaseName(&(_this->_base));
-//
-//// Implement derived dtor here in between
-//#define END_DERIVED_DTOR }
 
 #define DEF_DERIVED_DTOR(class_name, BaseName) FUN_IMPL(__dtor__ ##class_name, class_name * _this) \
 {  \
@@ -86,14 +72,7 @@ struct base_class ##_ ##function_name ##_t_ function_name
 
 #define END_DERIVED_DTOR }END_FUN
 
-/*int (*type ##_ ##function_name ##_outer_function(type * _this))(void* _this, __VA_ARGS__)\
-{																		\
-	struct base ##_ ##function_name ##_t_ * toRun = &_this->vTable->function_name;			\
-	while(toRun->next) { toRun = toRun->next; }							\
-	return toRun->inner_function;										\
-}																		\
-																		\
-*/
+
 #define FUN_OVERRIDE_IMPL(type, base, function_name, ...)\
 FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
 

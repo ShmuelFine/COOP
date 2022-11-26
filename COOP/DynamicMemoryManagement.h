@@ -31,7 +31,7 @@ FUN_DECL(init_global_memory, int size, CACHE_TYPES type);
 	ASSERT_NOT_NULL(instance_name);	\
 	INITIALIZE_INSTANCE(type, (*instance_name))
 
-#define DELETE_OBJ(buff) FUN(TheGlobalCache, RemoveBlock), buff CALL buff = NULL
+#define DELETE(buff) FUN(TheGlobalCache, RemoveBlock), buff CALL buff = NULL
 
 
 #endif

@@ -51,7 +51,7 @@
     <ClInclude Include="Vector.h" />
     <ClInclude Include="redBlackTree.h" />
     <ClInclude Include="redBlackTreeIterator.h" />
-    <ClInclude Include="Ndarray.h" />
+    <ClInclude Include="Tensor.h" />
     <ClInclude Include="Shared_ptr.h">
       <Filter>OOP</Filter>
     </ClInclude>
@@ -78,7 +78,7 @@
     <ClCompile Include="Vector.c" />
     <ClCompile Include="redBlackTree.c" />
     <ClCompile Include="redBlackTreeIterator.c" />
-    <ClCompile Include="Ndarray.c" />
+    <ClCompile Include="Tensor.c" />
     <ClCompile Include="Shared_ptr.c">
       <Filter>OOP</Filter>
     </ClCompile>

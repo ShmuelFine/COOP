@@ -4,8 +4,8 @@
 // Generic type of class virtual tables
 typedef struct object_t object;
 typedef struct virtualTable_t {
-	void (*_ctor)(object* _this, ...);
-	void (*_dtor)(object* _this, ...);
+	int (*_ctor)(object* _this, ...);
+	int (*_dtor)(object* _this, ...);
 } virtualTable;
 
 

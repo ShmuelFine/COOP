@@ -20,7 +20,7 @@ END_DTOR
 
 MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, char** val_ptr);
 {
-	ASSERT_MSG(data_size == _this->elementSize, "Invalid Data Size");
+	THROW_MSG_UNLESS(data_size == _this->elementSize, "Invalid Data Size");
 
 	if (i + 1 > _this->capacity) // same as (i > size - 1), yet remember that capacity can be zero and this is an unsigned type.
 	{
@@ -42,24 +42,33 @@ IMPL_AT_OF_TYPE(int);
 IMPL_AT_OF_TYPE(char);
 IMPL_AT_OF_TYPE(float);
 
+
+MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
+{
+	CREATE(Shared_ptr, new_ptr) CALL;
+	void* new_buff = NULL;
+	NEW_ARRAY(new_buff, char, _this->elementSize* new_capacity);
+	ASSERT_NOT_NULL(new_buff);
+	FUN(&new_ptr, Reset), new_buff CALL;
+
+	if (_this->size > 0) {
+		memcpy(new_buff, _this->data.px, _this->elementSize * _this->capacity);
+	}
+
+	FUN(&_this->data, CopyFrom), & new_ptr CALL;
+
+	_this->capacity = new_capacity;
+}
+
+END_FUN;
 MEM_FUN_IMPL(GenericVector, __push_back_generic, char* buff, MEM_SIZE_T buff_size)
 {
-	ASSERT_MSG(buff_size == _this->elementSize, "Invalid Data Size");
+	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 	if (_this->size >= _this->capacity)
 	{
-		CREATE(Shared_ptr, new_ptr) CALL;
 		MEM_SIZE_T new_capacity = _this->capacity == 0 ? 1 : _this->capacity * 2;
-		void* new_buff;
-		NEW_ARRAY(new_buff, char, _this->elementSize * new_capacity);
-		FUN(&new_ptr, Reset), new_buff CALL;
 
-		if (_this->size > 0) {
-			memcpy(new_buff, _this->data.px, _this->elementSize * _this->capacity);
-		}
-
-		FUN(&_this->data, CopyFrom), & new_ptr CALL;
-
-		_this->capacity = new_capacity;
+		FUN(_this, resize), new_capacity CALL;
 	}
 	
 	char* placeToAssign = NULL;
@@ -69,6 +78,14 @@ MEM_FUN_IMPL(GenericVector, __push_back_generic, char* buff, MEM_SIZE_T buff_siz
 	_this->size++;
 }
 END_FUN;
+
+MEM_FUN_IMPL(GenericVector, zero_all);
+{
+	memset(_this->data.px, 0, _this->capacity);
+}
+END_FUN;
+
+
 
 
 #define IMPL_PUSH_OF_TYPE(type)\
@@ -83,7 +100,7 @@ IMPL_PUSH_OF_TYPE(float);
 
 MEM_FUN_IMPL(GenericVector, __pop_back_generic, char* buff, MEM_SIZE_T buff_size)
 {
-	ASSERT_MSG(buff_size == _this->elementSize, "Invalid Data Size");
+	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 
 	char* val_ptr = NULL;
 	FUN(_this, __at_generic), _this->size - 1, buff_size, &val_ptr CALL;
@@ -108,6 +125,8 @@ BIND(GenericVector, at_int);
 BIND(GenericVector, at_char);
 BIND(GenericVector, at_float);
 
+BIND(GenericVector, resize);
+
 BIND(GenericVector, __push_back_generic);
 BIND(GenericVector, push_back_int);
 BIND(GenericVector, push_back_char);
@@ -128,6 +147,7 @@ DEF_DERIVED_DTOR(Vector_ ##type, GenericVector) {} END_DERIVED_DTOR													
 MEM_FUN_IMPL(Vector_ ##type, push_back, type val) { FUN_BASE(_this, push_back_ ##type), val CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, pop_back, type * val)	{ FUN_BASE(_this, pop_back_ ##type), val CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, at, MEM_SIZE_T i, type * val) { FUN_BASE(_this, at_ ##type), i, val CALL; } END_FUN;	\
+MEM_FUN_IMPL(Vector_ ##type, resize, MEM_SIZE_T new_capacity) {FUN_BASE(_this, resize), new_capacity CALL; }END_FUN;\
 MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	printf("\n");																									\
 	char* format = " %d"; char first_type_name_letter = * #type;													\
@@ -155,13 +175,14 @@ IMPL_SPECIFIC_VECTOR_TYPE(int);
 IMPL_SPECIFIC_VECTOR_TYPE(char);
 IMPL_SPECIFIC_VECTOR_TYPE(float);
 
-
+//
 //DEF_DERIVED_CTOR(Vector_float, GenericVector) SUPER, sizeof(float) ME {} END_DERIVED_CTOR							
 //DEF_DERIVED_DTOR(Vector_float, GenericVector) {} END_DERIVED_DTOR													
 //																													
 //MEM_FUN_IMPL(Vector_float, push_back, float val) { FUN_BASE(_this, push_back_float), val CALL; } END_FUN;		
 //MEM_FUN_IMPL(Vector_float, pop_back, float * val)	{ FUN_BASE(_this, pop_back_float), val CALL; } END_FUN;		
 //MEM_FUN_IMPL(Vector_float, at, MEM_SIZE_T i, float * val) { FUN_BASE(_this, at_float), i, val CALL; } END_FUN;	
+//MEM_FUN_IMPL(Vector_float, resize, MEM_SIZE_T new_capacity) { FUN_BASE(_this, resize), new_capacity CALL; }END_FUN;
 //MEM_FUN_IMPL(Vector_float, print) {
 //	char* format = " %d";
 //	if ('f' == 'c') /*its a char type*/ format = "%c ";

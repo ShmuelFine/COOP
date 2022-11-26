@@ -1,6 +1,6 @@
 #include "NdarrayTest.h"
 #include "../COOP/ExportDefs.h"
-#include "../COOP/Ndarray.h"
+#include "../COOP/Tensor.h"
 #include "ScopeTester.h"
 
 TEST_FUN_IMPL(NDarray_Tests, init_sanity_case)
@@ -10,7 +10,7 @@ TEST_FUN_IMPL(NDarray_Tests, init_sanity_case)
 	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
 	//Act
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 
 	//Assert
 	NTEST_ASSERT(arr.size == 12);
@@ -34,7 +34,7 @@ TEST_FUN_IMPL(NDarray_Tests, init_invalid_dims)
 	int shape[] = { 0, 4 };
 
 	EXPECT_THROW;
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 	ASSERT_THROW;
 }
 END_FUN
@@ -48,7 +48,7 @@ TEST_FUN_IMPL(NDarray_Tests, init_invalid_shape)
 
 	TRY{
 		//Act
-		CREATE(Ndarray, arr), dims, shape CALL;
+		CREATE(Tensor, arr), dims, shape CALL;
 
 	//Assert
 	NTEST_ASSERT(false);
@@ -64,7 +64,7 @@ TEST_FUN_IMPL(NDarray_Tests, get_location_3D)
 	int shape[] = { 3, 4, 5 };
 	int pos[] = { 2,3,4 };
 	
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 
 	//Act
 	int actual = -1;
@@ -82,7 +82,7 @@ TEST_FUN_IMPL(NDarray_Tests, set_sanity_case)
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,3 };
 	
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 
 	//Act
 	FUN(&arr, set), pos, 5 CALL;
@@ -100,7 +100,7 @@ TEST_FUN_IMPL(NDarray_Tests, set_index_out_of_range)
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,4 };
 	
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 
 	TRY{
 		//Act
@@ -123,7 +123,7 @@ TEST_FUN_IMPL(NDarray_Tests, at_sanity_case)
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,3 };
 	
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 
 	//Act
 	FUN(&arr, set), pos, 5 CALL;
@@ -141,7 +141,7 @@ TEST_FUN_IMPL(NDarray_Tests, at_index_out_of_range)
 	int shape[] = { 3, 4 };
 	int pos[] = { 4,3 };
 	
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 
 	TRY{
 		//Act
@@ -164,7 +164,7 @@ TEST_FUN_IMPL(NDarray_Tests, fill_sanity_case)
 	int shape[] = { 3, 4 };
 	int pos[] = { 1,3 };
 	
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 
 	//Act
 	float val = 5;
@@ -184,7 +184,7 @@ TEST_FUN_IMPL(NDarray_Tests, contains_when_true)
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
 	
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 	int pos[] = { 2,2,2 };
 
 	//Act
@@ -204,7 +204,7 @@ TEST_FUN_IMPL(NDarray_Tests, contains_when_false)
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
 	
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 
 	//Act
 	float val = 5;
@@ -222,7 +222,7 @@ TEST_FUN_IMPL(NDarray_Tests, min_sanity_case)
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
 	
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 
 	//float values[] = { 4,5,2,7,4,3,6 };
 	//for (int i = 0; i < sizeof(values) / sizeof(float); i++)
@@ -250,11 +250,11 @@ TEST_FUN_IMPL(NDarray_Tests, max_sanity_case)
 	int dims = 3;
 	int shape[] = { 3, 4 ,5 };
 	
-	CREATE(Ndarray, arr), dims, shape CALL;
-	CREATE(Ndarray, arr1), dims, shape CALL;
-	CREATE(Ndarray, arr2), dims, shape CALL;
-	CREATE(Ndarray, arr3), dims, shape CALL;
-	CREATE(Ndarray, arr4), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
+	CREATE(Tensor, arr1), dims, shape CALL;
+	CREATE(Tensor, arr2), dims, shape CALL;
+	CREATE(Tensor, arr3), dims, shape CALL;
+	CREATE(Tensor, arr4), dims, shape CALL;
 
 	//float values[] = { 4,5,2,7,4,3,6 };
 	//for (int i = 0; i < sizeof(values) / sizeof(float); i++)
@@ -284,7 +284,7 @@ TEST_FUN_IMPL(NDarray_Tests, general_test)
 
 	//Act
 
-	CREATE(Ndarray, arr), dims, shape CALL;
+	CREATE(Tensor, arr), dims, shape CALL;
 	float value = 0;
 	for (int i = 0; i < shape[0]; i++) {
 		for (int j = 0; j < shape[1]; j++) {

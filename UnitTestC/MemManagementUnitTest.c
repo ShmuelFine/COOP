@@ -29,7 +29,7 @@ TEST_FUN_IMPL(MemoryManagementTest, Delete_WhenDeletingAllocMemory_ThenItFreesTh
 	//Act
 	int* buff;
 	NEW_VARIABLE(buff, int[11]);
-	DELETE_OBJ(buff);
+	DELETE(buff);
 
 	//Assert
 	NEW_VARIABLE(buff, int[11]);

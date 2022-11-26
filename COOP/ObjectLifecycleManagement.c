@@ -24,7 +24,7 @@ void FreeMostInnerScope(object* _scope_obj_list_ptr)
 	while (it->_next) {
 		if (it->_next->vTable != NULL)
 		{
-			it->_next->vTable->_dtor(it->_next);
+			DESTROY(it->_next);
 			it->_next = it->_next->_next;
 		}
 		else

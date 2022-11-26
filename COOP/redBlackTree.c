@@ -24,7 +24,7 @@ END_CTOR
 DEF_DTOR(redBlackTree)
 {
 	FUN(_this, destroyRecursive), _this->root CALL;
-	DELETE_OBJ(_this->head);
+	DELETE(_this->head);
 }
 END_DTOR
 
@@ -34,7 +34,7 @@ MEM_FUN_IMPL(redBlackTree, destroyRecursive, node* nodePtr)
 	{
 		FUN(_this, destroyRecursive), nodePtr->left CALL;
 		FUN(_this, destroyRecursive), nodePtr->right CALL;
-		DELETE_OBJ(nodePtr);
+		DELETE(nodePtr);
 	}
 }END_FUN;
 
@@ -463,7 +463,7 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node* dNode)
 				parent->right = NULL;
 			}
 		}
-		DELETE_OBJ(dNode);
+		DELETE(dNode);
 		RETURN;
 	}
 
@@ -473,7 +473,7 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node* dNode)
 			// dNode is _this->root, assign the value of replaceNode to dNode, and delete replaceNode 
 			dNode->data = replaceNode->data;
 			dNode->left = dNode->right = NULL;
-			DELETE_OBJ(replaceNode);
+			DELETE(replaceNode);
 		}
 		else {
 			// Detach dNode from tree and move replaceNode up 
@@ -483,7 +483,7 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node* dNode)
 			else {
 				parent->right = replaceNode;
 			}
-			DELETE_OBJ(dNode);
+			DELETE(dNode);
 			replaceNode->parent = parent;
 			if (uvBlack) {
 				// replaceNode and dNode both black, fix double black at replaceNode 

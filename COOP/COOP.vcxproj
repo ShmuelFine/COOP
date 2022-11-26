@@ -150,7 +150,7 @@
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="ICache.h" />
     <ClInclude Include="InheritenceDefMacros.h" />
-    <ClInclude Include="Ndarray.h" />
+    <ClInclude Include="Tensor.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectBaseStructs.h" />
     <ClInclude Include="ObjectLifecycleManagement.h" />
@@ -165,7 +165,7 @@
     <ClCompile Include="DynamicMemoryManagement.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="ICache.c" />
-    <ClCompile Include="Ndarray.c" />
+    <ClCompile Include="Tensor.c" />
     <ClCompile Include="ObjectLifecycleManagement.c" />
     <ClCompile Include="redBlackTree.c" />
     <ClCompile Include="redBlackTreeIterator.c" />
