@@ -54,7 +54,7 @@ MEM_FUN_IMPL(GenericVector, __push_back_generic, char* buff, MEM_SIZE_T buff_siz
 		FUN(&new_ptr, Reset), new_buff CALL;
 
 		if (_this->size > 0) {
-			memcpy(new_buff, _this->data.px, _this->size);
+			memcpy(new_buff, _this->data.px, _this->elementSize * _this->capacity);
 		}
 
 		FUN(&_this->data, CopyFrom), & new_ptr CALL;
@@ -129,6 +129,7 @@ MEM_FUN_IMPL(Vector_ ##type, push_back, type val) { FUN_BASE(_this, push_back_ #
 MEM_FUN_IMPL(Vector_ ##type, pop_back, type * val)	{ FUN_BASE(_this, pop_back_ ##type), val CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, at, MEM_SIZE_T i, type * val) { FUN_BASE(_this, at_ ##type), i, val CALL; } END_FUN;	\
 MEM_FUN_IMPL(Vector_ ##type, print) {																				\
+	printf("\n");																									\
 	char* format = " %d"; char first_type_name_letter = * #type;													\
 	if (first_type_name_letter == 'c') /*its a char type*/ format = "%c ";											\
 	else if (first_type_name_letter == 'f') /*its a float type*/ format = "%f ";									\
@@ -138,12 +139,14 @@ MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 		FUN(_this, at), i, & val CALL;																				\
 		printf(format, val); 																						\
 	} 																												\
+	printf("\n");																									\
 } END_FUN;																											\
 																													\
 INIT_DERIVED_CLASS(Vector_ ##type, GenericVector);																	\
 BIND(Vector_ ##type, push_back);																					\
 BIND(Vector_ ##type, pop_back);																						\
 BIND(Vector_ ##type, at);																							\
+BIND(Vector_ ##type, print);																							\
 END_INIT_CLASS(Vector_ ##type)																						
 
 ////////////////////////////////////////////////
