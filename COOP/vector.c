@@ -14,7 +14,7 @@ END_CTOR
 
 DEF_DTOR(GenericVector)
 {
-	FUN(&(_this->data), Release) CALL;
+	MFUN(&(_this->data), Release) CALL;
 }
 END_DTOR
 
@@ -31,16 +31,36 @@ MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, ch
 END_FUN;
 
 #define IMPL_AT_OF_TYPE(type)\
-MEM_FUN_IMPL(GenericVector, at_ ##type, MEM_SIZE_T i, type* val) {\
-	char * result;\
-	FUN(_this, __at_generic), i, sizeof(type), & result CALL;\
-	*val = *((type*)result);\
+MEM_FUN_IMPL(GenericVector, at_ ##type, MEM_SIZE_T i, type ** val_ptr) {\
+	MFUN(_this, __at_generic), i, sizeof(type), ((char*)*val_ptr) CALL;\
 }\
 END_FUN;
 
 IMPL_AT_OF_TYPE(int);
 IMPL_AT_OF_TYPE(char);
 IMPL_AT_OF_TYPE(float);
+
+#define IMPL_SET_OF_TYPE(type)\
+MEM_FUN_IMPL(GenericVector, set_ ##type, MEM_SIZE_T i, type val) {\
+	type * val_ptr = NULL;\
+	MFUN(_this, __at_generic), i, sizeof(type), ((char*)&val_ptr) CALL;\
+	ASSERT_NOT_NULL(val_ptr)\
+	*val_ptr = val;\
+}\
+END_FUN;
+
+IMPL_SET_OF_TYPE(int);
+IMPL_SET_OF_TYPE(char);
+IMPL_SET_OF_TYPE(float);
+
+#define IMPL_GET_OF_TYPE(type)\
+MEM_FUN_IMPL(GenericVector, get_ ##type, MEM_SIZE_T i, type * val) {\
+	type * val_ptr = NULL;\
+	MFUN(_this, __at_generic), i, sizeof(type), ((char*)&val_ptr) CALL;\
+	ASSERT_NOT_NULL(val_ptr)\
+	*val = *val_ptr;\
+}\
+END_FUN;
 
 
 MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
@@ -49,13 +69,13 @@ MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
 	void* new_buff = NULL;
 	NEW_ARRAY(new_buff, char, _this->elementSize* new_capacity);
 	ASSERT_NOT_NULL(new_buff);
-	FUN(&new_ptr, Reset), new_buff CALL;
+	MFUN(&new_ptr, Reset), new_buff CALL;
 
 	if (_this->size > 0) {
 		memcpy(new_buff, _this->data.px, _this->elementSize * _this->capacity);
 	}
 
-	FUN(&_this->data, CopyFrom), & new_ptr CALL;
+	MFUN(&_this->data, CopyFrom), & new_ptr CALL;
 
 	_this->capacity = new_capacity;
 }
@@ -68,11 +88,11 @@ MEM_FUN_IMPL(GenericVector, __push_back_generic, char* buff, MEM_SIZE_T buff_siz
 	{
 		MEM_SIZE_T new_capacity = _this->capacity == 0 ? 1 : _this->capacity * 2;
 
-		FUN(_this, resize), new_capacity CALL;
+		MFUN(_this, resize), new_capacity CALL;
 	}
 	
 	char* placeToAssign = NULL;
-	FUN(_this, __at_generic), _this->size, buff_size, &placeToAssign CALL;
+	MFUN(_this, __at_generic), _this->size, buff_size, &placeToAssign CALL;
 	ASSERT_NOT_NULL(placeToAssign);
 	memcpy(placeToAssign, buff, buff_size);
 	_this->size++;
@@ -90,7 +110,7 @@ END_FUN;
 
 #define IMPL_PUSH_OF_TYPE(type)\
 MEM_FUN_IMPL(GenericVector, push_back_ ##type, type val) {\
-	FUN(_this, __push_back_generic), (char*)& val, sizeof(type) CALL;\
+	MFUN(_this, __push_back_generic), (char*)& val, sizeof(type) CALL;\
 }END_FUN;
 
 IMPL_PUSH_OF_TYPE(int);
@@ -103,7 +123,7 @@ MEM_FUN_IMPL(GenericVector, __pop_back_generic, char* buff, MEM_SIZE_T buff_size
 	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 
 	char* val_ptr = NULL;
-	FUN(_this, __at_generic), _this->size - 1, buff_size, &val_ptr CALL;
+	MFUN(_this, __at_generic), _this->size - 1, buff_size, &val_ptr CALL;
 	ASSERT_NOT_NULL(val_ptr);
 	memcpy(buff, val_ptr, buff_size);
 	_this->size--;
@@ -112,7 +132,7 @@ END_FUN
 
 #define IMPL_POP_OF_TYPE(type)\
 MEM_FUN_IMPL(GenericVector, pop_back_ ##type, type * val) {\
-	FUN(_this, __pop_back_generic), (char*)val, sizeof(type) CALL;\
+	MFUN(_this, __pop_back_generic), (char*)val, sizeof(type) CALL;\
 }END_FUN;
 
 IMPL_POP_OF_TYPE(int);
@@ -146,7 +166,9 @@ DEF_DERIVED_DTOR(Vector_ ##type, GenericVector) {} END_DERIVED_DTOR													
 																													\
 MEM_FUN_IMPL(Vector_ ##type, push_back, type val) { FUN_BASE(_this, push_back_ ##type), val CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, pop_back, type * val)	{ FUN_BASE(_this, pop_back_ ##type), val CALL; } END_FUN;		\
-MEM_FUN_IMPL(Vector_ ##type, at, MEM_SIZE_T i, type * val) { FUN_BASE(_this, at_ ##type), i, val CALL; } END_FUN;	\
+MEM_FUN_IMPL(Vector_ ##type, at, MEM_SIZE_T i, type ** val_ptr) { FUN_BASE(_this, at_ ##type), i, val_ptr CALL; } END_FUN;	\
+MEM_FUN_IMPL(Vector_ ##type, get, MEM_SIZE_T i, type * val) { FUN_BASE(_this, get_ ##type), i, val CALL; } END_FUN;	\
+MEM_FUN_IMPL(Vector_ ##type, set, MEM_SIZE_T i, type val) { FUN_BASE(_this, set_ ##type), i, val CALL; } END_FUN;	\
 MEM_FUN_IMPL(Vector_ ##type, resize, MEM_SIZE_T new_capacity) {FUN_BASE(_this, resize), new_capacity CALL; }END_FUN;\
 MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	printf("\n");																									\
@@ -156,7 +178,7 @@ MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	type val;																										\
 	for (MEM_SIZE_T i = 0; i < _this->_base.size; i++) 																\
 	{ 																												\
-		FUN(_this, at), i, & val CALL;																				\
+		MFUN(_this, at), i, & val CALL;																				\
 		printf(format, val); 																						\
 	} 																												\
 	printf("\n");																									\
@@ -190,7 +212,7 @@ IMPL_SPECIFIC_VECTOR_TYPE(float);
 //	float val;
 //	for (int i = 0; i < _this->_base.size; i++) 
 //	{ 
-//		FUN(_this, at), i, & val CALL;
+//		MFUN(_this, at), i, & val CALL;
 //		printf(format, val); 
 //	} 
 //} END_FUN;

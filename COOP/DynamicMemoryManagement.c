@@ -12,7 +12,7 @@ FUN_IMPL(init_global_memory, int size, CACHE_TYPES type)
 {
 	if (TheGlobalCache != NULL) {
 		printf("Global cache is already initialized. Re-defining.\n");
-		TheGlobalCache->vTable->_dtor(TheGlobalCache);
+		DESTROY(TheGlobalCache);
 		free(TheGlobalCache);
 	}
 

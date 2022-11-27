@@ -23,7 +23,7 @@ END_CTOR
 //TODO: can I delete the memory with this pointer-nodePtr?
 DEF_DTOR(redBlackTree)
 {
-	FUN(_this, destroyRecursive), _this->root CALL;
+	MFUN(_this, destroyRecursive), _this->root CALL;
 	DELETE(_this->head);
 }
 END_DTOR
@@ -32,8 +32,8 @@ MEM_FUN_IMPL(redBlackTree, destroyRecursive, node* nodePtr)
 {
 	if (nodePtr != NULL)
 	{
-		FUN(_this, destroyRecursive), nodePtr->left CALL;
-		FUN(_this, destroyRecursive), nodePtr->right CALL;
+		MFUN(_this, destroyRecursive), nodePtr->left CALL;
+		MFUN(_this, destroyRecursive), nodePtr->right CALL;
 		DELETE(nodePtr);
 	}
 }END_FUN;
@@ -130,7 +130,7 @@ MEM_FUN_IMPL(redBlackTree, insertFixUp, node* pt)
 				   Left-rotation required */
 				if (pt == parent_pt->right)
 				{
-					FUN(_this, LeftRotate), parent_pt CALL;
+					MFUN(_this, LeftRotate), parent_pt CALL;
 					pt = parent_pt;
 					parent_pt = pt->parent;
 				}
@@ -138,7 +138,7 @@ MEM_FUN_IMPL(redBlackTree, insertFixUp, node* pt)
 				/* Case : 3
 				   pt is left child of its parent
 				   Right-rotation required */
-				FUN(_this, RightRotate), grand_parent_pt CALL;
+				MFUN(_this, RightRotate), grand_parent_pt CALL;
 
 				char c;
 				c = parent_pt->color;
@@ -172,7 +172,7 @@ MEM_FUN_IMPL(redBlackTree, insertFixUp, node* pt)
 				   Right-rotation required */
 				if (pt == parent_pt->left)
 				{
-					FUN(_this, RightRotate), parent_pt CALL;
+					MFUN(_this, RightRotate), parent_pt CALL;
 					pt = parent_pt;
 					parent_pt = pt->parent;
 				}
@@ -180,7 +180,7 @@ MEM_FUN_IMPL(redBlackTree, insertFixUp, node* pt)
 				/* Case : 3
 				   pt is right child of its parent
 				   Left-rotation required */
-				FUN(_this, LeftRotate), grand_parent_pt CALL;
+				MFUN(_this, LeftRotate), grand_parent_pt CALL;
 				char c;
 				c = parent_pt->color;
 				parent_pt->color = grand_parent_pt->color;
@@ -271,7 +271,7 @@ MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBoo
 
 		// call insertFixUp to fix red-black tree's property if it
 		// is violated due to insertion.
-		FUN(_this, insertFixUp), z CALL;
+		MFUN(_this, insertFixUp), z CALL;
 		*insertednode = z;
 
 		//if (z->data > _this->head->right->data)
@@ -296,7 +296,7 @@ MEM_FUN_IMPL(redBlackTree, inOrderTraversal, node* rootnode)
 	static int last = 0;
 	if (rootnode == NULL || rootnode->isHead == true)
 		RETURN;
-	FUN(_this, inOrderTraversal), rootnode->left CALL;
+	MFUN(_this, inOrderTraversal), rootnode->left CALL;
 	printf("Data: %d ", *(int*)(rootnode->data));
 	printf("Color: %c ", rootnode->color);
 	if (rootnode->parent->isHead)
@@ -309,7 +309,7 @@ MEM_FUN_IMPL(redBlackTree, inOrderTraversal, node* rootnode)
 		printf("Left: %d ", *(int*)(rootnode->left->data));
 	printf("\n");
 	//last = rootnode->data;
-	FUN(_this, inOrderTraversal), rootnode->right CALL;
+	MFUN(_this, inOrderTraversal), rootnode->right CALL;
 
 }END_FUN;
 
@@ -401,8 +401,8 @@ MEM_FUN_IMPL(redBlackTree, erase, void* val, int* numElemsErased)
 
 	CREATE(redBlackTreeIterator, rbIt), NULL CALL;
 
-	FUN(_this, find), val, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & valNode CALL;
+	MFUN(_this, find), val, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & valNode CALL;
 	//if they were not equal, we set nodePtr in the iterator that find returns
 	//to the header node, whose data is NULL
 	//if (valNode->data != val) 
@@ -412,7 +412,7 @@ MEM_FUN_IMPL(redBlackTree, erase, void* val, int* numElemsErased)
 		RETURN;
 	}
 
-	FUN(_this, deleteNode), valNode CALL;    *numElemsErased = 1;
+	MFUN(_this, deleteNode), valNode CALL;    *numElemsErased = 1;
 	_this->size--;
 }END_FUN;
 
@@ -423,7 +423,7 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node* dNode)
 {
 
 	node* replaceNode = NULL;
-	FUN(_this, findReplacingNode), dNode, & replaceNode CALL;
+	MFUN(_this, findReplacingNode), dNode, & replaceNode CALL;
 	// True when replaceNode and dNode are both black 
 	bool uvBlack = ((replaceNode == NULL || replaceNode->color == 'B') && (dNode->color == 'B'));
 	node* parent = dNode->parent, * sibling = NULL;
@@ -446,7 +446,7 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node* dNode)
 			if (uvBlack) {
 				// replaceNode and dNode both black 
 				// dNode is leaf, fix double black at dNode 
-				FUN(_this, fixDoubleBlack), dNode CALL;
+				MFUN(_this, fixDoubleBlack), dNode CALL;
 			}
 			else {
 				// replaceNode or dNode is red 
@@ -487,7 +487,7 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node* dNode)
 			replaceNode->parent = parent;
 			if (uvBlack) {
 				// replaceNode and dNode both black, fix double black at replaceNode 
-				FUN(_this, fixDoubleBlack), replaceNode CALL;
+				MFUN(_this, fixDoubleBlack), replaceNode CALL;
 			}
 			else {
 				// replaceNode or dNode red, color replaceNode black 
@@ -502,7 +502,7 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node* dNode)
 	temp = replaceNode->data;
 	replaceNode->data = dNode->data;
 	dNode->data = temp;
-	FUN(_this, deleteNode), replaceNode CALL;
+	MFUN(_this, deleteNode), replaceNode CALL;
 }END_FUN;
 
 MEM_FUN_IMPL(redBlackTree, fixDoubleBlack, node* node_p)
@@ -523,7 +523,7 @@ MEM_FUN_IMPL(redBlackTree, fixDoubleBlack, node* node_p)
 
 	if (sibling == NULL) {
 		// No sibling, double black pushed up 
-		FUN(_this, fixDoubleBlack), parent CALL;
+		MFUN(_this, fixDoubleBlack), parent CALL;
 	}
 	else {
 		if (sibling->color == 'R') {
@@ -532,14 +532,14 @@ MEM_FUN_IMPL(redBlackTree, fixDoubleBlack, node* node_p)
 			sibling->color = 'B';
 			if (sibling == sibling->parent->left) {
 				// left case 
-				FUN(_this, RightRotate), parent CALL;
+				MFUN(_this, RightRotate), parent CALL;
 			}
 			else {
 				// right case 
-				FUN(_this, LeftRotate), parent CALL;
+				MFUN(_this, LeftRotate), parent CALL;
 
 			}
-			FUN(_this, fixDoubleBlack), node_p CALL;
+			MFUN(_this, fixDoubleBlack), node_p CALL;
 		}
 		else {
 			// Sibling black 
@@ -551,27 +551,27 @@ MEM_FUN_IMPL(redBlackTree, fixDoubleBlack, node* node_p)
 						// left left 
 						sibling->left->color = sibling->color;
 						sibling->color = parent->color;
-						FUN(_this, RightRotate), parent CALL;
+						MFUN(_this, RightRotate), parent CALL;
 					}
 					else {
 						// right left 
 						sibling->left->color = parent->color;
-						FUN(_this, RightRotate), sibling CALL;
-						FUN(_this, LeftRotate), parent CALL;
+						MFUN(_this, RightRotate), sibling CALL;
+						MFUN(_this, LeftRotate), parent CALL;
 					}
 				}
 				else {
 					if (sibling == sibling->parent->left) {
 						// left right 
 						sibling->right->color = parent->color;
-						FUN(_this, LeftRotate), sibling CALL;
-						FUN(_this, RightRotate), parent CALL;
+						MFUN(_this, LeftRotate), sibling CALL;
+						MFUN(_this, RightRotate), parent CALL;
 					}
 					else {
 						// right right 
 						sibling->right->color = sibling->color;
 						sibling->color = parent->color;
-						FUN(_this, LeftRotate), parent CALL;
+						MFUN(_this, LeftRotate), parent CALL;
 					}
 				}
 				parent->color = 'B';
@@ -579,7 +579,7 @@ MEM_FUN_IMPL(redBlackTree, fixDoubleBlack, node* node_p)
 				// 2 black children 
 				sibling->color = 'R';
 				if (parent->color == 'B') {
-					FUN(_this, fixDoubleBlack), parent CALL;
+					MFUN(_this, fixDoubleBlack), parent CALL;
 				}
 				else {
 					parent->color = 'B';

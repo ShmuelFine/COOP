@@ -34,7 +34,7 @@ END_FUN
 
 MEM_FUN_IMPL(Shared_ptr, CopyTo, Shared_ptr* other)
 {
-	FUN(other, Release) CALL;
+	MFUN(other, Release) CALL;
 	other->px = _this->px;
 	other->pn = _this->pn;
 	(*(_this->pn))++;
@@ -43,7 +43,7 @@ END_FUN
 
 MEM_FUN_IMPL(Shared_ptr, CopyFrom, Shared_ptr const* other)
 {
-	FUN(_this, Release) CALL;
+	MFUN(_this, Release) CALL;
 	_this->px = other->px;
 	_this->pn = other->pn;
 	(*(_this->pn))++;

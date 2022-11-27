@@ -5,8 +5,9 @@
 #include "ExportDefs.h"
 #include "ObjectBaseStructs.h"
 
+
 COOP_API void _scope_obj_list_add(object* scope_list, object* obj);
-COOP_API void _scope_obj_list_free(object* scope_list);
+//COOP_API void _scope_obj_list_free(object* scope_list);
 COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 
 #define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
@@ -23,8 +24,8 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 	REGISTER_OBJECT(&instance_name);								\
 	INITIALIZE_INSTANCE(type, instance_name)
 
-#define DESTROY(instance_ptr)\
-{ int _retVal_ = (instance_ptr)->vTable->_dtor(instance_ptr); }
+// D'TOR IS NOT ALLOWED TO THROW... otherwise it creates a cyclic dependence with FreeMostInnerScope.
+#define DESTROY(instance_ptr) {if (instance_ptr) (instance_ptr)->vTable->_dtor(instance_ptr);}
 
 // The obj lifecycle built upon scopes, that has to account with exception handling:
 
@@ -83,6 +84,11 @@ return __RET_VAL__; \
 { FreeMostInnerScope(&_scope_obj_list); return __RET_VAL__; }
 
 #define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)
+
+#define FUN(_this, funcName)\
+{ int _retVal_ = funcName(
+
+#define CALL ); if (IN_THROWING_VALUE == _retVal_) {THROW;} } 
 
 #define ASSERT(x) if (!(x)) {THROW;}
 #define THROW_MSG_UNLESS(x, msg) if (!(x)) {THROW_MSG(msg);}

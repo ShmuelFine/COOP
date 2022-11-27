@@ -17,12 +17,12 @@ FUN_DECL(init_global_memory, int size, CACHE_TYPES type);
 
 #define NEW_VARIABLE(dest,whatToPutThere)\
 	{\
-		FUN(TheGlobalCache, AddNewBlock),(MEM_SIZE_T)(sizeof(whatToPutThere)),(void*)&(dest) CALL\
+		MFUN(TheGlobalCache, AddNewBlock),(MEM_SIZE_T)(sizeof(whatToPutThere)),(void*)&(dest) CALL\
 	}
 
 #define NEW_ARRAY(dest,type,howMuchToPutThere)\
 	{\
-		FUN(TheGlobalCache, AddNewBlock),(MEM_SIZE_T)(sizeof(type)*(howMuchToPutThere)),(void*)&(dest) CALL\
+		MFUN(TheGlobalCache, AddNewBlock),(MEM_SIZE_T)(sizeof(type)*(howMuchToPutThere)),(void*)&(dest) CALL\
 	}
 
 #define CREATE_PTR(type, instance_name)							\
@@ -31,7 +31,7 @@ FUN_DECL(init_global_memory, int size, CACHE_TYPES type);
 	ASSERT_NOT_NULL(instance_name);	\
 	INITIALIZE_INSTANCE(type, (*instance_name))
 
-#define DELETE(buff) FUN(TheGlobalCache, RemoveBlock), buff CALL buff = NULL
+#define DELETE(buff) MFUN(TheGlobalCache, RemoveBlock), buff CALL buff = NULL
 
 
 #endif

@@ -24,6 +24,6 @@ END_FUNCTIONS(Shared_ptr);
 #define CREATE_SHARED(type, shared_ptr_instance_name, ...)\
 CREATE_PTR(type, __ ##shared_ptr_instance_name ##__ ##type ##__ptr), __VA_ARGS__ CALL;\
 CREATE(Shared_ptr, shared_ptr_instance_name) CALL;\
-FUN(&shared_ptr_instance_name, Reset), __ ##shared_ptr_instance_name ##__ ##type ##__ptr CALL;
+MFUN(&shared_ptr_instance_name, Reset), __ ##shared_ptr_instance_name ##__ ##type ##__ptr CALL;
 
 #endif

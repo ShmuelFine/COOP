@@ -38,25 +38,25 @@ TEST_FUN_IMPL(RedBlackTreeTest, insert_SanityTest)
 	int a = 10, b = 20, c = 40, d = 30, e = 50, f = 25, g = 35,
 		h = 37, i = 10, j = 37;
 	//Act
-	FUN(&rbTree, insert), & a, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & b, & retPtr1, & retBool1 CALL;
-	FUN(&rbTree, insert), & c, & retPtr2, & retBool2 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr1 CALL;
-	FUN(&rbTree, insert), & d, & retPtr3, & retBool3 CALL;
-	FUN(&rbTree, insert), & e, & retPtr4, & retBool4 CALL;
-	FUN(&rbTree, insert), & f, & retPtr6, & retBool6 CALL;
-	FUN(&rbTree, insert), & g, & retPtr5, & retBool5 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr2 CALL;
-	FUN(&rbTree, insert), & h, & retPtr7, & retBool7 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr3 CALL;
-	FUN(&rbTree, insert), & i, & retPtr8, & retBool8 CALL;
-	FUN(&rbTree, insert), & j, & retPtr9, & retBool9 CALL;
+	MFUN(&rbTree, insert), & a, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & b, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & c, & retPtr2, & retBool2 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr1 CALL;
+	MFUN(&rbTree, insert), & d, & retPtr3, & retBool3 CALL;
+	MFUN(&rbTree, insert), & e, & retPtr4, & retBool4 CALL;
+	MFUN(&rbTree, insert), & f, & retPtr6, & retBool6 CALL;
+	MFUN(&rbTree, insert), & g, & retPtr5, & retBool5 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr2 CALL;
+	MFUN(&rbTree, insert), & h, & retPtr7, & retBool7 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr3 CALL;
+	MFUN(&rbTree, insert), & i, & retPtr8, & retBool8 CALL;
+	MFUN(&rbTree, insert), & j, & retPtr9, & retBool9 CALL;
 
 
-	FUN(&rbTree, getRootNode), & rootPtr CALL;
-	FUN(&rbTree, inOrderTraversal), rootPtr CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr CALL;
+	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
 
-	FUN(&rbTree, size), & treeSize CALL;
+	MFUN(&rbTree, size), & treeSize CALL;
 
 	//Assert
 	NTEST_ASSERT(retBool == true);
@@ -101,22 +101,22 @@ TEST_FUN_IMPL(RedBlackTreeTest, find_SanityTest)
 	bool retBool;
 	node* retPtr, * retNode1, * retNode2, * retNode3;
 	int a = 10, b = 20, c = 40, d = 30, e = 50, f = 65;
-	FUN(&rbTree, insert), & a, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & b, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & c, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & d, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & e, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & a, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & b, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & c, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & d, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & e, & retPtr, & retBool CALL;
 
 	CREATE(redBlackTreeIterator, rbIt), retPtr CALL;
 
-	FUN(&rbTree, find), & b, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode1 CALL;
+	MFUN(&rbTree, find), & b, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode1 CALL;
 
-	FUN(&rbTree, find), & e, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode2 CALL;
+	MFUN(&rbTree, find), & e, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode2 CALL;
 
-	FUN(&rbTree, find), & f, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode3 CALL;
+	MFUN(&rbTree, find), & f, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode3 CALL;
 
 	NTEST_ASSERT(*(int*)(retNode1->data) == 20);
 	NTEST_ASSERT(*(int*)(retNode2->data) == 50);
@@ -146,59 +146,59 @@ TEST_FUN_IMPL(RedBlackTreeTest, delete_SanityTest)
 	int a = 7, b = 3, c = 18, d = 10, e = 22, f = 8, g = 11, h = 26,
 		i = 2, j = 6, k = 13, l = 35;
 	//Act
-	FUN(&rbTree, insert), & a, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & b, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & c, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & d, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & e, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & f, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & g, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & h, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & i, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & j, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & k, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & a, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & b, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & c, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & d, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & e, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & f, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & g, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & h, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & i, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & j, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & k, & retPtr, & retBool CALL;
 
-	FUN(&rbTree, erase), & c, & numElemsErased1 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr CALL;
+	MFUN(&rbTree, erase), & c, & numElemsErased1 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	NTEST_ASSERT(*(int*)(rootPtr->data) == 10);
 	NTEST_ASSERT(*(int*)(rootPtr->right->data) == 13);
 
-	FUN(&rbTree, erase), & a, & numElemsErased2 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr CALL;
+	MFUN(&rbTree, erase), & a, & numElemsErased2 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	NTEST_ASSERT(*(int*)(rootPtr->data) == 10);
 	NTEST_ASSERT(*(int*)(rootPtr->left->data) == 6);
 
-	FUN(&rbTree, erase), & d, & numElemsErased3 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr CALL;
+	MFUN(&rbTree, erase), & d, & numElemsErased3 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	NTEST_ASSERT(*(int*)(rootPtr->data) == 8);
 	NTEST_ASSERT(*(int*)(rootPtr->left->data) == 3);
 	NTEST_ASSERT(*(int*)(rootPtr->right->data) == 13);
-	FUN(&rbTree, size), & treeSize CALL;
+	MFUN(&rbTree, size), & treeSize CALL;
 
-	FUN(&rbTree, erase), & l, & numElemsErased4 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr CALL;
+	MFUN(&rbTree, erase), & l, & numElemsErased4 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	NTEST_ASSERT(*(int*)(rootPtr->data) == 8);
-	FUN(&rbTree, size), & treeSize1 CALL;
+	MFUN(&rbTree, size), & treeSize1 CALL;
 
-	FUN(&rbTree, getRootNode), & rootPtr CALL;
-	FUN(&rbTree, inOrderTraversal), rootPtr CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr CALL;
+	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
 
 	CREATE(redBlackTreeIterator, rbIt), retPtr CALL;
 
-	FUN(&rbTree, find), & c, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode1 CALL;
+	MFUN(&rbTree, find), & c, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode1 CALL;
 
-	FUN(&rbTree, find), & a, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode2 CALL;
+	MFUN(&rbTree, find), & a, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode2 CALL;
 
-	FUN(&rbTree, find), & d, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode3 CALL;
+	MFUN(&rbTree, find), & d, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode3 CALL;
 
-	FUN(&rbTree, find), & l, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode4 CALL;
+	MFUN(&rbTree, find), & l, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode4 CALL;
 
-	FUN(&rbTree, find), & k, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode5 CALL;
+	MFUN(&rbTree, find), & k, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode5 CALL;
 
 	//Assert
 	//check that the correct number of deleted elements is returned
@@ -235,25 +235,25 @@ TEST_FUN_IMPL(RedBlackTreeTest, iteration_SanityTest)
 	int a = 7, b = 3, c = 18, d = 10, e = 22, f = 8, g = 11, h = 26,
 		i = 2, j = 6, k = 13;
 
-	FUN(&rbTree, insert), & a, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & b, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & c, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & d, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & e, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & f, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & g, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & h, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & i, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & j, & retPtr, & retBool CALL;
-	FUN(&rbTree, insert), & k, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & a, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & b, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & c, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & d, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & e, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & f, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & g, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & h, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & i, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & j, & retPtr, & retBool CALL;
+	MFUN(&rbTree, insert), & k, & retPtr, & retBool CALL;
 
 	CREATE(redBlackTreeIterator, beginIt), retPtr CALL;
-	FUN(&rbTree, begin), & beginIt CALL;
-	FUN(&beginIt, getContentsOf), & beginNode CALL;
+	MFUN(&rbTree, begin), & beginIt CALL;
+	MFUN(&beginIt, getContentsOf), & beginNode CALL;
 
 	CREATE(redBlackTreeIterator, endIt), retPtr CALL;
-	FUN(&rbTree, end), & endIt CALL;
-	FUN(&endIt, getContentsOf), & endNode CALL;
+	MFUN(&rbTree, end), & endIt CALL;
+	MFUN(&endIt, getContentsOf), & endNode CALL;
 
 	//should be 2, 3, 6, 7, 8, 10, 11, 13, 18, 22, 26
 	bool isAtEnd = false;
@@ -262,12 +262,12 @@ TEST_FUN_IMPL(RedBlackTreeTest, iteration_SanityTest)
 		SCOPE_START;
 		node* intermediateNode = NULL;
 		int intermediateVal = 0;
-		FUN(&beginIt, getContentsOf), & intermediateNode CALL;
+		MFUN(&beginIt, getContentsOf), & intermediateNode CALL;
 		intermediateVal = *(int*)(intermediateNode->data);
 		printf("%d ", intermediateVal);
 
-		FUN(&beginIt, increment) CALL;
-		FUN(&beginIt, equals), endIt, & isAtEnd CALL;
+		MFUN(&beginIt, increment) CALL;
+		MFUN(&beginIt, equals), endIt, & isAtEnd CALL;
 		END_SCOPE;
 	}
 
@@ -300,39 +300,39 @@ TEST_FUN_IMPL(RedBlackTreeTest, rectangle_as_node_data_insert_SanityTest)
 	CREATE(Rectangle, rect7), 7, 7 CALL;
 
 	//test insert operation
-	FUN(&rbTree, insert), & rect1, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & rect1, & retPtr1, & retBool1 CALL;
 
-	FUN(&rbTree, getRootNode), & rootPtr1 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr1 CALL;
 	NTEST_ASSERT((*(Rectangle*)(rootPtr1->data)).width == 1);
 	NTEST_ASSERT(retBool1 == true);
 	NTEST_ASSERT((*(Rectangle*)(retPtr1->data)).width == 1);
 
-	FUN(&rbTree, insert), & rect2, & retPtr2, & retBool2 CALL;
+	MFUN(&rbTree, insert), & rect2, & retPtr2, & retBool2 CALL;
 
-	FUN(&rbTree, getRootNode), & rootPtr2 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr2 CALL;
 	NTEST_ASSERT((*(Rectangle*)(rootPtr2->data)).width == 1);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr2->right->data)).width == 2);
 	NTEST_ASSERT(retBool2 == true);
 	NTEST_ASSERT((*(Rectangle*)(retPtr2->data)).width == 2);
 
-	FUN(&rbTree, insert), & rect3, & retPtr3, & retBool3 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr3 CALL;
+	MFUN(&rbTree, insert), & rect3, & retPtr3, & retBool3 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr3 CALL;
 	NTEST_ASSERT((*(Rectangle*)(rootPtr3->data)).width == 2);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr3->right->data)).width == 3);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr3->left->data)).width == 1);
 	NTEST_ASSERT(retBool3 == true);
 	NTEST_ASSERT((*(Rectangle*)(retPtr3->data)).width == 3);
 
-	FUN(&rbTree, insert), & rect4, & retPtr4, & retBool4 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr4 CALL;
+	MFUN(&rbTree, insert), & rect4, & retPtr4, & retBool4 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr4 CALL;
 	NTEST_ASSERT((*(Rectangle*)(rootPtr4->data)).width == 2);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr4->right->right->data)).width == 4);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr4->left->data)).width == 1);
 	NTEST_ASSERT(retBool4 == true);
 	NTEST_ASSERT((*(Rectangle*)(retPtr4->data)).width == 4);
 
-	FUN(&rbTree, insert), & rect5, & retPtr5, & retBool5 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr5 CALL;
+	MFUN(&rbTree, insert), & rect5, & retPtr5, & retBool5 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr5 CALL;
 	NTEST_ASSERT((*(Rectangle*)(rootPtr5->data)).width == 2);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr5->right->data)).width == 4);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr5->right->right->data)).width == 5);
@@ -341,15 +341,15 @@ TEST_FUN_IMPL(RedBlackTreeTest, rectangle_as_node_data_insert_SanityTest)
 	NTEST_ASSERT(retBool5 == true);
 	NTEST_ASSERT((*(Rectangle*)(retPtr5->data)).width == 5);
 
-	FUN(&rbTree, insert), & rect6, & retPtr6, & retBool6 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr6 CALL;
+	MFUN(&rbTree, insert), & rect6, & retPtr6, & retBool6 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr6 CALL;
 
 	NTEST_ASSERT((*(Rectangle*)(rootPtr6->data)).width == 2);
 	NTEST_ASSERT(retBool6 == true);
 	NTEST_ASSERT((*(Rectangle*)(retPtr6->data)).width == 6);
 
-	FUN(&rbTree, insert), & rect7, & retPtr7, & retBool7 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr7 CALL;
+	MFUN(&rbTree, insert), & rect7, & retPtr7, & retBool7 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr7 CALL;
 	NTEST_ASSERT((*(Rectangle*)(rootPtr7->data)).width == 2);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr7->left->data)).width == 1);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr7->right->data)).width == 4);
@@ -359,7 +359,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, rectangle_as_node_data_insert_SanityTest)
 	NTEST_ASSERT(retBool7 == true);
 	NTEST_ASSERT((*(Rectangle*)(retPtr7->data)).width == 7);
 
-	FUN(&rbTree, insert), & rect3, & retPtr8, & retBool8 CALL;
+	MFUN(&rbTree, insert), & rect3, & retPtr8, & retBool8 CALL;
 	NTEST_ASSERT(retBool8 == false);
 	NTEST_ASSERT((*(Rectangle*)(retPtr8->data)).width == 3);
 	NTEST_ASSERT(retPtr8 == retPtr3);
@@ -380,23 +380,23 @@ TEST_FUN_IMPL(RedBlackTreeTest, rectangle_as_node_data_find_SanityTest)
 	CREATE(Rectangle, rect3), 3, 3 CALL;
 	CREATE(Rectangle, rect4), 4, 4 CALL;
 
-	FUN(&rbTree, insert), & rect1, & retPtr1, & retBool1 CALL;
-	FUN(&rbTree, insert), & rect2, & retPtr1, & retBool1 CALL;
-	FUN(&rbTree, insert), & rect3, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & rect1, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & rect2, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & rect3, & retPtr1, & retBool1 CALL;
 
 	CREATE(redBlackTreeIterator, rbIt), retPtr1 CALL;
 
-	FUN(&rbTree, find), & rect1, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode1 CALL;
+	MFUN(&rbTree, find), & rect1, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode1 CALL;
 
-	FUN(&rbTree, find), & rect2, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode2 CALL;
+	MFUN(&rbTree, find), & rect2, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode2 CALL;
 
-	FUN(&rbTree, find), & rect3, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode3 CALL;
+	MFUN(&rbTree, find), & rect3, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode3 CALL;
 
-	FUN(&rbTree, find), & rect4, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode4 CALL;
+	MFUN(&rbTree, find), & rect4, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode4 CALL;
 
 	NTEST_ASSERT((*(Rectangle*)(retNode1->data)).width == 1);
 	NTEST_ASSERT((Rectangle*)(retNode1->data) = &rect1);
@@ -430,36 +430,36 @@ TEST_FUN_IMPL(RedBlackTreeTest, rectangle_as_node_data_delete_SanityTest)
 	CREATE(Rectangle, rect6), 6, 6 CALL;
 	CREATE(Rectangle, rect7), 7, 7 CALL;
 
-	FUN(&rbTree, insert), & rect1, & retPtr1, & retBool1 CALL;
-	FUN(&rbTree, insert), & rect2, & retPtr1, & retBool1 CALL;
-	FUN(&rbTree, insert), & rect3, & retPtr1, & retBool1 CALL;
-	FUN(&rbTree, insert), & rect4, & retPtr1, & retBool1 CALL;
-	FUN(&rbTree, insert), & rect5, & retPtr1, & retBool1 CALL;
-	FUN(&rbTree, insert), & rect6, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & rect1, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & rect2, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & rect3, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & rect4, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & rect5, & retPtr1, & retBool1 CALL;
+	MFUN(&rbTree, insert), & rect6, & retPtr1, & retBool1 CALL;
 
-	FUN(&rbTree, erase), & rect2, & numElemsErased1 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr1 CALL;
+	MFUN(&rbTree, erase), & rect2, & numElemsErased1 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr1 CALL;
 	NTEST_ASSERT((*(Rectangle*)(rootPtr1->data)).width == 4);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr1->left->data)).width == 1);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr1->right->data)).width == 5);
 	NTEST_ASSERT(numElemsErased1 == 1);
 
-	FUN(&rbTree, erase), & rect5, & numElemsErased2 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr2 CALL;
+	MFUN(&rbTree, erase), & rect5, & numElemsErased2 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr2 CALL;
 	NTEST_ASSERT((*(Rectangle*)(rootPtr2->data)).width == 4);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr1->left->data)).width == 1);
 	NTEST_ASSERT((*(Rectangle*)(rootPtr1->right->data)).width == 6);
 	NTEST_ASSERT(numElemsErased2 == 1);
 
-	FUN(&rbTree, erase), & rect7, & numElemsErased3 CALL;
-	FUN(&rbTree, getRootNode), & rootPtr3 CALL;
+	MFUN(&rbTree, erase), & rect7, & numElemsErased3 CALL;
+	MFUN(&rbTree, getRootNode), & rootPtr3 CALL;
 	NTEST_ASSERT((*(Rectangle*)(rootPtr3->data)).width == 4);
 	NTEST_ASSERT(numElemsErased3 == 0);
 
 	CREATE(redBlackTreeIterator, rbIt), retPtr1 CALL;
 
-	FUN(&rbTree, find), & rect5, & rbIt CALL;
-	FUN(&rbIt, getContentsOf), & retNode CALL;
+	MFUN(&rbTree, find), & rect5, & rbIt CALL;
+	MFUN(&rbIt, getContentsOf), & retNode CALL;
 
 	NTEST_ASSERT(retNode->data == NULL); //value of header node (end());
 }END_FUN;

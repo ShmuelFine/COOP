@@ -23,7 +23,7 @@ TEST_FUN_IMPL(ExceptionTests, WhenThrownFromWithinFunction_ThenGoesStraightToSco
 
 	EXPECT_THROW;
 	// Cause throwing from within a func:
-	FUN(&s, ThrowingIfEQ), 3, 3 CALL;
+	MFUN(&s, ThrowingIfEQ), 3, 3 CALL;
 	exception_tester++;
 	ASSERT_THROW;
 
@@ -43,7 +43,7 @@ TEST_FUN_IMPL(ExceptionTests, CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing
 		{
 			CREATE(ScopeTester,s), (feedback + 0) CALL;
 			// cause throwing from within a function
-			FUN(&s, ThrowingIfEQ), 3, 3 CALL;
+			MFUN(&s, ThrowingIfEQ), 3, 3 CALL;
 		} CATCH {
 			isCaught = true;
 		}END_TRY;

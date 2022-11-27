@@ -16,14 +16,14 @@ TEST_FUN_IMPL(SharedPtrTest, check_type_char)
 	NEW_VARIABLE(j, char);
 	*j = 'b';
 
-	FUN(&ptr, Reset), i CALL;//a
-	FUN(&ptr2, Reset), j CALL;//b
+	MFUN(&ptr, Reset), i CALL;//a
+	MFUN(&ptr2, Reset), j CALL;//b
 
 	NTEST_ASSERT(*GET(ptr2, char) == 'b');
 
 	// Act 
-	FUN(&ptr, CopyTo), & ptr2 CALL;
-	FUN(&ptr2, CopyFrom), & ptr CALL;
+	MFUN(&ptr, CopyTo), & ptr2 CALL;
+	MFUN(&ptr2, CopyFrom), & ptr CALL;
 
 	// Assert
 	NTEST_ASSERT(*GET(ptr2, char) == 'a');
@@ -33,10 +33,10 @@ TEST_FUN_IMPL(SharedPtrTest, check_type_char)
 	NTEST_ASSERT(*GET(ptr2, char) == 'c');
 
 	bool is_empty = true;
-	FUN(&ptr, IsEmpty), & is_empty CALL;
+	MFUN(&ptr, IsEmpty), & is_empty CALL;
 	NTEST_ASSERT(is_empty == false);
 
-	FUN(&ptr, Release) CALL;
+	MFUN(&ptr, Release) CALL;
 
 }END_FUN
 
@@ -50,21 +50,21 @@ TEST_FUN_IMPL(SharedPtrTest, pointing_to_class_test)
 	CREATE_PTR(BaseClassExample, B), 10, 3 CALL;
 	CREATE_PTR(BaseClassExample, C), 3, 10 CALL;
 
-	FUN(&ptr, Reset), B CALL;
-	FUN(&ptr2, Reset), C CALL;
+	MFUN(&ptr, Reset), B CALL;
+	MFUN(&ptr2, Reset), C CALL;
 
 	NTEST_ASSERT(ptr.px == B);
 	// Act
-	FUN(&ptr, CopyTo), & ptr2 CALL;
+	MFUN(&ptr, CopyTo), & ptr2 CALL;
 
-	FUN(&ptr2, CopyFrom), & ptr CALL;
+	MFUN(&ptr2, CopyFrom), & ptr CALL;
 
 
 	bool is_empty = true;
-	FUN(&ptr, IsEmpty), & is_empty CALL;
+	MFUN(&ptr, IsEmpty), & is_empty CALL;
 	NTEST_ASSERT(is_empty == false);
 
-	FUN(&ptr, Release) CALL;
+	MFUN(&ptr, Release) CALL;
 
 
 }
@@ -87,14 +87,14 @@ TEST_FUN_IMPL(SharedPtrTest, CopyTo__PointsOnTheSameValue)
 	*j = 300;
 
 
-	FUN(&ptr, Reset), i CALL;//110
-	FUN(&ptr2, Reset), j CALL;//300
+	MFUN(&ptr, Reset), i CALL;//110
+	MFUN(&ptr2, Reset), j CALL;//300
 
 	NTEST_ASSERT(*GET(ptr2, int) == 300);
 
 	// Act
-	FUN(&ptr, CopyTo), & ptr2 CALL;
-	FUN(&ptr2, CopyFrom), & ptr CALL;
+	MFUN(&ptr, CopyTo), & ptr2 CALL;
+	MFUN(&ptr2, CopyFrom), & ptr CALL;
 
 	// Assert
 	NTEST_ASSERT(*GET(ptr2, int) == 110);
@@ -104,10 +104,10 @@ TEST_FUN_IMPL(SharedPtrTest, CopyTo__PointsOnTheSameValue)
 	NTEST_ASSERT(*GET(ptr2, int) == 220);
 
 	bool is_empty = true;
-	FUN(&ptr, IsEmpty), & is_empty CALL;
+	MFUN(&ptr, IsEmpty), & is_empty CALL;
 	NTEST_ASSERT(is_empty == false);
 
-	FUN(&ptr, Release) CALL;
+	MFUN(&ptr, Release) CALL;
 
 
 }
@@ -128,17 +128,17 @@ TEST_FUN_IMPL(SharedPtrTest, check_type)
 	NEW_VARIABLE(j, float);
 	*j = 300.3f;
 
-	FUN(&ptr, Reset), i CALL;//10.5
-	FUN(&ptr2, Reset), j CALL;//300.3
+	MFUN(&ptr, Reset), i CALL;//10.5
+	MFUN(&ptr2, Reset), j CALL;//300.3
 
 	float tst1 = *GET(ptr2, float);
 	bool isOK = (300.3 - 0.01 < tst1) && (tst1 < 300.3 + 0.01);
 	NTEST_ASSERT(isOK);
 	// Act 
-	FUN(&ptr, CopyTo), & ptr2 CALL;
+	MFUN(&ptr, CopyTo), & ptr2 CALL;
 
 
-	FUN(&ptr2, CopyFrom), & ptr CALL;
+	MFUN(&ptr2, CopyFrom), & ptr CALL;
 
 	// Assert
 	NTEST_ASSERT(*GET(ptr2, float) == 10.5);
@@ -148,10 +148,10 @@ TEST_FUN_IMPL(SharedPtrTest, check_type)
 	NTEST_ASSERT(*GET(ptr2, float) == 12.5);
 
 	bool is_empty = true;
-	FUN(&ptr, IsEmpty), & is_empty CALL;
+	MFUN(&ptr, IsEmpty), & is_empty CALL;
 	NTEST_ASSERT(is_empty == false);
 
-	FUN(&ptr, Release) CALL;
+	MFUN(&ptr, Release) CALL;
 
 }END_FUN
 

@@ -24,7 +24,7 @@ TEST_FUN_IMPL(InheritanceTest, WhenVirtualFunctionOverriden_ThenCallInvokesOverr
 	//Act
 	expectedVolume = cube._base.width * cube._base.hight * cube.depth;
 
-	FUN(&cube, GetVolume), & actualVolume CALL;
+	MFUN(&cube, GetVolume), & actualVolume CALL;
 
 	//Assert
 	NTEST_ASSERT(expectedVolume == actualVolume);
@@ -38,7 +38,7 @@ TEST_FUN_IMPL(InheritanceTest, WhenCallingNonVirtualFunciton_Sanity)
 	CREATE(DerivedClassExample, cube), 4, 5, 6 CALL;
 	// Act
 	int retVal;
-	FUN(&cube, JustReturn10), & retVal CALL;
+	MFUN(&cube, JustReturn10), & retVal CALL;
 	//Assert
 	NTEST_ASSERT(retVal == 10);
 

@@ -7,7 +7,7 @@
 // 
 //	// Act
 //	int retVal = 0;
-//	FUN( &hashTable,  insert), item, &retVal  CALL;
+//	MFUN( &hashTable,  insert), item, &retVal  CALL;
 //
 //	// Assert
 //	NTEST_ASSERT(retVal == 1);
@@ -24,8 +24,8 @@
 //
 //	// Act
 //	int retVal = -1;
-//	FUN(&hashTable, insert), item1, &retVal  CALL;
-//	FUN(&hashTable, insert), item2, &retVal  CALL;
+//	MFUN(&hashTable, insert), item1, &retVal  CALL;
+//	MFUN(&hashTable, insert), item2, &retVal  CALL;
 //
 //	// Assert
 //	NTEST_ASSERT(retVal == -1);
@@ -44,11 +44,11 @@
 //	DataItem* retVal = NULL;
 //	NEW_VARIABLE(retVal, DataItem*);
 //
-//	FUN(&hashTable, insert), item1,  retVal  CALL;
-//	FUN(&hashTable, insert), item2,  retVal  CALL;
-//	FUN(&hashTable, insert), item3,  retVal  CALL;
-//	FUN(&hashTable, insert), item4,  retVal  CALL;
-//	FUN(&hashTable, search), 6,  &retVal  CALL;
+//	MFUN(&hashTable, insert), item1,  retVal  CALL;
+//	MFUN(&hashTable, insert), item2,  retVal  CALL;
+//	MFUN(&hashTable, insert), item3,  retVal  CALL;
+//	MFUN(&hashTable, insert), item4,  retVal  CALL;
+//	MFUN(&hashTable, search), 6,  &retVal  CALL;
 //
 //	// Assert
 //	// //why not?
@@ -69,11 +69,11 @@
 //	DataItem* retVal = NULL;
 //	NEW_VARIABLE(retVal, DataItem*);
 //
-//	FUN(&hashTable, insert), item1, retVal  CALL;
-//	FUN(&hashTable, insert), item2, retVal  CALL;
-//	FUN(&hashTable, insert), item3, retVal  CALL;
-//	FUN(&hashTable, insert), item4, retVal  CALL;
-//	FUN(&hashTable, search), 1234, retVal  CALL;
+//	MFUN(&hashTable, insert), item1, retVal  CALL;
+//	MFUN(&hashTable, insert), item2, retVal  CALL;
+//	MFUN(&hashTable, insert), item3, retVal  CALL;
+//	MFUN(&hashTable, insert), item4, retVal  CALL;
+//	MFUN(&hashTable, search), 1234, retVal  CALL;
 //
 //	// Assert
 //	// //why not?
@@ -92,13 +92,13 @@
 //	int retVal =-1;
 //	
 //
-//	FUN(&hashTable, insert), item1, &retVal  CALL;
-//	FUN(&hashTable, insert), item2, &retVal  CALL;
+//	MFUN(&hashTable, insert), item1, &retVal  CALL;
+//	MFUN(&hashTable, insert), item2, &retVal  CALL;
 //
-//	FUN(&hashTable, deleteItem), item2.key, &retVal  CALL;
+//	MFUN(&hashTable, deleteItem), item2.key, &retVal  CALL;
 //	NTEST_ASSERT(retVal == 1);
 //
-//	FUN(&hashTable, search), item2.key, retVal  CALL;
+//	MFUN(&hashTable, search), item2.key, retVal  CALL;
 //	NTEST_ASSERT(retVal == 0);
 //
 //}END_FUN
