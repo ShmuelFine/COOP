@@ -8,7 +8,7 @@
 
 DEF_CLASS(Shared_ptr);
 void * px; // the pointed object
-int * pn; // ref count
+MEM_SIZE_T * pn; // ref count
 END_DEF(Shared_ptr);
 
 FUNCTIONS(Shared_ptr);
