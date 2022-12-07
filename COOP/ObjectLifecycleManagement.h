@@ -7,7 +7,6 @@
 
 
 COOP_API void _scope_obj_list_add(object* scope_list, object* obj);
-//COOP_API void _scope_obj_list_free(object* scope_list);
 COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 
 #define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
