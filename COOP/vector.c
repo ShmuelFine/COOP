@@ -29,13 +29,8 @@ MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, ch
 	*val_ptr = ((char*)_this->data.px) + _this->elementSize * i;
 }
 END_FUN;
-/*#define IMPL_AT_OF_TYPE(type)\
-MEM_FUN_IMPL(GenericVector, at_ ##type, MEM_SIZE_T i, type ** val_ptr) {\
-	char * val_char_ptr = NULL;\
-	MFUN(_this, __at_generic), i, sizeof(type), &val_char_ptr CALL;\
-	*val_ptr = (int*)val_char_ptr;\
-}\
-END_FUN;*/
+
+
 #define IMPL_AT_OF_TYPE(type)\
 MEM_FUN_IMPL(GenericVector, at_ ##type, MEM_SIZE_T i, type ** val_ptr) {\
 	MFUN(_this, __at_generic), i, sizeof(type), ((char**)val_ptr) CALL;\
@@ -46,8 +41,6 @@ IMPL_AT_OF_TYPE(int);
 IMPL_AT_OF_TYPE(char);
 IMPL_AT_OF_TYPE(float);
 IMPL_AT_OF_TYPE(object);
-
-
 
 
 #define IMPL_SET_OF_TYPE(type)\
@@ -63,7 +56,6 @@ IMPL_SET_OF_TYPE(int);
 IMPL_SET_OF_TYPE(char);
 IMPL_SET_OF_TYPE(float);
 IMPL_SET_OF_TYPE(object);
-
 
 
 #define IMPL_GET_OF_TYPE(type)\
