@@ -15,8 +15,8 @@ DEF_DTOR(Shared_ptr)
 		*(_this->pn) -= 1;
 		if (*(_this->pn) == 0)
 		{
-			DELETE(_this->pn);
-			DELETE(_this->px);
+			FREE(_this->pn);
+			FREE(_this->px);
 		}
 	}
 }
@@ -25,7 +25,7 @@ END_DTOR
 MEM_FUN_IMPL(Shared_ptr, Reset, void* newPtr)
 {
 	_this->px = newPtr;
-	NEW_VARIABLE(_this->pn, int);
+	ALLOC_VARIABLE(_this->pn, int);
 	*(_this->pn) = 1;
 
 }
@@ -57,8 +57,8 @@ MEM_FUN_IMPL(Shared_ptr, Release)
 		*(_this->pn) -= 1;
 		if (*(_this->pn) == 0)
 		{
-			DELETE(_this->pn);
-			DELETE(_this->px);
+			FREE(_this->pn);
+			FREE(_this->px);
 		}
 		_this->pn = NULL;
 		_this->px = NULL;

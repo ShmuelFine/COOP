@@ -3,51 +3,67 @@
 
 
 #include "coop.h"
-#include "redBlackTreeIterator.h"
 
-//https://gist.github.com/VictorGarritano/5f894be162d39e9bdd5c
+// following https://gist.github.com/VictorGarritano/5f894be162d39e9bdd5c
+///////////////////////////////////////////////////
+DEF_CLASS(RBTreeNode);
+object* data;
+bool isBlack;
+//bool isHead;
+struct RBTreeNode_t* left; 
+struct RBTreeNode_t* right;
+struct RBTreeNode_t* parent;
+END_DEF(RBTreeNode);
+FUNCTIONS(RBTreeNode);
+END_FUNCTIONS(RBTreeNode);
 
-//moved to redBlackTreeIterator.h because of forward declaration issues
-//A Red-Black tree node structure
-//typedef struct node_t
-//{
-//	int data;
-//	char color;
-//	bool isHead;
-//	struct node_t * left, * right, * parent;
-//}node;
+///////////////////////////////////////////////////
 
+DEF_CLASS(RedBlackTreeIterator);
+RBTreeNode* nodePtr;
+END_DEF(RedBlackTreeIterator);
 
-DEF_CLASS(redBlackTree);
-node* root;
-//head=>left child = root, right child = largest value, parent of root
-node* head;
+FUNCTIONS(RedBlackTreeIterator, RBTreeNode* node_ptr);
+MEM_FUN_DECL(RedBlackTreeIterator, next);
+MEM_FUN_DECL(RedBlackTreeIterator, equals, RedBlackTreeIterator other, bool* retVal);
+END_FUNCTIONS(RedBlackTreeIterator);
+
+///////////////////////////////////////////////////
+
+DEF_CLASS(RedBlackTree);
+RBTreeNode* root;
+
+// head->left=root; head->right=largest value, parent of root ???
+//RBTreeNode* head;
 int size;
-//<
-void (*comparisonFunctionPtr)(void*, void*, bool*);
-//int elementSize;
-END_DEF(redBlackTree);
+bool (*comparisonFunctionPtr)(object*, object*);
+END_DEF(RedBlackTree);
 
-FUNCTIONS(redBlackTree, /*ctor params:*/void (*compFunc)(void*, void*, bool*));
-MEM_FUN_DECL(redBlackTree, /*func. name:*/ LeftRotate, node* x);
-MEM_FUN_DECL(redBlackTree, RightRotate, node* y);
+FUNCTIONS(RedBlackTree, bool (*compFunc)(object*, object*));
+MEM_FUN_DECL(RedBlackTree, transplant, RBTreeNode* old_node, RBTreeNode* new_node);
+MEM_FUN_DECL(RedBlackTree, _rotateLeft, RBTreeNode* x);
+MEM_FUN_DECL(RedBlackTree, _rotateRight, RBTreeNode* y);
+
 //insert helper
-MEM_FUN_DECL(redBlackTree, insertFixUp, node* z);
-MEM_FUN_DECL(redBlackTree, insert, void* data, node** insertedNode, bool* retBool);
-MEM_FUN_DECL(redBlackTree, getRootNode, node** retRootNode);
-MEM_FUN_DECL(redBlackTree, inOrderTraversal, node* rootNode);
-MEM_FUN_DECL(redBlackTree, begin, redBlackTreeIterator* beginIter);
-MEM_FUN_DECL(redBlackTree, end, redBlackTreeIterator* endIter);
-MEM_FUN_DECL(redBlackTree, size, int* _size);
-MEM_FUN_DECL(redBlackTree, find, void* val, redBlackTreeIterator* foundVal);
-MEM_FUN_DECL(redBlackTree, erase, void* val, int* numElemsErased);
+MEM_FUN_DECL(RedBlackTree, _insertFixUp, RBTreeNode* z);
+MEM_FUN_DECL(RedBlackTree, insert, object* toInsert, RBTreeNode** OUT_insertedNode, bool* OUT_DidInsertionAddNewElement);
+MEM_FUN_DECL(RedBlackTree, getRootNode, RBTreeNode** retRootNode);
+MEM_FUN_DECL(RedBlackTree, printInOrderTraversal, RBTreeNode* rootNode, void (*printFunc)(object*));
+//MEM_FUN_DECL(RedBlackTree, begin, RedBlackTreeIterator* beginIter);
+//MEM_FUN_DECL(RedBlackTree, end, RedBlackTreeIterator* endIter);
+MEM_FUN_DECL(RedBlackTree, size, int* _size);
+MEM_FUN_DECL(RedBlackTree, find_closest, object* val, RBTreeNode** node, bool * isFound);
+MEM_FUN_DECL(RedBlackTree, find, object* val, RBTreeNode** node);
+MEM_FUN_DECL(RedBlackTree, erase, object* val, bool* isErased);
+
 //erase helpers
-MEM_FUN_DECL(redBlackTree, deleteNode, node* dNode);
-MEM_FUN_DECL(redBlackTree, fixDoubleBlack, node* node_p);
-MEM_FUN_DECL(redBlackTree, findReplacingNode, node* x, node** withWhat);
+MEM_FUN_DECL(RedBlackTree, _deleteNode, RBTreeNode* dNode);
+MEM_FUN_DECL(RedBlackTree, fixDoubleBlack, RBTreeNode* node_p);
+MEM_FUN_DECL(RedBlackTree, _findReplacingNode, RBTreeNode* x, RBTreeNode** withWhat);
+
 //destructor helper
-MEM_FUN_DECL(redBlackTree, destroyRecursive, node* nodePtr);
-END_FUNCTIONS(redBlackTree);
+MEM_FUN_DECL(RedBlackTree, _destroyRecursive, RBTreeNode* nodePtr);
+END_FUNCTIONS(RedBlackTree);
 
 
 

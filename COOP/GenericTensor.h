@@ -36,9 +36,3 @@ MEM_FUN_DECL(GenericTensor, reshape, MEM_SIZE_T ndim, MEM_SIZE_T* shape);
 MEM_FUN_DECL(GenericTensor, zero_all);
 
 END_FUNCTIONS(GenericTensor);
-
-//
-//MEM_FUN_DECL(GenericTensor, sum, float* ret_value);
-//MEM_FUN_DECL(GenericTensor, contains, float val, bool* ret_val);
-//MEM_FUN_DECL(GenericTensor, min, float* ret_val);
-//MEM_FUN_DECL(GenericTensor, max, float* ret_val);

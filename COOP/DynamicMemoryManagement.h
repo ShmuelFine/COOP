@@ -15,24 +15,28 @@ typedef enum CACHE_TYPES_t { STACK_BASED_MEMORY, HEAP_BASED_MEMORY, NUM_MEMORY_T
 FUN_DECL(init_global_memory, int size, CACHE_TYPES type);
 
 
-#define NEW_VARIABLE(dest,whatToPutThere)\
+#define ALLOC_VARIABLE(dest,whatToPutThere)\
 	{\
 		MFUN(TheGlobalCache, AddNewBlock),(MEM_SIZE_T)(sizeof(whatToPutThere)),(void*)&(dest) CALL\
 	}
 
-#define NEW_ARRAY(dest,type,howMuchToPutThere)\
+#define ALLOC_ARRAY(dest,type,howMuchToPutThere)\
 	{\
 		MFUN(TheGlobalCache, AddNewBlock),(MEM_SIZE_T)(sizeof(type)*(howMuchToPutThere)),(void*)&(dest) CALL\
 	}
 
-#define CREATE_PTR(type, instance_name)							\
-	type * instance_name = NULL;                  							\
-	NEW_VARIABLE(instance_name, type)\
+#define ALLOC_INIT_INSTANCE_PTR(type, instance_name)\
+	ALLOC_VARIABLE(instance_name, type)\
 	ASSERT_NOT_NULL(instance_name);	\
 	INITIALIZE_INSTANCE(type, (*instance_name))
 
-#define DELETE(buff) MFUN(TheGlobalCache, RemoveBlock), buff CALL;
-#define DESTROY_AND_DELETE(instance_ptr) {DESTROY(instance_ptr); DELETE(instance_ptr);}
+
+#define CREATE_PTR(type, instance_name)			\
+	type * instance_name = NULL;                \
+	ALLOC_INIT_INSTANCE_PTR(type, instance_name)
+
+#define FREE(buff) MFUN(TheGlobalCache, RemoveBlock), buff CALL;
+#define DELETE(instance_ptr) {DESTROY(instance_ptr); FREE(instance_ptr); instance_ptr = NULL;}
 
 
 #endif

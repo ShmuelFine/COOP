@@ -9,11 +9,11 @@ TEST_FUN_IMPL(SharedPtrTest, check_type_char)
 	CREATE(Shared_ptr, ptr2) CALL;
 
 	char* i = NULL;
-	NEW_VARIABLE(i, char);
+	ALLOC_VARIABLE(i, char);
 	*i = 'a';
 
 	char* j = NULL;
-	NEW_VARIABLE(j, char);
+	ALLOC_VARIABLE(j, char);
 	*j = 'b';
 
 	MFUN(&ptr, Reset), i CALL;//a
@@ -77,12 +77,12 @@ TEST_FUN_IMPL(SharedPtrTest, CopyTo__PointsOnTheSameValue)
 	CREATE(Shared_ptr, ptr2) CALL;
 
 	int* i = NULL;
-	NEW_VARIABLE(i, int);
+	ALLOC_VARIABLE(i, int);
 	ASSERT_NOT_NULL(i);
 	*i = 110;
 
 	int* j = NULL;
-	NEW_VARIABLE(j, int);
+	ALLOC_VARIABLE(j, int);
 	ASSERT_NOT_NULL(j);
 	*j = 300;
 
@@ -121,11 +121,11 @@ TEST_FUN_IMPL(SharedPtrTest, check_type)
 	CREATE(Shared_ptr, ptr2) CALL;
 
 	float* i = NULL;
-	NEW_VARIABLE(i, float);
+	ALLOC_VARIABLE(i, float);
 	*i = 10.5f;
 
 	float* j = NULL;
-	NEW_VARIABLE(j, float);
+	ALLOC_VARIABLE(j, float);
 	*j = 300.3f;
 
 	MFUN(&ptr, Reset), i CALL;//10.5

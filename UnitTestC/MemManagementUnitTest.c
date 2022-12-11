@@ -8,7 +8,7 @@ TEST_FUN_IMPL(MemoryManagementTest, NEW_AllocatesSufficientMemory)
 
 	//Act
 	int* buff = NULL;
-	NEW_ARRAY(buff, int, 20);
+	ALLOC_ARRAY(buff, int, 20);
 	ASSERT_NOT_NULL(buff);
 
 	// Assert:
@@ -28,11 +28,11 @@ TEST_FUN_IMPL(MemoryManagementTest, Delete_WhenDeletingAllocMemory_ThenItFreesTh
 	// max size of new block = 20 ints - 3xMDs = (20 - 3*3) ints
 	//Act
 	int* buff;
-	NEW_VARIABLE(buff, int[11]);
-	DELETE(buff);
+	ALLOC_VARIABLE(buff, int[11]);
+	FREE(buff);
 
 	//Assert
-	NEW_VARIABLE(buff, int[11]);
+	ALLOC_VARIABLE(buff, int[11]);
 	// if it throws - test failed
 
 }END_FUN

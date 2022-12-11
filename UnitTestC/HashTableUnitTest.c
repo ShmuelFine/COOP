@@ -42,7 +42,7 @@
 //
 //	// Act
 //	DataItem* retVal = NULL;
-//	NEW_VARIABLE(retVal, DataItem*);
+//	ALLOC_VARIABLE(retVal, DataItem*);
 //
 //	MFUN(&hashTable, insert), item1,  retVal  CALL;
 //	MFUN(&hashTable, insert), item2,  retVal  CALL;
@@ -67,7 +67,7 @@
 //
 //	// Act
 //	DataItem* retVal = NULL;
-//	NEW_VARIABLE(retVal, DataItem*);
+//	ALLOC_VARIABLE(retVal, DataItem*);
 //
 //	MFUN(&hashTable, insert), item1, retVal  CALL;
 //	MFUN(&hashTable, insert), item2, retVal  CALL;

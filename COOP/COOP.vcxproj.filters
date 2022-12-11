@@ -55,6 +55,9 @@
     <ClInclude Include="Shared_ptr.h">
       <Filter>OOP</Filter>
     </ClInclude>
+    <ClInclude Include="IHashable.h">
+      <Filter>OOP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InMemoryCache.c">

@@ -32,19 +32,19 @@ END_FUN;
 
 #define IMPL_AT_OF_TYPE(type)\
 MEM_FUN_IMPL(GenericVector, at_ ##type, MEM_SIZE_T i, type ** val_ptr) {\
-	MFUN(_this, __at_generic), i, sizeof(type), ((char*)*val_ptr) CALL;\
+	MFUN(_this, __at_generic), i, sizeof(type), ((char**)val_ptr) CALL;\
 }\
 END_FUN;
 
 IMPL_AT_OF_TYPE(int);
 IMPL_AT_OF_TYPE(char);
 IMPL_AT_OF_TYPE(float);
-//IMPL_AT_OF_TYPE(object);
+IMPL_AT_OF_TYPE(object);
 
 #define IMPL_SET_OF_TYPE(type)\
 MEM_FUN_IMPL(GenericVector, set_ ##type, MEM_SIZE_T i, type val) {\
 	type * val_ptr = NULL;\
-	MFUN(_this, __at_generic), i, sizeof(type), ((char*)&val_ptr) CALL;\
+	MFUN(_this, __at_generic), i, sizeof(type), ((char**)&val_ptr) CALL;\
 	ASSERT_NOT_NULL(val_ptr)\
 	*val_ptr = val;\
 }\
@@ -53,7 +53,7 @@ END_FUN;
 IMPL_SET_OF_TYPE(int);
 IMPL_SET_OF_TYPE(char);
 IMPL_SET_OF_TYPE(float);
-//IMPL_SET_OF_TYPE(object);
+IMPL_SET_OF_TYPE(object);
 
 #define IMPL_GET_OF_TYPE(type)\
 MEM_FUN_IMPL(GenericVector, get_ ##type, MEM_SIZE_T i, type * val) {\
@@ -69,7 +69,7 @@ MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
 {
 	CREATE(Shared_ptr, new_ptr) CALL;
 	void* new_buff = NULL;
-	NEW_ARRAY(new_buff, char, _this->elementSize* new_capacity);
+	ALLOC_ARRAY(new_buff, char, _this->elementSize* new_capacity);
 	ASSERT_NOT_NULL(new_buff);
 	MFUN(&new_ptr, Reset), new_buff CALL;
 
@@ -118,7 +118,7 @@ MEM_FUN_IMPL(GenericVector, push_back_ ##type, type val) {\
 IMPL_PUSH_OF_TYPE(int);
 IMPL_PUSH_OF_TYPE(char);
 IMPL_PUSH_OF_TYPE(float);
-//IMPL_PUSH_OF_TYPE(object);
+IMPL_PUSH_OF_TYPE(object);
 
 
 MEM_FUN_IMPL(GenericVector, __pop_back_generic, char* buff, MEM_SIZE_T buff_size)
@@ -141,7 +141,7 @@ MEM_FUN_IMPL(GenericVector, pop_back_ ##type, type * val) {\
 IMPL_POP_OF_TYPE(int);
 IMPL_POP_OF_TYPE(char);
 IMPL_POP_OF_TYPE(float);
-//IMPL_POP_OF_TYPE(object);
+IMPL_POP_OF_TYPE(object);
 
 INIT_CLASS(GenericVector)
 BIND(GenericVector, __at_generic);
@@ -179,11 +179,11 @@ MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	char* format = " %d"; char first_type_name_letter = * #type;													\
 	if (first_type_name_letter == 'c') /*its a char type*/ format = "%c ";											\
 	else if (first_type_name_letter == 'f') /*its a float type*/ format = "%f ";									\
-	/*else if (first_type_name_letter == 'o') its a float type format = "object at %p, ";*/							\
+	else if (first_type_name_letter == 'o') /* its an object type*/ format = "%p ";								\
 	type val;																										\
 	for (MEM_SIZE_T i = 0; i < _this->_base.size; i++) 																\
 	{ 																												\
-		MFUN(_this, at), i, & val CALL;																				\
+		MFUN(_this, get), i, & val CALL;																				\
 		printf(format, val); 													\
 	} 																												\
 	printf("\n");																									\
@@ -201,32 +201,4 @@ END_INIT_CLASS(Vector_ ##type)
 IMPL_SPECIFIC_VECTOR_TYPE(int);
 IMPL_SPECIFIC_VECTOR_TYPE(char);
 IMPL_SPECIFIC_VECTOR_TYPE(float);
-//IMPL_SPECIFIC_VECTOR_TYPE(object);
-
-//
-//DEF_DERIVED_CTOR(Vector_object, GenericVector) SUPER, sizeof(object) ME {} END_DERIVED_CTOR							
-//DEF_DERIVED_DTOR(Vector_object, GenericVector) {} END_DERIVED_DTOR													
-//																													
-//MEM_FUN_IMPL(Vector_object, push_back, object val) { FUN_BASE(_this, push_back_object), val CALL; } END_FUN;		
-//MEM_FUN_IMPL(Vector_object, pop_back, object * val)	{ FUN_BASE(_this, pop_back_object), val CALL; } END_FUN;		
-//MEM_FUN_IMPL(Vector_object, at, MEM_SIZE_T i, object * val) { FUN_BASE(_this, at_object), i, val CALL; } END_FUN;	
-//MEM_FUN_IMPL(Vector_object, get, MEM_SIZE_T i, object* val) { FUN_BASE(_this, get_object), i, val CALL; } END_FUN;	\
-//MEM_FUN_IMPL(Vector_object, set, MEM_SIZE_T i, object val) { FUN_BASE(_this, set_object), i, val CALL; } END_FUN;	\
-//MEM_FUN_IMPL(Vector_object, resize, MEM_SIZE_T new_capacity) { FUN_BASE(_this, resize), new_capacity CALL; }END_FUN;
-//MEM_FUN_IMPL(Vector_object, print) {
-//	char* format = " %d";
-//	if ('f' == 'c') /*its a char type*/ format = "%c ";
-//	if ('f' == 'f') /*its a char type*/ format = "%f ";
-//	object val;
-//	for (int i = 0; i < _this->_base.size; i++) 
-//	{ 
-//		MFUN(_this, at), i, & val CALL;
-//		printf(format, val); 
-//	} 
-//} END_FUN;
-//
-//INIT_DERIVED_CLASS(Vector_object, GenericVector);																	
-//BIND(Vector_object, push_back);																					
-//BIND(Vector_object, pop_back);																						
-//BIND(Vector_object, at);																							
-//END_INIT_CLASS(Vector_object)																						
+IMPL_SPECIFIC_VECTOR_TYPE(object);

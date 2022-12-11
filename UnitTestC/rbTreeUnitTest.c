@@ -54,7 +54,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, insert_SanityTest)
 
 
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
-	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
+	MFUN(&rbTree, printInOrderTraversal), rootPtr CALL;
 
 	MFUN(&rbTree, size), & treeSize CALL;
 
@@ -125,7 +125,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, find_SanityTest)
 }END_FUN;
 TEST_FUN_IMPL(RedBlackTreeTest, delete_SanityTest)
 {
-	//also checked the inOrderTraversal after each erase-before switch to void *
+	//also checked the printInOrderTraversal after each erase-before switch to void *
 	//and some after
 	//ARRANGE
 	init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);
@@ -181,7 +181,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, delete_SanityTest)
 	MFUN(&rbTree, size), & treeSize1 CALL;
 
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
-	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
+	MFUN(&rbTree, printInOrderTraversal), rootPtr CALL;
 
 	CREATE(redBlackTreeIterator, rbIt), retPtr CALL;
 

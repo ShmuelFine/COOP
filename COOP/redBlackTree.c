@@ -1,643 +1,557 @@
 #include "redBlackTree.h"
 #include <stdio.h>
 
-DEF_CTOR(redBlackTree, void(*compFunc)(void*, void*, bool*))
+DEF_CTOR(RBTreeNode)
 {
-	_this->root = NULL;
-	_this->size = 0;
-	//_this->elementSize = elemSize;
-
-	_this->comparisonFunctionPtr = compFunc;
-
-	//construct header node
-	NEW_VARIABLE(_this->head, node);
-	//could be anything
-	//_this->head->data = -10;
-	_this->head->data = NULL;
-	_this->head->parent = _this->head->right = _this->head->left = NULL;
-	_this->head->color = 'B';
-	_this->head->isHead = true;
+	_this->data = NULL;
+	_this->parent = _this->right = _this->left = NULL;
+	_this->isBlack = true;
 }
 END_CTOR
 
-//TODO: can I delete the memory with this pointer-nodePtr?
-DEF_DTOR(redBlackTree)
+DEF_DTOR(RBTreeNode)
 {
-	MFUN(_this, destroyRecursive), _this->root CALL;
-	DELETE(_this->head);
+	if (_this->data)
+	{
+		DELETE(_this->data);
+	}
 }
 END_DTOR
 
-MEM_FUN_IMPL(redBlackTree, destroyRecursive, node* nodePtr)
+////////////////// AUX FUNCS ///////////////////
+RBTreeNode* all_way_left(RBTreeNode* node) {
+	while (node->left != NULL)
+		node = node->left;
+	return node;
+}
+RBTreeNode* all_way_right(RBTreeNode* node) {
+	while (node->right != NULL)
+		node = node->right;
+	return node;
+}
+
+void add_right_child(RBTreeNode* node, RBTreeNode* child)
 {
-	if (nodePtr != NULL)
+	node->right = child;
+	if (child)
+		child->parent = node;
+}
+void add_left_child(RBTreeNode* node, RBTreeNode* child)
+{
+	node->left = child;
+	if (child)
+		child->parent = node;
+}
+
+void swap_colors(RBTreeNode* a, RBTreeNode* b) {
+	bool a_isBlack = a->isBlack;
+	a->isBlack = b->isBlack;
+	b->isBlack = a_isBlack;
+}
+
+#define IS_RED(n) (n && n->isBlack == false)
+
+#define IS_LEFT_CHILD(n) (n && n->parent && n->parent->left == n)
+#define IS_RIGHT_CHILD(n) (n && n->parent && n->parent->right == n)
+
+#define PARENT(n)  (n->parent)
+#define GRAND_PARENT(n)  (n->parent->parent)
+#define UNCLE(n)  (IS_LEFT_CHILD(n) ? n->parent->right : n->parent->left)
+#define SIBLING(n) ((NULL == PARENT(n)) ? NULL : IS_LEFT_CHILD(n) ? PARENT(n)->right : PARENT(n)->left)
+#define IS_LEAF(n) (!n->left && !n->right)
+#define HAS_SINGLE_CHILD(n) ((NULL == n->left) ^ (NULL == n->right))
+
+////////////////////////////////////////////////
+
+DEF_CTOR(RedBlackTreeIterator, RBTreeNode* node_ptr)
+{
+	_this->nodePtr = node_ptr;
+}
+END_CTOR
+
+DEF_DTOR(RedBlackTreeIterator)
+{
+	// nothing needed here
+}
+END_DTOR
+
+MEM_FUN_IMPL(RedBlackTreeIterator, next)
+{
+	if (_this->nodePtr->right != NULL)
 	{
-		MFUN(_this, destroyRecursive), nodePtr->left CALL;
-		MFUN(_this, destroyRecursive), nodePtr->right CALL;
+		_this->nodePtr = all_way_left(_this->nodePtr->right);
+	}
+	else
+	{
+		// I have no right child, left nodes were already visited, so go up:
+		_this->nodePtr = _this->nodePtr->parent;
+
+		while (
+			_this->nodePtr->parent
+			&& _this->nodePtr == _this->nodePtr->parent->right)
+		{
+			_this->nodePtr = _this->nodePtr->parent;
+		}
+	}
+}
+END_FUN;
+
+
+MEM_FUN_IMPL(RedBlackTreeIterator, equals, RedBlackTreeIterator other, bool* retVal)
+{
+	*retVal = (_this->nodePtr == other.nodePtr);
+}
+END_FUN;
+
+INIT_CLASS(RedBlackTreeIterator)
+BIND(RedBlackTreeIterator, next);
+BIND(RedBlackTreeIterator, equals);
+END_INIT_CLASS(RedBlackTreeIterator)
+
+
+////////////////////////////////////////////////
+
+DEF_CTOR(RedBlackTree, bool (*compFunc)(object*, object*))
+{
+	_this->root = NULL;
+	_this->size = 0;
+	_this->comparisonFunctionPtr = compFunc;
+
+}
+END_CTOR
+
+DEF_DTOR(RedBlackTree)
+{
+	if (_this->root)
+	{
+		MFUN(_this, _destroyRecursive), _this->root CALL;
+	}
+}
+END_DTOR
+
+MEM_FUN_IMPL(RedBlackTree, _destroyRecursive, RBTreeNode* nodePtr)
+{
+	if (nodePtr)
+	{
+		MFUN(_this, _destroyRecursive), nodePtr->left CALL;
+		MFUN(_this, _destroyRecursive), nodePtr->right CALL;
 		DELETE(nodePtr);
 	}
 }END_FUN;
 
-MEM_FUN_IMPL(redBlackTree, LeftRotate, node* x)
+
+MEM_FUN_IMPL(RedBlackTree, transplant, RBTreeNode* old_node, RBTreeNode* new_node) {
+	if (old_node->parent == NULL) {
+		_this->root = new_node;
+	}
+	else if (old_node == old_node->parent->left) {
+		old_node->parent->left = new_node;
+	}
+	else {
+		old_node->parent->right = new_node;
+	}
+
+	if (new_node) {
+		new_node->parent = old_node->parent;
+	}
+
+
+}END_FUN;
+
+MEM_FUN_IMPL(RedBlackTree, _rotateLeft, RBTreeNode* x)
 {
 	if (!x || !x->right)
 		RETURN;
 
-	//y stored pointer of right child of x
-	node* y = x->right;
+	RBTreeNode* y = x->right;
 
-	//store y's left subtree's pointer as x's right child
-	x->right = y->left;
+	MFUN(_this, transplant), x, y CALL;
 
-	//update parent pointer of x's right
-	if (x->right != NULL)
-		x->right->parent = x;
-
-	//update y's parent pointer
-	y->parent = x->parent;
-
-	// if x's parent is null make y as root of tree
-	if (x->parent == NULL || x->parent->isHead == true)
-		(_this->root) = y;
-
-
-
-	// store y at the place of x
-	else if (x == x->parent->left)
-		x->parent->left = y;
-	else    x->parent->right = y;
-
-	// make x left child of y
-	y->left = x;
-
-	//update parent pointer of x
-	x->parent = y;
+	add_right_child(x, y->left);
+	add_left_child(y, x);
 }
+
 END_FUN;
 
-MEM_FUN_IMPL(redBlackTree, RightRotate, node* y)
+MEM_FUN_IMPL(RedBlackTree, _rotateRight, RBTreeNode* y)
 {
 	if (!y || !y->left)
 		RETURN;
-	node* x = y->left;
-	y->left = x->right;
-	if (x->right != NULL)
-		x->right->parent = y;
-	x->parent = y->parent;
-	if (x->parent == NULL || x->parent->isHead == true)
-		_this->root = x;
-	else if (y == y->parent->left)
-		y->parent->left = x;
-	else y->parent->right = x;
-	x->right = y;
-	y->parent = x;
+
+	RBTreeNode* x = y->left;
+	MFUN(_this, transplant), y, x CALL;
+
+	add_left_child(y, x->right);
+	add_right_child(x, y);
 }END_FUN;
 
-MEM_FUN_IMPL(redBlackTree, insertFixUp, node* pt)
+
+MEM_FUN_IMPL(RedBlackTree, _insertFixUp, RBTreeNode* node)
 {
-	node* parent_pt = NULL;
-	node* grand_parent_pt = NULL;
-
-	while ((pt != _this->root) && (pt->color != 'B') &&
-		(pt->parent->color == 'R'))
+	while (
+		(node != _this->root)
+		&& // both node and parent are RED:
+		IS_RED(node) && IS_RED(node->parent))
 	{
-		SCOPE_START;
-		parent_pt = pt->parent;
-		grand_parent_pt = pt->parent->parent;
-
-		/*  Case : A
-			Parent of pt is left child of Grand-parent of pt */
-		if (parent_pt == grand_parent_pt->left)
+		RBTreeNode* uncle = UNCLE(node);
+		if (IS_RED(uncle))
 		{
+			uncle->isBlack = true;
+			PARENT(node)->isBlack = true;
+			GRAND_PARENT(node)->isBlack = false;
 
-			node* uncle_pt = grand_parent_pt->right;
-
-			/* Case : 1
-			   The uncle of pt is also red
-			   Only Recoloring required */
-			if (uncle_pt != NULL && uncle_pt->color == 'R')
-			{
-				grand_parent_pt->color = 'R';
-				parent_pt->color = 'B';
-				uncle_pt->color = 'B';
-				pt = grand_parent_pt;
-			}
-
-			else
-			{
-				/* Case : 2
-				   pt is right child of its parent
-				   Left-rotation required */
-				if (pt == parent_pt->right)
-				{
-					MFUN(_this, LeftRotate), parent_pt CALL;
-					pt = parent_pt;
-					parent_pt = pt->parent;
-				}
-
-				/* Case : 3
-				   pt is left child of its parent
-				   Right-rotation required */
-				MFUN(_this, RightRotate), grand_parent_pt CALL;
-
-				char c;
-				c = parent_pt->color;
-				parent_pt->color = grand_parent_pt->color;
-				grand_parent_pt->color = c;
-
-				pt = parent_pt;
-			}
+			node = GRAND_PARENT(node);
 		}
-
-		/* Case : B
-		   Parent of pt is right child of Grand-parent of pt */
 		else
 		{
-			node* uncle_pt = grand_parent_pt->left;
-
-			/*  Case : 1
-				The uncle of pt is also red
-				Only Recoloring required */
-			if ((uncle_pt != NULL) && (uncle_pt->color == 'R'))
+			if (IS_LEFT_CHILD(PARENT(node)))
 			{
-				grand_parent_pt->color = 'R';
-				parent_pt->color = 'B';
-				uncle_pt->color = 'B';
-				pt = grand_parent_pt;
+				if (IS_RIGHT_CHILD(node))
+				{
+					MFUN(_this, _rotateLeft), PARENT(node) CALL;
+					node = PARENT(node);
+				}
+				else
+				{
+					MFUN(_this, _rotateRight), GRAND_PARENT(node) CALL;
+					swap_colors(PARENT(node), GRAND_PARENT(node));
+
+					node = PARENT(node);
+				}
 			}
 			else
 			{
-				/* Case : 2
-				   pt is left child of its parent
-				   Right-rotation required */
-				if (pt == parent_pt->left)
+				if (IS_LEFT_CHILD(node))
 				{
-					MFUN(_this, RightRotate), parent_pt CALL;
-					pt = parent_pt;
-					parent_pt = pt->parent;
+					MFUN(_this, _rotateRight), PARENT(node) CALL;
+					node = PARENT(node);
 				}
+				else
+				{
+					MFUN(_this, _rotateLeft), GRAND_PARENT(node) CALL;
+					swap_colors(PARENT(node), GRAND_PARENT(node));
 
-				/* Case : 3
-				   pt is right child of its parent
-				   Left-rotation required */
-				MFUN(_this, LeftRotate), grand_parent_pt CALL;
-				char c;
-				c = parent_pt->color;
-				parent_pt->color = grand_parent_pt->color;
-				grand_parent_pt->color = c;
-				pt = parent_pt;
+					node = PARENT(node);
+				}
 			}
 		}
-		END_SCOPE;
 	}
 
-	_this->root->color = 'B';
+	_this->root->isBlack = true;
 
 }END_FUN;
 
-MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBool)
+
+MEM_FUN_IMPL(RedBlackTree, find_closest, object* val, RBTreeNode** node, bool* isFound)
 {
-	//if we prefer code cleanliness to avoiding extra allocation
-	// Allocate memory for new node
-	//node* z = (node*)malloc(sizeof(node));
-	//node* z = NULL;
-	//NEW_VARIABLE(z, node);
-	//z->data = data;
-	//z->left = z->right = z->parent = NULL;
+	*node = NULL;
+	*isFound = false;
 
-	node* z = NULL;
-	//used for comparison function ptr return value
-	bool compBool = false, compBool1 = false;
-
-	//if root is null make z the root
 	if (_this->root == NULL)
 	{
-		//if we want to allocate only if the element is not already present
-		NEW_VARIABLE(_this->root, node);
-		_this->root->data = data;
-		_this->root->left = _this->root->right = NULL;
-		_this->root->color = 'B';
-		_this->root->isHead = false;
-		_this->root->parent = _this->head;
+		RETURN;
+	}
 
-		_this->head->left = _this->head->right = _this->root;
+	RBTreeNode* curr = _this->root;
+	while (curr != NULL) {
+		*node = curr;
 
-		*insertednode = _this->root;
+		bool val_lessThen_curr = _this->comparisonFunctionPtr(val, curr->data);
+		bool curr_lessThen_val = _this->comparisonFunctionPtr(curr->data, val);
+		bool curr_equals_val = !curr_lessThen_val && !val_lessThen_curr;
+
+		if (val_lessThen_curr)
+		{
+			if (curr->left == NULL) { RETURN; }
+			else { curr = curr->left; }
+		}
+		else if (curr_equals_val) {
+			*isFound = true;
+			RETURN;
+		}
+		else {
+			if (curr->right == NULL) { RETURN; }
+			else { curr = curr->right; }
+		}
+	}
+}END_FUN;
+
+MEM_FUN_IMPL(RedBlackTree, find, object* val, RBTreeNode** node)
+{
+	*node = NULL;
+
+	RBTreeNode* closest; bool isFound = false;
+	MFUN(_this, find_closest), val, & closest, & isFound CALL;
+
+	if (isFound)
+		*node = closest;
+
+}END_FUN;
+
+MEM_FUN_IMPL(RedBlackTree, insert, object* toInsert, RBTreeNode** OUT_insertedNode, bool* OUT_DidInsertionAddNewElement)
+{
+	RBTreeNode* closest; bool isFound = false;
+	MFUN(_this, find_closest), toInsert, & closest, & isFound CALL;
+	if (isFound)
+	{
+		*OUT_insertedNode = closest;
+		*OUT_DidInsertionAddNewElement = false;
+		RETURN;
+	}
+
+	if (_this->root == NULL)
+	{
+		ALLOC_INIT_INSTANCE_PTR(RBTreeNode, _this->root) CALL;
+		_this->root->data = toInsert;
+		*OUT_insertedNode = _this->root;
 	}
 	else
 	{
-		node* y = NULL;
-		node* x = (_this->root);
-
-		// Follow standard BST insert steps to first insert the node
-		while (x != NULL)
-		{
-			y = x;
-			//only allow unique elements
-			//equivalence => !comp(a, b) && !comp(b, a).
-			//if (data == x->data)
-			(*(_this->comparisonFunctionPtr))(data, x->data, &compBool);
-			(*(_this->comparisonFunctionPtr))(x->data, data, &compBool1);
-			if (!compBool && !compBool1)
-			{
-				*insertednode = x;
-				*retBool = false;
-				RETURN;
-			}
-
-			//(*functionPtr)(2, 3)
-			//data < x->data
-			(*(_this->comparisonFunctionPtr))(data, x->data, &compBool);
-			if (compBool)
-				x = x->left;
-			else
-				x = x->right;
-		}
-		//if we want to allocate only if the element is not already present
-
-		NEW_VARIABLE(z, node);
-		z->data = data;
-		z->isHead = false;
-		z->left = z->right = NULL;
-
-		z->parent = y;
-		//if (z->data > y->data)
-		(*(_this->comparisonFunctionPtr))(y->data, z->data, &compBool);
-		if (compBool)
-			y->right = z;
+		RBTreeNode* parent = closest;
+		CREATE_PTR(RBTreeNode, newNode) CALL;
+		newNode->data = toInsert;
+		newNode->parent = parent;
+		newNode->isBlack = false;
+		*OUT_insertedNode = newNode;
+		bool parent_lessThan_toInsert = _this->comparisonFunctionPtr(parent->data, newNode->data);
+		if (parent_lessThan_toInsert)
+			add_left_child(parent, newNode);
 		else
-			y->left = z;
-		z->color = 'R';
+			add_right_child(parent, newNode);
 
-		// call insertFixUp to fix red-black tree's property if it
-		// is violated due to insertion.
-		MFUN(_this, insertFixUp), z CALL;
-		*insertednode = z;
-
-		//if (z->data > _this->head->right->data)
-		(*(_this->comparisonFunctionPtr))(_this->head->right->data, z->data, &compBool);
-		if (compBool)
-			_this->head->right = z;
+		MFUN(_this, _insertFixUp), newNode CALL;
 	}
 
-	*retBool = true;
 	_this->size++;
+	*OUT_DidInsertionAddNewElement = true;
+
 }END_FUN;
 
-MEM_FUN_IMPL(redBlackTree, getRootNode, node** retRootnode)
+MEM_FUN_IMPL(RedBlackTree, getRootNode, RBTreeNode** retRootnode)
 {
 	*retRootnode = _this->root;
 }END_FUN;
 
-//TODO: we need to pass a function ptr for printing if we want to print
-//only for int data!
-MEM_FUN_IMPL(redBlackTree, inOrderTraversal, node* rootnode)
+MEM_FUN_IMPL(RedBlackTree, printInOrderTraversal, RBTreeNode* rootNode, void (*printFunc)(object*))
 {
-	static int last = 0;
-	if (rootnode == NULL || rootnode->isHead == true)
+	if (rootNode == NULL)
 		RETURN;
-	MFUN(_this, inOrderTraversal), rootnode->left CALL;
-	printf("Data: %d ", *(int*)(rootnode->data));
-	printf("Color: %c ", rootnode->color);
-	if (rootnode->parent->isHead)
-		printf("root node ");
-	if (rootnode->parent != NULL && !rootnode->parent->isHead)
-		printf("Parent: %d ", *(int*)(rootnode->parent->data));
-	if (rootnode->right != NULL)
-		printf("Right: %d ", *(int*)(rootnode->right->data));
-	if (rootnode->left != NULL)
-		printf("Left: %d ", *(int*)(rootnode->left->data));
-	printf("\n");
-	//last = rootnode->data;
-	MFUN(_this, inOrderTraversal), rootnode->right CALL;
 
-}END_FUN;
+	MFUN(_this, printInOrderTraversal), rootNode->left, printFunc CALL;
+	printFunc(rootNode->data);
 
-MEM_FUN_IMPL(redBlackTree, begin, redBlackTreeIterator* beginNode)
-{
-	//find smallest value in tree
-	node* minNode = _this->root;
-
-	while (minNode->left != NULL)
+	if (rootNode->parent == NULL)
 	{
-		SCOPE_START;
-		minNode = minNode->left;
-		END_SCOPE;
+		printf(" root node ");
+	}
+	else
+	{
+		printf("Parent: "); printFunc(rootNode->parent->data);
 	}
 
+	if (rootNode->right != NULL)
+	{
+		printf("Right: "); printFunc(rootNode->right->data);
+	}
 
-	CREATE(redBlackTreeIterator, it), minNode CALL;
+	if (rootNode->left != NULL)
+	{
+		printf("Left: "); printFunc(rootNode->left->data);
+	}
 
-	*beginNode = it;
+	printf("\n");
+
+	MFUN(_this, printInOrderTraversal), rootNode->right, printFunc CALL;
+
 }END_FUN;
+//
+//MEM_FUN_IMPL(RedBlackTree, begin, RedBlackTreeIterator* beginNode)
+//{
+//	RBTreeNode* minNode = _this->head;
+//
+//	while (minNode->left != NULL)
+//	{
+//		minNode = minNode->left;
+//	}
+//
+//	CREATE(RedBlackTreeIterator, it), minNode CALL;
+//
+//	*beginNode = it;
+//}END_FUN;
+//
+//MEM_FUN_IMPL(RedBlackTree, end, RedBlackTreeIterator* endNode)
+//{
+//	CREATE(RedBlackTreeIterator, it), _this->head CALL;
+//
+//	*endNode = it;
+//}END_FUN;
 
-//returns the header node
-MEM_FUN_IMPL(redBlackTree, end, redBlackTreeIterator* endNode)
-{
-	CREATE(redBlackTreeIterator, it), _this->head CALL;
-
-	*endNode = it;
-}END_FUN;
-
-MEM_FUN_IMPL(redBlackTree, size, int* _size)
+MEM_FUN_IMPL(RedBlackTree, size, int* _size)
 {
 	*_size = _this->size;
 }END_FUN;
 
-//TODO: Question on last line
-MEM_FUN_IMPL(redBlackTree, find, void* val, redBlackTreeIterator* foundVal)
+MEM_FUN_IMPL(RedBlackTree, erase, object* val, bool* isErased)
 {
-	bool compBool = false, compBool1 = false;
-	if (_this->root == NULL)
+	RBTreeNode* node = NULL;
+	MFUN(_this, find), val, & node CALL;
+	if (node == NULL)
 	{
-		(*foundVal).nodePtr = _this->head;
-		RETURN;
-	}
-	node* temp = _this->root;
-	while (temp != NULL) {
-		SCOPE_START;
-		//if (val < temp->data) 
-		(*(_this->comparisonFunctionPtr))(val, temp->data, &compBool);
-		if (compBool)
-		{
-			if (temp->left == NULL)
-			{
-				BREAK;
-			}
-			else
-				temp = temp->left;
-		}
-		//else if (val == temp->data) 
-		(*(_this->comparisonFunctionPtr))(val, temp->data, &compBool);
-		(*(_this->comparisonFunctionPtr))(temp->data, val, &compBool1);
-		if (!compBool && !compBool1)
-		{
-			BREAK;
-		}
-		else {
-			if (temp->right == NULL) {
-				BREAK;
-			}
-			else
-				temp = temp->right;
-		}
-		END_SCOPE;
-	}
-
-	//(temp->data == val)
-	(*(_this->comparisonFunctionPtr))(temp->data, val, &compBool);
-	(*(_this->comparisonFunctionPtr))(val, temp->data, &compBool1);
-	//is it okay that we access the nodePtr directly? Is this a breach
-	//of the priniciple of abstraction? 
-	//If we use  getContensOf will the changes persist?
-	(*foundVal).nodePtr = (!compBool && !compBool1) ? temp : _this->head;
-}END_FUN;
-
-MEM_FUN_IMPL(redBlackTree, erase, void* val, int* numElemsErased)
-{
-	//just for initialization purposes
-	node* valNode = _this->head;
-	bool compBool = false, compBool1 = false;
-
-	CREATE(redBlackTreeIterator, rbIt), NULL CALL;
-
-	MFUN(_this, find), val, & rbIt CALL;
-	MFUN(&rbIt, getContentsOf), & valNode CALL;
-	//if they were not equal, we set nodePtr in the iterator that find returns
-	//to the header node, whose data is NULL
-	//if (valNode->data != val) 
-	if (valNode->data == NULL)
-	{
-		*numElemsErased = 0;
+		*isErased = false;
 		RETURN;
 	}
 
-	MFUN(_this, deleteNode), valNode CALL;    *numElemsErased = 1;
+	MFUN(_this, _deleteNode), node CALL;
+	*isErased = true;
 	_this->size--;
+
 }END_FUN;
 
 //https://www.geeksforgeeks.org/red-black-tree-set-3-delete-2/
-//TODO: Here we also delete some nodes. Can I use these pointers to deallocate them?
-//deleted nodes- dNode, replaceNode
-MEM_FUN_IMPL(redBlackTree, deleteNode, node* dNode)
+MEM_FUN_IMPL(RedBlackTree, _deleteNode, RBTreeNode* dNode)
 {
 
-	node* replaceNode = NULL;
-	MFUN(_this, findReplacingNode), dNode, & replaceNode CALL;
-	// True when replaceNode and dNode are both black 
-	bool uvBlack = ((replaceNode == NULL || replaceNode->color == 'B') && (dNode->color == 'B'));
-	node* parent = dNode->parent, * sibling = NULL;
-
-	//find dNode's sibling
-	if (dNode->parent == NULL)
-		sibling = NULL;
-	else if (dNode == dNode->parent->left)
-		sibling = parent->right;
-	else
-		sibling = parent->left;
-
-	if (replaceNode == NULL) {
-		// replaceNode is NULL therefore dNode is leaf 
+	if (IS_LEAF(dNode)) {
 		if (dNode == _this->root) {
-			// dNode is _this->root, making _this->root null 
 			_this->root = NULL;
 		}
 		else {
-			if (uvBlack) {
-				// replaceNode and dNode both black 
-				// dNode is leaf, fix double black at dNode 
+			if (dNode->isBlack) {
 				MFUN(_this, fixDoubleBlack), dNode CALL;
 			}
 			else {
-				// replaceNode or dNode is red 
+				RBTreeNode* sibling = SIBLING(dNode);
 				if (sibling != NULL)
-					// sibling is not null, make it red" 
-					sibling->color = 'R';
+					sibling->isBlack = false;
 			}
 
-			// delete dNode from the tree 
-			if (dNode == dNode->parent->left) {
-				parent->left = NULL;
-			}
-			else {
-				parent->right = NULL;
-			}
+			MFUN(_this, transplant), dNode, NULL CALL;
 		}
 		DELETE(dNode);
 		RETURN;
 	}
 
-	if (dNode->left == NULL || dNode->right == NULL) {
-		// dNode has 1 child 
-		if (dNode == _this->root) {
-			// dNode is _this->root, assign the value of replaceNode to dNode, and delete replaceNode 
-			dNode->data = replaceNode->data;
-			dNode->left = dNode->right = NULL;
-			DELETE(replaceNode);
+	RBTreeNode* replaceNode = NULL;
+	MFUN(_this, _findReplacingNode), dNode, & replaceNode CALL;
+
+
+	if (HAS_SINGLE_CHILD(dNode)) {
+		MFUN(_this, transplant), dNode, replaceNode CALL;
+		DELETE(dNode);
+
+		if (replaceNode->isBlack && dNode->isBlack) {
+			MFUN(_this, fixDoubleBlack), replaceNode CALL;
 		}
 		else {
-			// Detach dNode from tree and move replaceNode up 
-			if (dNode == dNode->parent->left) {
-				parent->left = replaceNode;
-			}
-			else {
-				parent->right = replaceNode;
-			}
-			DELETE(dNode);
-			replaceNode->parent = parent;
-			if (uvBlack) {
-				// replaceNode and dNode both black, fix double black at replaceNode 
-				MFUN(_this, fixDoubleBlack), replaceNode CALL;
-			}
-			else {
-				// replaceNode or dNode red, color replaceNode black 
-				replaceNode->color = 'B';
-			}
+			replaceNode->isBlack = true;
 		}
 		RETURN;
 	}
 
-	// dNode has 2 children, swap values with successor and recurse 
-	void* temp;
-	temp = replaceNode->data;
-	replaceNode->data = dNode->data;
-	dNode->data = temp;
-	MFUN(_this, deleteNode), replaceNode CALL;
+	//// dNode has 2 children, swap values with successor and recurse 
+	//object* temp = replaceNode->data;
+	//replaceNode->data = dNode->data;
+	//dNode->data = temp;
+	//MFUN(_this, _deleteNode), replaceNode CALL;
 }END_FUN;
 
-MEM_FUN_IMPL(redBlackTree, fixDoubleBlack, node* node_p)
+MEM_FUN_IMPL(RedBlackTree, fixDoubleBlack, RBTreeNode* node_p)
 {
 	if (node_p == _this->root)
-		// Reached root 
 		RETURN;
 
-	node* sibling = NULL, * parent = node_p->parent;
-
-	//find node_p's sibling
-	if (node_p->parent == NULL)
-		sibling = NULL;
-	else if (node_p == node_p->parent->left)
-		sibling = parent->right;
-	else
-		sibling = parent->left;
+	RBTreeNode* sibling = SIBLING(node_p);
 
 	if (sibling == NULL) {
-		// No sibling, double black pushed up 
-		MFUN(_this, fixDoubleBlack), parent CALL;
-	}
-	else {
-		if (sibling->color == 'R') {
-			// Sibling red 
-			parent->color = 'R';
-			sibling->color = 'B';
-			if (sibling == sibling->parent->left) {
-				// left case 
-				MFUN(_this, RightRotate), parent CALL;
-			}
-			else {
-				// right case 
-				MFUN(_this, LeftRotate), parent CALL;
-
-			}
-			MFUN(_this, fixDoubleBlack), node_p CALL;
-		}
-		else {
-			// Sibling black 
-			if ((sibling->left != NULL && sibling->left->color == 'R') ||
-				(sibling->right != NULL && sibling->right->color == 'R')) {
-				// at least 1 red child
-				if (sibling->left != NULL && sibling->left->color == 'R') {
-					if (sibling == sibling->parent->left) {
-						// left left 
-						sibling->left->color = sibling->color;
-						sibling->color = parent->color;
-						MFUN(_this, RightRotate), parent CALL;
-					}
-					else {
-						// right left 
-						sibling->left->color = parent->color;
-						MFUN(_this, RightRotate), sibling CALL;
-						MFUN(_this, LeftRotate), parent CALL;
-					}
-				}
-				else {
-					if (sibling == sibling->parent->left) {
-						// left right 
-						sibling->right->color = parent->color;
-						MFUN(_this, LeftRotate), sibling CALL;
-						MFUN(_this, RightRotate), parent CALL;
-					}
-					else {
-						// right right 
-						sibling->right->color = sibling->color;
-						sibling->color = parent->color;
-						MFUN(_this, LeftRotate), parent CALL;
-					}
-				}
-				parent->color = 'B';
-			} else {
-				// 2 black children 
-				sibling->color = 'R';
-				if (parent->color == 'B') {
-					MFUN(_this, fixDoubleBlack), parent CALL;
-				}
-				else {
-					parent->color = 'B';
-				}
-			}
-		}
-	}
-}END_FUN;
-
-//TODO: should we use the algorithm that uses the deleted node's predecessor
-//or successor as the replacing node? I don't think it makes much difference
-//practically? Both implementations are below.
-MEM_FUN_IMPL(redBlackTree, findReplacingNode, node* what, node** withWhat)
-{
-	// if the node has 2 children 
-	if (what->left != NULL && what->right != NULL)
-	{
-		//this algorightm uses the deleted node's successor as the replacing node
-		//node* temp = what->right;
-
-		//while (temp->left != NULL)
-		//    temp = temp->left;
-
-		//this algorithm uses the deleted node's predecessor as the replacing node
-		node* temp = what->left;
-
-		while (temp->right != NULL)
-			temp = temp->right;
-
-		*withWhat = temp;
+		MFUN(_this, fixDoubleBlack), PARENT(node_p) CALL;
 		RETURN;
 	}
 
-	// when leaf 
-	if (what->left == NULL && what->right == NULL)
-		*withWhat = NULL;
+	if (IS_RED(sibling)) {
 
-	// when the node has a single child 
-	if (what->left != NULL)
-		*withWhat = what->left;
-	else
-		*withWhat = what->right;
+		PARENT(node_p)->isBlack = false;
+		sibling->isBlack = true;
+
+		if (IS_LEFT_CHILD(sibling)) { MFUN(_this, _rotateRight), PARENT(node_p) CALL; }
+		else { MFUN(_this, _rotateLeft), PARENT(node_p) CALL; }
+		MFUN(_this, fixDoubleBlack), node_p CALL;
+		RETURN;
+	}
+
+
+	if (IS_RED(sibling->left)) {
+		if (IS_LEFT_CHILD(sibling)) {
+			sibling->left->isBlack = sibling->isBlack;
+			sibling->isBlack = PARENT(node_p)->isBlack;
+			MFUN(_this, _rotateRight), PARENT(node_p) CALL;
+		}
+		else {
+			sibling->left->isBlack = PARENT(node_p)->isBlack;
+			MFUN(_this, _rotateRight), sibling CALL;
+			MFUN(_this, _rotateLeft), PARENT(node_p) CALL;
+		}
+		PARENT(node_p)->isBlack = true;
+	}
+	else if (IS_RED(sibling->right))
+	{
+		if (IS_LEFT_CHILD(sibling)) {
+			sibling->right->isBlack = PARENT(node_p)->isBlack;
+			MFUN(_this, _rotateLeft), sibling CALL;
+			MFUN(_this, _rotateRight), PARENT(node_p)CALL;
+		}
+		else {
+			sibling->right->isBlack = sibling->isBlack;
+			sibling->isBlack = PARENT(node_p)->isBlack;
+			MFUN(_this, _rotateLeft), PARENT(node_p) CALL;
+		}
+		PARENT(node_p)->isBlack = true;
+	}
+	else { // 2 black children 
+		sibling->isBlack = false;
+		if (PARENT(node_p)->isBlack) {
+			MFUN(_this, fixDoubleBlack), PARENT(node_p) CALL;
+		}
+		else 
+		{
+			PARENT(node_p)->isBlack = true;
+		}
+	}
 }END_FUN;
 
-INIT_CLASS(redBlackTree)
-BIND(redBlackTree, LeftRotate);
-BIND(redBlackTree, RightRotate);
-BIND(redBlackTree, insertFixUp);
-BIND(redBlackTree, insert);
-BIND(redBlackTree, getRootNode);
-BIND(redBlackTree, inOrderTraversal);
-BIND(redBlackTree, begin);
-BIND(redBlackTree, end);
-BIND(redBlackTree, size);
-BIND(redBlackTree, find);
-BIND(redBlackTree, erase);
-BIND(redBlackTree, deleteNode);
-BIND(redBlackTree, fixDoubleBlack);
-BIND(redBlackTree, findReplacingNode);
-BIND(redBlackTree, destroyRecursive);
-END_INIT_CLASS(redBlackTree)
+MEM_FUN_IMPL(RedBlackTree, _findReplacingNode, RBTreeNode* whom, RBTreeNode** OUT_withWhat)
+{
+	// 2 children:
+	if (whom->left && whom->right)
+	{
+		*OUT_withWhat = all_way_right(whom->left);
+		RETURN;
+	}
+	// leaf:
+	else if (IS_LEAF(whom))
+	{
+		*OUT_withWhat = NULL;
+	}
+	// single child:
+	else if (whom->left)
+		*OUT_withWhat = whom->left;
+	else
+		*OUT_withWhat = whom->right;
+}END_FUN;
+
+INIT_CLASS(RedBlackTree)
+BIND(RedBlackTree, _rotateLeft);
+BIND(RedBlackTree, _rotateRight);
+BIND(RedBlackTree, _insertFixUp);
+BIND(RedBlackTree, insert);
+BIND(RedBlackTree, getRootNode);
+BIND(RedBlackTree, printInOrderTraversal);
+//BIND(RedBlackTree, begin);
+//BIND(RedBlackTree, end);
+BIND(RedBlackTree, size);
+BIND(RedBlackTree, find);
+BIND(RedBlackTree, erase);
+BIND(RedBlackTree, _deleteNode);
+BIND(RedBlackTree, fixDoubleBlack);
+BIND(RedBlackTree, _findReplacingNode);
+BIND(RedBlackTree, _destroyRecursive);
+END_INIT_CLASS(RedBlackTree)

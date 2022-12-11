@@ -18,17 +18,17 @@ MEM_FUN_DECL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, ch
 MEM_FUN_DECL(GenericVector, at_int, MEM_SIZE_T i, int ** val_ptr);
 MEM_FUN_DECL(GenericVector, at_char, MEM_SIZE_T i, char ** val_ptr);
 MEM_FUN_DECL(GenericVector, at_float, MEM_SIZE_T i, float ** val_ptr);
-//MEM_FUN_DECL(GenericVector, at_object, MEM_SIZE_T i, object** val_ptr);
+MEM_FUN_DECL(GenericVector, at_object, MEM_SIZE_T i, object** val_ptr);
 
 MEM_FUN_DECL(GenericVector, get_int, MEM_SIZE_T i, int* val);
 MEM_FUN_DECL(GenericVector, get_char, MEM_SIZE_T i, char* val);
 MEM_FUN_DECL(GenericVector, get_float, MEM_SIZE_T i, float* val);
-//MEM_FUN_DECL(GenericVector, get_object, MEM_SIZE_T i, object** val_ptr);
+MEM_FUN_DECL(GenericVector, get_object, MEM_SIZE_T i, object* val_ptr);
 
 MEM_FUN_DECL(GenericVector, set_int, MEM_SIZE_T i, int val);
 MEM_FUN_DECL(GenericVector, set_char, MEM_SIZE_T i, char val);
 MEM_FUN_DECL(GenericVector, set_float, MEM_SIZE_T i, float val);
-//MEM_FUN_DECL(GenericVector, set_object, MEM_SIZE_T i, object val);
+MEM_FUN_DECL(GenericVector, set_object, MEM_SIZE_T i, object val);
 
 MEM_FUN_DECL(GenericVector, resize, MEM_SIZE_T new_capacity);
 
@@ -37,13 +37,13 @@ MEM_FUN_DECL(GenericVector, __push_back_generic, char * buff, MEM_SIZE_T buff_si
 MEM_FUN_DECL(GenericVector, push_back_int, int val);
 MEM_FUN_DECL(GenericVector, push_back_char, char val);
 MEM_FUN_DECL(GenericVector, push_back_float, float val);
-//MEM_FUN_DECL(GenericVector, push_back_object, object val);
+MEM_FUN_DECL(GenericVector, push_back_object, object val);
 
 MEM_FUN_DECL(GenericVector, __pop_back_generic, char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericVector, pop_back_int, int * val);
 MEM_FUN_DECL(GenericVector, pop_back_char, char* val);
 MEM_FUN_DECL(GenericVector, pop_back_float, float * val);
-//MEM_FUN_DECL(GenericVector, pop_back_object, object * val);
+MEM_FUN_DECL(GenericVector, pop_back_object, object * val);
 
 MEM_FUN_DECL(GenericVector, zero_all);
 
@@ -70,17 +70,7 @@ END_DERIVED_FUNCTIONS(Vector_ ##type);
 DECLARE_SPECIFIC_VECTOR_TYPE(int);
 DECLARE_SPECIFIC_VECTOR_TYPE(char);
 DECLARE_SPECIFIC_VECTOR_TYPE(float);
-//DECLARE_SPECIFIC_VECTOR_TYPE(object);
-
-//DEF_DERIVED_CLASS(Vector_float, GenericVector);			
-//END_DEF_DERIVED(Vector_float);							
-//															
-//DERIVED_FUNCTIONS(Vector_float, GenericVector);			
-//MEM_FUN_DECL(Vector_float, push_back, float val);			
-//MEM_FUN_DECL(Vector_float, pop_back, float * val);			
-//MEM_FUN_DECL(Vector_float, at, MEM_SIZE_T i, float* val);	
-//MEM_FUN_DECL(Vector_float, print);	
-//END_DERIVED_FUNCTIONS(Vector_float);
+DECLARE_SPECIFIC_VECTOR_TYPE(object);
 
 
 #endif

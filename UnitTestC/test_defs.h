@@ -57,9 +57,9 @@ BIND(SUITE_NAME, __run_all_tests__);
 
 #define BIND_TEST(SUITE_NAME, test_name)\
 BIND(SUITE_NAME, test_name);\
-(SUITE_NAME ##VTable.TEST_LINK_NAME(test_name))._test_func = SUITE_NAME ##VTable.test_name.inner_function;\
-(SUITE_NAME ##VTable.TEST_LINK_NAME(test_name)).name = #test_name;\
-(SUITE_NAME ##VTable.TEST_LINK_NAME(test_name)).next = (SUITE_NAME ##VTable.__tests_anchor).next;\
+(V_TABLE_INSTANCE(SUITE_NAME).TEST_LINK_NAME(test_name))._test_func = SUITE_NAME ##VTable.test_name.inner_function;\
+(V_TABLE_INSTANCE(SUITE_NAME).TEST_LINK_NAME(test_name)).name = #test_name;\
+(V_TABLE_INSTANCE(SUITE_NAME).TEST_LINK_NAME(test_name)).next = (SUITE_NAME ##VTable.__tests_anchor).next;\
 TESTS_ANCHOR(SUITE_NAME).next = &(SUITE_NAME ##VTable.TEST_LINK_NAME(test_name));
 
 #define END_INIT_TEST_SUITE(SUITE_NAME)\
