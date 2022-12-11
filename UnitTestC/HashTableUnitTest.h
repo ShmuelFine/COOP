@@ -1,6 +1,6 @@
-//#include "../COOP/COOP.h"
-//#include "../COOP/hashTable.h"
-//#include "test_defs.h"
+//#include "COOP.h"
+//#include "hashTable.h"
+//#include "UnitTestsInfra.h"
 //
 //FUN_DECL(check_insert_SanityTest);
 //FUN_DECL(check_insert_when_already_exists_then_throw);

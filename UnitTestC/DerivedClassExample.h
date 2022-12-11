@@ -3,7 +3,7 @@
 
 
 #include "BaseClassExample.h"
-#include "../COOP/ExportDefs.h"
+#include "ExportDefs.h"
 
 DEF_DERIVED_CLASS(DerivedClassExample, BaseClassExample);
 int depth;

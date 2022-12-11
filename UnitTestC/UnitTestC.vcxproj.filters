@@ -64,9 +64,6 @@
     <ClInclude Include="DemoClassTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="test_defs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="InheritanceTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -102,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="ScopeTester.h">
       <Filter>AuxClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="shared_ptr_test.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

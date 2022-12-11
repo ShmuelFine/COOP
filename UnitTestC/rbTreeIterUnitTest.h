@@ -1,10 +1,10 @@
 #ifndef __COOP_TESTS__RB_TREE_ITER_TEST__H__
 #define __COOP_TESTS__RB_TREE_ITER_TEST__H__
 
-#include "test_defs.h"
-#include "../COOP/COOP.h"
-#include "../COOP/redBlackTreeIterator.h"
-#include "../COOP/redBlackTree.h"
+#include "UnitTestsInfra.h"
+#include "COOP.h"
+#include "redBlackTreeIterator.h"
+#include "redBlackTree.h"
 
 
 DEF_TEST_SUITE(RedBlackTreeIteratorTest);

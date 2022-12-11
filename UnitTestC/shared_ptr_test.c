@@ -1,6 +1,6 @@
 #include "shared_ptr_test.h"
 #include "BaseClassExample.h"
-#include "../COOP/Shared_ptr.h"
+#include "Shared_ptr.h"
 
 TEST_FUN_IMPL(SharedPtrTest, check_type_char)
 {

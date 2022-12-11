@@ -1,6 +1,6 @@
 #include "vectorUnitTest.h"
-#include "../COOP/ExportDefs.h"
-#include "../COOP/vector.h"
+#include "ExportDefs.h"
+#include "vector.h"
 #include "ScopeTester.h"
 
 TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
@@ -44,10 +44,10 @@ TEST_FUN_IMPL(VectorTest, at_ThrowsWhenIdxIsOutOfRange)
 {
 	CREATE(Vector_int, v1) CALL;
 	
-	int retVal = 0;
+	int * retValPtr = NULL;
 
 	EXPECT_THROW;
-	MFUN(&v1, at), 6, & retVal CALL;
+	MFUN(&v1, at), 6, & retValPtr CALL;
 	ASSERT_THROW;
 
 }END_FUN

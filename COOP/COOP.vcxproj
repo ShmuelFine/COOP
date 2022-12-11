@@ -158,6 +158,7 @@
     <ClInclude Include="redBlackTree.h" />
     <ClInclude Include="redBlackTreeIterator.h" />
     <ClInclude Include="Shared_ptr.h" />
+    <ClInclude Include="UnitTestsInfra.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="VirtualFuncCalling.h" />
   </ItemGroup>

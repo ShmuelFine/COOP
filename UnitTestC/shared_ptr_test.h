@@ -1,4 +1,4 @@
-#include "test_defs.h"
+#include "UnitTestsInfra.h"
 #include "../COOP/COOP.h"
 
 DEF_TEST_SUITE(SharedPtrTest);

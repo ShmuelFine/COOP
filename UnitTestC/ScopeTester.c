@@ -1,5 +1,5 @@
 #include "ScopeTester.h"
-#include "../COOP/DynamicMemoryManagement.h"
+#include "DynamicMemoryManagement.h"
 
 DEF_CTOR(ScopeTester, char * pointedVal)
 {

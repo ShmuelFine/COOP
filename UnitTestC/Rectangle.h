@@ -1,7 +1,7 @@
 #ifndef __COOP__RECTANGLE__H_
 #define __COOP__RECTANGLE__H_
 
-#include "../COOP/COOP.h"
+#include "COOP.h"
 
 DEF_CLASS(Rectangle);
 // Define member fields here. e.g:

@@ -1,9 +1,9 @@
 #ifndef __COOP_TESTS__RB_TREE_TEST__H__
 #define __COOP_TESTS__RB_TREE_TEST__H__
 
-#include "test_defs.h"
-#include "../COOP/COOP.h"
-#include "../COOP/redBlackTree.h"
+#include "UnitTestsInfra.h"
+#include "COOP.h"
+#include "redBlackTree.h"
 #include "Rectangle.h"
 
 DEF_TEST_SUITE(RedBlackTreeTest);
