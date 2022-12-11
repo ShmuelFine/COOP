@@ -29,7 +29,13 @@ MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, ch
 	*val_ptr = ((char*)_this->data.px) + _this->elementSize * i;
 }
 END_FUN;
-
+/*#define IMPL_AT_OF_TYPE(type)\
+MEM_FUN_IMPL(GenericVector, at_ ##type, MEM_SIZE_T i, type ** val_ptr) {\
+	char * val_char_ptr = NULL;\
+	MFUN(_this, __at_generic), i, sizeof(type), &val_char_ptr CALL;\
+	*val_ptr = (int*)val_char_ptr;\
+}\
+END_FUN;*/
 #define IMPL_AT_OF_TYPE(type)\
 MEM_FUN_IMPL(GenericVector, at_ ##type, MEM_SIZE_T i, type ** val_ptr) {\
 	MFUN(_this, __at_generic), i, sizeof(type), ((char**)val_ptr) CALL;\
@@ -40,6 +46,9 @@ IMPL_AT_OF_TYPE(int);
 IMPL_AT_OF_TYPE(char);
 IMPL_AT_OF_TYPE(float);
 IMPL_AT_OF_TYPE(object);
+
+
+
 
 #define IMPL_SET_OF_TYPE(type)\
 MEM_FUN_IMPL(GenericVector, set_ ##type, MEM_SIZE_T i, type val) {\
@@ -55,15 +64,21 @@ IMPL_SET_OF_TYPE(char);
 IMPL_SET_OF_TYPE(float);
 IMPL_SET_OF_TYPE(object);
 
+
+
 #define IMPL_GET_OF_TYPE(type)\
 MEM_FUN_IMPL(GenericVector, get_ ##type, MEM_SIZE_T i, type * val) {\
 	type * val_ptr = NULL;\
-	MFUN(_this, __at_generic), i, sizeof(type), ((char*)&val_ptr) CALL;\
+	MFUN(_this, __at_generic), i, sizeof(type), ((char**)&val_ptr) CALL;\
 	ASSERT_NOT_NULL(val_ptr)\
 	*val = *val_ptr;\
 }\
 END_FUN;
 
+IMPL_GET_OF_TYPE(int);
+IMPL_GET_OF_TYPE(char);
+IMPL_GET_OF_TYPE(float);
+IMPL_GET_OF_TYPE(object);
 
 MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
 {
@@ -149,6 +164,14 @@ BIND(GenericVector, at_int);
 BIND(GenericVector, at_char);
 BIND(GenericVector, at_float);
 
+BIND(GenericVector, get_int);
+BIND(GenericVector, get_char);
+BIND(GenericVector, get_float);
+
+BIND(GenericVector, set_int);
+BIND(GenericVector, set_char);
+BIND(GenericVector, set_float);
+
 BIND(GenericVector, resize);
 
 BIND(GenericVector, __push_back_generic);
@@ -160,6 +183,9 @@ BIND(GenericVector, __pop_back_generic);
 BIND(GenericVector, pop_back_int);
 BIND(GenericVector, pop_back_char);
 BIND(GenericVector, pop_back_float);
+
+
+
 END_INIT_CLASS(GenericVector)
 
 ////////////////////////////////////////////////
@@ -193,6 +219,9 @@ INIT_DERIVED_CLASS(Vector_ ##type, GenericVector);																	\
 BIND(Vector_ ##type, push_back);																					\
 BIND(Vector_ ##type, pop_back);																						\
 BIND(Vector_ ##type, at);																							\
+BIND(Vector_ ##type, get);																							\
+BIND(Vector_ ##type, set);																							\
+BIND(Vector_ ##type, resize);																							\
 BIND(Vector_ ##type, print);																						\
 END_INIT_CLASS(Vector_ ##type)																						
 

@@ -15,19 +15,19 @@ TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 	int retVal3 = 0;
 	int retVal4 = 0;
 	MFUN(&v1, push_back), 3 CALL;
-	MFUN(&v1, at), 0, & retVal CALL;
+	MFUN(&v1, get), 0, & retVal CALL;
 
 	MFUN(&v1, push_back), 4 CALL;
-	MFUN(&v1, at), 1, & retVal1 CALL;
+	MFUN(&v1, get), 1, & retVal1 CALL;
 
 	MFUN(&v1, push_back), 5 CALL;
-	MFUN(&v1, at), 2, & retVal2 CALL;
+	MFUN(&v1, get), 2, & retVal2 CALL;
 
 	MFUN(&v1, push_back), 6 CALL;
-	MFUN(&v1, at), 3, & retVal3 CALL;
+	MFUN(&v1, get), 3, & retVal3 CALL;
 
 	MFUN(&v1, push_back), 7 CALL;
-	MFUN(&v1, at), 4, & retVal4 CALL;
+	MFUN(&v1, get), 4, & retVal4 CALL;
 	//MFUN(&v1, print) CALL;
 
 	// Assert
@@ -63,10 +63,10 @@ TEST_FUN_IMPL(VectorTest, VEC_AT__SanityTest)
 	//MFUN(&v1, print) CALL;
 
 	// Act
-	int val0; MFUN(&v1, at), 0, &val0 CALL;
-	int val1; MFUN(&v1, at), 1, &val1 CALL;
-	int val2; MFUN(&v1, at), 2, &val2 CALL;
-	int val3; MFUN(&v1, at), v1._base.size - 1, &val3 CALL;
+	int val0; MFUN(&v1, get), 0, &val0 CALL;
+	int val1; MFUN(&v1, get), 1, &val1 CALL;
+	int val2; MFUN(&v1, get), 2, &val2 CALL;
+	int val3; MFUN(&v1, get), v1._base.size - 1, &val3 CALL;
 	
 	// Assert
 	NTEST_ASSERT(val0 == 3);

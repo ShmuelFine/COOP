@@ -47,9 +47,6 @@
     <ClCompile Include="HashTableUnitTest.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NdarrayTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BaseClassExample.c">
       <Filter>AuxClasses</Filter>
     </ClCompile>
@@ -92,9 +89,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HashTableUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NdarrayTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseClassExample.h">

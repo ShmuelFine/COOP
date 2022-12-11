@@ -151,7 +151,6 @@
     <ClCompile Include="HashTableUnitTest.c" />
     <ClCompile Include="InheritanceTest.c" />
     <ClCompile Include="MemManagementUnitTest.c" />
-    <ClCompile Include="NdarrayTest.c" />
     <ClCompile Include="rbTreeIterUnitTest.c" />
     <ClCompile Include="rbTreeUnitTest.c" />
     <ClCompile Include="Rectangle.c" />
@@ -168,7 +167,6 @@
     <ClInclude Include="HashTableUnitTest.h" />
     <ClInclude Include="InheritanceTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />
-    <ClInclude Include="NdarrayTest.h" />
     <ClInclude Include="rbTreeIterUnitTest.h" />
     <ClInclude Include="rbTreeUnitTest.h" />
     <ClInclude Include="Rectangle.h" />
