@@ -9,13 +9,14 @@ TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 	CREATE(Vector_int, v1) CALL;
 
 	// Act
-	int retVal = 0;
+	int retVal0 = 0;
 	int retVal1 = 0;
 	int retVal2 = 0;
 	int retVal3 = 0;
 	int retVal4 = 0;
+
 	MFUN(&v1, push_back), 3 CALL;
-	MFUN(&v1, get), 0, & retVal CALL;
+	MFUN(&v1, get), 0, & retVal0 CALL;
 
 	MFUN(&v1, push_back), 4 CALL;
 	MFUN(&v1, get), 1, & retVal1 CALL;
@@ -31,7 +32,7 @@ TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 	//MFUN(&v1, print) CALL;
 
 	// Assert
-	NTEST_ASSERT(retVal == 3);
+	NTEST_ASSERT(retVal0 == 3);
 	NTEST_ASSERT(retVal1 == 4);
 	NTEST_ASSERT(retVal2 == 5);
 	NTEST_ASSERT(retVal3 == 6);
@@ -39,7 +40,7 @@ TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 
 }END_FUN
 
-TEST_FUN_IMPL(VectorTest, at_throws_when_idx_is_outOfRange)
+TEST_FUN_IMPL(VectorTest, at_ThrowsWhenIdxIsOutOfRange)
 {
 	CREATE(Vector_int, v1) CALL;
 	
@@ -51,7 +52,7 @@ TEST_FUN_IMPL(VectorTest, at_throws_when_idx_is_outOfRange)
 
 }END_FUN
 
-TEST_FUN_IMPL(VectorTest, VEC_AT__SanityTest)
+TEST_FUN_IMPL(VectorTest, set_SanityTest)
 {
 	// Arrange
 	CREATE(Vector_int, v1) CALL;
@@ -62,22 +63,27 @@ TEST_FUN_IMPL(VectorTest, VEC_AT__SanityTest)
 	MFUN(&v1, push_back), 6 CALL;
 	//MFUN(&v1, print) CALL;
 
-	// Act
+	// Act	
+	MFUN(&v1, set), 0, 13 CALL;
+	MFUN(&v1, set), 1, 14 CALL;
+	MFUN(&v1, set), 2, 15 CALL;
+	MFUN(&v1, set), 3, 16 CALL;
+
+	// Assert
 	int val0; MFUN(&v1, get), 0, &val0 CALL;
 	int val1; MFUN(&v1, get), 1, &val1 CALL;
 	int val2; MFUN(&v1, get), 2, &val2 CALL;
 	int val3; MFUN(&v1, get), v1._base.size - 1, &val3 CALL;
 	
-	// Assert
-	NTEST_ASSERT(val0 == 3);
-	NTEST_ASSERT(val1 == 4);
-	NTEST_ASSERT(val2 == 5);
-	NTEST_ASSERT(val3 == 6);
+	NTEST_ASSERT(val0 == 13);
+	NTEST_ASSERT(val1 == 14);
+	NTEST_ASSERT(val2 == 15);
+	NTEST_ASSERT(val3 == 16);
 
 }END_FUN
 
 INIT_TEST_SUITE(VectorTest)
 BIND_TEST(VectorTest, push_back_SanityTest);
-BIND_TEST(VectorTest, at_throws_when_idx_is_outOfRange);
-BIND_TEST(VectorTest, VEC_AT__SanityTest);
+BIND_TEST(VectorTest, at_ThrowsWhenIdxIsOutOfRange);
+BIND_TEST(VectorTest, set_SanityTest);
 END_INIT_TEST_SUITE(VectorTest)

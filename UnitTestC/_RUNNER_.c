@@ -19,24 +19,24 @@ IMPORT_TESTS(MemoryManagementTest);
 IMPORT_TESTS(InheritanceTest);
 IMPORT_TESTS(ExceptionTests);
 IMPORT_TESTS(SharedPtrTest);
-//IMPORT_TESTS(VectorIteratorTest);
+//IMPORT_TESTS(RedBlackTreeTest);
 //IMPORT_TESTS(RedBlackTreeIteratorTest);
-//RedBlackTreeIteratorTest_initIMPORT_TESTS(RedBlackTreeTest);
 
 int main() {
 
 	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
-	//RUN_TESTS(Infra_ScopesTest);
-	//RUN_TESTS(MemoryManagementTest);
-	//RUN_TESTS(InheritanceTest);
-	//RUN_TESTS(ExceptionTests);
-	//RUN_TESTS(SharedPtrTest);
-	//
-	//RUN_TESTS(DemoClassTest);
+	RUN_TESTS(Infra_ScopesTest);
+	RUN_TESTS(MemoryManagementTest);
+	RUN_TESTS(InheritanceTest);
+	RUN_TESTS(ExceptionTests);
+	RUN_TESTS(SharedPtrTest);
+	
 	RUN_TESTS(VectorTest);
 	//RUN_TESTS(RedBlackTreeTest);
 	//RUN_TESTS(RedBlackTreeIteratorTest);
+
+	RUN_TESTS(DemoClassTest);
 
 	return 0;
 

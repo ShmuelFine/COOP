@@ -6,8 +6,8 @@
 
 DEF_TEST_SUITE(VectorTest);
 ADD_TEST(VectorTest, push_back_SanityTest);
-ADD_TEST(VectorTest, at_throws_when_idx_is_outOfRange);
-ADD_TEST(VectorTest, VEC_AT__SanityTest);
+ADD_TEST(VectorTest, at_ThrowsWhenIdxIsOutOfRange);
+ADD_TEST(VectorTest, set_SanityTest);
 END_TEST_SUITE(VectorTest);
 
 #endif
