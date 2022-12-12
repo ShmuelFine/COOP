@@ -53,7 +53,7 @@ __RET_VAL__ = IN_THROWING_VALUE; break;
 
 COOP_API extern const char* LAST_EXCEPTION_ERROR_MSG;
 
-#define THROW_MSG(msg) LAST_EXCEPTION_ERROR_MSG = msg; THROW
+#define THROW_MSG(msg) LAST_EXCEPTION_ERROR_MSG = (msg); THROW
 
 #define SCOPE_START					\
 object _scope_obj_list;				\
@@ -84,7 +84,7 @@ return __RET_VAL__; \
 
 #define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)
 
-#define FUN(_this, funcName)\
+#define FUN(funcName)\
 { int _retVal_ = funcName(
 
 #define CALL ); if (IN_THROWING_VALUE == _retVal_) {THROW;} } 

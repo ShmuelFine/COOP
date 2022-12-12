@@ -3,7 +3,7 @@
 #include "InheritanceTest.h"
 #include "rbTreeIterUnitTest.h"
 #include "rbTreeUnitTest.h"
-#include "vectorUnitTest.h"
+#include "VectorUnitTest.h"
 #include "ExeptionUnitTest.h"
 #include "MemManagementUnitTest.h"
 #include "shared_ptr_test.h"

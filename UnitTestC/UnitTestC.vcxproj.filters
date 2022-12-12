@@ -42,7 +42,7 @@
     <ClCompile Include="shared_ptr_test.c">
       <Filter>DataStructuresTests</Filter>
     </ClCompile>
-    <ClCompile Include="vectorUnitTest.c">
+    <ClCompile Include="VectorUnitTest.c">
       <Filter>DataStructuresTests</Filter>
     </ClCompile>
     <ClCompile Include="rbTreeUnitTest.c">
@@ -81,7 +81,7 @@
     <ClInclude Include="ExeptionUnitTest.h">
       <Filter>InfraTests</Filter>
     </ClInclude>
-    <ClInclude Include="vectorUnitTest.h">
+    <ClInclude Include="VectorUnitTest.h">
       <Filter>DataStructuresTests</Filter>
     </ClInclude>
     <ClInclude Include="rbTreeUnitTest.h">

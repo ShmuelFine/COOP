@@ -8,7 +8,7 @@ DEF_CTOR(GenericVector, MEM_SIZE_T dataTypeSize)
 	_this->capacity = 0;
 	_this->elementSize = dataTypeSize;
 
-	INITIALIZE_INSTANCE(Shared_ptr, _this->data) CALL;
+	INITIALIZE_INSTANCE(SharedPodPtr, _this->data), 0 CALL;
 }
 END_CTOR
 
@@ -80,17 +80,12 @@ IMPL_GET_OF_TYPE(object);
 
 MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
 {
-	CREATE(Shared_ptr, new_ptr) CALL;
-	void* new_buff = NULL;
-	ALLOC_ARRAY(new_buff, char, _this->elementSize* new_capacity);
-	ASSERT_NOT_NULL(new_buff);
-	MFUN(&new_ptr, reset), new_buff CALL;
+	CREATE(SharedPodPtr, new_buff_ptr), _this->elementSize * new_capacity CALL;
 
 	if (_this->size > 0) {
-		memcpy(new_buff, _this->data.px, _this->elementSize * _this->capacity);
+		memcpy(new_buff_ptr.px, _this->data.px, _this->elementSize * _this->capacity);
 	}
-
-	MFUN(&_this->data, copyFrom), & new_ptr CALL;
+	MFUN(&_this->data, copyFrom), & new_buff_ptr CALL;
 
 	_this->capacity = new_capacity;
 }

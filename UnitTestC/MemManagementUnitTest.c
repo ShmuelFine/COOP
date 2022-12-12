@@ -28,11 +28,11 @@ TEST_FUN_IMPL(MemoryManagementTest, Delete_WhenDeletingAllocMemory_ThenItFreesTh
 	// max size of new block = 20 ints - 3xMDs = (20 - 3*3) ints
 	//Act
 	int* buff;
-	ALLOC_VARIABLE(buff, int[11]);
+	ALLOC(buff, int[11]);
 	FREE(buff);
 
 	//Assert
-	ALLOC_VARIABLE(buff, int[11]);
+	ALLOC(buff, int[11]);
 	// if it throws - test failed
 
 }END_FUN

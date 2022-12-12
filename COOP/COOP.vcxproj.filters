@@ -33,7 +33,7 @@
     <ClInclude Include="UnitTestsInfra.h">
       <Filter>Infra</Filter>
     </ClInclude>
-    <ClInclude Include="Shared_ptr.h" />
+    <ClInclude Include="SharedPodPtr.h" />
     <ClInclude Include="ClassDefMacros.h">
       <Filter>Infra</Filter>
     </ClInclude>
@@ -69,7 +69,7 @@
     <ClCompile Include="Vector.c" />
     <ClCompile Include="RedBlackTree.c" />
     <ClCompile Include="GenericTensor.c" />
-    <ClCompile Include="Shared_ptr.c" />
+    <ClCompile Include="SharedPodPtr.c" />
     <ClCompile Include="ObjectLifecycleManagement.c">
       <Filter>Infra</Filter>
     </ClCompile>

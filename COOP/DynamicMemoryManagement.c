@@ -33,3 +33,9 @@ FUN_IMPL(init_global_memory, int size, CACHE_TYPES type)
 	}
 }
 END_FUN;
+
+FUN_IMPL(get_total_free_bytes, MEM_SIZE_T* out_count)
+{
+	MFUN(TheGlobalCache, getTotalFreeBytes), out_count CALL;
+}
+END_FUN;

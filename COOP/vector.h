@@ -3,13 +3,13 @@
 
 
 #include "coop.h"
-#include "Shared_ptr.h"
+#include "SharedPodPtr.h"
 
 DEF_CLASS(GenericVector);
 MEM_SIZE_T size;
 MEM_SIZE_T capacity;
 MEM_SIZE_T elementSize;
-Shared_ptr data;
+SharedPodPtr data;
 END_DEF(GenericVector);
 
 FUNCTIONS(GenericVector, MEM_SIZE_T dataTypeSize);

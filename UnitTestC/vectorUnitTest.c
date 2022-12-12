@@ -1,4 +1,4 @@
-#include "vectorUnitTest.h"
+#include "VectorUnitTest.h"
 #include "ExportDefs.h"
 #include "vector.h"
 #include "ScopeTester.h"

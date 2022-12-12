@@ -1,4 +1,3 @@
-
 #include "InMemoryCache.h"
 
 #include <stdbool.h>
@@ -96,8 +95,22 @@ FUN_OVERRIDE_IMPL(InMemoryCache, ICache, RemoveBlock, void* toDelete)
 }
 END_FUN
 
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+{
+	*out_count = 0;
+	for (MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+	{
+		char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+		MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
+		MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+
+		*out_count += space_between_blocks;
+	}
+}
+END_FUN
 
 INIT_DERIVED_CLASS(InMemoryCache, ICache);
 BIND_OVERIDE(InMemoryCache, ICache, AddNewBlock);
 BIND_OVERIDE(InMemoryCache, ICache, RemoveBlock);
+BIND_OVERIDE(InMemoryCache, ICache, getTotalFreeBytes);
 END_INIT_CLASS(InMemoryCache)
