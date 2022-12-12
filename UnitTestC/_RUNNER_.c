@@ -8,7 +8,6 @@
 #include "MemManagementUnitTest.h"
 #include "shared_ptr_test.h"
 #include "ScopesUnitTest.h"
-#include "HashTableUnitTest.h"
 
 
 IMPORT_TESTS(Infra_ScopesTest);

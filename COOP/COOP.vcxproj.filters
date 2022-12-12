@@ -7,9 +7,6 @@
     <Filter Include="MemoryManagement">
       <UniqueIdentifier>{6179e962-d66d-48bb-925f-0dc1ddf35f6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OOP">
-      <UniqueIdentifier>{ca4fd2a6-1229-4bef-a116-c98d5c62a5eb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="COOP.h">
@@ -30,34 +27,29 @@
     <ClInclude Include="ICache.h">
       <Filter>MemoryManagement</Filter>
     </ClInclude>
-    <ClInclude Include="ClassDefMacros.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="InheritenceDefMacros.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectBaseStructs.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectLifecycleManagement.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="VirtualFuncCalling.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h" />
     <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="GenericTensor.h" />
-    <ClInclude Include="Shared_ptr.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="IHashable.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
     <ClInclude Include="UnitTestsInfra.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="Shared_ptr.h" />
+    <ClInclude Include="ClassDefMacros.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="InheritenceDefMacros.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBaseStructs.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectLifecycleManagement.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualFuncCalling.h">
       <Filter>Infra</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,17 +66,15 @@
     <ClCompile Include="ICache.c">
       <Filter>MemoryManagement</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectLifecycleManagement.c">
-      <Filter>OOP</Filter>
-    </ClCompile>
-    <ClCompile Include="VirtualFuncCalling.c">
-      <Filter>OOP</Filter>
-    </ClCompile>
     <ClCompile Include="Vector.c" />
     <ClCompile Include="RedBlackTree.c" />
     <ClCompile Include="GenericTensor.c" />
-    <ClCompile Include="Shared_ptr.c">
-      <Filter>OOP</Filter>
+    <ClCompile Include="Shared_ptr.c" />
+    <ClCompile Include="ObjectLifecycleManagement.c">
+      <Filter>Infra</Filter>
+    </ClCompile>
+    <ClCompile Include="VirtualFuncCalling.c">
+      <Filter>Infra</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

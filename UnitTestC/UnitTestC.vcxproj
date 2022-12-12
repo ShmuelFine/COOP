@@ -152,7 +152,6 @@
     <ClCompile Include="DemoClassTest.c" />
     <ClCompile Include="DerivedClassExample.c" />
     <ClCompile Include="ExeptionUnitTest.c" />
-    <ClCompile Include="HashTableUnitTest.c" />
     <ClCompile Include="InheritanceTest.c" />
     <ClCompile Include="MemManagementUnitTest.c" />
     <ClCompile Include="rbTreeIterUnitTest.c" />
@@ -168,7 +167,6 @@
     <ClInclude Include="DemoClassTest.h" />
     <ClInclude Include="DerivedClassExample.h" />
     <ClInclude Include="ExeptionUnitTest.h" />
-    <ClInclude Include="HashTableUnitTest.h" />
     <ClInclude Include="InheritanceTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />
     <ClInclude Include="rbTreeIterUnitTest.h" />

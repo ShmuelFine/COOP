@@ -142,7 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="IHashable.h" />
     <ClInclude Include="InMemoryCache.h" />
     <ClInclude Include="ClassDefMacros.h" />
     <ClInclude Include="COOP.h" />
