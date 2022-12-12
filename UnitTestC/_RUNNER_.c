@@ -6,7 +6,7 @@
 #include "VectorUnitTest.h"
 #include "ExeptionUnitTest.h"
 #include "MemManagementUnitTest.h"
-#include "shared_ptr_test.h"
+#include "SharedPodPtrUnitTest.h"
 #include "ScopesUnitTest.h"
 
 
