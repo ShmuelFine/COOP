@@ -1,5 +1,4 @@
-#include "shared_ptr_test.h"
-#include "BaseClassExample.h"
+#include "SharedPodPtrUnitTest.h"
 #include "SharedPodPtr.h"
 
 TEST_FUN_IMPL(SharedPtrTest, ctor_sanity)

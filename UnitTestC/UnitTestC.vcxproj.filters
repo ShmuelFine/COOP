@@ -39,7 +39,7 @@
     <ClCompile Include="ScopesUnitTest.c">
       <Filter>InfraTests</Filter>
     </ClCompile>
-    <ClCompile Include="shared_ptr_test.c">
+    <ClCompile Include="SharedPodPtrUnitTest.c">
       <Filter>DataStructuresTests</Filter>
     </ClCompile>
     <ClCompile Include="VectorUnitTest.c">
@@ -90,7 +90,7 @@
     <ClInclude Include="rbTreeIterUnitTest.h">
       <Filter>DataStructuresTests</Filter>
     </ClInclude>
-    <ClInclude Include="shared_ptr_test.h">
+    <ClInclude Include="SharedPodPtrUnitTest.h">
       <Filter>DataStructuresTests</Filter>
     </ClInclude>
     <ClInclude Include="DemoClassTest.h">

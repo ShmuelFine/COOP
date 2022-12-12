@@ -1,5 +1,5 @@
 #include "UnitTestsInfra.h"
-#include "../COOP/COOP.h"
+#include "COOP.h"
 
 DEF_TEST_SUITE(SharedPtrTest);
 ADD_TEST(SharedPtrTest, ctor_sanity);
