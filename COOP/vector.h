@@ -14,6 +14,8 @@ END_DEF(GenericVector);
 
 FUNCTIONS(GenericVector, MEM_SIZE_T dataTypeSize);
 
+MEM_FUN_DECL(GenericVector, dataPtr, char** out_ptr);
+
 MEM_FUN_DECL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, char** val_ptr);
 MEM_FUN_DECL(GenericVector, at_int, MEM_SIZE_T i, int ** val_ptr);
 MEM_FUN_DECL(GenericVector, at_char, MEM_SIZE_T i, char ** val_ptr);
@@ -57,6 +59,7 @@ DEF_DERIVED_CLASS(Vector_ ##type, GenericVector);			\
 END_DEF_DERIVED(Vector_ ##type);							\
 															\
 DERIVED_FUNCTIONS(Vector_ ##type, GenericVector);			\
+MEM_FUN_DECL(Vector_ ##type, dataPtr, type ** out_ptr);			\
 MEM_FUN_DECL(Vector_ ##type, push_back, type val);			\
 MEM_FUN_DECL(Vector_ ##type, pop_back, type * val);			\
 MEM_FUN_DECL(Vector_ ##type, at, MEM_SIZE_T i, type** val_ptr);	\

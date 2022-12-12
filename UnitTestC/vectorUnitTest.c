@@ -6,37 +6,47 @@
 TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 {
 	// Arrange
-	CREATE(Vector_int, v1) CALL;
-
+	CREATE(Vector_int, vec) CALL;
+	int numElements = 54;
+	
 	// Act
-	int retVal0 = 0;
-	int retVal1 = 0;
-	int retVal2 = 0;
-	int retVal3 = 0;
-	int retVal4 = 0;
-
-	MFUN(&v1, push_back), 3 CALL;
-	MFUN(&v1, get), 0, & retVal0 CALL;
-
-	MFUN(&v1, push_back), 4 CALL;
-	MFUN(&v1, get), 1, & retVal1 CALL;
-
-	MFUN(&v1, push_back), 5 CALL;
-	MFUN(&v1, get), 2, & retVal2 CALL;
-
-	MFUN(&v1, push_back), 6 CALL;
-	MFUN(&v1, get), 3, & retVal3 CALL;
-
-	MFUN(&v1, push_back), 7 CALL;
-	MFUN(&v1, get), 4, & retVal4 CALL;
-	//MFUN(&v1, print) CALL;
+	for (int i = 0; i < numElements; i++)
+	{
+		MFUN(&vec, push_back), i CALL;
+	}
 
 	// Assert
-	NTEST_ASSERT(retVal0 == 3);
-	NTEST_ASSERT(retVal1 == 4);
-	NTEST_ASSERT(retVal2 == 5);
-	NTEST_ASSERT(retVal3 == 6);
-	NTEST_ASSERT(retVal4 == 7);
+	MEM_SIZE_T curr_size = 0;
+	MFUN(&vec, size), & curr_size CALL;
+	NTEST_ASSERT(curr_size == numElements);
+
+	int* data = NULL;
+	MFUN(&vec, dataPtr), & data CALL;
+	THROW_MSG_UNLESS(data, "Data can't be null");
+	for (int i = 0; i < numElements; i++)
+	{
+		NTEST_ASSERT(data[i] == i);
+	}
+
+}END_FUN
+
+TEST_FUN_IMPL(VectorTest, pop_back_SanityTest)
+{
+	// Arrange
+	CREATE(Vector_int, vec) CALL;
+	int numElements = 54;
+	for (int i = 0; i < numElements; i++)
+	{
+		MFUN(&vec, push_back), i CALL;
+	}
+
+	// Act, Assert
+	for (int i = 0; i < numElements; i++)
+	{
+		int val = 0;
+		MFUN(&vec, pop_back), &val CALL;
+		NTEST_ASSERT(val == (numElements - 1) - i);
+	}
 
 }END_FUN
 
@@ -55,35 +65,57 @@ TEST_FUN_IMPL(VectorTest, at_ThrowsWhenIdxIsOutOfRange)
 TEST_FUN_IMPL(VectorTest, set_SanityTest)
 {
 	// Arrange
-	CREATE(Vector_int, v1) CALL;
+	CREATE(Vector_int, vec) CALL;
+	int numElements = 54;
 
-	MFUN(&v1, push_back), 3 CALL;
-	MFUN(&v1, push_back), 4 CALL;
-	MFUN(&v1, push_back), 5 CALL;
-	MFUN(&v1, push_back), 6 CALL;
+	for (int i = 0; i < numElements; i++)
+	{
+		MFUN(&vec, push_back), i CALL;
+	}
+	//MFUN(&v1, print) CALL;
+	
+	// Act
+	for (int i = 0; i < numElements; i++)
+	{
+		MFUN(&vec, set), i, (numElements - 1) - i CALL;
+	}
+	// Assert
+	int* data = NULL;
+	MFUN(&vec, dataPtr), & data CALL;
+	THROW_MSG_UNLESS(data, "Data can't be null");
+	for (int i = 0; i < numElements; i++)
+	{
+		NTEST_ASSERT(data[i] == (numElements - 1) - i);
+	}
+
+}END_FUN
+
+TEST_FUN_IMPL(VectorTest, get_SanityTest)
+{
+	// Arrange
+	CREATE(Vector_int, vec) CALL;
+	int numElements = 54;
+
+	for (int i = 0; i < numElements; i++)
+	{
+		MFUN(&vec, push_back), i CALL;
+	}
 	//MFUN(&v1, print) CALL;
 
-	// Act	
-	MFUN(&v1, set), 0, 13 CALL;
-	MFUN(&v1, set), 1, 14 CALL;
-	MFUN(&v1, set), 2, 15 CALL;
-	MFUN(&v1, set), 3, 16 CALL;
-
-	// Assert
-	int val0; MFUN(&v1, get), 0, &val0 CALL;
-	int val1; MFUN(&v1, get), 1, &val1 CALL;
-	int val2; MFUN(&v1, get), 2, &val2 CALL;
-	int val3; MFUN(&v1, get), v1._base.size - 1, &val3 CALL;
-	
-	NTEST_ASSERT(val0 == 13);
-	NTEST_ASSERT(val1 == 14);
-	NTEST_ASSERT(val2 == 15);
-	NTEST_ASSERT(val3 == 16);
+	// Act, Assert
+	for (int i = 0; i < numElements; i++)
+	{
+		int val = 0;
+		MFUN(&vec, get), i, &val CALL;
+		NTEST_ASSERT(val == i);
+	}
 
 }END_FUN
 
 INIT_TEST_SUITE(VectorTest)
 BIND_TEST(VectorTest, push_back_SanityTest);
+BIND_TEST(VectorTest, pop_back_SanityTest);
 BIND_TEST(VectorTest, at_ThrowsWhenIdxIsOutOfRange);
 BIND_TEST(VectorTest, set_SanityTest);
+BIND_TEST(VectorTest, get_SanityTest);
 END_INIT_TEST_SUITE(VectorTest)

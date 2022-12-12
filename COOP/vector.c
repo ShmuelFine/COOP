@@ -18,7 +18,13 @@ DEF_DTOR(GenericVector)
 }
 END_DTOR
 
-MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, char** val_ptr);
+MEM_FUN_IMPL(GenericVector, dataPtr, char** out_ptr)
+{
+	*out_ptr = ((char*)_this->data.px);
+}
+END_FUN;
+
+MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, char** val_ptr)
 {
 	THROW_MSG_UNLESS(data_size == _this->elementSize, "Invalid Data Size");
 
@@ -157,6 +163,8 @@ IMPL_POP_OF_TYPE(float);
 IMPL_POP_OF_TYPE(object);
 
 INIT_CLASS(GenericVector)
+BIND(GenericVector, dataPtr);
+
 BIND(GenericVector, __at_generic);
 BIND(GenericVector, at_int);
 BIND(GenericVector, at_char);
@@ -171,6 +179,7 @@ BIND(GenericVector, set_char);
 BIND(GenericVector, set_float);
 
 BIND(GenericVector, resize);
+BIND(GenericVector, size);
 
 BIND(GenericVector, __push_back_generic);
 BIND(GenericVector, push_back_int);
@@ -190,6 +199,7 @@ END_INIT_CLASS(GenericVector)
 DEF_DERIVED_CTOR(Vector_ ##type, GenericVector) SUPER, sizeof(type) ME {} END_DERIVED_CTOR							\
 DEF_DERIVED_DTOR(Vector_ ##type, GenericVector) {} END_DERIVED_DTOR													\
 																													\
+MEM_FUN_IMPL(Vector_ ##type, dataPtr, type ** out_ptr) { FUN_BASE(_this, dataPtr), (char**) out_ptr CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, push_back, type val) { FUN_BASE(_this, push_back_ ##type), val CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, pop_back, type * val)	{ FUN_BASE(_this, pop_back_ ##type), val CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, at, MEM_SIZE_T i, type ** val_ptr) { FUN_BASE(_this, at_ ##type), i, val_ptr CALL; } END_FUN;	\
@@ -213,6 +223,7 @@ MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 } END_FUN;																											\
 																													\
 INIT_DERIVED_CLASS(Vector_ ##type, GenericVector);																	\
+BIND(Vector_ ##type, dataPtr);																					\
 BIND(Vector_ ##type, push_back);																					\
 BIND(Vector_ ##type, pop_back);																						\
 BIND(Vector_ ##type, at);																							\
