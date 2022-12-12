@@ -3,7 +3,7 @@
 
 #include "UnitTestsInfra.h"
 #include "COOP.h"
-#include "redBlackTree.h"
+#include "RedBlackTree.h"
 #include "Rectangle.h"
 
 DEF_TEST_SUITE(RedBlackTreeTest);

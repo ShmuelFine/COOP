@@ -31,6 +31,7 @@ MEM_FUN_DECL(GenericVector, set_float, MEM_SIZE_T i, float val);
 MEM_FUN_DECL(GenericVector, set_object, MEM_SIZE_T i, object val);
 
 MEM_FUN_DECL(GenericVector, resize, MEM_SIZE_T new_capacity);
+MEM_FUN_DECL(GenericVector, size, MEM_SIZE_T * out_size);
 
 MEM_FUN_DECL(GenericVector, __push_back_generic, char * buff, MEM_SIZE_T buff_size);
 
@@ -62,6 +63,7 @@ MEM_FUN_DECL(Vector_ ##type, at, MEM_SIZE_T i, type** val_ptr);	\
 MEM_FUN_DECL(Vector_ ##type, get, MEM_SIZE_T i, type* val);	\
 MEM_FUN_DECL(Vector_ ##type, set, MEM_SIZE_T i, type val);	\
 MEM_FUN_DECL(Vector_ ##type, resize, MEM_SIZE_T new_capacity);	\
+MEM_FUN_DECL(Vector_ ##type, size, MEM_SIZE_T * out_size);\
 MEM_FUN_DECL(Vector_ ##type, print);	\
 END_DERIVED_FUNCTIONS(Vector_ ##type);
 

@@ -88,8 +88,14 @@ MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
 
 	_this->capacity = new_capacity;
 }
-
 END_FUN;
+
+MEM_FUN_IMPL(GenericVector, size, MEM_SIZE_T* out_size)
+{
+	*out_size = _this->size;
+}
+END_FUN;
+
 MEM_FUN_IMPL(GenericVector, __push_back_generic, char* buff, MEM_SIZE_T buff_size)
 {
 	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
@@ -176,8 +182,6 @@ BIND(GenericVector, pop_back_int);
 BIND(GenericVector, pop_back_char);
 BIND(GenericVector, pop_back_float);
 
-
-
 END_INIT_CLASS(GenericVector)
 
 ////////////////////////////////////////////////
@@ -192,6 +196,7 @@ MEM_FUN_IMPL(Vector_ ##type, at, MEM_SIZE_T i, type ** val_ptr) { FUN_BASE(_this
 MEM_FUN_IMPL(Vector_ ##type, get, MEM_SIZE_T i, type * val) { FUN_BASE(_this, get_ ##type), i, val CALL; } END_FUN;	\
 MEM_FUN_IMPL(Vector_ ##type, set, MEM_SIZE_T i, type val) { FUN_BASE(_this, set_ ##type), i, val CALL; } END_FUN;	\
 MEM_FUN_IMPL(Vector_ ##type, resize, MEM_SIZE_T new_capacity) {FUN_BASE(_this, resize), new_capacity CALL; }END_FUN;\
+MEM_FUN_IMPL(Vector_ ##type, size, MEM_SIZE_T * out_size) {FUN_BASE(_this, size), out_size CALL; }END_FUN;\
 MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	printf("\n");																									\
 	char* format = " %d"; char first_type_name_letter = * #type;													\
@@ -214,6 +219,7 @@ BIND(Vector_ ##type, at);																							\
 BIND(Vector_ ##type, get);																							\
 BIND(Vector_ ##type, set);																							\
 BIND(Vector_ ##type, resize);																							\
+BIND(Vector_ ##type, size);																							\
 BIND(Vector_ ##type, print);																						\
 END_INIT_CLASS(Vector_ ##type)																						
 

@@ -155,8 +155,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectBaseStructs.h" />
     <ClInclude Include="ObjectLifecycleManagement.h" />
-    <ClInclude Include="redBlackTree.h" />
-    <ClInclude Include="redBlackTreeIterator.h" />
+    <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="Shared_ptr.h" />
     <ClInclude Include="UnitTestsInfra.h" />
     <ClInclude Include="Vector.h" />
@@ -169,8 +168,7 @@
     <ClCompile Include="ICache.c" />
     <ClCompile Include="GenericTensor.c" />
     <ClCompile Include="ObjectLifecycleManagement.c" />
-    <ClCompile Include="redBlackTree.c" />
-    <ClCompile Include="redBlackTreeIterator.c" />
+    <ClCompile Include="RedBlackTree.c" />
     <ClCompile Include="Shared_ptr.c" />
     <ClCompile Include="Vector.c" />
     <ClCompile Include="VirtualFuncCalling.c" />

@@ -49,8 +49,7 @@
       <Filter>OOP</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="redBlackTree.h" />
-    <ClInclude Include="redBlackTreeIterator.h" />
+    <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="GenericTensor.h" />
     <ClInclude Include="Shared_ptr.h">
       <Filter>OOP</Filter>
@@ -82,8 +81,7 @@
       <Filter>OOP</Filter>
     </ClCompile>
     <ClCompile Include="Vector.c" />
-    <ClCompile Include="redBlackTree.c" />
-    <ClCompile Include="redBlackTreeIterator.c" />
+    <ClCompile Include="RedBlackTree.c" />
     <ClCompile Include="GenericTensor.c" />
     <ClCompile Include="Shared_ptr.c">
       <Filter>OOP</Filter>

@@ -4,7 +4,7 @@
 #include "UnitTestsInfra.h"
 #include "COOP.h"
 #include "redBlackTreeIterator.h"
-#include "redBlackTree.h"
+#include "RedBlackTree.h"
 
 
 DEF_TEST_SUITE(RedBlackTreeIteratorTest);
