@@ -14,7 +14,7 @@ END_CTOR
 
 DEF_DTOR(GenericVector)
 {
-	MFUN(&(_this->data), Release) CALL;
+	MFUN(&(_this->data), release) CALL;
 }
 END_DTOR
 
@@ -84,13 +84,13 @@ MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
 	void* new_buff = NULL;
 	ALLOC_ARRAY(new_buff, char, _this->elementSize* new_capacity);
 	ASSERT_NOT_NULL(new_buff);
-	MFUN(&new_ptr, Reset), new_buff CALL;
+	MFUN(&new_ptr, reset), new_buff CALL;
 
 	if (_this->size > 0) {
 		memcpy(new_buff, _this->data.px, _this->elementSize * _this->capacity);
 	}
 
-	MFUN(&_this->data, CopyFrom), & new_ptr CALL;
+	MFUN(&_this->data, copyFrom), & new_ptr CALL;
 
 	_this->capacity = new_capacity;
 }
@@ -199,7 +199,7 @@ END_INIT_CLASS(GenericVector)
 DEF_DERIVED_CTOR(Vector_ ##type, GenericVector) SUPER, sizeof(type) ME {} END_DERIVED_CTOR							\
 DEF_DERIVED_DTOR(Vector_ ##type, GenericVector) {} END_DERIVED_DTOR													\
 																													\
-MEM_FUN_IMPL(Vector_ ##type, dataPtr, type ** out_ptr) { FUN_BASE(_this, dataPtr), (char**) out_ptr CALL; } END_FUN;		\
+MEM_FUN_IMPL(Vector_ ##type, dataPtr, type ** out_ptr) { FUN_BASE(_this, dataPtr), (char**) out_ptr CALL; } END_FUN;\
 MEM_FUN_IMPL(Vector_ ##type, push_back, type val) { FUN_BASE(_this, push_back_ ##type), val CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, pop_back, type * val)	{ FUN_BASE(_this, pop_back_ ##type), val CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, at, MEM_SIZE_T i, type ** val_ptr) { FUN_BASE(_this, at_ ##type), i, val_ptr CALL; } END_FUN;	\
@@ -223,13 +223,13 @@ MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 } END_FUN;																											\
 																													\
 INIT_DERIVED_CLASS(Vector_ ##type, GenericVector);																	\
-BIND(Vector_ ##type, dataPtr);																					\
+BIND(Vector_ ##type, dataPtr);																						\
 BIND(Vector_ ##type, push_back);																					\
 BIND(Vector_ ##type, pop_back);																						\
 BIND(Vector_ ##type, at);																							\
 BIND(Vector_ ##type, get);																							\
 BIND(Vector_ ##type, set);																							\
-BIND(Vector_ ##type, resize);																							\
+BIND(Vector_ ##type, resize);																						\
 BIND(Vector_ ##type, size);																							\
 BIND(Vector_ ##type, print);																						\
 END_INIT_CLASS(Vector_ ##type)																						

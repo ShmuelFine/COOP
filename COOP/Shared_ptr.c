@@ -22,7 +22,7 @@ DEF_DTOR(Shared_ptr)
 }
 END_DTOR
 
-MEM_FUN_IMPL(Shared_ptr, Reset, void* newPtr)
+MEM_FUN_IMPL(Shared_ptr, reset, void* newPtr)
 {
 	_this->px = newPtr;
 	ALLOC_VARIABLE(_this->pn, int);
@@ -32,25 +32,25 @@ MEM_FUN_IMPL(Shared_ptr, Reset, void* newPtr)
 END_FUN
 
 
-MEM_FUN_IMPL(Shared_ptr, CopyTo, Shared_ptr* other)
+MEM_FUN_IMPL(Shared_ptr, copyTo, Shared_ptr* other)
 {
-	MFUN(other, Release) CALL;
+	MFUN(other, release) CALL;
 	other->px = _this->px;
 	other->pn = _this->pn;
 	(*(_this->pn))++;
 }
 END_FUN
 
-MEM_FUN_IMPL(Shared_ptr, CopyFrom, Shared_ptr const* other)
+MEM_FUN_IMPL(Shared_ptr, copyFrom, Shared_ptr const* other)
 {
-	MFUN(_this, Release) CALL;
+	MFUN(_this, release) CALL;
 	_this->px = other->px;
 	_this->pn = other->pn;
 	(*(_this->pn))++;
 }
 END_FUN
 
-MEM_FUN_IMPL(Shared_ptr, Release)
+MEM_FUN_IMPL(Shared_ptr, release)
 {
 	if (_this->pn != NULL)
 	{
@@ -66,16 +66,16 @@ MEM_FUN_IMPL(Shared_ptr, Release)
 }
 END_FUN
 
-MEM_FUN_IMPL(Shared_ptr, IsEmpty, bool* out)
+MEM_FUN_IMPL(Shared_ptr, isEmpty, bool* out)
 {
 	*out = (_this->px == NULL);
 }
 END_FUN
 
 INIT_CLASS(Shared_ptr)
-BIND(Shared_ptr, Reset);
-BIND(Shared_ptr, CopyTo);
-BIND(Shared_ptr, CopyFrom);
-BIND(Shared_ptr, Release);
-BIND(Shared_ptr, IsEmpty);
+BIND(Shared_ptr, reset);
+BIND(Shared_ptr, copyTo);
+BIND(Shared_ptr, copyFrom);
+BIND(Shared_ptr, release);
+BIND(Shared_ptr, isEmpty);
 END_INIT_CLASS(Shared_ptr)
