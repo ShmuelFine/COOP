@@ -175,6 +175,7 @@
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />
     <ClInclude Include="SharedPodPtrUnitTest.h" />
+    <ClInclude Include="TensorUnitTest.h" />
     <ClInclude Include="VectorUnitTest.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-#include "GenericTensor.h"
+#include "Tensor.h"
 
 
 DEF_CTOR(GenericTensor, MEM_SIZE_T ndim, MEM_SIZE_T* shape, MEM_SIZE_T elementSize);
@@ -148,3 +148,31 @@ BIND(GenericTensor, reshape);
 
 BIND(GenericTensor, zero_all);
 END_INIT_CLASS(GenericTensor)
+
+
+////////////////////////////////////////////////
+
+#define IMPL_SPECIFIC_TENSOR_TYPE(type)																				\
+DEF_DERIVED_CTOR(Tensor_ ##type, GenericTensor, MEM_SIZE_T ndim, MEM_SIZE_T* shape) SUPER, ndim, shape, sizeof(type) ME {} END_DERIVED_CTOR	\
+DEF_DERIVED_DTOR(Tensor_ ##type, GenericTensor) {} END_DERIVED_DTOR													\
+																													\
+MEM_FUN_IMPL(Tensor_ ##type, at, MEM_SIZE_T* pos, type ** val_ptr)			{ FUN_BASE(_this, at_ ##type) , pos, val_ptr CALL; } END_FUN;	\
+MEM_FUN_IMPL(Tensor_ ##type, get, MEM_SIZE_T* pos, type * val)				{ FUN_BASE(_this, get_ ##type), pos, val CALL; } END_FUN;	\
+MEM_FUN_IMPL(Tensor_ ##type, set, MEM_SIZE_T* pos, type val)				{ FUN_BASE(_this, set_ ##type), pos, val CALL; } END_FUN;	\
+MEM_FUN_IMPL(Tensor_ ##type, reshape, MEM_SIZE_T ndim, MEM_SIZE_T* shape)	{ FUN_BASE(_this, reshape), ndim, shape CALL; }END_FUN;\
+MEM_FUN_IMPL(Tensor_ ##type, zero_all)										{ FUN_BASE(_this, zero_all) CALL; }END_FUN;\
+																													\
+INIT_DERIVED_CLASS(Tensor_ ##type, GenericTensor);\
+BIND(Tensor_ ##type, at);						\
+BIND(Tensor_ ##type, get);						\
+BIND(Tensor_ ##type, set);						\
+BIND(Tensor_ ##type, reshape);					\
+BIND(Tensor_ ##type, zero_all);					\
+END_INIT_CLASS(Tensor_ ##type)					
+
+////////////////////////////////////////////////
+
+IMPL_SPECIFIC_TENSOR_TYPE(int);
+IMPL_SPECIFIC_TENSOR_TYPE(char);
+IMPL_SPECIFIC_TENSOR_TYPE(float);
+

@@ -96,5 +96,8 @@
     <ClInclude Include="DemoClassTest.h">
       <Filter>Sample</Filter>
     </ClInclude>
+    <ClInclude Include="TensorUnitTest.h">
+      <Filter>DataStructuresTests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

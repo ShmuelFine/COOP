@@ -29,7 +29,7 @@
     </ClInclude>
     <ClInclude Include="Vector.h" />
     <ClInclude Include="RedBlackTree.h" />
-    <ClInclude Include="GenericTensor.h" />
+    <ClInclude Include="Tensor.h" />
     <ClInclude Include="UnitTestsInfra.h">
       <Filter>Infra</Filter>
     </ClInclude>
@@ -68,7 +68,7 @@
     </ClCompile>
     <ClCompile Include="Vector.c" />
     <ClCompile Include="RedBlackTree.c" />
-    <ClCompile Include="GenericTensor.c" />
+    <ClCompile Include="Tensor.c" />
     <ClCompile Include="SharedPodPtr.c" />
     <ClCompile Include="ObjectLifecycleManagement.c">
       <Filter>Infra</Filter>

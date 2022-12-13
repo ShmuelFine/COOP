@@ -4,7 +4,8 @@
 
 #include "coop.h"
 #include "Vector.h"
-#include <stdbool.h>
+
+////////////////////////////////////////////////
 
 DEF_CLASS(GenericTensor);
 Vector_int shape;
@@ -36,3 +37,24 @@ MEM_FUN_DECL(GenericTensor, reshape, MEM_SIZE_T ndim, MEM_SIZE_T* shape);
 MEM_FUN_DECL(GenericTensor, zero_all);
 
 END_FUNCTIONS(GenericTensor);
+
+////////////////////////////////////////////////
+
+#define DECLARE_SPECIFIC_TENSOR_TYPE(type)					\
+DEF_DERIVED_CLASS(Tensor_ ##type, GenericTensor);			\
+END_DEF_DERIVED(Tensor_ ##type);							\
+															\
+DERIVED_FUNCTIONS(Tensor_ ##type, GenericTensor, MEM_SIZE_T ndim, MEM_SIZE_T* shape);			\
+MEM_FUN_DECL(Tensor_ ##type, at, MEM_SIZE_T* pos, type ** val_ptr);	\
+MEM_FUN_DECL(Tensor_ ##type, get, MEM_SIZE_T* pos, type * value);	\
+MEM_FUN_DECL(Tensor_ ##type, set, MEM_SIZE_T* pos, type value);	\
+MEM_FUN_DECL(Tensor_ ##type, reshape, MEM_SIZE_T ndim, MEM_SIZE_T* shape);	\
+MEM_FUN_DECL(Tensor_ ##type, zero_all);\
+END_DERIVED_FUNCTIONS(Tensor_ ##type);
+
+////////////////////////////////////////////////
+
+DECLARE_SPECIFIC_TENSOR_TYPE(int);
+DECLARE_SPECIFIC_TENSOR_TYPE(char);
+DECLARE_SPECIFIC_TENSOR_TYPE(float);
+DECLARE_SPECIFIC_TENSOR_TYPE(object);
