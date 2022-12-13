@@ -13,7 +13,6 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 
 #define INITIALIZE_INSTANCE(type, instance_name)					\
 	if (!is_ ##type ##VirtualTable__initialized) type ##_init();	\
-	instance_name._next = NULL;										\
 	instance_name.vTable = &V_TABLE_INSTANCE(type);					\
 	{ int _retVal_ = instance_name.vTable->_ctor(&instance_name
 

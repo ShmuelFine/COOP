@@ -1,8 +1,6 @@
 #include "UnitTestsInfra.h"
 #include "DemoClassTest.h"
 #include "InheritanceTest.h"
-#include "rbTreeIterUnitTest.h"
-#include "rbTreeUnitTest.h"
 #include "VectorUnitTest.h"
 #include "ExeptionUnitTest.h"
 #include "MemManagementUnitTest.h"
@@ -19,8 +17,6 @@ IMPORT_TESTS(MemoryManagementTest);
 IMPORT_TESTS(InheritanceTest);
 IMPORT_TESTS(ExceptionTests);
 IMPORT_TESTS(SharedPtrTest);
-//IMPORT_TESTS(RedBlackTreeTest);
-//IMPORT_TESTS(RedBlackTreeIteratorTest);
 
 int main() {
 
@@ -34,8 +30,6 @@ int main() {
 	
 	RUN_TESTS(VectorTest);
 	RUN_TESTS(TensorTest);
-	//RUN_TESTS(RedBlackTreeTest);
-	//RUN_TESTS(RedBlackTreeIteratorTest);
 
 	RUN_TESTS(DemoClassTest);
 
