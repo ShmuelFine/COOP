@@ -154,8 +154,6 @@
     <ClCompile Include="ExeptionUnitTest.c" />
     <ClCompile Include="InheritanceTest.c" />
     <ClCompile Include="MemManagementUnitTest.c" />
-    <ClCompile Include="rbTreeIterUnitTest.c" />
-    <ClCompile Include="rbTreeUnitTest.c" />
     <ClCompile Include="Rectangle.c" />
     <ClCompile Include="TensorUnitTest.c" />
     <ClCompile Include="_RUNNER_.c" />
@@ -170,8 +168,6 @@
     <ClInclude Include="ExeptionUnitTest.h" />
     <ClInclude Include="InheritanceTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />
-    <ClInclude Include="rbTreeIterUnitTest.h" />
-    <ClInclude Include="rbTreeUnitTest.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />

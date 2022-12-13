@@ -45,12 +45,6 @@
     <ClCompile Include="VectorUnitTest.c">
       <Filter>DataStructuresTests</Filter>
     </ClCompile>
-    <ClCompile Include="rbTreeUnitTest.c">
-      <Filter>DataStructuresTests</Filter>
-    </ClCompile>
-    <ClCompile Include="rbTreeIterUnitTest.c">
-      <Filter>DataStructuresTests</Filter>
-    </ClCompile>
     <ClCompile Include="DemoClassTest.c">
       <Filter>Sample</Filter>
     </ClCompile>
@@ -85,12 +79,6 @@
       <Filter>InfraTests</Filter>
     </ClInclude>
     <ClInclude Include="VectorUnitTest.h">
-      <Filter>DataStructuresTests</Filter>
-    </ClInclude>
-    <ClInclude Include="rbTreeUnitTest.h">
-      <Filter>DataStructuresTests</Filter>
-    </ClInclude>
-    <ClInclude Include="rbTreeIterUnitTest.h">
       <Filter>DataStructuresTests</Filter>
     </ClInclude>
     <ClInclude Include="SharedPodPtrUnitTest.h">
