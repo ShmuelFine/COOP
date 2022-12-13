@@ -13,8 +13,9 @@ TEST_FUN_IMPL(MemoryManagementTest, NEW_AllocatesSufficientMemory)
 
 	// Assert:
 	// Make sure we can access all our memory:
-	for (int i = 0; i < 20; i++)
+	FOR (int i = 0; i < 20; i++)
 		buff[i] = i;
+	END_LOOP;
 
 }END_FUN
 

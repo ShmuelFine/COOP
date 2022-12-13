@@ -49,7 +49,7 @@ else if (IS_IN_THROWING()) { __RET_VAL__ = SUCCESS_VALUE;
 {if (IS_BREAKING || IS_IN_THROWING()) break;}
 
 #define THROW \
-__RET_VAL__ = IN_THROWING_VALUE; break;
+__RET_VAL__ = IN_THROWING_VALUE; /*__debugbreak()*/; break;
 
 COOP_API extern const char* LAST_EXCEPTION_ERROR_MSG;
 
@@ -67,6 +67,9 @@ TRY									\
 	{if (IS_BREAKING) {IS_BREAKING = false; break;}\
 	else if (IS_IN_THROWING()) break;}
 
+#define FOR { SCOPE_START; for 
+#define WHILE { SCOPE_START; while
+#define END_LOOP } END_SCOPE
 
 #define FUN_IMPL(function_name, ...)\
 int function_name(__VA_ARGS__)\
@@ -91,7 +94,7 @@ return __RET_VAL__; \
 
 #define ASSERT(x) if (!(x)) {THROW;}
 #define THROW_MSG_UNLESS(x, msg) if (!(x)) {THROW_MSG(msg);}
-#define ASSERT_NOT_NULL(x) if (!(x)) {THROW_MSG(#x "is null");}
+#define ASSERT_NOT_NULL(x) if (!(x)) {THROW_MSG(#x " is null");}
 
 #endif
 

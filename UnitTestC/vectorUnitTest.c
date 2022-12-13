@@ -10,10 +10,10 @@ TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 	int numElements = 54;
 	
 	// Act
-	for (int i = 0; i < numElements; i++)
+	FOR (int i = 0; i < numElements; i++)
 	{
 		MFUN(&vec, push_back), i CALL;
-	}
+	}END_LOOP;
 
 	// Assert
 	MEM_SIZE_T curr_size = 0;
@@ -23,10 +23,10 @@ TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 	int* data = NULL;
 	MFUN(&vec, dataPtr), & data CALL;
 	THROW_MSG_UNLESS(data, "Data can't be null");
-	for (int i = 0; i < numElements; i++)
+	FOR (int i = 0; i < numElements; i++)
 	{
 		NTEST_ASSERT(data[i] == i);
-	}
+	}END_LOOP;
 
 }END_FUN
 
@@ -35,18 +35,18 @@ TEST_FUN_IMPL(VectorTest, pop_back_SanityTest)
 	// Arrange
 	CREATE(Vector_int, vec) CALL;
 	int numElements = 54;
-	for (int i = 0; i < numElements; i++)
+	FOR (int i = 0; i < numElements; i++)
 	{
 		MFUN(&vec, push_back), i CALL;
-	}
+	}END_LOOP;
 
 	// Act, Assert
-	for (int i = 0; i < numElements; i++)
+	FOR (int i = 0; i < numElements; i++)
 	{
 		int val = 0;
 		MFUN(&vec, pop_back), &val CALL;
 		NTEST_ASSERT(val == (numElements - 1) - i);
-	}
+	}END_LOOP;
 
 }END_FUN
 
@@ -68,25 +68,25 @@ TEST_FUN_IMPL(VectorTest, set_SanityTest)
 	CREATE(Vector_int, vec) CALL;
 	int numElements = 54;
 
-	for (int i = 0; i < numElements; i++)
+	FOR (int i = 0; i < numElements; i++)
 	{
 		MFUN(&vec, push_back), i CALL;
-	}
+	}END_LOOP;
 	//MFUN(&v1, print) CALL;
 	
 	// Act
-	for (int i = 0; i < numElements; i++)
+	FOR (int i = 0; i < numElements; i++)
 	{
 		MFUN(&vec, set), i, (numElements - 1) - i CALL;
-	}
+	}END_LOOP;
 	// Assert
 	int* data = NULL;
 	MFUN(&vec, dataPtr), & data CALL;
 	THROW_MSG_UNLESS(data, "Data can't be null");
-	for (int i = 0; i < numElements; i++)
+	FOR (int i = 0; i < numElements; i++)
 	{
 		NTEST_ASSERT(data[i] == (numElements - 1) - i);
-	}
+	}END_LOOP;
 
 }END_FUN
 
@@ -96,19 +96,19 @@ TEST_FUN_IMPL(VectorTest, get_SanityTest)
 	CREATE(Vector_int, vec) CALL;
 	int numElements = 54;
 
-	for (int i = 0; i < numElements; i++)
+	FOR (int i = 0; i < numElements; i++)
 	{
 		MFUN(&vec, push_back), i CALL;
-	}
+	}END_LOOP;
 	//MFUN(&v1, print) CALL;
 
 	// Act, Assert
-	for (int i = 0; i < numElements; i++)
+	FOR (int i = 0; i < numElements; i++)
 	{
 		int val = 0;
 		MFUN(&vec, get), i, &val CALL;
 		NTEST_ASSERT(val == i);
-	}
+	}END_LOOP;
 
 }END_FUN
 

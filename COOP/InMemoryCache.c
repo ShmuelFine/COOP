@@ -61,7 +61,7 @@ FUN_OVERRIDE_IMPL(InMemoryCache, ICache, AddNewBlock, MEM_SIZE_T num_bytes_to_al
 {
 	*returned = NULL;
 
-	for (MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+	FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
 	{
 		char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
 		MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
@@ -77,7 +77,7 @@ FUN_OVERRIDE_IMPL(InMemoryCache, ICache, AddNewBlock, MEM_SIZE_T num_bytes_to_al
 			*returned = BLOCK_MEM_START(new_block_idx);
 			RETURN;
 		}
-	}
+	}END_LOOP;
 	THROW_MSG("Could not allocate new block");
 }
 END_FUN
@@ -98,14 +98,14 @@ END_FUN
 FUN_OVERRIDE_IMPL(InMemoryCache, ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
 {
 	*out_count = 0;
-	for (MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+	FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
 	{
 		char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
 		MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
 		MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
 
 		*out_count += space_between_blocks;
-	}
+	}END_LOOP;
 }
 END_FUN
 

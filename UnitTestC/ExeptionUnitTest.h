@@ -11,7 +11,7 @@ DEF_TEST_SUITE(ExceptionTests);
 ADD_TEST(ExceptionTests, WhenThrown_ThenGoesStraightToScopeEnd);
 ADD_TEST(ExceptionTests, WhenThrownFromWithinFunction_ThenGoesStraightToScopeEnd);
 ADD_TEST(ExceptionTests, CATCH_WhenExeptionCaught_Does_NOT_ContinueThrowing);
-ADD_TEST(ExceptionTests, WhenUsingTHROW_MSG_ThenTheMessageIsSaved);
+ADD_TEST(ExceptionTests, THROW_MSG_SavesTheMessage);
 ADD_TEST(ExceptionTests, BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly);
 ADD_TEST(ExceptionTests, BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly);
 ADD_TEST(ExceptionTests, BREAK_WhenDoneFromLoop_ThenFreesObjectsFromInnerScope);

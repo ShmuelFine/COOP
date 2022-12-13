@@ -1,4 +1,5 @@
 #include "vector.h"
+#include "MathUtils.h"
 #include <stdio.h>
 
 
@@ -83,11 +84,12 @@ MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
 	CREATE(SharedPodPtr, new_buff_ptr), _this->elementSize * new_capacity CALL;
 
 	if (_this->size > 0) {
-		memcpy(new_buff_ptr.px, _this->data.px, _this->elementSize * _this->capacity);
+		memcpy(new_buff_ptr.px, _this->data.px, _this->elementSize * MIN(new_capacity, _this->capacity));
 	}
 	MFUN(&_this->data, copyFrom), & new_buff_ptr CALL;
 
 	_this->capacity = new_capacity;
+	_this->size = MIN(_this->size, _this->capacity);
 }
 END_FUN;
 
@@ -186,6 +188,8 @@ BIND(GenericVector, pop_back_int);
 BIND(GenericVector, pop_back_char);
 BIND(GenericVector, pop_back_float);
 
+BIND(GenericVector, zero_all);
+
 END_INIT_CLASS(GenericVector)
 
 ////////////////////////////////////////////////
@@ -202,6 +206,7 @@ MEM_FUN_IMPL(Vector_ ##type, get, MEM_SIZE_T i, type * val) { FUN_BASE(_this, ge
 MEM_FUN_IMPL(Vector_ ##type, set, MEM_SIZE_T i, type val) { FUN_BASE(_this, set_ ##type), i, val CALL; } END_FUN;	\
 MEM_FUN_IMPL(Vector_ ##type, resize, MEM_SIZE_T new_capacity) {FUN_BASE(_this, resize), new_capacity CALL; }END_FUN;\
 MEM_FUN_IMPL(Vector_ ##type, size, MEM_SIZE_T * out_size) {FUN_BASE(_this, size), out_size CALL; }END_FUN;\
+MEM_FUN_IMPL(Vector_ ##type, zero_all) {FUN_BASE(_this, zero_all) CALL; }END_FUN;\
 MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	printf("\n");																									\
 	char* format = " %d"; char first_type_name_letter = * #type;													\
@@ -209,11 +214,11 @@ MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	else if (first_type_name_letter == 'f') /*its a float type*/ format = "%f ";									\
 	else if (first_type_name_letter == 'o') /* its an object type*/ format = "%p ";								\
 	type val;																										\
-	for (MEM_SIZE_T i = 0; i < _this->_base.size; i++) 																\
+	FOR (MEM_SIZE_T i = 0; i < _this->_base.size; i++) 																\
 	{ 																												\
 		MFUN(_this, get), i, & val CALL;																				\
 		printf(format, val); 													\
-	} 																												\
+	}END_LOOP; 																												\
 	printf("\n");																									\
 } END_FUN;																											\
 																													\
@@ -226,6 +231,7 @@ BIND(Vector_ ##type, get);																							\
 BIND(Vector_ ##type, set);																							\
 BIND(Vector_ ##type, resize);																						\
 BIND(Vector_ ##type, size);																							\
+BIND(Vector_ ##type, zero_all);																						\
 BIND(Vector_ ##type, print);																						\
 END_INIT_CLASS(Vector_ ##type)																						
 

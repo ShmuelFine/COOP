@@ -150,6 +150,7 @@
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="ICache.h" />
     <ClInclude Include="InheritenceDefMacros.h" />
+    <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Tensor.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectBaseStructs.h" />

@@ -157,6 +157,7 @@
     <ClCompile Include="rbTreeIterUnitTest.c" />
     <ClCompile Include="rbTreeUnitTest.c" />
     <ClCompile Include="Rectangle.c" />
+    <ClCompile Include="TensorUnitTest.c" />
     <ClCompile Include="_RUNNER_.c" />
     <ClCompile Include="ScopesUnitTest.c" />
     <ClCompile Include="ScopeTester.c" />

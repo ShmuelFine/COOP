@@ -67,6 +67,7 @@ MEM_FUN_DECL(Vector_ ##type, get, MEM_SIZE_T i, type* val);	\
 MEM_FUN_DECL(Vector_ ##type, set, MEM_SIZE_T i, type val);	\
 MEM_FUN_DECL(Vector_ ##type, resize, MEM_SIZE_T new_capacity);	\
 MEM_FUN_DECL(Vector_ ##type, size, MEM_SIZE_T * out_size);\
+MEM_FUN_DECL(Vector_ ##type, zero_all);	\
 MEM_FUN_DECL(Vector_ ##type, print);	\
 END_DERIVED_FUNCTIONS(Vector_ ##type);
 

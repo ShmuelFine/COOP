@@ -86,12 +86,12 @@ MEM_FUN_IMPL(RedBlackTreeIterator, next)
 		// I have no right child, left nodes were already visited, so go up:
 		_this->nodePtr = _this->nodePtr->parent;
 
-		while (
+		WHILE(
 			_this->nodePtr->parent
 			&& _this->nodePtr == _this->nodePtr->parent->right)
 		{
 			_this->nodePtr = _this->nodePtr->parent;
-		}
+		}END_LOOP;
 	}
 }
 END_FUN;
@@ -188,7 +188,7 @@ MEM_FUN_IMPL(RedBlackTree, _rotateRight, RBTreeNode* y)
 
 MEM_FUN_IMPL(RedBlackTree, _insertFixUp, RBTreeNode* node)
 {
-	while (
+	WHILE(
 		(node != _this->root)
 		&& // both node and parent are RED:
 		IS_RED(node) && IS_RED(node->parent))
@@ -235,7 +235,7 @@ MEM_FUN_IMPL(RedBlackTree, _insertFixUp, RBTreeNode* node)
 				}
 			}
 		}
-	}
+	}END_LOOP;
 
 	_this->root->isBlack = true;
 
@@ -253,7 +253,7 @@ MEM_FUN_IMPL(RedBlackTree, find_closest, object* val, RBTreeNode** node, bool* i
 	}
 
 	RBTreeNode* curr = _this->root;
-	while (curr != NULL) {
+	WHILE(curr != NULL) {
 		*node = curr;
 
 		bool val_lessThen_curr = _this->comparisonFunctionPtr(val, curr->data);
@@ -273,7 +273,7 @@ MEM_FUN_IMPL(RedBlackTree, find_closest, object* val, RBTreeNode** node, bool* i
 			if (curr->right == NULL) { RETURN; }
 			else { curr = curr->right; }
 		}
-	}
+	}END_LOOP;
 }END_FUN;
 
 MEM_FUN_IMPL(RedBlackTree, find, object* val, RBTreeNode** node)
@@ -459,7 +459,8 @@ MEM_FUN_IMPL(RedBlackTree, fixDoubleBlack, RBTreeNode* node_p)
 {
 	if (node_p == _this->root)
 		RETURN;
-
+	
+	ASSERT_NOT_NULL(node_p);
 	RBTreeNode* sibling = SIBLING(node_p);
 
 	if (sibling == NULL) {

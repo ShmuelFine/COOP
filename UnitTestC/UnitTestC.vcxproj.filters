@@ -55,6 +55,9 @@
       <Filter>Sample</Filter>
     </ClCompile>
     <ClCompile Include="_RUNNER_.c" />
+    <ClCompile Include="TensorUnitTest.c">
+      <Filter>DataStructuresTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClassExample.h">

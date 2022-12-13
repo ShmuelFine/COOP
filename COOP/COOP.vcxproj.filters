@@ -52,6 +52,9 @@
     <ClInclude Include="VirtualFuncCalling.h">
       <Filter>Infra</Filter>
     </ClInclude>
+    <ClInclude Include="MathUtils.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InMemoryCache.c">

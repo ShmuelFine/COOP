@@ -34,10 +34,10 @@ FUN_IMPL(do_something_with_shared_ptr)
 {
 	int numElements = 10;
 	CREATE(SharedPodPtr, int_ptr), numElements * (MEM_SIZE_T)sizeof(int) CALL;
-	for (int i = 0; i < numElements; i++)
+	FOR (int i = 0; i < numElements; i++)
 	{
 		*(GET(int_ptr, int) + i) = i;
-	}
+	}END_LOOP;
 }
 END_FUN;
 

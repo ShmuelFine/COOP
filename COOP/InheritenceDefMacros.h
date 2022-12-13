@@ -49,8 +49,8 @@ struct base_class ##_ ##function_name ##_t_ function_name
 ///////////////////////  The C File Structure ////////////////////////
 
 // (See next macro comment)
-#define SUPER (&(_this->_base)
-#define ME );
+#define SUPER &(_this->_base)
+#define ME CALL;
 
 // Macro that begins a derived ctor definition.
 // Should be used followed by SUPER <base class ctor args> ME
@@ -58,10 +58,10 @@ struct base_class ##_ ##function_name ##_t_ function_name
 
 #define DEF_DERIVED_CTOR(class_name, baseName, ...)  FUN_IMPL(__ctor__ ##class_name, class_name * _this, __VA_ARGS__)  \
 { \
-	__ctor__ ##baseName
+	FUN(__ctor__ ##baseName)
 
 
-#define  END_DERIVED_CTOR }END_FUN
+#define  END_DERIVED_CTOR } END_FUN
 
 // Macro that begins a derived dtor definiton. It calls the base class dtor, 
 // and you should fill in the extra work needed.

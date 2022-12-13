@@ -8,11 +8,13 @@
 #include "MemManagementUnitTest.h"
 #include "SharedPodPtrUnitTest.h"
 #include "ScopesUnitTest.h"
+#include "TensorUnitTest.h"
 
 
 IMPORT_TESTS(Infra_ScopesTest);
 IMPORT_TESTS(DemoClassTest);
 IMPORT_TESTS(VectorTest);
+IMPORT_TESTS(TensorTest);
 IMPORT_TESTS(MemoryManagementTest);
 IMPORT_TESTS(InheritanceTest);
 IMPORT_TESTS(ExceptionTests);
@@ -31,6 +33,7 @@ int main() {
 	RUN_TESTS(SharedPtrTest);
 	
 	RUN_TESTS(VectorTest);
+	RUN_TESTS(TensorTest);
 	//RUN_TESTS(RedBlackTreeTest);
 	//RUN_TESTS(RedBlackTreeIteratorTest);
 
