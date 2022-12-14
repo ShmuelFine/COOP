@@ -52,6 +52,9 @@
     <ClCompile Include="TensorUnitTest.c">
       <Filter>DataStructuresTests</Filter>
     </ClCompile>
+    <ClCompile Include="CodeBlocksUnitTest.c">
+      <Filter>InfraTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClassExample.h">
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="TensorUnitTest.h">
       <Filter>DataStructuresTests</Filter>
+    </ClInclude>
+    <ClInclude Include="CodeBlocksUnitTest.h">
+      <Filter>InfraTests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

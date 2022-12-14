@@ -33,9 +33,8 @@ END_FUNCTIONS(SUITE_NAME);
 #define TEST_FUN_IMPL(SUITE_NAME, test_name)\
 MEM_FUN_IMPL(SUITE_NAME, test_name, int* __is_fail__)
 
-
-#define INIT_TEST_SUITE(SUITE_NAME)\
-DEF_CTOR(SUITE_NAME) { init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY); } END_CTOR; \
+#define INIT_TEST_SUITE_WITH_SPECIFIC_MEM_SPACE(SUITE_NAME, memSpaceType, memSpaceSize) \
+DEF_CTOR(SUITE_NAME) { init_global_memory(memSpaceSize, memSpaceType); } END_CTOR; \
 DEF_DTOR(SUITE_NAME) {} END_DTOR; \
 MEM_FUN_IMPL(SUITE_NAME, __run_all_tests__, struct TESTS_LINKED_LIST_TYPE(SUITE_NAME)* tests_anchor, int* num_passed, int* num_failed)\
 {\
@@ -54,6 +53,10 @@ END_FUN;\
 INIT_CLASS(SUITE_NAME);\
 TESTS_ANCHOR(SUITE_NAME).next = NULL;\
 BIND(SUITE_NAME, __run_all_tests__);
+
+#define INIT_TEST_SUITE(SUITE_NAME)\
+INIT_TEST_SUITE_WITH_SPECIFIC_MEM_SPACE(SUITE_NAME, HEAP_BASED_MEMORY, 10)
+
 
 #define BIND_TEST(SUITE_NAME, test_name)\
 BIND(SUITE_NAME, test_name);\

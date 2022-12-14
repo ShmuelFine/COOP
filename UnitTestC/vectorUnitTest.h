@@ -10,7 +10,7 @@ ADD_TEST(VectorTest, pop_back_SanityTest);
 ADD_TEST(VectorTest, at_ThrowsWhenIdxIsOutOfRange);
 ADD_TEST(VectorTest, set_SanityTest);
 ADD_TEST(VectorTest, get_SanityTest);
-//ADD_TEST(VectorTest, dtor_freesAllMemory); // STOPPED HERE
+ADD_TEST(VectorTest, dtor_freesAllMemory);
 END_TEST_SUITE(VectorTest);
 
 #endif

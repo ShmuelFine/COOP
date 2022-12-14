@@ -9,19 +9,19 @@ DEF_CTOR(GenericVector, MEM_SIZE_T dataTypeSize)
 	_this->capacity = 0;
 	_this->elementSize = dataTypeSize;
 
-	INITIALIZE_INSTANCE(SharedPodPtr, _this->data), 0 CALL;
+	_this->data = NULL;
 }
 END_CTOR
 
 DEF_DTOR(GenericVector)
 {
-	MFUN(&(_this->data), release) CALL;
+	FREE(_this->data);
 }
 END_DTOR
 
 MEM_FUN_IMPL(GenericVector, dataPtr, char** out_ptr)
 {
-	*out_ptr = ((char*)_this->data.px);
+	*out_ptr = _this->data;
 }
 END_FUN;
 
@@ -33,7 +33,7 @@ MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, ch
 	{
 		THROW_MSG("Index out of range");
 	}
-	*val_ptr = ((char*)_this->data.px) + _this->elementSize * i;
+	*val_ptr = _this->data + _this->elementSize * i;
 }
 END_FUN;
 
@@ -81,13 +81,14 @@ IMPL_GET_OF_TYPE(object);
 
 MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
 {
-	CREATE(SharedPodPtr, new_buff_ptr), _this->elementSize * new_capacity CALL;
+	char* new_data = NULL;
+	ALLOC_ARRAY(new_data, char, _this->elementSize * new_capacity);
 
 	if (_this->size > 0) {
-		memcpy(new_buff_ptr.px, _this->data.px, _this->elementSize * MIN(new_capacity, _this->capacity));
+		memcpy(new_data, _this->data, _this->elementSize * MIN(new_capacity, _this->capacity));
 	}
-	MFUN(&_this->data, copyFrom), & new_buff_ptr CALL;
-
+	FREE(_this->data);
+	_this->data = new_data;
 	_this->capacity = new_capacity;
 	_this->size = MIN(_this->size, _this->capacity);
 }
@@ -119,11 +120,9 @@ END_FUN;
 
 MEM_FUN_IMPL(GenericVector, zero_all);
 {
-	memset(_this->data.px, 0, _this->capacity);
+	memset(_this->data, 0, _this->elementSize * _this->capacity);
 }
 END_FUN;
-
-
 
 
 #define IMPL_PUSH_OF_TYPE(type)\

@@ -73,8 +73,8 @@ TEST_FUN_IMPL(ExceptionTests, BREAK_WhenDoneFromNastedLoop_ThenBreaksCorrectly)
 
 		}END_LOOP;
 	}END_LOOP;
-	NTEST_ASSERT(5 == outer_loop_counter);
-	NTEST_ASSERT( (outer_loop_counter - 1)*10 == inner_loop_counter);
+	NTEST_ASSERT(9 == outer_loop_counter);
+	NTEST_ASSERT( (5 - 1)*10 == inner_loop_counter);
 }
 END_FUN
 TEST_FUN_IMPL(ExceptionTests, BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrectly)
@@ -99,8 +99,8 @@ TEST_FUN_IMPL(ExceptionTests, BREAK_WhenDoneFromTRY_Catch_Block_ThenBreaksCorrec
 		}END_LOOP;
 		
 	}END_LOOP;
-	NTEST_ASSERT(5 == outer_loop_counter);
-	NTEST_ASSERT((outer_loop_counter - 1) * 10 == inner_loop_counter);
+	NTEST_ASSERT(9 == outer_loop_counter);
+	NTEST_ASSERT((5 - 1) * 10 == inner_loop_counter);
 	
 }
 END_FUN;

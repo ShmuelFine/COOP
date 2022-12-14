@@ -13,6 +13,7 @@ typedef enum CACHE_TYPES_t { STACK_BASED_MEMORY, HEAP_BASED_MEMORY, NUM_MEMORY_T
 
 
 FUN_DECL(init_global_memory, int size, CACHE_TYPES type);
+FUN_DECL(get_total_free_bytes, MEM_SIZE_T* out_count);
 
 
 #define ALLOC(dest, whatToPutThere)\
@@ -23,20 +24,9 @@ FUN_DECL(init_global_memory, int size, CACHE_TYPES type);
 	MFUN(TheGlobalCache, AddNewBlock),(MEM_SIZE_T)(sizeof(type)*(howMuchToPutThere)),(void*)&(dest) CALL;\
 	THROW_MSG_UNLESS(dest, "could not allocate " #howMuchToPutThere " x sizeof " #type " for " #dest); \
 
-#define ALLOC_INIT_INSTANCE_PTR(type, instance_name)\
-	ALLOC(instance_name, type)\
-	ASSERT_NOT_NULL(instance_name);	\
-	INITIALIZE_INSTANCE(type, (*instance_name))
 
-FUN_DECL(get_total_free_bytes, MEM_SIZE_T* out_count);
-
-
-#define CREATE_PTR(type, instance_name)			\
-	type * instance_name = NULL;                \
-	ALLOC_INIT_INSTANCE_PTR(type, instance_name)
-
-#define FREE(buff) MFUN(TheGlobalCache, RemoveBlock), buff CALL;
-#define DELETE(instance_ptr) {DESTROY(instance_ptr); FREE(instance_ptr); instance_ptr = NULL;}
+#define FREE(buff) if (buff) MFUN(TheGlobalCache, RemoveBlock), buff CALL;
+#define DELETE(instance_ptr) {printf("\nDelete " #instance_ptr "\n"); DESTROY(instance_ptr); FREE(instance_ptr); instance_ptr = NULL;}
 
 
 #endif

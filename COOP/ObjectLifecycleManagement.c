@@ -10,22 +10,10 @@ void _scope_obj_list_add(object* scope_list, object* obj)
 
 void FreeMostInnerScope(object* _scope_obj_list_ptr)
 {
-	object* it = _scope_obj_list_ptr;
-
-	while (it->_next) {
-		if (it->_next->vTable != NULL)
-		{
-			DESTROY(it->_next);
-			it->_next = it->_next->_next;
-		}
-		else
-		{
-			it->_next = it->_next->_next;
-			break;
-		}
+	for (object* it = _scope_obj_list_ptr->_next; it != NULL; it = it->_next)
+	{
+		DESTROY(it);
 	}
-	if (it->_next && it->_next->vTable == NULL)
-		_scope_obj_list_ptr->_next = NULL;
 }
 
 

@@ -7,6 +7,7 @@
 #include "SharedPodPtrUnitTest.h"
 #include "ScopesUnitTest.h"
 #include "TensorUnitTest.h"
+#include "CodeBlocksUnitTest.h"
 
 
 IMPORT_TESTS(Infra_ScopesTest);
@@ -17,12 +18,14 @@ IMPORT_TESTS(MemoryManagementTest);
 IMPORT_TESTS(InheritanceTest);
 IMPORT_TESTS(ExceptionTests);
 IMPORT_TESTS(SharedPtrTest);
+IMPORT_TESTS(CodeBlocksTest);
 
 int main() {
 
 	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
 	RUN_TESTS(Infra_ScopesTest);
+	RUN_TESTS(CodeBlocksTest);
 	RUN_TESTS(MemoryManagementTest);
 	RUN_TESTS(InheritanceTest);
 	RUN_TESTS(ExceptionTests);

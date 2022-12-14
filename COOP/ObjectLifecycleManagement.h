@@ -28,9 +28,11 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 // The obj lifecycle built upon scopes, that has to account with exception handling:
 
 #define SUCCESS_VALUE 0
-#define ERROR_VALUE -1
-#define IN_THROWING_VALUE -10
+#define ERROR_VALUE 1
+#define IN_THROWING_VALUE 2
+#define IN_RETURNING_VALUE 3
 #define IS_IN_THROWING() (__RET_VAL__ == IN_THROWING_VALUE)
+#define IS_IN_RETURNING() (__RET_VAL__ == IN_RETURNING_VALUE)
 
 #define TRY IS_BREAKING = false; \
 for (int i_ ##__LINE__= 0; i_ ##__LINE__ < 1; i_ ##__LINE__++)\
@@ -50,6 +52,10 @@ else if (IS_IN_THROWING()) { __RET_VAL__ = SUCCESS_VALUE;
 #define THROW \
 __RET_VAL__ = IN_THROWING_VALUE; /*__debugbreak()*/; break;
 
+#define RETURN \
+__RET_VAL__ = IN_RETURNING_VALUE; break;
+
+
 COOP_API extern const char* LAST_EXCEPTION_ERROR_MSG;
 
 #define THROW_MSG(msg) LAST_EXCEPTION_ERROR_MSG = (msg); THROW
@@ -61,14 +67,22 @@ TRY									\
 	_scope_obj_list._next=NULL
 
 #define END_SCOPE\
-	FreeMostInnerScope(&_scope_obj_list); \
-	}\
+	FreeMostInnerScope(&_scope_obj_list); }\
 	{if (IS_BREAKING) {IS_BREAKING = false; break;}\
-	else if (IS_IN_THROWING()) break;}
+	else if (IS_IN_RETURNING() || IS_IN_THROWING()) break;}
 
-#define FOR { SCOPE_START; for 
-#define WHILE { SCOPE_START; while
-#define END_LOOP } END_SCOPE
+#define FOR(...) for (__VA_ARGS__) { SCOPE_START; 
+#define WHILE(...) while (__VA_ARGS__) { SCOPE_START; 
+#define IF(...) if (__VA_ARGS__) { SCOPE_START; 
+
+#define END_LOOP 	FreeMostInnerScope(&_scope_obj_list); }\
+	{if (IS_BREAKING) {IS_BREAKING = false; break;}\
+	else if (IS_IN_RETURNING() || IS_IN_THROWING()) break;}\
+} if (IS_IN_RETURNING() || IS_IN_THROWING()) break;
+
+
+#define END_IF   FreeMostInnerScope(&_scope_obj_list); }\
+ } if (IS_BREAKING || IS_IN_RETURNING() || IS_IN_THROWING()) break;
 
 #define FUN_IMPL(function_name, ...)\
 int function_name(__VA_ARGS__)\
@@ -78,11 +92,10 @@ int IS_BREAKING = false;\
 SCOPE_START;
 
 #define END_FUN \
-}FreeMostInnerScope(&_scope_obj_list); \
+} FreeMostInnerScope(&_scope_obj_list); \
+if (IS_IN_RETURNING()) __RET_VAL__ = SUCCESS_VALUE;\
 return __RET_VAL__; \
 }
-#define RETURN \
-{ FreeMostInnerScope(&_scope_obj_list); return __RET_VAL__; }
 
 #define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)
 

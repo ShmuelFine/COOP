@@ -9,7 +9,7 @@ DEF_CLASS(GenericVector);
 MEM_SIZE_T size;
 MEM_SIZE_T capacity;
 MEM_SIZE_T elementSize;
-SharedPodPtr data;
+char * data;
 END_DEF(GenericVector);
 
 FUNCTIONS(GenericVector, MEM_SIZE_T dataTypeSize);

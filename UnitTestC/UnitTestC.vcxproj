@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseClassExample.c" />
+    <ClCompile Include="CodeBlocksUnitTest.c" />
     <ClCompile Include="SharedPodPtrUnitTest.c" />
     <ClCompile Include="DemoClassTest.c" />
     <ClCompile Include="DerivedClassExample.c" />
@@ -163,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClassExample.h" />
+    <ClInclude Include="CodeBlocksUnitTest.h" />
     <ClInclude Include="DemoClassTest.h" />
     <ClInclude Include="DerivedClassExample.h" />
     <ClInclude Include="ExeptionUnitTest.h" />
