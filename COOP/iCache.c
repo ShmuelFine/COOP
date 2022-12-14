@@ -1,20 +1,24 @@
 
 
-#include "iCache.h"
+#include "ICache.h"
 
-DEF_CTOR(iCache)
+DEF_CTOR(ICache)
 END_CTOR
 
-DEF_DTOR(iCache)
+DEF_DTOR(ICache)
 END_DTOR
 
-MEM_FUN_IMPL(iCache, AddNewBlock, int block_size, void** returned)
+MEM_FUN_IMPL(ICache, AddNewBlock, MEM_SIZE_T block_size, void** returned)
 END_FUN
 
-MEM_FUN_IMPL(iCache, RemoveBlock, void* toDelete)
+MEM_FUN_IMPL(ICache, RemoveBlock, void* toDelete)
 END_FUN
 
-INIT_CLASS(iCache)
-BIND(iCache, AddNewBlock);
-BIND(iCache, RemoveBlock);
-END_INIT_CLASS(iCache)
+MEM_FUN_IMPL(ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+END_FUN
+
+INIT_CLASS(ICache)
+BIND(ICache, AddNewBlock);
+BIND(ICache, RemoveBlock);
+BIND(ICache, getTotalFreeBytes);
+END_INIT_CLASS(ICache)

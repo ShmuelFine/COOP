@@ -1,10 +1,10 @@
 #ifndef __COOP_TESTS__MEM_MANAGEMENT_TEST_H__
 #define __COOP_TESTS__MEM_MANAGEMENT_TEST_H__
 
-#include "../COOP/InMemoryCache.h"
-#include "../COOP/dynamic_memory_management.h"
-#include "../COOP/COOP.h"
-#include "test_defs.h"
+#include "InMemoryCache.h"
+#include "DynamicMemoryManagement.h"
+#include "COOP.h"
+#include "UnitTestsInfra.h"
 #include "ScopeTester.h"
 
 #include "BaseClassExample.h"

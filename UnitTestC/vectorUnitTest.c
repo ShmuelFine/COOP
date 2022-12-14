@@ -1,103 +1,150 @@
-#include "vectorUnitTest.h"
-#include "../COOP/ExportDefs.h"
-#include "../COOP/vectorIterator.h"
-#include "../COOP/vector.h"
+#include "VectorUnitTest.h"
+#include "ExportDefs.h"
+#include "vector.h"
 #include "ScopeTester.h"
 
 TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 {
 	// Arrange
-	CREATE(vector, v1) CALL;
-
+	CREATE(Vector_int, vec) CALL;
+	int numElements = 54;
+	
 	// Act
-	int retVal = 0;
-	int retVal1 = 0;
-	int retVal2 = 0;
-	int retVal3 = 0;
-	int retVal4 = 0;
-	FUN(&v1, push_back), 3 CALL;
-	FUN(&v1, print) CALL;
-	FUN(&v1, at), 0, & retVal CALL;
-
-	FUN(&v1, push_back), 4 CALL;
-	FUN(&v1, print) CALL;
-	FUN(&v1, at), 1, & retVal1 CALL;
-
-	FUN(&v1, push_back), 5 CALL;
-	FUN(&v1, print) CALL;
-	FUN(&v1, at), 2, & retVal2 CALL;
-
-	FUN(&v1, push_back), 6 CALL;
-	FUN(&v1, print) CALL;
-	FUN(&v1, at), 3, & retVal3 CALL;
-
-	FUN(&v1, push_back), 7 CALL;
-	FUN(&v1, print) CALL;
-	FUN(&v1, at), 4, & retVal4 CALL;
+	FOR (int i = 0; i < numElements; i++)
+	{
+		MFUN(&vec, push_back), i CALL;
+	}END_LOOP;
 
 	// Assert
-	NTEST_ASSERT(retVal == 3);
-	NTEST_ASSERT(retVal1 == 4);
-	NTEST_ASSERT(retVal2 == 5);
-	NTEST_ASSERT(retVal3 == 6);
-	NTEST_ASSERT(retVal4 == 7);
+	MEM_SIZE_T curr_size = 0;
+	MFUN(&vec, size), & curr_size CALL;
+	NTEST_ASSERT(curr_size == numElements);
+
+	int* data = NULL;
+	MFUN(&vec, dataPtr), & data CALL;
+	THROW_MSG_UNLESS(data, "Data can't be null");
+	FOR (int i = 0; i < numElements; i++)
+	{
+		NTEST_ASSERT(data[i] == i);
+	}END_LOOP;
 
 }END_FUN
 
-TEST_FUN_IMPL(VectorTest, at_throws_when_idx_is_outOfRange)
+TEST_FUN_IMPL(VectorTest, pop_back_SanityTest)
 {
-	CREATE(vector, v1) CALL;
-	
-	char feedback[3] = { 0, 0, 0 };
-	int retVal = 0;
+	// Arrange
+	CREATE(Vector_int, vec) CALL;
+	int numElements = 54;
+	FOR (int i = 0; i < numElements; i++)
+	{
+		MFUN(&vec, push_back), i CALL;
+	}END_LOOP;
 
-	CREATE(ScopeTester, s), feedback + 0 CALL;
+	// Act, Assert
+	FOR (int i = 0; i < numElements; i++)
+	{
+		int val = 0;
+		MFUN(&vec, pop_back), &val CALL;
+		NTEST_ASSERT(val == (numElements - 1) - i);
+	}END_LOOP;
+
+}END_FUN
+
+TEST_FUN_IMPL(VectorTest, at_ThrowsWhenIdxIsOutOfRange)
+{
+	CREATE(Vector_int, v1) CALL;
+	
+	int * retValPtr = NULL;
+
 	EXPECT_THROW;
-	FUN(&v1, at), 6, & retVal CALL;
+	MFUN(&v1, at), 6, & retValPtr CALL;
 	ASSERT_THROW;
 
 }END_FUN
 
-TEST_FUN_IMPL(VectorTest, iteration_SanityTest)
+TEST_FUN_IMPL(VectorTest, set_SanityTest)
 {
-	CREATE(vector, v1) CALL;
+	// Arrange
+	CREATE(Vector_int, vec) CALL;
+	int numElements = 54;
 
-	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
-
-	FUN(&v1, push_back), 3 CALL;
-	FUN(&v1, push_back), 4 CALL;
-	FUN(&v1, push_back), 5 CALL;
-	FUN(&v1, push_back), 6 CALL;
-
-	int beginVal;
-	CREATE(vectorIterator, vecItBegin), & v1, 2 CALL;
-	FUN(&v1, begin), & vecItBegin CALL;
-	FUN(&vecItBegin, getContentsOf), & beginVal CALL;
-
-	CREATE(vectorIterator, vecItEnd), & v1, 2 CALL;
-	FUN(&v1, end), & vecItEnd CALL;
-
-	bool isAtEnd = false;
-	while (!isAtEnd)
+	FOR (int i = 0; i < numElements; i++)
 	{
-		SCOPE_START;
-		int intermediateVal = 0;
-		FUN(&vecItBegin, getContentsOf), & intermediateVal CALL;
-		printf("%d ", intermediateVal);
-
-		FUN(&vecItBegin, increment) CALL;
-		FUN(&vecItBegin, equals), vecItEnd, & isAtEnd CALL;
-		END_SCOPE;
-	}
-
-
-	//checks that begin is working properly
-	NTEST_ASSERT(beginVal == 3);
+		MFUN(&vec, push_back), i CALL;
+	}END_LOOP;
+	//MFUN(&v1, print) CALL;
+	
+	// Act
+	FOR (int i = 0; i < numElements; i++)
+	{
+		MFUN(&vec, set), i, (numElements - 1) - i CALL;
+	}END_LOOP;
+	// Assert
+	int* data = NULL;
+	MFUN(&vec, dataPtr), & data CALL;
+	THROW_MSG_UNLESS(data, "Data can't be null");
+	FOR (int i = 0; i < numElements; i++)
+	{
+		NTEST_ASSERT(data[i] == (numElements - 1) - i);
+	}END_LOOP;
 
 }END_FUN
 
+TEST_FUN_IMPL(VectorTest, get_SanityTest)
+{
+	// Arrange
+	CREATE(Vector_int, vec) CALL;
+	int numElements = 54;
+
+	FOR (int i = 0; i < numElements; i++)
+	{
+		MFUN(&vec, push_back), i CALL;
+	}END_LOOP;
+	//MFUN(&v1, print) CALL;
+
+	// Act, Assert
+	FOR (int i = 0; i < numElements; i++)
+	{
+		int val = 0;
+		MFUN(&vec, get), i, &val CALL;
+		NTEST_ASSERT(val == i);
+	}END_LOOP;
+
+}END_FUN
+
+TEST_FUN_IMPL(VectorTest, dtor_freesAllMemory)
+{
+	FUN(init_global_memory) sizeof(int) * 1000, STACK_BASED_MEMORY CALL;
+
+	MEM_SIZE_T free_bytes_at_start = 0, free_bytes_at_end = 0;
+	FUN(get_total_free_bytes) &free_bytes_at_start CALL;
+
+	FOR(int k = 0; k < 10; k++) {
+		// Arrange
+		CREATE(Vector_int, vec) CALL;
+		int numElements = 5;
+
+		FOR(int i = 0; i < numElements; i++)
+		{
+			MFUN(&vec, push_back), i CALL;
+		}END_LOOP;
+
+		// Act - the dtor is called here:
+	}END_LOOP;
+
+	// Assert
+	FUN(get_total_free_bytes)& free_bytes_at_end CALL;
+	NTEST_ASSERT(free_bytes_at_end == free_bytes_at_start);
+
+
+}END_FUN;
+
+
 INIT_TEST_SUITE(VectorTest)
 BIND_TEST(VectorTest, push_back_SanityTest);
-BIND_TEST(VectorTest, at_throws_when_idx_is_outOfRange);
-BIND_TEST(VectorTest, iteration_SanityTest);
+BIND_TEST(VectorTest, pop_back_SanityTest);
+BIND_TEST(VectorTest, at_ThrowsWhenIdxIsOutOfRange);
+BIND_TEST(VectorTest, set_SanityTest);
+BIND_TEST(VectorTest, get_SanityTest);
+BIND_TEST(VectorTest, dtor_freesAllMemory);
 END_INIT_TEST_SUITE(VectorTest)

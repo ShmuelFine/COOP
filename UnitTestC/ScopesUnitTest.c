@@ -167,16 +167,17 @@ TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__LoopScopeSanityTest)
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 
-	for (int i = 0; i < 100; i++)
+	FOR (int i = 0; i < 100; i++)
 	{
 		SCOPE_START;
 		CREATE(ScopeTester, inner_scope_1), feedback + i % 4 CALL;
 		END_SCOPE;
-	}
+	}END_LOOP;
 
-	for (int i = 0; i < 4; i++)
+
+	FOR (int i = 0; i < 4; i++)
 		NTEST_ASSERT(feedback[i] == 0);
-
+	END_LOOP;
 }
 END_FUN
 

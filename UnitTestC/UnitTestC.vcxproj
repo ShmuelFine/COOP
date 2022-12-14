@@ -88,6 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../COOP</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -102,6 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../COOP</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -117,6 +119,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalUsingDirectories>C:\Users\212377808\Desktop\COOP\COOP;</AdditionalUsingDirectories>
+      <AdditionalIncludeDirectories>../COOP</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,6 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../COOP</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,40 +148,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseClassExample.c" />
-    <ClCompile Include="shared_ptr_test.c" />
+    <ClCompile Include="CodeBlocksUnitTest.c" />
+    <ClCompile Include="SharedPodPtrUnitTest.c" />
     <ClCompile Include="DemoClassTest.c" />
     <ClCompile Include="DerivedClassExample.c" />
     <ClCompile Include="ExeptionUnitTest.c" />
-    <ClCompile Include="HashTableUnitTest.c" />
     <ClCompile Include="InheritanceTest.c" />
     <ClCompile Include="MemManagementUnitTest.c" />
-    <ClCompile Include="NdarrayTest.c" />
-    <ClCompile Include="rbTreeIterUnitTest.c" />
-    <ClCompile Include="rbTreeUnitTest.c" />
     <ClCompile Include="Rectangle.c" />
+    <ClCompile Include="TensorUnitTest.c" />
     <ClCompile Include="_RUNNER_.c" />
     <ClCompile Include="ScopesUnitTest.c" />
     <ClCompile Include="ScopeTester.c" />
-    <ClCompile Include="vectorIteratorUnitTest.c" />
-    <ClCompile Include="vectorUnitTest.c" />
+    <ClCompile Include="VectorUnitTest.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClassExample.h" />
+    <ClInclude Include="CodeBlocksUnitTest.h" />
     <ClInclude Include="DemoClassTest.h" />
     <ClInclude Include="DerivedClassExample.h" />
     <ClInclude Include="ExeptionUnitTest.h" />
-    <ClInclude Include="HashTableUnitTest.h" />
     <ClInclude Include="InheritanceTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />
-    <ClInclude Include="NdarrayTest.h" />
-    <ClInclude Include="rbTreeIterUnitTest.h" />
-    <ClInclude Include="rbTreeUnitTest.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ScopesUnitTest.h" />
     <ClInclude Include="ScopeTester.h" />
-    <ClInclude Include="test_defs.h" />
-    <ClInclude Include="vectorIteratorUnitTest.h" />
-    <ClInclude Include="vectorUnitTest.h" />
+    <ClInclude Include="SharedPodPtrUnitTest.h" />
+    <ClInclude Include="TensorUnitTest.h" />
+    <ClInclude Include="VectorUnitTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\COOP\COOP.vcxproj">

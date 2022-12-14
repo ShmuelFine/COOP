@@ -7,9 +7,6 @@
     <Filter Include="MemoryManagement">
       <UniqueIdentifier>{6179e962-d66d-48bb-925f-0dc1ddf35f6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OOP">
-      <UniqueIdentifier>{ca4fd2a6-1229-4bef-a116-c98d5c62a5eb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="COOP.h">
@@ -21,66 +18,64 @@
     <ClInclude Include="InMemoryCache.h">
       <Filter>MemoryManagement</Filter>
     </ClInclude>
-    <ClInclude Include="dynamic_memory_management.h">
+    <ClInclude Include="DynamicMemoryManagement.h">
       <Filter>MemoryManagement</Filter>
     </ClInclude>
     <ClInclude Include="HeapCache.h">
       <Filter>MemoryManagement</Filter>
     </ClInclude>
-    <ClInclude Include="iCache.h">
+    <ClInclude Include="ICache.h">
       <Filter>MemoryManagement</Filter>
     </ClInclude>
-    <ClInclude Include="class_def_macros.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="inheritence_def_macros.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="obj_base_structs.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="obj_lifecycle_management.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="object.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
-    <ClInclude Include="virtual_func_calling.h">
-      <Filter>OOP</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="Shared_ptr.h" />
-    <ClInclude Include="vectorIterator.h" />
-    <ClInclude Include="redBlackTree.h" />
-    <ClInclude Include="redBlackTreeIterator.h" />
-    <ClInclude Include="hashTable.h" />
-    <ClInclude Include="Ndarray.h" />
+    <ClInclude Include="Tensor.h" />
+    <ClInclude Include="UnitTestsInfra.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedPodPtr.h" />
+    <ClInclude Include="ClassDefMacros.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="InheritenceDefMacros.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBaseStructs.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectLifecycleManagement.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualFuncCalling.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
+    <ClInclude Include="MathUtils.h">
+      <Filter>Infra</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InMemoryCache.c">
       <Filter>MemoryManagement</Filter>
     </ClCompile>
-    <ClCompile Include="dynamic_memory_management.c">
+    <ClCompile Include="DynamicMemoryManagement.c">
       <Filter>MemoryManagement</Filter>
     </ClCompile>
     <ClCompile Include="HeapCache.c">
       <Filter>MemoryManagement</Filter>
     </ClCompile>
-    <ClCompile Include="iCache.c">
+    <ClCompile Include="ICache.c">
       <Filter>MemoryManagement</Filter>
     </ClCompile>
-    <ClCompile Include="obj_lifecycle_management.c">
-      <Filter>OOP</Filter>
-    </ClCompile>
-    <ClCompile Include="virtual_func_calling.c">
-      <Filter>OOP</Filter>
-    </ClCompile>
     <ClCompile Include="Vector.c" />
-    <ClCompile Include="Shared_ptr.c" />
-    <ClCompile Include="vectorIterator.c" />
-    <ClCompile Include="redBlackTree.c" />
-    <ClCompile Include="redBlackTreeIterator.c" />
-    <ClCompile Include="hashTable.c" />
-    <ClCompile Include="Ndarray.c" />
+    <ClCompile Include="Tensor.c" />
+    <ClCompile Include="SharedPodPtr.c" />
+    <ClCompile Include="ObjectLifecycleManagement.c">
+      <Filter>Infra</Filter>
+    </ClCompile>
+    <ClCompile Include="VirtualFuncCalling.c">
+      <Filter>Infra</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

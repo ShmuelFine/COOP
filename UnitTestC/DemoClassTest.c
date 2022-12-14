@@ -11,7 +11,7 @@ TEST_FUN_IMPL(DemoClassTest, Class_CallSimpleFunction) {
 	CREATE(BaseClassExample, B), 10, 3 CALL;
 	// Act
 	int retVal = 0;
-	FUN(&B, GetVolume), & retVal CALL;
+	MFUN(&B, GetVolume), & retVal CALL;
 	// Assert
 	NTEST_ASSERT(retVal == 10 * 3);
 
@@ -24,7 +24,7 @@ TEST_FUN_IMPL(DemoClassTest, Rectangle_SanityTest)
 
 	// Act
 	int retVal = 0;
-	FUN(&Rect, GetArea), & retVal CALL;
+	MFUN(&Rect, GetArea), & retVal CALL;
 
 	// Assert
 	NTEST_ASSERT(retVal == 10 * 3);

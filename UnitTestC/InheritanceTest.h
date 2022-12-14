@@ -1,8 +1,8 @@
 #ifndef __COOP_TESTS__INHERITANCE_TEST__H__
 #define __COOP_TESTS__INHERITANCE_TEST__H__
 
-#include "test_defs.h"
-#include "../COOP/COOP.h"
+#include "UnitTestsInfra.h"
+#include "COOP.h"
 #include "DerivedClassExample.h"
 
 DEF_TEST_SUITE(InheritanceTest);

@@ -3,52 +3,59 @@ set(PROJECT_NAME UnitTestC)
 ################################################################################
 # Source groups
 ################################################################################
-set(Header_Files
-    "BaseClassExample.h"
-    "ClassTest.h"
-    "DerivedClassExample.h"
-    "ExeptionUnitTest.h"
-    "HashTableUnitTest.h"
-    "InheritTest.h"
-    "MemManagementUnitTest.h"
-    "NdarrayTest.h"
-    "rbTreeIterUnitTest.h"
-    "rbTreeUnitTest.h"
-    "Rectangle.h"
-    "ScopesUnitTest.h"
-    "ScopeTester.h"
-    "test_defs.h"
-    "TypeTest.h"
-    "vectorIteratorUnitTest.h"
-    "vectorUnitTest.h"
-)
-source_group("Header Files" FILES ${Header_Files})
-
-set(Source_Files
+set(no_group_source_files
     "_RUNNER_.c"
-    "BaseClassExample.c"
-    "ClassTest.c"
-    "DerivedClassExample.c"
-    "ExeptionUnitTest.c"
-    "HashTableUnitTest.c"
-    "InheritTest.c"
-    "MemManagementUnitTest.c"
-    "NdarrayTest.c"
-    "rbTreeIterUnitTest.c"
-    "rbTreeUnitTest.c"
-    "Rectangle.c"
-    "ScopesUnitTest.c"
-    "ScopeTester.c"
-    "shared_ptr_test.c"
-    "TypeTest.c"
-    "vectorIteratorUnitTest.c"
-    "vectorUnitTest.c"
 )
-source_group("Source Files" FILES ${Source_Files})
+source_group("" FILES ${no_group_source_files})
+
+set(AuxClasses
+    "BaseClassExample.c"
+    "BaseClassExample.h"
+    "DerivedClassExample.c"
+    "DerivedClassExample.h"
+    "Rectangle.c"
+    "Rectangle.h"
+    "ScopeTester.c"
+    "ScopeTester.h"
+)
+source_group("AuxClasses" FILES ${AuxClasses})
+
+set(DataStructuresTests
+    "SharedPodPtrUnitTest.c"
+    "SharedPodPtrUnitTest.h"
+    "TensorUnitTest.c"
+    "TensorUnitTest.h"
+    "VectorUnitTest.c"
+    "VectorUnitTest.h"
+)
+source_group("DataStructuresTests" FILES ${DataStructuresTests})
+
+set(InfraTests
+    "CodeBlocksUnitTest.c"
+    "CodeBlocksUnitTest.h"
+    "ExeptionUnitTest.c"
+    "ExeptionUnitTest.h"
+    "InheritanceTest.c"
+    "InheritanceTest.h"
+    "MemManagementUnitTest.c"
+    "MemManagementUnitTest.h"
+    "ScopesUnitTest.c"
+    "ScopesUnitTest.h"
+)
+source_group("InfraTests" FILES ${InfraTests})
+
+set(Sample
+    "DemoClassTest.c"
+    "DemoClassTest.h"
+)
+source_group("Sample" FILES ${Sample})
 
 set(ALL_FILES
-    ${Header_Files}
-    ${Source_Files}
+    ${no_group_source_files}
+    ${AuxClasses}
+    ${DataStructuresTests}
+    ${InfraTests}
+    ${Sample}
 )
 
 ################################################################################
@@ -71,6 +78,19 @@ elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
         INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
     )
 endif()
+################################################################################
+# Include directories
+################################################################################
+if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
+    target_include_directories(${PROJECT_NAME} PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/../COOP"
+    )
+elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
+    target_include_directories(${PROJECT_NAME} PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/../COOP"
+    )
+endif()
+
 ################################################################################
 # Compile definitions
 ################################################################################

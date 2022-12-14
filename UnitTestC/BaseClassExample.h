@@ -1,7 +1,7 @@
 #ifndef __COOP_TESTS__BASE_CLASS_EXAMPLE___H__
 #define __COOP_TESTS__BASE_CLASS_EXAMPLE___H__
 
-#include "../COOP/COOP.h"
+#include "COOP.h"
 
 DEF_CLASS(BaseClassExample);
 int hight;

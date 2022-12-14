@@ -1,58 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="AuxClasses">
       <UniqueIdentifier>{bbd8e8d6-62bc-4fdd-acf0-42a1f1ab1a18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="InfraTests">
+      <UniqueIdentifier>{dbbdb115-27f0-492e-959e-54d884d1c870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructuresTests">
+      <UniqueIdentifier>{20682dc8-fab4-4d39-80fe-7615c7068915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sample">
+      <UniqueIdentifier>{9af0af37-045e-4718-bec3-531e312d5f07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DemoClassTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InheritanceTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="_RUNNER_.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rbTreeIterUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rbTreeUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vectorIteratorUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="vectorUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ExeptionUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MemManagementUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="shared_ptr_test.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScopesUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HashTableUnitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NdarrayTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BaseClassExample.c">
       <Filter>AuxClasses</Filter>
     </ClCompile>
@@ -65,44 +27,36 @@
     <ClCompile Include="ScopeTester.c">
       <Filter>AuxClasses</Filter>
     </ClCompile>
+    <ClCompile Include="InheritanceTest.c">
+      <Filter>InfraTests</Filter>
+    </ClCompile>
+    <ClCompile Include="MemManagementUnitTest.c">
+      <Filter>InfraTests</Filter>
+    </ClCompile>
+    <ClCompile Include="ExeptionUnitTest.c">
+      <Filter>InfraTests</Filter>
+    </ClCompile>
+    <ClCompile Include="ScopesUnitTest.c">
+      <Filter>InfraTests</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedPodPtrUnitTest.c">
+      <Filter>DataStructuresTests</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorUnitTest.c">
+      <Filter>DataStructuresTests</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoClassTest.c">
+      <Filter>Sample</Filter>
+    </ClCompile>
+    <ClCompile Include="_RUNNER_.c" />
+    <ClCompile Include="TensorUnitTest.c">
+      <Filter>DataStructuresTests</Filter>
+    </ClCompile>
+    <ClCompile Include="CodeBlocksUnitTest.c">
+      <Filter>InfraTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DemoClassTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="test_defs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InheritanceTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rbTreeIterUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rbTreeUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vectorIteratorUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vectorUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ExeptionUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MemManagementUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScopesUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HashTableUnitTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NdarrayTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BaseClassExample.h">
       <Filter>AuxClasses</Filter>
     </ClInclude>
@@ -114,6 +68,33 @@
     </ClInclude>
     <ClInclude Include="ScopeTester.h">
       <Filter>AuxClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="InheritanceTest.h">
+      <Filter>InfraTests</Filter>
+    </ClInclude>
+    <ClInclude Include="MemManagementUnitTest.h">
+      <Filter>InfraTests</Filter>
+    </ClInclude>
+    <ClInclude Include="ScopesUnitTest.h">
+      <Filter>InfraTests</Filter>
+    </ClInclude>
+    <ClInclude Include="ExeptionUnitTest.h">
+      <Filter>InfraTests</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorUnitTest.h">
+      <Filter>DataStructuresTests</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedPodPtrUnitTest.h">
+      <Filter>DataStructuresTests</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoClassTest.h">
+      <Filter>Sample</Filter>
+    </ClInclude>
+    <ClInclude Include="TensorUnitTest.h">
+      <Filter>DataStructuresTests</Filter>
+    </ClInclude>
+    <ClInclude Include="CodeBlocksUnitTest.h">
+      <Filter>InfraTests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

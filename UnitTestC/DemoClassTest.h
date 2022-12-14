@@ -1,8 +1,8 @@
 #ifndef __COOP_TESTS__DEMO_CLASS_TEST___H__
 #define __COOP_TESTS__DEMO_CLASS_TEST___H__
 
-#include "test_defs.h"
-#include "../COOP/COOP.h"
+#include "UnitTestsInfra.h"
+#include "COOP.h"
 
 DEF_TEST_SUITE(DemoClassTest);
 ADD_TEST(DemoClassTest, Class_CallSimpleFunction);
