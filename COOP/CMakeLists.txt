@@ -4,58 +4,47 @@ set(PROJECT_NAME COOP)
 # Source groups
 ################################################################################
 set(no_group_source_files
-    "hashTable.c"
-    "hashTable.h"
-    "Ndarray.c"
-    "Ndarray.h"
-    "redBlackTree.c"
-    "redBlackTree.h"
-    "redBlackTreeIterator.c"
-    "redBlackTreeIterator.h"
-    "Shared_ptr.c"
-    "Shared_ptr.h"
+    "SharedPodPtr.c"
+    "SharedPodPtr.h"
+    "Tensor.c"
+    "Tensor.h"
     "vector.c"
     "vector.h"
-    "vectorIterator.c"
-    "vectorIterator.h"
 )
 source_group("" FILES ${no_group_source_files})
 
 set(Infra
+    "ClassDefMacros.h"
     "COOP.h"
     "ExportDefs.h"
+    "InheritenceDefMacros.h"
+    "MathUtils.h"
+    "Object.h"
+    "ObjectBaseStructs.h"
+    "ObjectLifecycleManagement.c"
+    "ObjectLifecycleManagement.h"
+    "UnitTestsInfra.h"
+    "VirtualFuncCalling.c"
+    "VirtualFuncCalling.h"
 )
 source_group("Infra" FILES ${Infra})
 
 set(MemoryManagement
-    "Cache.c"
-    "Cache.h"
-    "dynamic_memory_management.c"
-    "dynamic_memory_management.h"
+    "DynamicMemoryManagement.c"
+    "DynamicMemoryManagement.h"
     "HeapCache.c"
     "HeapCache.h"
-    "iCache.c"
-    "iCache.h"
+    "ICache.c"
+    "ICache.h"
+    "InMemoryCache.c"
+    "InMemoryCache.h"
 )
 source_group("MemoryManagement" FILES ${MemoryManagement})
-
-set(OOP
-    "class_def_macros.h"
-    "inheritence_def_macros.h"
-    "obj_base_structs.h"
-    "obj_lifecycle_management.c"
-    "obj_lifecycle_management.h"
-    "object.h"
-    "virtual_func_calling.c"
-    "virtual_func_calling.h"
-)
-source_group("OOP" FILES ${OOP})
 
 set(ALL_FILES
     ${no_group_source_files}
     ${Infra}
     ${MemoryManagement}
-    ${OOP}
 )
 
 ################################################################################
