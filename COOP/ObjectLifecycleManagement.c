@@ -8,7 +8,7 @@ void _scope_obj_list_add(object* scope_list, object* obj)
 	scope_list->_next = obj;
 }
 
-void FreeMostInnerScope(object* _scope_obj_list_ptr)
+void _scope_obj_list_call_dtors(object* _scope_obj_list_ptr)
 {
 	for (object* it = _scope_obj_list_ptr->_next; it != NULL; it = it->_next)
 	{

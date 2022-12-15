@@ -21,7 +21,7 @@ TEST_FUN_IMPL(Infra_ScopesTest, SCOPE_END__WhenObjectsDefinedInsideScope_ThenAll
 {
 	//Arrange
 	char feedback[3] = { 0, 0, 0 };
-	
+
 	// Act
 	ChangeValueWithScopeTester(feedback + 0);
 	ChangeValueWithScopeTester(feedback + 1);
@@ -42,7 +42,7 @@ TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__WhenObjectsDefinedInside_InnerScope
 
 	// Sanity:
 	CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
-	
+
 	// Act:
 	Call_Inner_ChangeValueWithScopeTester(feedback);
 	ChangeValueWithScopeTester(feedback + 1);
@@ -62,27 +62,25 @@ END_FUN;
 TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__DoesNotFreeUnrelatedObjects)
 {
 	char feedback[3] = { 0, 0, 0 };
-	SCOPE_START;
 
-	//Arrange
+	IF(true) {
 
-	CREATE(ScopeTester, outer_obj1), feedback + 0 CALL;
-	CREATE(ScopeTester, outer_obj2), feedback + 1 CALL;
+		//Arrange
+		CREATE(ScopeTester, outer_obj1), feedback + 0 CALL;
+		CREATE(ScopeTester, outer_obj2), feedback + 1 CALL;
 
-	//Act
-	if (1)
-	{
-		SCOPE_START;
-		CREATE(ScopeTester, inner_obj), feedback + 2 CALL;
-		END_SCOPE;
-	}
+		//Act
+		IF(1)
+		{
+			CREATE(ScopeTester, inner_obj), feedback + 2 CALL;
+		}END_IF;
 
-	//Assert
-	// Outer objects were not yet freed:
-	NTEST_ASSERT(feedback[0] != 0);
-	NTEST_ASSERT(feedback[1] != 0);
+		//Assert
+		// Outer objects were not yet freed:
+		NTEST_ASSERT(feedback[0] != 0);
+		NTEST_ASSERT(feedback[1] != 0);
 
-	END_SCOPE;
+	}END_IF;
 }
 END_FUN
 
@@ -90,43 +88,39 @@ TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__WhenMultipleNestedScopesExist_ThenF
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 
-	SCOPE_START;
-
 	//Arrange 
-	CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
-	NTEST_ASSERT(feedback[0] == 'A');
+	IF(0 == 0) {
+		CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
+		NTEST_ASSERT(feedback[0] == 'A');
 
-	//Act
-	if (1) {
-		SCOPE_START;
-		CREATE(ScopeTester, inner_scope_1), feedback + 1 CALL;
+		//Act
+		IF(1 == 1) {
 
-		if (1)
-		{
-			SCOPE_START;
-			CREATE(ScopeTester, inner_scope_2), feedback + 2 CALL;
+			CREATE(ScopeTester, inner_scope_1), feedback + 1 CALL;
+			NTEST_ASSERT(feedback[1] == 'A');
 
-			//Assert
-			NTEST_ASSERT(feedback[0] != 0);
-			NTEST_ASSERT(feedback[1] != 0);
-			NTEST_ASSERT(feedback[2] != 0);
+			FOR(int i = 2; i < 3; i++)
+			{
+				CREATE(ScopeTester, inner_scope_2), feedback + 2 CALL;
+				NTEST_ASSERT(feedback[2] == 'A');
 
-			END_SCOPE;
+				//Assert
+				NTEST_ASSERT(feedback[0] != 0);
+				NTEST_ASSERT(feedback[1] != 0);
+				NTEST_ASSERT(feedback[2] != 0);
+			}END_IF;
 
 			NTEST_ASSERT(feedback[0] != 0);
 			NTEST_ASSERT(feedback[1] != 0);
 			NTEST_ASSERT(feedback[2] == 0);
-		}
 
-		END_SCOPE;
 
+		}END_IF;
 		NTEST_ASSERT(feedback[0] != 0);
 		NTEST_ASSERT(feedback[1] == 0);
 		NTEST_ASSERT(feedback[2] == 0);
 
-	}
-
-	END_SCOPE;
+	}END_IF;
 
 	NTEST_ASSERT(feedback[0] == 0);
 	NTEST_ASSERT(feedback[1] == 0);
@@ -138,28 +132,25 @@ TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__WhenMostInnerScopeHasNoObjects_Then
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 
-	SCOPE_START;
-
 	//Arrange 
 	CREATE(ScopeTester, outer_scope_obj), feedback + 0 CALL;
 	NTEST_ASSERT(feedback[0] == 'A');
 
 	//Act
-	if (1) {
-		SCOPE_START;
+	IF(true) {
+
 		CREATE(ScopeTester, inner_scope_1), feedback + 1 CALL;
-		if (1) {
-			SCOPE_START;
-			END_SCOPE;
-		}
+		IF(true) {
+
+
+		}END_IF;
 
 		// Assert
 		NTEST_ASSERT(feedback[1] != 0);
-		END_SCOPE;
-		NTEST_ASSERT(feedback[1] == 0);
-	}
 
-	END_SCOPE;
+	}END_IF;
+
+	NTEST_ASSERT(feedback[1] == 0);
 }
 END_FUN
 
@@ -167,15 +158,14 @@ TEST_FUN_IMPL(Infra_ScopesTest, LOCAL_SCOPE__LoopScopeSanityTest)
 {
 	char feedback[4] = { 0, 0, 0, 0 };
 
-	FOR (int i = 0; i < 100; i++)
+	FOR(int i = 0; i < 100; i++)
 	{
-		SCOPE_START;
 		CREATE(ScopeTester, inner_scope_1), feedback + i % 4 CALL;
-		END_SCOPE;
+
 	}END_LOOP;
 
 
-	FOR (int i = 0; i < 4; i++)
+	FOR(int i = 0; i < 4; i++)
 		NTEST_ASSERT(feedback[i] == 0);
 	END_LOOP;
 }

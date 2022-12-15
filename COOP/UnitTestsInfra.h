@@ -43,8 +43,8 @@ MEM_FUN_IMPL(SUITE_NAME, __run_all_tests__, struct TESTS_LINKED_LIST_TYPE(SUITE_
 	for (struct TESTS_LINKED_LIST_TYPE(SUITE_NAME)* it = tests_anchor; it != NULL; it = it->next) {\
 		printf("... Running %s --> ", it->name); fflush(stdout);\
 		int is_fail = false;\
-		int _retVal_ = it->_test_func(_this, &is_fail);\
-		if (IN_THROWING_VALUE == _retVal_) { is_fail = true; printf("EXCEPTION THROWN:\t%s\t\n", LAST_EXCEPTION_ERROR_MSG); } \
+		int __INNER_FUNC_CALL_RET_VALUE__ = it->_test_func(_this, &is_fail);\
+		if (IN_THROWING_VALUE == __INNER_FUNC_CALL_RET_VALUE__) { is_fail = true; printf("EXCEPTION THROWN:\t%s\t\n", LAST_EXCEPTION_ERROR_MSG); } \
 		if (false != is_fail) { (*num_failed)++; printf("FAILED\n"); fflush(stdout); }\
 		else { (*num_passed)++; printf("PASS\n"); fflush(stdout); }\
 	}\

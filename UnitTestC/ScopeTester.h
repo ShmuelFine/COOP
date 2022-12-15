@@ -4,7 +4,7 @@
 #include "COOP.h"
 
 DEF_CLASS(ScopeTester);
-char* buff;
+char* charPtr;
 END_DEF(ScopeTester);
 
 FUNCTIONS(ScopeTester, char* pointedVal);

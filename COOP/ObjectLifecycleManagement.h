@@ -1,20 +1,18 @@
 #ifndef __COOP_OBJ_LIEFCYCLE_MANAGEMENT__
 #define __COOP_OBJ_LIEFCYCLE_MANAGEMENT__
 
-
 #include "ExportDefs.h"
 #include "ObjectBaseStructs.h"
 
-
 COOP_API void _scope_obj_list_add(object* scope_list, object* obj);
-COOP_API void FreeMostInnerScope(object* _scope_obj_list);
+COOP_API void _scope_obj_list_call_dtors(object* _scope_obj_list);
 
 #define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
 
 #define INITIALIZE_INSTANCE(type, instance_name)					\
 	if (!is_ ##type ##VirtualTable__initialized) type ##_init();	\
 	instance_name.vTable = &V_TABLE_INSTANCE(type);					\
-	{ int _retVal_ = instance_name.vTable->_ctor(&instance_name
+	{ int __INNER_FUNC_CALL_RET_VALUE__ = instance_name.vTable->_ctor(&instance_name
 
 
 #define CREATE(type, instance_name)									\
@@ -22,7 +20,7 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 	REGISTER_OBJECT(&instance_name);								\
 	INITIALIZE_INSTANCE(type, instance_name)
 
-// D'TOR IS NOT ALLOWED TO THROW... otherwise it creates a cyclic dependence with FreeMostInnerScope.
+// D'TOR IS NOT ALLOWED TO THROW... otherwise it creates a cyclic dependence with _scope_obj_list_call_dtors.
 #define DESTROY(instance_ptr) {if (instance_ptr) (instance_ptr)->vTable->_dtor(instance_ptr);}
 
 // The obj lifecycle built upon scopes, that has to account with exception handling:
@@ -38,7 +36,7 @@ COOP_API void FreeMostInnerScope(object* _scope_obj_list);
 for (int i_ ##__LINE__= 0; i_ ##__LINE__ < 1; i_ ##__LINE__++)\
 {
 
-#define BREAK {IS_BREAKING = true; FreeMostInnerScope(&_scope_obj_list); break;}
+#define BREAK {IS_BREAKING = true; _scope_obj_list_call_dtors(&_scope_obj_list); break;}
 
 #define CATCH \
 }\
@@ -66,22 +64,17 @@ TRY									\
 	_scope_obj_list.vTable=NULL;	\
 	_scope_obj_list._next=NULL
 
-#define END_SCOPE\
-	FreeMostInnerScope(&_scope_obj_list); }\
-	{if (IS_BREAKING) {IS_BREAKING = false; break;}\
-	else if (IS_IN_RETURNING() || IS_IN_THROWING()) break;}
-
 #define FOR(...) for (__VA_ARGS__) { SCOPE_START; 
 #define WHILE(...) while (__VA_ARGS__) { SCOPE_START; 
 #define IF(...) if (__VA_ARGS__) { SCOPE_START; 
 
-#define END_LOOP 	FreeMostInnerScope(&_scope_obj_list); }\
+#define END_LOOP 	_scope_obj_list_call_dtors(&_scope_obj_list); }\
 	{if (IS_BREAKING) {IS_BREAKING = false; break;}\
 	else if (IS_IN_RETURNING() || IS_IN_THROWING()) break;}\
 } if (IS_IN_RETURNING() || IS_IN_THROWING()) break;
 
 
-#define END_IF   FreeMostInnerScope(&_scope_obj_list); }\
+#define END_IF   _scope_obj_list_call_dtors(&_scope_obj_list); }\
  } if (IS_BREAKING || IS_IN_RETURNING() || IS_IN_THROWING()) break;
 
 #define FUN_IMPL(function_name, ...)\
@@ -92,7 +85,7 @@ int IS_BREAKING = false;\
 SCOPE_START;
 
 #define END_FUN \
-} FreeMostInnerScope(&_scope_obj_list); \
+} _scope_obj_list_call_dtors(&_scope_obj_list); \
 if (IS_IN_RETURNING()) __RET_VAL__ = SUCCESS_VALUE;\
 return __RET_VAL__; \
 }
@@ -100,9 +93,9 @@ return __RET_VAL__; \
 #define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)
 
 #define FUN(funcName)\
-{ int _retVal_ = funcName(
+{ int __INNER_FUNC_CALL_RET_VALUE__ = funcName(
 
-#define CALL ); if (IN_THROWING_VALUE == _retVal_) {THROW;} } 
+#define CALL ); if (IN_THROWING_VALUE == __INNER_FUNC_CALL_RET_VALUE__) {THROW;} } 
 
 #define ASSERT(x) if (!(x)) {THROW;}
 #define THROW_MSG_UNLESS(x, msg) if (!(x)) {THROW_MSG(msg);}
