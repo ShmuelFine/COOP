@@ -64,15 +64,6 @@ function(use_package TARGET PACKAGE VERSION)
                     "for target \"${TARGET}\" is ignored!")
 endfunction()
 
-################################################################################
-# Common utils
-################################################################################
-include(CMake/Utils.cmake)
-
-################################################################################
-# Additional Global Settings(add specific info there)
-################################################################################
-include(CMake/GlobalSettingsInclude.cmake OPTIONAL)
 
 ################################################################################
 # Use solution folders feature
