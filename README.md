@@ -11,6 +11,6 @@ It was tested both on Windows (Visual Studio, MSBuild) and Linux (GCC).
 
 COOP aims to give lightweight syntax and minimal performance overhead for achieving efficient and **safe** embedded code.
 
-## You can find [Usage Crash Course in the Wiki](https://github.com/ShmuelFine/COOP/wiki).
+You can find a quick usage cheat sheet in the "The COOP Cheat Sheet.docx" file, and by going over the unit tests!
 
 Have fun!
