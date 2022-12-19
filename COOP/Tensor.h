@@ -2,7 +2,7 @@
 #define __MY__NDARRAY__H__
 #endif
 
-#include "coop.h"
+#include "COOP.h"
 #include "Vector.h"
 
 ////////////////////////////////////////////////

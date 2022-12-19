@@ -1,7 +1,7 @@
 #ifndef __MY__SHARED_PTR__H__
 #define __MY__SHARED_PTR__H__
 
-#include "coop.h"
+#include "COOP.h"
 
 #define GET_VARIABLE_NAME(Variable) (#Variable)
 

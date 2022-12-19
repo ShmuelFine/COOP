@@ -176,6 +176,11 @@ if(MSVC)
             /SUBSYSTEM:CONSOLE
         )
     endif()
+else(IF UNIX AND NOT APPLE)
+    # For non-osx platforms
+    # Specify `-Wno-incompatible-pointer-types` for GCC to avoid it emitting
+    # a lot of warnings due to the function parameter types
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wno-incompatible-pointer-types)
 endif()
 
 ################################################################################

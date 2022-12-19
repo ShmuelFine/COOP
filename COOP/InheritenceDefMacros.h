@@ -32,11 +32,11 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 
 // Macro that begins derived class func definition section
 #define DERIVED_FUNCTIONS(class_name, base, ...)			\
-	int __ctor__ ##class_name(class_name * _this, __VA_ARGS__);	\
+	int __ctor__ ##class_name(class_name * _this, ##__VA_ARGS__);	\
 	int __dtor__ ##class_name(class_name * _this);					\
 	typedef struct class_name ##VirtualTable_t{				\
 	V_TABLE_TYPE(base) _base;								\
-	int (*_ctor)(class_name * _this, __VA_ARGS__);			\
+	int (*_ctor)(class_name * _this, ##__VA_ARGS__);			\
 	int (*_dtor)(class_name * _this)
 
 // Macro that defines an overriding version of a virtual function:
@@ -56,7 +56,7 @@ struct base_class ##_ ##function_name ##_t_ function_name
 // Should be used followed by SUPER <base class ctor args> ME
 // In order to call the base class ctor. e.g.:
 
-#define DEF_DERIVED_CTOR(class_name, baseName, ...)  FUN_IMPL(__ctor__ ##class_name, class_name * _this, __VA_ARGS__)  \
+#define DEF_DERIVED_CTOR(class_name, baseName, ...)  FUN_IMPL(__ctor__ ##class_name, class_name * _this, ##__VA_ARGS__)  \
 { \
 	FUN(__ctor__ ##baseName)
 
@@ -94,7 +94,7 @@ void type ##_init()		{							\
 #define BIND_OVERIDE(type,base,function) \
 	V_TABLE_INSTANCE(type).function.next = NULL;\
 	V_TABLE_INSTANCE(type).function.inner_function = inner_function_ ##type ##_ ##function;\
-	V_TABLE_INSTANCE(type)._base.function.next = &(V_TABLE_INSTANCE(type).##function);\
+	V_TABLE_INSTANCE(type)._base.function.next = &(V_TABLE_INSTANCE(type).function);\
 	V_TABLE_INSTANCE(type).function.outer_function = V_TABLE_INSTANCE(type)._base.function.outer_function;
 
 //V_TABLE_INSTANCE(type).__ ##function.outer_function = NULL; /*outer function called only on the base. otherwise let's crash.*/\
