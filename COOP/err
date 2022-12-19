@@ -1,0 +1,215 @@
+In file included from Object.h:6,
+                 from ICache.h:4,
+                 from ICache.c:3:
+ClassDefMacros.h:34:47: error: pasting ")" and "_t" does not give a valid preprocessing token
+   34 |         typedef struct V_TABLE_TYPE(class_name) ##_t{                                   \
+      |                                               ^
+ICache.h:11:1: note: in expansion of macro ‘FUNCTIONS’
+   11 | FUNCTIONS(ICache);
+      | ^~~~~~~~~
+ClassDefMacros.h:34:53: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘{’ token
+   34 |         typedef struct V_TABLE_TYPE(class_name) ##_t{                                   \
+      |                                                     ^
+ICache.h:11:1: note: in expansion of macro ‘FUNCTIONS’
+   11 | FUNCTIONS(ICache);
+      | ^~~~~~~~~
+ICache.h:15:15: warning: data definition has no type or storage class
+   15 | END_FUNCTIONS(ICache);
+      |               ^~~~~~
+ClassDefMacros.h:49:37: note: in definition of macro ‘END_FUNCTIONS’
+   49 | #define END_FUNCTIONS(class_name) } class_name ##VirtualTalbe;                  \
+      |                                     ^~~~~~~~~~
+ICache.h:15:15: warning: type defaults to ‘int’ in declaration of ‘ICacheVirtualTalbe’ [-Wimplicit-int]
+   15 | END_FUNCTIONS(ICache);
+      |               ^~~~~~
+ClassDefMacros.h:49:37: note: in definition of macro ‘END_FUNCTIONS’
+   49 | #define END_FUNCTIONS(class_name) } class_name ##VirtualTalbe;                  \
+      |                                     ^~~~~~~~~~
+ICache.h:15:15: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘ICacheVTable’
+   15 | END_FUNCTIONS(ICache);
+      |               ^~~~~~
+ClassDefMacros.h:50:43: note: in expansion of macro ‘V_TABLE_INSTANCE’
+   50 | COOP_API extern class_name ##VirtualTalbe V_TABLE_INSTANCE(class_name); \
+      |                                           ^~~~~~~~~~~~~~~~
+ICache.h:15:1: note: in expansion of macro ‘END_FUNCTIONS’
+   15 | END_FUNCTIONS(ICache);
+      | ^~~~~~~~~~~~~
+In file included from VirtualFuncCalling.h:5,
+                 from ClassDefMacros.h:4:
+ObjectLifecycleManagement.h:81:30: error: expected declaration specifiers or ‘...’ before ‘)’ token
+   81 | int function_name(__VA_ARGS__)\
+      |                              ^~
+   82 | { \
+      |                               
+ObjectLifecycleManagement.h:81:30: note: in definition of macro ‘FUN_IMPL’
+   81 | int function_name(__VA_ARGS__)\
+      |                              ^~
+   82 | { \
+      |                               
+ICache.c:5:1: note: in expansion of macro ‘DEF_CTOR’
+    5 | DEF_CTOR(ICache)
+      | ^~~~~~~~
+ICache.c: In function ‘ICache_AddNewBlock_outer_function’:
+ClassDefMacros.h:69:71: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   69 |         struct type ##_ ##function_name ##_t_ * toRun = &_this->vTable->function_name;                  \
+      |                                                                       ^~
+ICache.c:11:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   11 | MEM_FUN_IMPL(ICache, AddNewBlock, MEM_SIZE_T block_size, void** returned)
+      | ^~~~~~~~~~~~
+ClassDefMacros.h:70:20: error: invalid use of undefined type ‘struct ICache_AddNewBlock_t_’
+   70 |         while(toRun->next) { toRun = toRun->next; }                                                     \
+      |                    ^~
+ICache.c:11:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   11 | MEM_FUN_IMPL(ICache, AddNewBlock, MEM_SIZE_T block_size, void** returned)
+      | ^~~~~~~~~~~~
+ClassDefMacros.h:70:43: error: invalid use of undefined type ‘struct ICache_AddNewBlock_t_’
+   70 |         while(toRun->next) { toRun = toRun->next; }                                                     \
+      |                                           ^~
+ICache.c:11:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   11 | MEM_FUN_IMPL(ICache, AddNewBlock, MEM_SIZE_T block_size, void** returned)
+      | ^~~~~~~~~~~~
+ClassDefMacros.h:71:21: error: invalid use of undefined type ‘struct ICache_AddNewBlock_t_’
+   71 |         return toRun->inner_function;                                                                           \
+      |                     ^~
+ICache.c:11:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   11 | MEM_FUN_IMPL(ICache, AddNewBlock, MEM_SIZE_T block_size, void** returned)
+      | ^~~~~~~~~~~~
+ICache.c: In function ‘ICache_RemoveBlock_outer_function’:
+ClassDefMacros.h:69:71: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   69 |         struct type ##_ ##function_name ##_t_ * toRun = &_this->vTable->function_name;                  \
+      |                                                                       ^~
+ICache.c:14:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   14 | MEM_FUN_IMPL(ICache, RemoveBlock, void* toDelete)
+      | ^~~~~~~~~~~~
+ClassDefMacros.h:70:20: error: invalid use of undefined type ‘struct ICache_RemoveBlock_t_’
+   70 |         while(toRun->next) { toRun = toRun->next; }                                                     \
+      |                    ^~
+ICache.c:14:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   14 | MEM_FUN_IMPL(ICache, RemoveBlock, void* toDelete)
+      | ^~~~~~~~~~~~
+ClassDefMacros.h:70:43: error: invalid use of undefined type ‘struct ICache_RemoveBlock_t_’
+   70 |         while(toRun->next) { toRun = toRun->next; }                                                     \
+      |                                           ^~
+ICache.c:14:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   14 | MEM_FUN_IMPL(ICache, RemoveBlock, void* toDelete)
+      | ^~~~~~~~~~~~
+ClassDefMacros.h:71:21: error: invalid use of undefined type ‘struct ICache_RemoveBlock_t_’
+   71 |         return toRun->inner_function;                                                                           \
+      |                     ^~
+ICache.c:14:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   14 | MEM_FUN_IMPL(ICache, RemoveBlock, void* toDelete)
+      | ^~~~~~~~~~~~
+ICache.c: In function ‘ICache_getTotalFreeBytes_outer_function’:
+ClassDefMacros.h:69:71: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   69 |         struct type ##_ ##function_name ##_t_ * toRun = &_this->vTable->function_name;                  \
+      |                                                                       ^~
+ICache.c:17:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   17 | MEM_FUN_IMPL(ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+      | ^~~~~~~~~~~~
+ClassDefMacros.h:70:20: error: invalid use of undefined type ‘struct ICache_getTotalFreeBytes_t_’
+   70 |         while(toRun->next) { toRun = toRun->next; }                                                     \
+      |                    ^~
+ICache.c:17:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   17 | MEM_FUN_IMPL(ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+      | ^~~~~~~~~~~~
+ClassDefMacros.h:70:43: error: invalid use of undefined type ‘struct ICache_getTotalFreeBytes_t_’
+   70 |         while(toRun->next) { toRun = toRun->next; }                                                     \
+      |                                           ^~
+ICache.c:17:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   17 | MEM_FUN_IMPL(ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+      | ^~~~~~~~~~~~
+ClassDefMacros.h:71:21: error: invalid use of undefined type ‘struct ICache_getTotalFreeBytes_t_’
+   71 |         return toRun->inner_function;                                                                           \
+      |                     ^~
+ICache.c:17:1: note: in expansion of macro ‘MEM_FUN_IMPL’
+   17 | MEM_FUN_IMPL(ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+      | ^~~~~~~~~~~~
+ICache.c: In function ‘ICache_init’:
+ClassDefMacros.h:88:48: error: invalid application of ‘sizeof’ to incomplete type ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   88 |         memset(& V_TABLE_INSTANCE(type), sizeof(V_TABLE_INSTANCE(type)), 0);    \
+      |                                                ^
+ICache.c:20:1: note: in expansion of macro ‘INIT_CLASS’
+   20 | INIT_CLASS(ICache)
+      | ^~~~~~~~~~
+ClassDefMacros.h:78:29: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   78 | V_TABLE_INSTANCE(class_name)._ctor = __ctor__ ##class_name;  \
+      |                             ^
+ClassDefMacros.h:89:9: note: in expansion of macro ‘ATTACH_TORs_ToClass’
+   89 |         ATTACH_TORs_ToClass(type)
+      |         ^~~~~~~~~~~~~~~~~~~
+ICache.c:20:1: note: in expansion of macro ‘INIT_CLASS’
+   20 | INIT_CLASS(ICache)
+      | ^~~~~~~~~~
+ClassDefMacros.h:79:29: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   79 | V_TABLE_INSTANCE(class_name)._dtor = __dtor__ ##class_name;
+      |                             ^
+ClassDefMacros.h:89:9: note: in expansion of macro ‘ATTACH_TORs_ToClass’
+   89 |         ATTACH_TORs_ToClass(type)
+      |         ^~~~~~~~~~~~~~~~~~~
+ICache.c:20:1: note: in expansion of macro ‘INIT_CLASS’
+   20 | INIT_CLASS(ICache)
+      | ^~~~~~~~~~
+ClassDefMacros.h:93:31: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   93 |         V_TABLE_INSTANCE(type).function_name.outer_function = type ##_ ##function_name ##_outer_function;                               \
+      |                               ^
+ICache.c:21:1: note: in expansion of macro ‘BIND’
+   21 | BIND(ICache, AddNewBlock);
+      | ^~~~
+ClassDefMacros.h:94:31: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   94 |         V_TABLE_INSTANCE(type).function_name.inner_function = inner_function_ ##type ##_ ##function_name;                               \
+      |                               ^
+ICache.c:21:1: note: in expansion of macro ‘BIND’
+   21 | BIND(ICache, AddNewBlock);
+      | ^~~~
+ClassDefMacros.h:95:31: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   95 |         V_TABLE_INSTANCE(type).function_name.next = NULL
+      |                               ^
+ICache.c:21:1: note: in expansion of macro ‘BIND’
+   21 | BIND(ICache, AddNewBlock);
+      | ^~~~
+ClassDefMacros.h:93:31: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   93 |         V_TABLE_INSTANCE(type).function_name.outer_function = type ##_ ##function_name ##_outer_function;                               \
+      |                               ^
+ICache.c:22:1: note: in expansion of macro ‘BIND’
+   22 | BIND(ICache, RemoveBlock);
+      | ^~~~
+ClassDefMacros.h:94:31: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   94 |         V_TABLE_INSTANCE(type).function_name.inner_function = inner_function_ ##type ##_ ##function_name;                               \
+      |                               ^
+ICache.c:22:1: note: in expansion of macro ‘BIND’
+   22 | BIND(ICache, RemoveBlock);
+      | ^~~~
+ClassDefMacros.h:95:31: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   95 |         V_TABLE_INSTANCE(type).function_name.next = NULL
+      |                               ^
+ICache.c:22:1: note: in expansion of macro ‘BIND’
+   22 | BIND(ICache, RemoveBlock);
+      | ^~~~
+ClassDefMacros.h:93:31: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   93 |         V_TABLE_INSTANCE(type).function_name.outer_function = type ##_ ##function_name ##_outer_function;                               \
+      |                               ^
+ICache.c:23:1: note: in expansion of macro ‘BIND’
+   23 | BIND(ICache, getTotalFreeBytes);
+      | ^~~~
+ClassDefMacros.h:94:31: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   94 |         V_TABLE_INSTANCE(type).function_name.inner_function = inner_function_ ##type ##_ ##function_name;                               \
+      |                               ^
+ICache.c:23:1: note: in expansion of macro ‘BIND’
+   23 | BIND(ICache, getTotalFreeBytes);
+      | ^~~~
+ClassDefMacros.h:95:31: error: invalid use of incomplete typedef ‘ICacheVirtualTable’ {aka ‘struct ICacheVirtualTable_t’}
+   95 |         V_TABLE_INSTANCE(type).function_name.next = NULL
+      |                               ^
+ICache.c:23:1: note: in expansion of macro ‘BIND’
+   23 | BIND(ICache, getTotalFreeBytes);
+      | ^~~~
+ICache.c: At top level:
+ICache.c:20:12: error: storage size of ‘ICacheVTable’ isn’t known
+   20 | INIT_CLASS(ICache)
+      |            ^~~~~~
+ClassDefMacros.h:15:38: note: in definition of macro ‘V_TABLE_INSTANCE’
+   15 | #define V_TABLE_INSTANCE(class_name) class_name ##VTable
+      |                                      ^~~~~~~~~~
+ICache.c:20:1: note: in expansion of macro ‘INIT_CLASS’
+   20 | INIT_CLASS(ICache)
+      | ^~~~~~~~~~

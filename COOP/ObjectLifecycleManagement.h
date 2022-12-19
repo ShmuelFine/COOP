@@ -68,9 +68,11 @@ TRY									\
 #define WHILE(...) while (__VA_ARGS__) { SCOPE_START; 
 #define IF(...) if (__VA_ARGS__) { SCOPE_START; 
 
-#define END_LOOP 	_scope_obj_list_call_dtors(&_scope_obj_list); }\
-	{if (IS_BREAKING) {IS_BREAKING = false; break;}\
-	else if (IS_IN_RETURNING() || IS_IN_THROWING()) break;}\
+#define END_LOOP 	_scope_obj_list_call_dtors(&_scope_obj_list); }	\
+	{																\
+		if (IS_BREAKING) {IS_BREAKING = false; break;}				\
+		else if (IS_IN_RETURNING() || IS_IN_THROWING()) break;		\
+	}																\
 } if (IS_IN_RETURNING() || IS_IN_THROWING()) break;
 
 
@@ -85,8 +87,8 @@ int IS_BREAKING = false;\
 SCOPE_START;
 
 #define END_FUN \
-} _scope_obj_list_call_dtors(&_scope_obj_list); \
-if (IS_IN_RETURNING()) __RET_VAL__ = SUCCESS_VALUE;\
+	} _scope_obj_list_call_dtors(&_scope_obj_list); \
+if (IS_IN_RETURNING()) __RET_VAL__ = SUCCESS_VALUE;	\
 return __RET_VAL__; \
 }
 

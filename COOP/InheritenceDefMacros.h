@@ -31,12 +31,12 @@ COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 
 
 // Macro that begins derived class func definition section
-#define DERIVED_FUNCTIONS(class_name, base, ...)			\
+#define DERIVED_FUNCTIONS(class_name, base, ...)					\
 	int __ctor__ ##class_name(class_name * _this, ##__VA_ARGS__);	\
 	int __dtor__ ##class_name(class_name * _this);					\
-	typedef struct class_name ##VirtualTable_t{				\
-	V_TABLE_TYPE(base) _base;								\
-	int (*_ctor)(class_name * _this, ##__VA_ARGS__);			\
+	typedef struct class_name ##VirtualTable_t{						\
+	V_TABLE_TYPE(base) _base;										\
+	int (*_ctor)(class_name * _this, ##__VA_ARGS__);				\
 	int (*_dtor)(class_name * _this)
 
 // Macro that defines an overriding version of a virtual function:
@@ -83,8 +83,8 @@ FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
 // It begins with:
 #define INIT_DERIVED_CLASS(type,base)					\
 bool is_ ##type ##VirtualTable__initialized = false;	\
-V_TABLE_TYPE(type) V_TABLE_INSTANCE(type);						\
-void type ##_init()		{							\
+V_TABLE_TYPE(type) V_TABLE_INSTANCE(type);				\
+void type ##_init()		{								\
 	if(!(is_ ##base ##VirtualTable__initialized))		\
 		base ##_init();									\
 	ATTACH_TORs_ToClass(type);							\
