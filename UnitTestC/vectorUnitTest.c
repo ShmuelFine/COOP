@@ -1,6 +1,6 @@
 #include "VectorUnitTest.h"
 #include "ExportDefs.h"
-#include "vector.h"
+#include "Vector.h"
 #include "ScopeTester.h"
 
 TEST_FUN_IMPL(VectorTest, push_back_SanityTest)

@@ -2,7 +2,7 @@
 #define __DYNAMIC_MEMORY_MANAGEMENT__H_
 
 #include "ExportDefs.h"
-#include "coop.h"
+#include "COOP.h"
 #include "ICache.h"
 #include <stdbool.h>
 

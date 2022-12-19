@@ -2,7 +2,7 @@
 #define __COOP__VECTOR__H_
 
 
-#include "coop.h"
+#include "COOP.h"
 #include "SharedPodPtr.h"
 
 DEF_CLASS(GenericVector);

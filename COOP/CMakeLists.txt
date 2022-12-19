@@ -8,8 +8,8 @@ set(no_group_source_files
     "SharedPodPtr.h"
     "Tensor.c"
     "Tensor.h"
-    "vector.c"
-    "vector.h"
+    "Vector.c"
+    "Vector.h"
 )
 source_group("" FILES ${no_group_source_files})
 
@@ -53,6 +53,7 @@ set(ALL_FILES
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
 set(ROOT_NAMESPACE COOP)
+
 
 ################################################################################
 # Target name
@@ -155,5 +156,10 @@ if(MSVC)
             /SUBSYSTEM:CONSOLE
         )
     endif()
+else(IF UNIX AND NOT APPLE)
+    # For non-osx platforms
+    # Specify `-Wno-incompatible-pointer-types` for GCC to avoid it emitting
+    # a lot of warnings due to the function parameter types
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wno-incompatible-pointer-types)
 endif()
 

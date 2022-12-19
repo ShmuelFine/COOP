@@ -19,12 +19,12 @@ FUN_IMPL(init_global_memory, int size, CACHE_TYPES type)
 	switch (type)
 	{
 	case STACK_BASED_MEMORY: {
-		(InMemoryCache*)(TheGlobalCache) = (InMemoryCache*)malloc(sizeof(InMemoryCache));
+        TheGlobalCache = (ICache*)malloc(sizeof(InMemoryCache));
 		ASSERT_NOT_NULL(TheGlobalCache);
 		INITIALIZE_INSTANCE(InMemoryCache, (*((InMemoryCache*)TheGlobalCache))), size CALL;
 	} break;
 	case HEAP_BASED_MEMORY: {
-		(HeapCache*)(TheGlobalCache) = (HeapCache*)malloc(sizeof(HeapCache));
+        TheGlobalCache = (ICache*)malloc(sizeof(HeapCache));
 		ASSERT_NOT_NULL(TheGlobalCache);
 		INITIALIZE_INSTANCE(HeapCache, (*((HeapCache*)TheGlobalCache))) CALL;
 	} break;
