@@ -114,7 +114,7 @@ TEST_FUN_IMPL(VectorTest, get_SanityTest)
 
 TEST_FUN_IMPL(VectorTest, dtor_freesAllMemory)
 {
-	FUN(init_global_memory) sizeof(int) * 1000, STACK_BASED_MEMORY CALL;
+	FUN(init_global_memory) sizeof(int) * 1000, LIMITED_SIZE_MEMORY CALL;
 
 	MEM_SIZE_T free_bytes_at_start = 0, free_bytes_at_end = 0;
 	FUN(get_total_free_bytes) &free_bytes_at_start CALL;

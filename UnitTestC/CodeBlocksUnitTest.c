@@ -176,7 +176,7 @@ TEST_FUN_IMPL(CodeBlocksTest, nestedForLoopWith_RETURN_FreesMemory)
 } END_FUN;
 
 
-INIT_TEST_SUITE_WITH_SPECIFIC_MEM_SPACE(CodeBlocksTest, STACK_BASED_MEMORY, 1000 * sizeof(int))
+INIT_TEST_SUITE_WITH_SPECIFIC_MEM_SPACE(CodeBlocksTest, LIMITED_SIZE_MEMORY, 1000 * sizeof(int))
 BIND_TEST(CodeBlocksTest, functionScope_FreesMemory);
 BIND_TEST(CodeBlocksTest, forLoop_FreesMemory);
 BIND_TEST(CodeBlocksTest, nestedLoop_FreesMemory);

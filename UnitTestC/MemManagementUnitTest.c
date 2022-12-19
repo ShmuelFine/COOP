@@ -4,7 +4,7 @@
 TEST_FUN_IMPL(MemoryManagementTest, NEW_AllocatesSufficientMemory)
 {
 	//Arrange
-	init_global_memory(sizeof(int) * 40, STACK_BASED_MEMORY);
+	init_global_memory(sizeof(int) * 40, LIMITED_SIZE_MEMORY);
 
 	//Act
 	int* buff = NULL;
@@ -22,7 +22,7 @@ TEST_FUN_IMPL(MemoryManagementTest, NEW_AllocatesSufficientMemory)
 TEST_FUN_IMPL(MemoryManagementTest, Delete_WhenDeletingAllocMemory_ThenItFreesTheResource)
 {
 	//Arrange
-	init_global_memory(sizeof(int) * 20, STACK_BASED_MEMORY);
+	init_global_memory(sizeof(int) * 20, LIMITED_SIZE_MEMORY);
 	// MD = 3 ints
 	// 2xMD for anchor and suffix
 	// 1xMD for new block

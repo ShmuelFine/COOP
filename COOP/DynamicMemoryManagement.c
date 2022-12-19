@@ -18,7 +18,7 @@ FUN_IMPL(init_global_memory, int size, CACHE_TYPES type)
 
 	switch (type)
 	{
-	case STACK_BASED_MEMORY: {
+	case LIMITED_SIZE_MEMORY: {
         TheGlobalCache = (ICache*)malloc(sizeof(InMemoryCache));
 		ASSERT_NOT_NULL(TheGlobalCache);
 		INITIALIZE_INSTANCE(InMemoryCache, (*((InMemoryCache*)TheGlobalCache))), size CALL;
