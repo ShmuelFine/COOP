@@ -5,7 +5,7 @@
 along with our students from the Codalleh program (www.Codalleh.org)
 
 COOP features **Classes** , **Inheritance** (including virtual functions), **Exceptions** (that call d'tors), **Memory management**,
-our own **Unit Testing Framework** for C, and more.
+our own **Unit Testing Framework** for C, and more. All of this while maintaining type safety and (many parts of the) intellisence!
 
 It was tested both on Windows (Visual Studio, MSBuild) and Linux (GCC).
 
