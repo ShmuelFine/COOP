@@ -6,6 +6,8 @@ set(PROJECT_NAME COOP)
 set(no_group_source_files
     "SharedPodPtr.c"
     "SharedPodPtr.h"
+	"SharedObjPtr.c"
+    "SharedObjPtr.h"
     "Tensor.c"
     "Tensor.h"
     "Vector.c"
