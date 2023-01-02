@@ -3,8 +3,6 @@
 
 #include "COOP.h"
 
-#define GET_VARIABLE_NAME(Variable) (#Variable)
-
 DEF_CLASS(SharedPodPtr);
 void * px;
 int * pn;

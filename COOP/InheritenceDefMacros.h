@@ -67,10 +67,10 @@ struct base_class ##_ ##function_name ##_t_ function_name
 // and you should fill in the extra work needed.
 
 #define DEF_DERIVED_DTOR(class_name, BaseName) FUN_IMPL(__dtor__ ##class_name, class_name * _this) \
-{  \
-	__dtor__ ##BaseName(&(_this->_base));
+{  void (*__base_dtor_to_call_after_i_finish_with_derived_class__)()  = __dtor__ ##BaseName;
+	
 
-#define END_DERIVED_DTOR }END_FUN
+#define END_DERIVED_DTOR __base_dtor_to_call_after_i_finish_with_derived_class__(&(_this->_base)); }END_FUN
 
 
 #define FUN_OVERRIDE_IMPL(type, base, function_name, ...)\

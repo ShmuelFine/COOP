@@ -54,6 +54,7 @@
     <ClInclude Include="MathUtils.h">
       <Filter>Infra</Filter>
     </ClInclude>
+    <ClInclude Include="SharedObjPtr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InMemoryCache.c">
@@ -77,5 +78,6 @@
     <ClCompile Include="VirtualFuncCalling.c">
       <Filter>Infra</Filter>
     </ClCompile>
+    <ClCompile Include="SharedObjPtr.c" />
   </ItemGroup>
 </Project>

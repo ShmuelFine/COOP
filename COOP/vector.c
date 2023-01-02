@@ -47,7 +47,7 @@ END_FUN;
 IMPL_AT_OF_TYPE(int);
 IMPL_AT_OF_TYPE(char);
 IMPL_AT_OF_TYPE(float);
-IMPL_AT_OF_TYPE(object);
+IMPL_AT_OF_TYPE(objSPtr);
 
 
 #define IMPL_SET_OF_TYPE(type)\
@@ -62,7 +62,7 @@ END_FUN;
 IMPL_SET_OF_TYPE(int);
 IMPL_SET_OF_TYPE(char);
 IMPL_SET_OF_TYPE(float);
-IMPL_SET_OF_TYPE(object);
+IMPL_SET_OF_TYPE(objSPtr);
 
 
 #define IMPL_GET_OF_TYPE(type)\
@@ -77,7 +77,7 @@ END_FUN;
 IMPL_GET_OF_TYPE(int);
 IMPL_GET_OF_TYPE(char);
 IMPL_GET_OF_TYPE(float);
-IMPL_GET_OF_TYPE(object);
+IMPL_GET_OF_TYPE(objSPtr);
 
 MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity);
 {
@@ -133,7 +133,7 @@ MEM_FUN_IMPL(GenericVector, push_back_ ##type, type val) {\
 IMPL_PUSH_OF_TYPE(int);
 IMPL_PUSH_OF_TYPE(char);
 IMPL_PUSH_OF_TYPE(float);
-IMPL_PUSH_OF_TYPE(object);
+IMPL_PUSH_OF_TYPE(objSPtr);
 
 
 MEM_FUN_IMPL(GenericVector, __pop_back_generic, char* buff, MEM_SIZE_T buff_size)
@@ -156,7 +156,7 @@ MEM_FUN_IMPL(GenericVector, pop_back_ ##type, type * val) {\
 IMPL_POP_OF_TYPE(int);
 IMPL_POP_OF_TYPE(char);
 IMPL_POP_OF_TYPE(float);
-IMPL_POP_OF_TYPE(object);
+IMPL_POP_OF_TYPE(objSPtr);
 
 INIT_CLASS(GenericVector)
 BIND(GenericVector, dataPtr);
@@ -165,14 +165,17 @@ BIND(GenericVector, __at_generic);
 BIND(GenericVector, at_int);
 BIND(GenericVector, at_char);
 BIND(GenericVector, at_float);
+BIND(GenericVector, at_objSPtr);
 
 BIND(GenericVector, get_int);
 BIND(GenericVector, get_char);
 BIND(GenericVector, get_float);
+BIND(GenericVector, get_objSPtr);
 
 BIND(GenericVector, set_int);
 BIND(GenericVector, set_char);
 BIND(GenericVector, set_float);
+BIND(GenericVector, set_objSPtr);
 
 BIND(GenericVector, resize);
 BIND(GenericVector, size);
@@ -181,11 +184,13 @@ BIND(GenericVector, __push_back_generic);
 BIND(GenericVector, push_back_int);
 BIND(GenericVector, push_back_char);
 BIND(GenericVector, push_back_float);
+BIND(GenericVector, push_back_objSPtr);
 
 BIND(GenericVector, __pop_back_generic);
 BIND(GenericVector, pop_back_int);
 BIND(GenericVector, pop_back_char);
 BIND(GenericVector, pop_back_float);
+BIND(GenericVector, pop_back_objSPtr);
 
 BIND(GenericVector, zero_all);
 
@@ -193,10 +198,11 @@ END_INIT_CLASS(GenericVector)
 
 ////////////////////////////////////////////////
 
-#define IMPL_SPECIFIC_VECTOR_TYPE(type)																				\
+#define IMPL_SPECIFIC_VECTOR_TYPE_xTORs(type)																		\
 DEF_DERIVED_CTOR(Vector_ ##type, GenericVector) SUPER, sizeof(type) ME {} END_DERIVED_CTOR							\
-DEF_DERIVED_DTOR(Vector_ ##type, GenericVector) {} END_DERIVED_DTOR													\
-																													\
+DEF_DERIVED_DTOR(Vector_ ##type, GenericVector) {} END_DERIVED_DTOR													
+						
+#define IMPL_SPECIFIC_VECTOR_TYPE_FUNCITONS(type)																	\
 MEM_FUN_IMPL(Vector_ ##type, dataPtr, type ** out_ptr) { FUN_BASE(_this, dataPtr), (char**) out_ptr CALL; } END_FUN;\
 MEM_FUN_IMPL(Vector_ ##type, push_back, type val) { FUN_BASE(_this, push_back_ ##type), val CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, pop_back, type * val)	{ FUN_BASE(_this, pop_back_ ##type), val CALL; } END_FUN;		\
@@ -204,20 +210,20 @@ MEM_FUN_IMPL(Vector_ ##type, at, MEM_SIZE_T i, type ** val_ptr) { FUN_BASE(_this
 MEM_FUN_IMPL(Vector_ ##type, get, MEM_SIZE_T i, type * val) { FUN_BASE(_this, get_ ##type), i, val CALL; } END_FUN;	\
 MEM_FUN_IMPL(Vector_ ##type, set, MEM_SIZE_T i, type val) { FUN_BASE(_this, set_ ##type), i, val CALL; } END_FUN;	\
 MEM_FUN_IMPL(Vector_ ##type, resize, MEM_SIZE_T new_capacity) {FUN_BASE(_this, resize), new_capacity CALL; }END_FUN;\
-MEM_FUN_IMPL(Vector_ ##type, size, MEM_SIZE_T * out_size) {FUN_BASE(_this, size), out_size CALL; }END_FUN;\
-MEM_FUN_IMPL(Vector_ ##type, zero_all) {FUN_BASE(_this, zero_all) CALL; }END_FUN;\
+MEM_FUN_IMPL(Vector_ ##type, size, MEM_SIZE_T * out_size) {FUN_BASE(_this, size), out_size CALL; }END_FUN;			\
+MEM_FUN_IMPL(Vector_ ##type, zero_all) {FUN_BASE(_this, zero_all) CALL; }END_FUN;									\
 MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	printf("\n");																									\
 	char* format = " %d"; char first_type_name_letter = * #type;													\
 	if (first_type_name_letter == 'c') /*its a char type*/ format = "%c ";											\
 	else if (first_type_name_letter == 'f') /*its a float type*/ format = "%f ";									\
-	else if (first_type_name_letter == 'o') /* its an object type*/ format = "%p ";								\
+	else if (first_type_name_letter == 'o') /*its a float type*/ format = "%p ";									\
 	type val;																										\
 	FOR (MEM_SIZE_T i = 0; i < _this->_base.size; i++) 																\
 	{ 																												\
-		MFUN(_this, get), i, & val CALL;																				\
-		printf(format, val); 													\
-	}END_LOOP; 																												\
+		MFUN(_this, get), i, & val CALL;																			\
+		printf(format, val); 																						\
+	}END_LOOP; 																										\
 	printf("\n");																									\
 } END_FUN;																											\
 																													\
@@ -236,7 +242,26 @@ END_INIT_CLASS(Vector_ ##type)
 
 ////////////////////////////////////////////////
 
-IMPL_SPECIFIC_VECTOR_TYPE(int);
-IMPL_SPECIFIC_VECTOR_TYPE(char);
-IMPL_SPECIFIC_VECTOR_TYPE(float);
-IMPL_SPECIFIC_VECTOR_TYPE(object);
+IMPL_SPECIFIC_VECTOR_TYPE_xTORs(int);
+IMPL_SPECIFIC_VECTOR_TYPE_FUNCITONS(int);
+
+IMPL_SPECIFIC_VECTOR_TYPE_xTORs(char);
+IMPL_SPECIFIC_VECTOR_TYPE_FUNCITONS(char);
+
+IMPL_SPECIFIC_VECTOR_TYPE_xTORs(float);
+IMPL_SPECIFIC_VECTOR_TYPE_FUNCITONS(float);
+
+// obj vector is different:
+DEF_DERIVED_CTOR(Vector_objSPtr, GenericVector) SUPER, sizeof(objSPtr) ME{} END_DERIVED_CTOR
+DEF_DERIVED_DTOR(Vector_objSPtr, GenericVector) {
+
+	MEM_SIZE_T numElements = 0;
+	MFUN(_this, size), & numElements CALL;
+	FOR(int i = 0; i < numElements; i++) {
+		objSPtr curr;
+		MFUN(_this, get), i, & curr CALL;
+		DESTROY(&curr);
+	}END_LOOP;
+} END_DERIVED_DTOR
+IMPL_SPECIFIC_VECTOR_TYPE_FUNCITONS(objSPtr);
+
