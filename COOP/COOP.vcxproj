@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -151,6 +151,8 @@
     <ClInclude Include="ICache.h" />
     <ClInclude Include="InheritenceDefMacros.h" />
     <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="RedBlackTree.h" />
+    <ClInclude Include="RedBlackTreeIterator.h" />
     <ClInclude Include="Tensor.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectBaseStructs.h" />
@@ -165,6 +167,8 @@
     <ClCompile Include="DynamicMemoryManagement.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="ICache.c" />
+    <ClCompile Include="RedBlackTree.c" />
+    <ClCompile Include="RedBlackTreeIterator.c" />
     <ClCompile Include="Tensor.c" />
     <ClCompile Include="ObjectLifecycleManagement.c" />
     <ClCompile Include="SharedPodPtr.c" />

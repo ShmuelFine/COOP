@@ -1,8 +1,7 @@
-#include "ExportDefs.h"   //||
-#include "ScopeTester.h"  //||
+#include "ExportDefs.h"   
+#include "ScopeTester.h"  
 #include "RedBlackTreeUnitTest.h"
 
-//#include "RedBlackTree.h"  //||
 
 FUN_DECL(rectComp, void* a, void* b, bool* retBool);
 FUN_DECL(intComparison, void* a, void* b, bool* retBool);
@@ -22,7 +21,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, insert_SanityTest)
 {
 	//also checked with an inorder traversal after each insert (before switch to void *)
 	//Arrange
-	init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);
+	/*init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);*/
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &intComparison;
@@ -71,8 +70,8 @@ TEST_FUN_IMPL(RedBlackTreeTest, insert_SanityTest)
 	NTEST_ASSERT(retBool5 == true);
 	NTEST_ASSERT(retBool6 == true);
 	NTEST_ASSERT(retBool7 == true);
-	NTEST_ASSERT(retBool8 == false);
-	NTEST_ASSERT(retBool9 == false);
+	NTEST_ASSERT(retBool8 == false); 
+	NTEST_ASSERT(retBool9 == false); 
 
 	NTEST_ASSERT(*(int*)(retPtr->data) == 10);
 	NTEST_ASSERT(*(int*)(retPtr1->data) == 20);
@@ -96,7 +95,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, insert_SanityTest)
 
 TEST_FUN_IMPL(RedBlackTreeTest, find_SanityTest)
 {
-	init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);
+	/*init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);*/
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &intComparison;
@@ -134,7 +133,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, delete_SanityTest)
 	//also checked the inOrderTraversal after each erase-before switch to void *
 	//and some after
 	//ARRANGE
-	init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);
+	/*init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);*/
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &intComparison;
@@ -229,7 +228,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, delete_SanityTest)
 
 TEST_FUN_IMPL(RedBlackTreeTest, iteration_SanityTest)
 {
-	init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);
+	/*init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);*/
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &intComparison;
@@ -266,7 +265,6 @@ TEST_FUN_IMPL(RedBlackTreeTest, iteration_SanityTest)
 	bool isAtEnd = false;
 	WHILE(!isAtEnd)
 	{
-		//SCOPE_START; //||
 		node* intermediateNode = NULL;
 		int intermediateVal = 0;
 		MFUN(&beginIt, getContentsOf), & intermediateNode CALL;
@@ -275,7 +273,6 @@ TEST_FUN_IMPL(RedBlackTreeTest, iteration_SanityTest)
 
 		MFUN(&beginIt, increment) CALL;
 		MFUN(&beginIt, equals), endIt, & isAtEnd CALL;
-		//END_SCOPE; //||
 	}END_LOOP;
 
 	//check begin() and end()
@@ -287,7 +284,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, iteration_SanityTest)
 
 TEST_FUN_IMPL(RedBlackTreeTest, rectangle_as_node_data_insert_SanityTest)
 {
-	init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);
+	/*init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);*/
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &rectComp;
@@ -375,7 +372,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, rectangle_as_node_data_insert_SanityTest)
 
 TEST_FUN_IMPL(RedBlackTreeTest, rectangle_as_node_data_find_SanityTest)
 {
-	init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);
+	/*init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);*/
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &rectComp;
@@ -421,7 +418,7 @@ TEST_FUN_IMPL(RedBlackTreeTest, rectangle_as_node_data_find_SanityTest)
 
 TEST_FUN_IMPL(RedBlackTreeTest, rectangle_as_node_data_delete_SanityTest)
 {
-	init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);
+	/*init_global_memory(sizeof(node) * 100, HEAP_BASED_MEMORY);*/
 
 	void (*functionPtr)(void*, void*, bool*);
 	functionPtr = &rectComp;
@@ -481,7 +478,7 @@ BIND_TEST(RedBlackTreeTest, insert_SanityTest);
 BIND_TEST(RedBlackTreeTest, find_SanityTest);
 BIND_TEST(RedBlackTreeTest, delete_SanityTest);
 BIND_TEST(RedBlackTreeTest, iteration_SanityTest);
-//BIND_TEST(RedBlackTreeTest, rectangle_as_node_data_insert_SanityTest);
+BIND_TEST(RedBlackTreeTest, rectangle_as_node_data_insert_SanityTest);
 BIND_TEST(RedBlackTreeTest, rectangle_as_node_data_find_SanityTest);
 BIND_TEST(RedBlackTreeTest, rectangle_as_node_data_delete_SanityTest);
 END_INIT_TEST_SUITE(RedBlackTreeTest);

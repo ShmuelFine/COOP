@@ -98,10 +98,9 @@ MEM_FUN_IMPL(redBlackTree, insertFixUp, node* pt)
 	node* parent_pt = NULL;
 	node* grand_parent_pt = NULL;
 
-	WHILE((pt != _this->root) && (pt->color != 'B') &&  //|| MAYBE CHANGE TO WHILE
+	WHILE((pt != _this->root) && (pt->color != 'B') && 
 		(pt->parent->color == 'R'))
 	{
-		//SCOPE_START; //|| 
 		parent_pt = pt->parent;
 		grand_parent_pt = pt->parent->parent;
 
@@ -188,7 +187,6 @@ MEM_FUN_IMPL(redBlackTree, insertFixUp, node* pt)
 				pt = parent_pt;
 			}
 		}
-		//END_LOOP //||
 	}END_LOOP;
 
 	_this->root->color = 'B';
@@ -318,11 +316,9 @@ MEM_FUN_IMPL(redBlackTree, begin, redBlackTreeIterator* beginNode)
 	//find smallest value in tree
 	node* minNode = _this->root;
 
-	WHILE(minNode->left != NULL)  //||
+	WHILE(minNode->left != NULL)
 	{
-		/*SCOPE_START;*/  //||
 		minNode = minNode->left;
-		// END_SCOPE;
 	}END_LOOP;
 
 
@@ -354,8 +350,7 @@ MEM_FUN_IMPL(redBlackTree, find, void* val, redBlackTreeIterator* foundVal)
 		RETURN;
 	}
 	node* temp = _this->root;
-	WHILE(temp != NULL) { //||
-		//SCOPE_START; //||
+	WHILE(temp != NULL) { 
 		//if (val < temp->data) 
 		(*(_this->comparisonFunctionPtr))(val, temp->data, &compBool);
 		if (compBool)
@@ -381,7 +376,6 @@ MEM_FUN_IMPL(redBlackTree, find, void* val, redBlackTreeIterator* foundVal)
 			else
 				temp = temp->right;
 		}
-		//END_SCOPE; //||
 	}END_LOOP;
 
 	//(temp->data == val)

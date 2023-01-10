@@ -55,6 +55,12 @@
     <ClCompile Include="CodeBlocksUnitTest.c">
       <Filter>InfraTests</Filter>
     </ClCompile>
+    <ClCompile Include="RedBlackTreeUnitTest.c">
+      <Filter>DataStructuresTests</Filter>
+    </ClCompile>
+    <ClCompile Include="RedBlackTreeIterUnitTest.c">
+      <Filter>DataStructuresTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClassExample.h">
@@ -95,6 +101,12 @@
     </ClInclude>
     <ClInclude Include="CodeBlocksUnitTest.h">
       <Filter>InfraTests</Filter>
+    </ClInclude>
+    <ClInclude Include="RedBlackTreeUnitTest.h">
+      <Filter>DataStructuresTests</Filter>
+    </ClInclude>
+    <ClInclude Include="RedBlackTreeIterUnitTest.h">
+      <Filter>DataStructuresTests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

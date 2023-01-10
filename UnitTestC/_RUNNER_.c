@@ -8,6 +8,8 @@
 #include "ScopesUnitTest.h"
 #include "TensorUnitTest.h"
 #include "CodeBlocksUnitTest.h"
+#include "RedBlackTreeUnitTest.h"
+#include "RedBlackTreeIterUnitTest.h"
 
 
 IMPORT_TESTS(Infra_ScopesTest);
@@ -19,6 +21,9 @@ IMPORT_TESTS(InheritanceTest);
 IMPORT_TESTS(ExceptionTests);
 IMPORT_TESTS(SharedPtrTest);
 IMPORT_TESTS(CodeBlocksTest);
+IMPORT_TESTS(RedBlackTreeTest);
+IMPORT_TESTS(RedBlackTreeIteratorTest);
+
 
 int main() {
 
@@ -33,6 +38,8 @@ int main() {
 	
 	RUN_TESTS(VectorTest);
 	RUN_TESTS(TensorTest);
+	RUN_TESTS(RedBlackTreeTest);
+	RUN_TESTS(RedBlackTreeIteratorTest);
 
 	RUN_TESTS(DemoClassTest);
 

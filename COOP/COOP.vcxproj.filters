@@ -54,6 +54,8 @@
     <ClInclude Include="MathUtils.h">
       <Filter>Infra</Filter>
     </ClInclude>
+    <ClInclude Include="RedBlackTree.h" />
+    <ClInclude Include="RedBlackTreeIterator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InMemoryCache.c">
@@ -77,5 +79,7 @@
     <ClCompile Include="VirtualFuncCalling.c">
       <Filter>Infra</Filter>
     </ClCompile>
+    <ClCompile Include="RedBlackTreeIterator.c" />
+    <ClCompile Include="RedBlackTree.c" />
   </ItemGroup>
 </Project>
