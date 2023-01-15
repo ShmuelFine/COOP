@@ -162,16 +162,29 @@ TEST_FUN_IMPL(RedBlackTreeTest, delete_SanityTest)
 	MFUN(&rbTree, insert), & i, & retPtr, & retBool CALL;
 	MFUN(&rbTree, insert), & j, & retPtr, & retBool CALL;
 	MFUN(&rbTree, insert), & k, & retPtr, & retBool CALL;
-	
+
+	MFUN(&rbTree, getRootNode), & rootPtr CALL;
+	printf("\n");
+	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
+	printf("\n");
+
 	MFUN(&rbTree, erase), & c, & numElemsErased1 CALL;
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	NTEST_ASSERT(*(int*)(rootPtr->data) == 10);
-	NTEST_ASSERT(*(int*)(rootPtr->right->data) == 13);
+	NTEST_ASSERT(*(int*)(rootPtr->right->data) == 13); 
+
+	printf("\n");
+	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
+	printf("\n");
 
 	MFUN(&rbTree, erase), & a, & numElemsErased2 CALL;
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	NTEST_ASSERT(*(int*)(rootPtr->data) == 10);
 	NTEST_ASSERT(*(int*)(rootPtr->left->data) == 6);
+
+	printf("\n");
+	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
+	printf("\n");
 
 	MFUN(&rbTree, erase), & d, & numElemsErased3 CALL;
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
@@ -180,13 +193,25 @@ TEST_FUN_IMPL(RedBlackTreeTest, delete_SanityTest)
 	NTEST_ASSERT(*(int*)(rootPtr->right->data) == 13);
 	MFUN(&rbTree, size), & treeSize CALL;
 
+	printf("\n");
+	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
+	printf("\n");
+
 	MFUN(&rbTree, erase), & l, & numElemsErased4 CALL;
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	NTEST_ASSERT(*(int*)(rootPtr->data) == 8);
 	MFUN(&rbTree, size), & treeSize1 CALL;
 
+	printf("\n");
+	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
+	printf("\n");
+
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
+
+	printf("\n");
+	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
+	printf("\n");
 
 	CREATE(redBlackTreeIterator, rbIt), retPtr CALL;
 

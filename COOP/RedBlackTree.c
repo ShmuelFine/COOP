@@ -41,8 +41,10 @@ MEM_FUN_IMPL(redBlackTree, destroyRecursive, node* nodePtr)
 
 MEM_FUN_IMPL(redBlackTree, LeftRotate, node* x)
 {
-	if (!x || !x->right)
+	if ((!x) || (!x->right)) {
 		RETURN;
+	}
+		
 
 	//y stored pointer of right child of x
 	node* y = x->right;
@@ -77,8 +79,9 @@ MEM_FUN_IMPL(redBlackTree, LeftRotate, node* x)
 
 MEM_FUN_IMPL(redBlackTree, RightRotate, node* y)
 {
-	if (!y || !y->left)
+	if ((!y) || (!y->left)) {
 		RETURN;
+	}
 	node* x = y->left;
 	y->left = x->right;
 	if (x->right != NULL)
@@ -203,14 +206,14 @@ MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBoo
 	//z->data = data;
 	//z->left = z->right = z->parent = NULL;
 
-	node* z = NULL;
+	
 	//used for comparison function ptr return value
 	bool compBool = false, compBool1 = false;
 
 	//if root is null make z the root
 	if (_this->root == NULL)
 	{
-		//if we want to allocate only if the element is not already present
+		//we want to allocate only if the element is not already present
 		ALLOC(_this->root, node);
 		_this->root->data = data;
 		_this->root->left = _this->root->right = NULL;
@@ -236,46 +239,47 @@ MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBoo
 			//if (data == x->data)
 			(*(_this->comparisonFunctionPtr))(data, x->data, &compBool);
 			(*(_this->comparisonFunctionPtr))(x->data, data, &compBool1);
-			if (!compBool && !compBool1)
+			if ((!compBool) && (!compBool1))
 			{
 				*insertednode = x;
 				*retBool = false;
-				RETURN;
+				//RETURN;
+				return; //this return is skiping END_FUN!! 
 			}
 
 			//(*functionPtr)(2, 3)
 			//data < x->data
-			(*(_this->comparisonFunctionPtr))(data, x->data, &compBool);
+			//(*(_this->comparisonFunctionPtr))(data, x->data, &compBool); //same comparing as above
 			if (compBool)
 				x = x->left;
 			else
 				x = x->right;
 		}
 		//if we want to allocate only if the element is not already present
+		node* nodeToInsert = NULL;
+		ALLOC(nodeToInsert, node);
+		nodeToInsert->data = data;
+		nodeToInsert->isHead = false;
+		nodeToInsert->left = nodeToInsert->right = NULL;
 
-		ALLOC(z, node);
-		z->data = data;
-		z->isHead = false;
-		z->left = z->right = NULL;
-
-		z->parent = y;
+		nodeToInsert->parent = y;
 		//if (z->data > y->data)
-		(*(_this->comparisonFunctionPtr))(y->data, z->data, &compBool);
+		(*(_this->comparisonFunctionPtr))(y->data, nodeToInsert->data, &compBool);
 		if (compBool)
-			y->right = z;
+			y->right = nodeToInsert;
 		else
-			y->left = z;
-		z->color = 'R';
+			y->left = nodeToInsert;
+		nodeToInsert->color = 'R';
 
 		// call insertFixUp to fix red-black tree's property if it
 		// is violated due to insertion.
-		MFUN(_this, insertFixUp), z CALL;
-		*insertednode = z;
+		MFUN(_this, insertFixUp), nodeToInsert CALL;
+		*insertednode = nodeToInsert;
 
 		//if (z->data > _this->head->right->data)
-		(*(_this->comparisonFunctionPtr))(_this->head->right->data, z->data, &compBool);
+		(*(_this->comparisonFunctionPtr))(_this->head->right->data, nodeToInsert->data, &compBool);
 		if (compBool)
-			_this->head->right = z;
+			_this->head->right = nodeToInsert;
 	}
 
 	*retBool = true;
@@ -292,8 +296,9 @@ MEM_FUN_IMPL(redBlackTree, getRootNode, node** retRootnode)
 MEM_FUN_IMPL(redBlackTree, inOrderTraversal, node* rootnode)
 {
 	static int last = 0;
-	if (rootnode == NULL || rootnode->isHead == true)
+	if (rootnode == NULL || rootnode->isHead == true) {
 		RETURN;
+	}
 	MFUN(_this, inOrderTraversal), rootnode->left CALL;
 	printf("Data: %d ", *(int*)(rootnode->data));
 	printf("Color: %c ", rootnode->color);
@@ -444,9 +449,10 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node* dNode)
 			}
 			else {
 				// replaceNode or dNode is red 
-				if (sibling != NULL)
+				if (sibling != NULL){
 					// sibling is not null, make it red" 
 					sibling->color = 'R';
+				}
 			}
 
 			// delete dNode from the tree 
