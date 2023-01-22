@@ -208,7 +208,8 @@ MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBoo
 
 	
 	//used for comparison function ptr return value
-	bool compBool = false, compBool1 = false;
+	bool compBool = false, compBool1 = false, duplicateFound = false;
+
 
 	//if root is null make z the root
 	if (_this->root == NULL)
@@ -243,8 +244,9 @@ MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBoo
 			{
 				*insertednode = x;
 				*retBool = false;
-				//RETURN;
-				return; //this return is skiping END_FUN!! 
+				duplicateFound = true;
+				RETURN;
+				
 			}
 
 			//(*functionPtr)(2, 3)
@@ -256,6 +258,9 @@ MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBoo
 				x = x->right;
 		}
 		//if we want to allocate only if the element is not already present
+		if (duplicateFound)
+			break;
+		
 		node* nodeToInsert = NULL;
 		ALLOC(nodeToInsert, node);
 		nodeToInsert->data = data;
@@ -281,9 +286,11 @@ MEM_FUN_IMPL(redBlackTree, insert, void* data, node** insertednode, bool* retBoo
 		if (compBool)
 			_this->head->right = nodeToInsert;
 	}
-
-	*retBool = true;
-	_this->size++;
+	if (!duplicateFound) {
+		*retBool = true;
+		_this->size++;
+	}
+	
 }END_FUN;
 
 MEM_FUN_IMPL(redBlackTree, getRootNode, node** retRootnode)
@@ -411,7 +418,8 @@ MEM_FUN_IMPL(redBlackTree, erase, void* val, int* numElemsErased)
 		RETURN;
 	}
 
-	MFUN(_this, deleteNode), valNode CALL;    *numElemsErased = 1;
+	MFUN(_this, deleteNode), valNode CALL;    
+	*numElemsErased = 1;
 	_this->size--;
 }END_FUN;
 
@@ -507,9 +515,10 @@ MEM_FUN_IMPL(redBlackTree, deleteNode, node* dNode)
 
 MEM_FUN_IMPL(redBlackTree, fixDoubleBlack, node* node_p)
 {
-	if (node_p == _this->root)
+	if (node_p == _this->root) {
 		// Reached root 
 		RETURN;
+	}
 
 	node* sibling = NULL, * parent = node_p->parent;
 

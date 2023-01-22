@@ -3,8 +3,33 @@
 #include "RedBlackTreeUnitTest.h"
 
 
+
+//void print2DUtil( node* root, int space)
+//{
+//	// Base case
+//	if (root == NULL)
+//		return;
+//
+//	// Increase distance between levels
+//	space += 5;
+//
+//	// Process right child first
+//	print2DUtil(root->right, space);
+//
+//	// Print current node after space
+//	// count
+//	printf("\n");
+//	for (int i = 5; i < space; i++)
+//		printf(" ");
+//	printf("%d\n", *(int*)(root->data));
+//
+//	// Process left child
+//	print2DUtil(root->left, space);
+//}
+
 FUN_DECL(rectComp, void* a, void* b, bool* retBool);
 FUN_DECL(intComparison, void* a, void* b, bool* retBool);
+
 
 FUN_IMPL(rectComp, void* a, void* b, bool* retBool)
 {
@@ -16,6 +41,7 @@ FUN_IMPL(intComparison, void* a, void* b, bool* retBool)
 {
 	*retBool = *(int*)a < *(int*)b;
 }END_FUN;
+
 
 TEST_FUN_IMPL(RedBlackTreeTest, insert_SanityTest)
 {
@@ -164,27 +190,18 @@ TEST_FUN_IMPL(RedBlackTreeTest, delete_SanityTest)
 	MFUN(&rbTree, insert), & k, & retPtr, & retBool CALL;
 
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
-	printf("\n");
-	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
-	printf("\n");
 
 	MFUN(&rbTree, erase), & c, & numElemsErased1 CALL;
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	NTEST_ASSERT(*(int*)(rootPtr->data) == 10);
 	NTEST_ASSERT(*(int*)(rootPtr->right->data) == 13); 
 
-	printf("\n");
-	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
-	printf("\n");
 
 	MFUN(&rbTree, erase), & a, & numElemsErased2 CALL;
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	NTEST_ASSERT(*(int*)(rootPtr->data) == 10);
 	NTEST_ASSERT(*(int*)(rootPtr->left->data) == 6);
 
-	printf("\n");
-	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
-	printf("\n");
 
 	MFUN(&rbTree, erase), & d, & numElemsErased3 CALL;
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
@@ -193,25 +210,13 @@ TEST_FUN_IMPL(RedBlackTreeTest, delete_SanityTest)
 	NTEST_ASSERT(*(int*)(rootPtr->right->data) == 13);
 	MFUN(&rbTree, size), & treeSize CALL;
 
-	printf("\n");
-	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
-	printf("\n");
-
 	MFUN(&rbTree, erase), & l, & numElemsErased4 CALL;
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	NTEST_ASSERT(*(int*)(rootPtr->data) == 8);
 	MFUN(&rbTree, size), & treeSize1 CALL;
 
-	printf("\n");
-	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
-	printf("\n");
-
 	MFUN(&rbTree, getRootNode), & rootPtr CALL;
 	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
-
-	printf("\n");
-	MFUN(&rbTree, inOrderTraversal), rootPtr CALL;
-	printf("\n");
 
 	CREATE(redBlackTreeIterator, rbIt), retPtr CALL;
 
