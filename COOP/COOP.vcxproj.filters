@@ -55,6 +55,7 @@
       <Filter>Infra</Filter>
     </ClInclude>
     <ClInclude Include="SharedObjPtr.h" />
+    <ClInclude Include="HashTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InMemoryCache.c">
@@ -79,5 +80,6 @@
       <Filter>Infra</Filter>
     </ClCompile>
     <ClCompile Include="SharedObjPtr.c" />
+    <ClCompile Include="HashTable.c" />
   </ItemGroup>
 </Project>
