@@ -52,7 +52,7 @@ set(ALL_FILES
 ################################################################################
 # Target
 ################################################################################
-add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
+add_library(${PROJECT_NAME} STATIC ${ALL_FILES} "Animal.h" "Animal.c" "Cat.h" "Cat.c" "main.c" "BinaryTree.h")
 
 set(ROOT_NAMESPACE COOP)
 
