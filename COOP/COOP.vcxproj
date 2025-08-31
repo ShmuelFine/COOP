@@ -101,8 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_BASE_COOP_EXPORTING_;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>COOP.h</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Iterator.h" />
     <ClInclude Include="InMemoryCache.h" />
     <ClInclude Include="ClassDefMacros.h" />
     <ClInclude Include="COOP.h" />
@@ -150,8 +150,12 @@
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="ICache.h" />
     <ClInclude Include="InheritenceDefMacros.h" />
+<<<<<<< HEAD
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="List.h" />
+=======
+    <ClInclude Include="IteratorQueue.h" />
+>>>>>>> origin/michal/Iterator
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="SharedObjPtr.h" />
     <ClInclude Include="Tensor.h" />
@@ -164,12 +168,17 @@
     <ClInclude Include="VirtualFuncCalling.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Iterator.c" />
     <ClCompile Include="InMemoryCache.c" />
     <ClCompile Include="DynamicMemoryManagement.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="ICache.c" />
+<<<<<<< HEAD
     <ClCompile Include="Iterator.c" />
     <ClCompile Include="List.c" />
+=======
+    <ClCompile Include="IteratorQueue.c" />
+>>>>>>> origin/michal/Iterator
     <ClCompile Include="SharedObjPtr.c" />
     <ClCompile Include="Tensor.c" />
     <ClCompile Include="ObjectLifecycleManagement.c" />

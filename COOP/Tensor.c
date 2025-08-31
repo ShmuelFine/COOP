@@ -3,6 +3,7 @@
 
 DEF_CTOR(GenericTensor, MEM_SIZE_T ndim, MEM_SIZE_T* shape, MEM_SIZE_T elementSize);
 {
+	ASSERT_NOT_NULL(shape); //After Code Analysis
 
 	INITIALIZE_INSTANCE(Vector_int,		_this->shape) CALL;
 	INITIALIZE_INSTANCE(GenericVector,	_this->data), MAX(1, elementSize) CALL;
@@ -34,6 +35,9 @@ END_DTOR;
 
 MEM_FUN_IMPL(GenericTensor, _get_location, MEM_SIZE_T* coords, MEM_SIZE_T* ret_val)
 {
+	ASSERT_NOT_NULL(coords);//After Code Analysis
+	ASSERT_NOT_NULL(ret_val);//After Code Analysis
+
 	MEM_SIZE_T innerOffset = 0;
 	MEM_SIZE_T dimsProduct = 1;
 	int ith_dim = 0;
@@ -56,6 +60,8 @@ END_FUN
 
 MEM_FUN_IMPL(GenericTensor, __generic_at, MEM_SIZE_T* pos, char** val_ptr)
 {
+	ASSERT_NOT_NULL(pos);//After Code Analysis
+	ASSERT_NOT_NULL(val_ptr);
 	MEM_SIZE_T index = 0;
 	MFUN(_this, _get_location), pos, & index CALL;
 
@@ -67,7 +73,10 @@ END_FUN
 #define IMPL_AT_OF_TYPE(type)\
 MEM_FUN_IMPL(GenericTensor, at_ ##type, MEM_SIZE_T* pos, type ** val_ptr)\
 {																	 \
+    ASSERT_NOT_NULL(pos); /*After Code Analysis */                             \
+    ASSERT_NOT_NULL(val_ptr); /*After Code Analysis */                         \
 	MFUN(_this, __generic_at), pos, (char**)val_ptr CALL;					 \
+    ASSERT_NOT_NULL(*val_ptr); /* After Code Analysis */                        \
 }																	 \
 END_FUN
 
@@ -78,9 +87,11 @@ IMPL_AT_OF_TYPE(float);
 #define IMPL_GET_OF_TYPE(type)									\
 MEM_FUN_IMPL(GenericTensor, get_ ##type, MEM_SIZE_T* pos, type * value)	\
 {																\
+    ASSERT_NOT_NULL(pos); /*After Code Analysis */              \
+    ASSERT_NOT_NULL(value); /*After Code Analysis */            \
 	type * val_ptr = NULL;										\
 	MFUN(_this, at_ ##type), pos, &val_ptr CALL;				\
-																\
+	ASSERT_NOT_NULL(val_ptr); /*After Code Analysis */          \
 	*value = *val_ptr;											\
 }																\
 END_FUN
@@ -92,9 +103,10 @@ IMPL_GET_OF_TYPE(float);
 #define IMPL_SET_OF_TYPE(type)									\
 MEM_FUN_IMPL(GenericTensor, set_ ##type, MEM_SIZE_T* pos, type value)	\
 {																\
+    ASSERT_NOT_NULL(pos); /*After Code Analysis */                          \
 	type * val_ptr = NULL;										\
 	MFUN(_this, at_ ##type), pos, &val_ptr CALL;				\
-																\
+    ASSERT_NOT_NULL(val_ptr); /*After Code Analysis */                     \
 	*(val_ptr) = value;											\
 }																\
 END_FUN
@@ -105,6 +117,7 @@ IMPL_SET_OF_TYPE(float);
 
 MEM_FUN_IMPL(GenericTensor, reshape, MEM_SIZE_T ndim, MEM_SIZE_T* shape)
 {
+	ASSERT_NOT_NULL(shape); /*After Code Analysis */ 
 	MEM_SIZE_T new_size = 1;
 	FOR(size_t i = 0; i < ndim; i++)
 	{
