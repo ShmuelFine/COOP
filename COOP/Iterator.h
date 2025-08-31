@@ -1,4 +1,3 @@
-#pragma once
 #ifndef __COOP__ITERATOR__H_
 #define __COOP__ITERATOR__H_
 
@@ -41,11 +40,40 @@ END_FUNCTIONS(Iterator);
 #define ITER_ADVANCE(IT, N)                       MFUN((IT), advance), (N) CALL
 
 
-#define ITER_FOR(T, VAR, BEGIN_IT, END_IT)                                               \
-    for (bool __cont__=true; __cont__;)                                                  \
-        for (T* VAR = NULL;                                                              \
-             (ITER_GET_REF((BEGIN_IT), (void**)&(VAR)),                                   \
-              true) && ({ bool __eq=false; ITER_EQUALS((BEGIN_IT),(END_IT), &__eq); !__eq; }); \
-             (ITER_NEXT((BEGIN_IT)), 0) )
+//#define ITER_FOR(T, VAR, BEGIN_IT, END_IT)                                               \
+//    for (bool __cont__=true; __cont__;)                                                  \
+//        for (T* VAR = NULL;                                                              \
+//             (ITER_GET_REF((BEGIN_IT), (void**)&(VAR)),                                   \
+//              true) && ({ bool __eq=false; ITER_EQUALS((BEGIN_IT),(END_IT), &__eq); !__eq; }); \
+//             (ITER_NEXT((BEGIN_IT)), 0) )
+
+
+#define ITER_FOR(T, VAR, BEGIN_IT, END_IT)                           \
+    do {                                                             \
+        Iterator* __it_cur__ = (BEGIN_IT);                           \
+        Iterator* __it_end__ = (END_IT);                             \
+        for (;;) {                                                   \
+            bool __eq__ = false;                                     \
+            ITER_EQUALS(__it_cur__, __it_end__, &__eq__);            \
+            if (__eq__) break;                                       \
+            T* VAR = NULL;                                           \
+            ITER_GET_REF(__it_cur__, (void**)&(VAR));                \
+            /* Body block with labels so we can advance on continue */\
+            __ITER_BODY_START__:                                     \
+            do
+
+#define END_ITER_FOR(BEGIN_IT)                                       \
+            while (0);                                               \
+            __ITER_CONTINUE__:                                       \
+            ITER_NEXT((BEGIN_IT));                                   \
+            continue;                                                \
+            __ITER_BREAK__:                                          \
+            break;                                                   \
+        }                                                            \
+    } while (0)
+
+/* Loop-control helpers for inside ITER_FOR body */
+#define ITER_CONTINUE  do { goto __ITER_CONTINUE__; } while (0)
+#define ITER_BREAK     do { goto __ITER_BREAK__; } while (0)
 
 #endif
