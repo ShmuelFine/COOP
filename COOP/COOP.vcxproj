@@ -169,7 +169,6 @@
 		<ClInclude Include="HeapCache.h" />
 		<ClInclude Include="ICache.h" />
 		<ClInclude Include="InheritenceDefMacros.h" />
-		<ClInclude Include="IteratorQueue.h" />
 		<ClInclude Include="List.h" />
 		<ClInclude Include="MathUtils.h" />
 		<ClInclude Include="SharedObjPtr.h" />
@@ -189,7 +188,6 @@
 		<ClCompile Include="DynamicMemoryManagement.c" />
 		<ClCompile Include="HeapCache.c" />
 		<ClCompile Include="ICache.c" />
-		<ClCompile Include="IteratorQueue.c" />
 		<ClCompile Include="List.c" />
 		<ClCompile Include="SharedObjPtr.c" />
 		<ClCompile Include="Tensor.c" />
