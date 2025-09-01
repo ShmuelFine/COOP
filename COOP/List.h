@@ -16,11 +16,12 @@ END_DEF(ListNode);
 
 
 DEF_CLASS(GenericList);
-	MEM_SIZE_T size;           // מספר איברים
-	MEM_SIZE_T elementSize;    // גודל איבר בבתים
-	ListNode* head;           // צומת ראשון
-	ListNode* tail;           // צומת אחרון
+	MEM_SIZE_T size;           // number of elements
+	MEM_SIZE_T elementSize;    // size of each element in bytes
+	ListNode* head;            // first node
+	ListNode* tail;            // last node
 END_DEF(GenericList)
+
 
 
 DEF_DERIVED_CLASS(ListIterator, Iterator)
@@ -34,7 +35,7 @@ FUNCTIONS(GenericList, MEM_SIZE_T dataTypeSize);
 /* List Functions*/
 	MEM_FUN_DECL(GenericList, push_back_generic, const void* src, MEM_SIZE_T size);
 	MEM_FUN_DECL(GenericList, push_front_generic, const void* src, MEM_SIZE_T size);
-	MEM_FUN_DECL(GenericList, pop_back_generic, void* dst, MEM_SIZE_T size);   // אם dst==NULL => size חייב להיות 0
+	MEM_FUN_DECL(GenericList, pop_back_generic, void* dst, MEM_SIZE_T size);
 	MEM_FUN_DECL(GenericList, pop_front_generic, void* dst, MEM_SIZE_T size);
 	MEM_FUN_DECL(GenericList, front_generic, void* dst, MEM_SIZE_T size);
 	MEM_FUN_DECL(GenericList, back_generic, void* dst, MEM_SIZE_T size);
@@ -55,14 +56,14 @@ END_FUNCTIONS(GenericList);
 
 
 DERIVED_FUNCTIONS(ListIterator, Iterator);
-    MEM_FUN_DECL(ListIterator, equals,   object* other, bool* out_equal);
-    MEM_FUN_DECL(ListIterator, next);
-    MEM_FUN_DECL(ListIterator, prev);
-    MEM_FUN_DECL(ListIterator, get_ref,  void** out_ptr);
-    MEM_FUN_DECL(ListIterator, get_cref, const void** out_ptr);
-    MEM_FUN_DECL(ListIterator, distance, object* other, ptrdiff_t* out_dist);
-    MEM_FUN_DECL(ListIterator, advance,  ptrdiff_t n);
-	END_DERIVED_FUNCTIONS(ListIterator)
+   FUN_OVERRIDE(Iterator, equals,   object* other, bool* out_equal);
+   FUN_OVERRIDE(Iterator, next);
+   FUN_OVERRIDE(Iterator, prev);
+   FUN_OVERRIDE(Iterator, get_ref,  void** out_ptr);
+   FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
+   FUN_OVERRIDE(Iterator, distance, object* other, ptrdiff_t* out_dist);
+   FUN_OVERRIDE(Iterator, advance,  ptrdiff_t n);
+END_DERIVED_FUNCTIONS(ListIterator)
 
 #define DECLARE_SPECIFIC_LIST_TYPE(type_name, c_type)                        
 DEF_DERIVED_CLASS(List_##type_name, GenericList);
@@ -81,6 +82,6 @@ DERIVED_FUNCTIONS(List_##type_name, GenericList);
 END_DERIVED_FUNCTIONS(List_##type_name);
 
 DECLARE_SPECIFIC_LIST_TYPE(int, int);
-//char, float, ptr..
+//add types
 
 #endif

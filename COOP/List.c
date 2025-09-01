@@ -12,3 +12,5 @@ DEF_CTOR(GenericList, MEM_SIZE_T dataTypeSize)
 	_this->data = NULL;
 }
 END_CTOR
+
+
