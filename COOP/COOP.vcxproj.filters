@@ -56,7 +56,6 @@
     </ClInclude>
     <ClInclude Include="SharedObjPtr.h" />
     <ClInclude Include="Iterator.h" />
-    <ClInclude Include="IteratorQueue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InMemoryCache.c">
@@ -82,6 +81,8 @@
     </ClCompile>
     <ClCompile Include="SharedObjPtr.c" />
     <ClCompile Include="Iterator.c" />
-    <ClCompile Include="IteratorQueue.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
