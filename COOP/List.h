@@ -42,6 +42,8 @@ FUNCTIONS(GenericList, MEM_SIZE_T dataTypeSize);
     MEM_FUN_DECL(GenericList, front_generic, void* out_elem);
     MEM_FUN_DECL(GenericList, back_generic, void* out_elem);
 
+    MEM_FUN_DECL(GenericList, __make_node, const void* src_bytes, ListNode** out_node);
+
     MEM_FUN_DECL(GenericList, size, MEM_SIZE_T* out_size);
     MEM_FUN_DECL(GenericList, empty, bool* out_is_empty);
     MEM_FUN_DECL(GenericList, clear);
@@ -65,7 +67,7 @@ DERIVED_FUNCTIONS(ListIterator, Iterator);
     FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
     FUN_OVERRIDE(Iterator, distance, object* other, ptrdiff_t* out_dist);
     FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
-END_DERIVED_FUNCTIONS(ListIterator)
+END_DERIVED_FUNCTIONS(ListIterator);
 
 
 
