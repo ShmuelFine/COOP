@@ -16,8 +16,9 @@
 #define V_TABLE_TYPEDEF(class_name) class_name ##VirtualTable_t
 
 #define DEF_CLASS(class_name)                                        \
+typedef struct class_name##_t class_name;                                \
 typedef struct class_name ##VirtualTable_t V_TABLE_TYPE(class_name); \
-typedef struct class_name ##_t{                                      \
+struct class_name ##_t{                                      \
 	object *_next;                                                   \
 	V_TABLE_TYPE(class_name)* vTable
 
@@ -25,7 +26,7 @@ typedef struct class_name ##_t{                                      \
 
 // Macro that ends class member definitions:
 #define END_DEF(class_name)											\
-}class_name;														\
+};														\
 COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 
 // Macro that begins class function definitions section:
