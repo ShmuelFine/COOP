@@ -16,16 +16,17 @@
 #define V_TABLE_TYPEDEF(class_name) class_name ##VirtualTable_t
 
 #define DEF_CLASS(class_name)                                        \
+typedef struct class_name##_t class_name;                                \
 typedef struct class_name ##VirtualTable_t V_TABLE_TYPE(class_name); \
-typedef struct class_name ##_t{                                      \
-	object *_next;                                                   \
-	V_TABLE_TYPE(class_name)* vTable
+struct class_name ##_t{                                      \
+    object *_next;                                                   \
+    V_TABLE_TYPE(class_name)* vTable
 
 // Define your members here, between DEF_CLASS and END_DEF
 
 // Macro that ends class member definitions:
-#define END_DEF(class_name)											\
-}class_name;														\
+#define END_DEF(class_name)                                            \
+};														\
 COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 
 // Macro that begins class function definitions section:
@@ -101,6 +102,13 @@ is_ ##type ##VirtualTable__initialized = true;\
 } 
 
 //////////////////////////////////////////////////////////////////////
+
+// Macro to define a pure virtual function that throws if not overridden
+#define PURE_VIRTUAL(CLASS, FUNC_NAME, ...) \
+    MEM_FUN_IMPL(CLASS, FUNC_NAME, ##__VA_ARGS__) \
+    { \
+        THROW_MSG("Pure virtual function '" #FUNC_NAME "' not implemented!"); \
+    } END_FUN
 
 
 #endif
