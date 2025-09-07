@@ -11,7 +11,7 @@ TEST_FUN_IMPL(IteratorForTest, foreach_SumsAll)
         MFUN(&v, push_back), i CALL;
     } END_LOOP
 
-        int sum = 0;
+    int sum = 0;
     ITER_FOR(void*, val, &v)
     {
        sum += (int)val;
@@ -58,6 +58,7 @@ TEST_FUN_IMPL(IteratorForTest, foreach_BreakStopsEarly)
 
         sum += val;
     }END_ITER_FOR
+  
 
     ASSERT(sum == (0 + 1 + 2 + 3));
 }END_FUN;
@@ -73,6 +74,7 @@ TEST_FUN_IMPL(IteratorForTest, foreach_EmptyRange)
     {
         count++;
     }END_ITER_FOR
+
 
     ASSERT(count == 0);
 }END_FUN;

@@ -25,6 +25,7 @@ MEM_FUN_DECL(Iterator, get_ref, void** out_ptr);
 MEM_FUN_DECL(Iterator, get_cref, const void** out_ptr);
 MEM_FUN_DECL(Iterator, distance, object* other, ptrdiff_t* out_dist);
 MEM_FUN_DECL(Iterator, advance, ptrdiff_t n);
+MEM_FUN_DECL(Iterator, reset_begin);
 
 END_FUNCTIONS(Iterator);
 
@@ -62,10 +63,11 @@ END_FUNCTIONS(Iterator);
             MFUN(_it, next) CALL;                                    \
         __iter_skip_next = false;                                    \
     }                                                                \
+    if(__eq || IS_BREAKING ) MFUN(_it, reset_begin) CALL;\
     if (IS_BREAKING) { break; IS_BREAKING=false; }                 \
     else if (IS_IN_RETURNING() || IS_IN_THROWING()) break;           \
 }
 
 
 
-#endif
+#endif 
