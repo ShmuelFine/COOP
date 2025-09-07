@@ -82,6 +82,5 @@
     </ClCompile>
     <ClCompile Include="SharedObjPtr.c" />
     <ClCompile Include="Iterator.c" />
-    <ClCompile Include="IteratorQueue.c" />
   </ItemGroup>
 </Project>

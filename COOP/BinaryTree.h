@@ -5,13 +5,44 @@
 #include "COOP.h"
 #include "Iterator.h"
 
+/* ====== Element kind (type-tag) for printing ====== */
+typedef enum {
+	INT,
+	FLOAT,
+	CHAR,
+	OBJ_SPTR,
+	RAW_BYTES   /* default: hex dump of elemSize bytes */
+} BT_ElementType;
+
+/* ====== Visit order for single print() API ====== */
+typedef enum {
+	PRE = 0,
+	IN = 1,
+	POST = 2
+} BT_VisitOrder;
+
+/* ====== BTNode class  ======== */
+
+DEF_CLASS(BTNode);
+BTNode* left;
+BTNode* right;
+BTNode* parent;
+void* value;
+END_DEF(BTNode);
+
+FUNCTIONS(BTNode, MEM_SIZE_T elementSize, const void* src_bytes, BTNode* parent);
+END_FUNCTIONS(BTNode);
+
+/* ====== GenericBinaryTree class ====== */
+
 DEF_CLASS(GenericBinaryTree);
-object* root;        /* BTNode */
+BTNode* root;
 MEM_SIZE_T size;
 MEM_SIZE_T elementSize;
+BT_ElementType BT_type;
 END_DEF(GenericBinaryTree);
 
-FUNCTIONS(GenericBinaryTree, MEM_SIZE_T elementSize);
+FUNCTIONS(GenericBinaryTree, MEM_SIZE_T elementSize, BT_ElementType BT_type);
 
 MEM_FUN_DECL(GenericBinaryTree, is_empty, bool* out);
 MEM_FUN_DECL(GenericBinaryTree, get_size, MEM_SIZE_T* out);
@@ -24,44 +55,37 @@ MEM_FUN_DECL(GenericBinaryTree, __remove_generic, const void* key, bool* out_rem
 MEM_FUN_DECL(GenericBinaryTree, remove_int, int key, bool* out_removed);
 /* add more types */
 
-MEM_FUN_DECL(GenericBinaryTree, __print_pre_generic);
-MEM_FUN_DECL(GenericBinaryTree, print_pre_int);
-/* add more types */
+MEM_FUN_DECL(GenericBinaryTree, print, BT_VisitOrder order);
 
-MEM_FUN_DECL(GenericBinaryTree, __print_in_generic);
-MEM_FUN_DECL(GenericBinaryTree, print_in_int);
-/* add more types */
+MEM_FUN_DECL(GenericBinaryTree, traverse_pre);
+MEM_FUN_DECL(GenericBinaryTree, traverse_in);
+MEM_FUN_DECL(GenericBinaryTree, traverse_post);
 
-MEM_FUN_DECL(GenericBinaryTree, __print_post_generic);
-MEM_FUN_DECL(GenericBinaryTree, print_post_int);
-/* add more types */
+MEM_FUN_DECL(GenericBinaryTree, __print_value, const void* p);
 
-MEM_FUN_DECL(GenericBinaryTree, begin_inorder, object** out_iter);
-MEM_FUN_DECL(GenericBinaryTree, end_inorder, object** out_iter);
+MEM_FUN_DECL(GenericBinaryTree, begin_inorder, Iterator** out_iter);
+MEM_FUN_DECL(GenericBinaryTree, end_inorder, Iterator** out_iter);
+MEM_FUN_DECL(GenericBinaryTree, it_destroy, Iterator* it);
 
 END_FUNCTIONS(GenericBinaryTree);
-
-///////////////////////////////////////////////////////////////
 
 /* ============ Inner In-Order Iterator ============ */
 
 DEF_DERIVED_CLASS(BTInOrderIterator, Iterator);
 GenericBinaryTree* owner;
-object* current;  /* BTNode* */
+BTNode* current;  
 END_DEF_DERIVED(BTInOrderIterator);
 
 DERIVED_FUNCTIONS(BTInOrderIterator, Iterator);
 MEM_FUN_DECL(BTInOrderIterator, init_begin, GenericBinaryTree* owner);
 MEM_FUN_DECL(BTInOrderIterator, init_end, GenericBinaryTree* owner);
-
-/* override functions */
-MEM_FUN_DECL(BTInOrderIterator, equals, object* other, bool* out_equal);
-MEM_FUN_DECL(BTInOrderIterator, next);
-MEM_FUN_DECL(BTInOrderIterator, prev);
-MEM_FUN_DECL(BTInOrderIterator, get_ref, void** out_ptr);
-MEM_FUN_DECL(BTInOrderIterator, get_cref, const void** out_ptr);
-MEM_FUN_DECL(BTInOrderIterator, distance, object* other, ptrdiff_t* out_dist);
-MEM_FUN_DECL(BTInOrderIterator, advance, ptrdiff_t n);
+FUN_OVERRIDE(Iterator, equals, object* other, bool* out_equal);
+FUN_OVERRIDE(Iterator, next);
+FUN_OVERRIDE(Iterator, prev);
+FUN_OVERRIDE(Iterator, get_ref, void** out_ptr);
+FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
+FUN_OVERRIDE(Iterator, distance, object* other, ptrdiff_t* out_dist);
+FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
 END_DERIVED_FUNCTIONS(BTInOrderIterator);
 
 ///////////////////////////////////////////////////////////////
@@ -71,13 +95,17 @@ DEF_DERIVED_CLASS(BTree_ ##type, GenericBinaryTree);                  \
 END_DEF_DERIVED(BTree_ ##type);                                       \
 																	  \
 DERIVED_FUNCTIONS(BTree_ ##type, GenericBinaryTree);                  \
+MEM_FUN_DECL(BTree_ ##type, is_empty, bool* out);                     \
+MEM_FUN_DECL(BTree_ ##type, get_size, MEM_SIZE_T* out);               \
 MEM_FUN_DECL(BTree_ ##type, insert, type val);                        \
 MEM_FUN_DECL(BTree_ ##type, remove, type key, bool* out_removed);     \
-MEM_FUN_DECL(BTree_ ##type, print_in);                                \
-MEM_FUN_DECL(BTree_ ##type, print_pre);                               \
-MEM_FUN_DECL(BTree_ ##type, print_post);                              \
+MEM_FUN_DECL(BTree_ ##type, print, BT_VisitOrder order);              \
+MEM_FUN_DECL(BTree_ ##type, traverse_pre);                            \
+MEM_FUN_DECL(BTree_ ##type, traverse_in);                             \
+MEM_FUN_DECL(BTree_ ##type, traverse_post);                           \
 MEM_FUN_DECL(BTree_ ##type, begin_inorder, object** out_iter);        \
 MEM_FUN_DECL(BTree_ ##type, end_inorder  , object** out_iter);        \
+MEM_FUN_DECL(BTree_ ##type, it_destroy, Iterator* it);                \
 END_DERIVED_FUNCTIONS(BTree_ ##type);
 
 ////////////////////////////////////////////////
