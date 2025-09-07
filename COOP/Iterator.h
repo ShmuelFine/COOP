@@ -2,23 +2,21 @@
 #define __COOP__ITERATOR__H_
 
 #include "COOP.h"
-
-
-typedef enum IteratorCategory_e {
-    ITER_INPUT = 1,     //input
-    ITER_OUTPUT,        //output
-    ITER_FORWARD,       //read/write
-    ITER_BIDIRECTIONAL, //both forward and backward
-    ITER_RANDOM_ACCESS  //full pointer
+typedef enum IteratorCategory {
+    ITER_INPUT = 1,
+    ITER_OUTPUT,
+    ITER_FORWARD,
+    ITER_BIDIRECTIONAL,
+    ITER_RANDOM_ACCESS
 } IteratorCategory;
 
 /* ===== Base Class: Iterator ===== */
 DEF_CLASS(Iterator);
-IteratorCategory category;  
+IteratorCategory _category;
 END_DEF(Iterator);
 
 
-FUNCTIONS(Iterator);
+FUNCTIONS(Iterator, IteratorCategory category);
 
 MEM_FUN_DECL(Iterator, equals, object* other, bool* out_equal);
 MEM_FUN_DECL(Iterator, next);
@@ -38,34 +36,36 @@ END_FUNCTIONS(Iterator);
 #define ITER_GET_CREF(IT, OUT_CVOIDPTR)           MFUN((IT), get_cref), (const void**)(OUT_CVOIDPTR) CALL
 #define ITER_DISTANCE(IT_A, IT_B, OUT_DIST)       MFUN((IT_A), distance), (object*)(IT_B), (OUT_DIST) CALL
 #define ITER_ADVANCE(IT, N)                       MFUN((IT), advance), (N) CALL
+#define ITER_CATEGORY(IT)   ((IT)->_category)
+
+#define ITER_CONTINUE do { __iter_skip_next = true; MFUN(_it, next) CALL; CONTINUE; } while(0)
 
 
-#define ITER_CONTINUE  do { goto __ITER_CONTINUE__; } while (0)
-#define ITER_BREAK     do { goto __ITER_BREAK__; } while (0)
+#define ITER_FOR(ElemType, varName, objPtr)                              \
+    bool __eq = 0;                      \
+    bool __iter_skip_next = false;                                       \
+    for (Iterator* _it = (Iterator*)&((objPtr)->_base.begin_iter),          \
+                  *_end = (Iterator*)&((objPtr)->_base.end_iter);           \
+         !(__eq); )                                                              \
+        for (;;) {                                                          \
+            MFUN(_it, equals), (object*)_end, &__eq CALL;                   \
+            if (__eq) break;                                                \
+            const ElemType* _p_##varName = NULL;                            \
+            MFUN(_it, get_cref), &_p_##varName CALL;                        \
+            ElemType varName = *_p_##varName;                               \
+            SCOPE_START;
 
-#define ITER_FOR(T, VAR, BEGIN_IT, END_IT)                           \
-    do {                                                             \
-        Iterator* __it_cur__ = (BEGIN_IT);                           \
-        Iterator* __it_end__ = (END_IT);                             \
-        for (;;) {                                                   \
-            bool __eq__ = false;                                     \
-            ITER_EQUALS(__it_cur__, __it_end__, &__eq__);            \
-            if (__eq__) break;                                       \
-            T* VAR = NULL;                                           \
-            ITER_GET_REF(__it_cur__, (void**)&(VAR));                \
-            do /* body starts */
 
-#define END_ITER_FOR(BEGIN_IT)                                       \
-            while (0);                                               \
-            __ITER_CONTINUE__:                                       \
-            __ITER_SILENCE_MSVC_UNUSED_LABELS__();                   \
-            ITER_NEXT((BEGIN_IT));                                   \
-            continue;                                                \
-            __ITER_BREAK__:                                          \
-            __ITER_SILENCE_MSVC_UNUSED_LABELS__();                   \
-            break;                                                   \
-        }                                                            \
-    } while (0)
+#define END_ITER_FOR \
+        _scope_obj_list_call_dtors(&_scope_obj_list);                \
+        if (!IS_BREAKING && !IS_IN_RETURNING() && !IS_IN_THROWING() && !__iter_skip_next) \
+            MFUN(_it, next) CALL;                                    \
+        __iter_skip_next = false;                                    \
+    }                                                                \
+    if (IS_BREAKING) { IS_BREAKING = false; break; }                 \
+    else if (IS_IN_RETURNING() || IS_IN_THROWING()) break;           \
+}
+
 
 
 #endif

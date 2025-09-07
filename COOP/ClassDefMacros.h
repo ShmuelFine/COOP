@@ -103,5 +103,11 @@ is_ ##type ##VirtualTable__initialized = true;\
 
 //////////////////////////////////////////////////////////////////////
 
+// Macro to define a pure virtual function that throws if not overridden
+#define PURE_VIRTUAL(CLASS, FUNC_NAME, ...) \
+    MEM_FUN_IMPL(CLASS, FUNC_NAME, ##__VA_ARGS__) \
+    { \
+        THROW_MSG("Pure virtual function '" #FUNC_NAME "' not implemented!"); \
+    } END_FUN
 
 #endif
