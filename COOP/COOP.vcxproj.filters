@@ -82,7 +82,5 @@
     <ClCompile Include="SharedObjPtr.c" />
     <ClCompile Include="Iterator.c" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
-  </ItemGroup>
+
 </Project>
