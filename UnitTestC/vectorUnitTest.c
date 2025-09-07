@@ -3,6 +3,8 @@
 #include "Vector.h"
 #include "ScopeTester.h"
 
+
+
 TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 {
 	// Arrange
@@ -139,6 +141,92 @@ TEST_FUN_IMPL(VectorTest, dtor_freesAllMemory)
 
 }END_FUN;
 
+TEST_FUN_IMPL(VectorTest, nextPrev_MoveOK_andPrevThrowsAtBegin)
+{
+	CREATE(Vector_int, vec) CALL;
+	/* Helpers */
+	
+    FOR(int i = 0; i < 5; i++) {
+	 MFUN(&vec, push_back), i CALL;
+	} END_LOOP;
+	
+
+	Iterator* it = (Iterator*)&(vec._base.begin_iter);
+	Iterator* end = (Iterator*)&(vec._base.end_iter);
+
+	/* prev at begin must throw */
+	EXPECT_THROW;
+	MFUN(it, prev) CALL;
+	ASSERT_THROW;
+
+	/* move 2 steps with next; then check we’re not at end yet */
+	MFUN(it, next) CALL;
+	MFUN(it, next) CALL;
+
+	bool eq = false;
+	MFUN(it, equals), (object*)end, & eq CALL;
+	NTEST_ASSERT(!eq);
+
+	/* one more next to index 3, still not end (size=5) */
+	MFUN(it, next) CALL;
+	MFUN(it, equals), (object*)end, & eq CALL;
+	NTEST_ASSERT(!eq);
+} END_FUN
+
+TEST_FUN_IMPL(VectorTest, getRef_getCref_PointsToCurrent)
+{
+	CREATE(Vector_int, vec) CALL;
+	FOR(int i = 0; i < 5; i++) {
+		MFUN(&vec, push_back), i CALL;
+	} END_LOOP;
+
+	Iterator* it = (Iterator*)&(vec._base.begin_iter);
+
+	/* at begin -> value 0 */
+	const void* cptr = NULL;
+	MFUN(it, get_cref), & cptr CALL;
+	NTEST_ASSERT(cptr != NULL);
+	NTEST_ASSERT(*(const int*)cptr == 0);
+
+	/* advance to index 2, expect value 2 */
+	MFUN(it, advance), (ptrdiff_t)2 CALL;
+	void* ptr = NULL;
+	MFUN(it, get_ref), & ptr CALL;
+	NTEST_ASSERT(ptr != NULL);
+	NTEST_ASSERT(*(int*)ptr == 2);
+} END_FUN
+
+TEST_FUN_IMPL(VectorTest, distance_And_Advance_Bounds)
+{
+	CREATE(Vector_int, vec) CALL;
+	FOR(int i = 0; i < 6; i++) {
+		MFUN(&vec, push_back), i CALL;
+	} END_LOOP;
+
+	Iterator* b = (Iterator*)&(vec._base.begin_iter);
+	Iterator* e = (Iterator*)&(vec._base.end_iter);
+
+	/* distance(begin, end) == size */
+	ptrdiff_t dist = -999;
+	MFUN(b, distance), (object*)e, & dist CALL;
+	NTEST_ASSERT(dist == 6);
+
+	/* distance after advancing begin by 3 -> should be 3 */
+	MFUN(b, advance), (ptrdiff_t)3 CALL;
+	dist = -999;
+	MFUN(b, distance), (object*)e, & dist CALL;
+	NTEST_ASSERT(dist == 3);
+
+	/* advance negative out of range -> throw */
+	EXPECT_THROW;
+	MFUN(b, advance), (ptrdiff_t)-5 CALL; /* would go to index -2 */
+	ASSERT_THROW;
+
+	/* advance past end -> throw (target > size) */
+	EXPECT_THROW;
+	MFUN(e, advance), (ptrdiff_t)1 CALL;  /* target = size+1 -> invalid */
+	ASSERT_THROW;
+} END_FUN
 
 INIT_TEST_SUITE(VectorTest)
 BIND_TEST(VectorTest, push_back_SanityTest);
@@ -147,4 +235,7 @@ BIND_TEST(VectorTest, at_ThrowsWhenIdxIsOutOfRange);
 BIND_TEST(VectorTest, set_SanityTest);
 BIND_TEST(VectorTest, get_SanityTest);
 BIND_TEST(VectorTest, dtor_freesAllMemory);
+BIND_TEST(VectorTest, nextPrev_MoveOK_andPrevThrowsAtBegin);
+BIND_TEST(VectorTest, getRef_getCref_PointsToCurrent);
+BIND_TEST(VectorTest, distance_And_Advance_Bounds);
 END_INIT_TEST_SUITE(VectorTest)
