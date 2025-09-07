@@ -26,23 +26,34 @@ END_DEF(GenericList);
 /* ===== Ctors/Methods Declarations ===== */
 FUNCTIONS(GenericList, MEM_SIZE_T dataTypeSize);
 
-/* ---- Generic (untyped, uses _this->elementSize) ---- */
-MEM_FUN_DECL(GenericList, __push_back_generic, const void* src);
-MEM_FUN_DECL(GenericList, __push_front_generic, const void* src);
-MEM_FUN_DECL(GenericList, __pop_back_generic, void* out_elem);
-MEM_FUN_DECL(GenericList, __pop_front_generic, void* out_elem);
-MEM_FUN_DECL(GenericList, __front_generic, void* out_elem);
-MEM_FUN_DECL(GenericList, __back_generic, void* out_elem);
+/* ---- Generic API (Vector-style: char* + size) ---- */
+MEM_FUN_DECL(GenericList, __push_back_generic, char* buff, MEM_SIZE_T buff_size);
+MEM_FUN_DECL(GenericList, __push_front_generic, char* buff, MEM_SIZE_T buff_size);
+MEM_FUN_DECL(GenericList, __pop_back_generic, char* buff, MEM_SIZE_T buff_size);
+MEM_FUN_DECL(GenericList, __pop_front_generic, char* buff, MEM_SIZE_T buff_size);
+MEM_FUN_DECL(GenericList, __front_generic, char* buff, MEM_SIZE_T buff_size);
+MEM_FUN_DECL(GenericList, __back_generic, char* buff, MEM_SIZE_T buff_size);
 
-MEM_FUN_DECL(GenericList, __make_node, const void* src_bytes, ListNode** out_node);
+/* helper */
+MEM_FUN_DECL(GenericList, __make_node, const char* src_bytes, MEM_SIZE_T buff_size, ListNode** out_node);
 
+/* services */
 MEM_FUN_DECL(GenericList, size, MEM_SIZE_T* out_size);
 MEM_FUN_DECL(GenericList, empty, bool* out_is_empty);
-MEM_FUN_DECL(GenericList, clear); 
+MEM_FUN_DECL(GenericList, clear);
 
+/* Iteration API Ц лое Vector */
 MEM_FUN_DECL(GenericList, begin, Iterator** out_it);
 MEM_FUN_DECL(GenericList, end, Iterator** out_it);
 MEM_FUN_DECL(GenericList, it_destroy, Iterator* it);
+
+/* ---- Typed wrappers ON BASE (лое б-Vector: push_back_int еле') ---- */
+MEM_FUN_DECL(GenericList, push_back_int, int val);
+MEM_FUN_DECL(GenericList, push_front_int, int val);
+MEM_FUN_DECL(GenericList, pop_back_int, int* out_val);
+MEM_FUN_DECL(GenericList, pop_front_int, int* out_val);
+MEM_FUN_DECL(GenericList, front_int, int* out_val);
+MEM_FUN_DECL(GenericList, back_int, int* out_val);
 
 END_FUNCTIONS(GenericList);
 
@@ -63,7 +74,7 @@ FUN_OVERRIDE(Iterator, distance, object* other, ptrdiff_t* out_dist);
 FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
 END_DERIVED_FUNCTIONS(ListIter);
 
-/* ===== Typed facade ===== */
+/* ===== Typed facade  ===== */
 #define DECLARE_SPECIFIC_LIST_TYPE(type)                                   \
 DEF_DERIVED_CLASS(List_ ##type, GenericList);                              \
 END_DEF_DERIVED(List_ ##type);                                             \
@@ -74,12 +85,15 @@ MEM_FUN_DECL(List_ ##type, pop_back,      type* out_val);                  \
 MEM_FUN_DECL(List_ ##type, pop_front,     type* out_val);                  \
 MEM_FUN_DECL(List_ ##type, front,         type* out_val);                  \
 MEM_FUN_DECL(List_ ##type, back,          type* out_val);                  \
+MEM_FUN_DECL(List_ ##type, size,          MEM_SIZE_T* out_size);           \
+MEM_FUN_DECL(List_ ##type, empty,         bool* out_is_empty);             \
+MEM_FUN_DECL(List_ ##type, clear);                                         \
 MEM_FUN_DECL(List_ ##type, begin,         Iterator** out_it);              \
 MEM_FUN_DECL(List_ ##type, end,           Iterator** out_it);              \
 MEM_FUN_DECL(List_ ##type, it_destroy,    Iterator* it);                   \
 END_DERIVED_FUNCTIONS(List_ ##type)
-
-
 DECLARE_SPECIFIC_LIST_TYPE(int);
 
-#endif 
+#endif
+
+//add print, sort

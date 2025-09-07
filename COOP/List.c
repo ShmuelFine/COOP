@@ -416,8 +416,6 @@ END_INIT_CLASS(ListIter)
 
 ////////////////////////////////////////////////
 
-DEF_DERIVED_CTOR(List_int, GenericList) SUPER, sizeof(int) ME{} END_DERIVED_CTOR
-DEF_DERIVED_DTOR(List_int, GenericList) {} END_DERIVED_DTOR
 
 #define IMPL_SPECIFIC_LIST_TYPE_xTORs(type)                                                    \
 DEF_DERIVED_CTOR(List_ ##type, GenericList) SUPER, sizeof(type) ME {} END_DERIVED_CTOR         \
@@ -430,22 +428,27 @@ MEM_FUN_IMPL(List_ ##type, pop_back,   type* out)  { FUN_BASE(_this, pop_back_  
 MEM_FUN_IMPL(List_ ##type, pop_front,  type* out)  { FUN_BASE(_this, pop_front_  ##type), out CALL; } END_FUN; \
 MEM_FUN_IMPL(List_ ##type, front,      type* out)  { FUN_BASE(_this, front_      ##type), out CALL; } END_FUN; \
 MEM_FUN_IMPL(List_ ##type, back,       type* out)  { FUN_BASE(_this, back_       ##type), out CALL; } END_FUN; \
+MEM_FUN_IMPL(List_ ##type, size,       MEM_SIZE_T* out) { FUN_BASE(_this, size),  out CALL; } END_FUN; \
+MEM_FUN_IMPL(List_ ##type, empty,      bool* out)       { FUN_BASE(_this, empty), out CALL; } END_FUN; \
+MEM_FUN_IMPL(List_ ##type, clear)                      { FUN_BASE(_this, clear) CALL; } END_FUN; \
 MEM_FUN_IMPL(List_ ##type, begin, Iterator** it)  { FUN_BASE(_this, begin),     it CALL; } END_FUN; \
 MEM_FUN_IMPL(List_ ##type, end,   Iterator** it)  { FUN_BASE(_this, end),       it CALL; } END_FUN; \
-MEM_FUN_IMPL(List_ ##type, it_destroy, Iterator* it) { FUN_BASE(_this, it_destroy), it CALL; } \
-END_FUN; \
-
-INIT_DERIVED_CLASS(List_ ##type, GenericList);                                                 \
-BIND(List_ ##type, push_back);                                                                 \
-BIND(List_ ##type, push_front);                                                                \
-BIND(List_ ##type, pop_back);                                                                  \
-BIND(List_ ##type, pop_front);                                                                 \
-BIND(List_ ##type, front);                                                                     \
-BIND(List_ ##type, back);                                                                      \
-BIND(List_ ##type, begin);                                                                     \
-BIND(List_ ##type, end);                                                                       \
-BIND(List_ ##type, it_destroy);                                                                \
+MEM_FUN_IMPL(List_ ##type, it_destroy, Iterator* it) { FUN_BASE(_this, it_destroy), it CALL; } END_FUN; \
+INIT_DERIVED_CLASS(List_ ##type, GenericList);                                                  \
+BIND(List_ ##type, push_back);                                                                  \
+BIND(List_ ##type, push_front);                                                                 \
+BIND(List_ ##type, pop_back);                                                                   \
+BIND(List_ ##type, pop_front);                                                                  \
+BIND(List_ ##type, front);                                                                      \
+BIND(List_ ##type, back);                                                                       \
+BIND(List_ ##type, size);                                                                       \
+BIND(List_ ##type, empty);                                                                      \
+BIND(List_ ##type, clear);                                                                      \
+BIND(List_ ##type, begin);                                                                      \
+BIND(List_ ##type, end);                                                                        \
+BIND(List_ ##type, it_destroy);                                                                 \
 END_INIT_CLASS(List_ ##type)
+
 
 ////////////////////////////////////////////////
 IMPL_SPECIFIC_LIST_TYPE_xTORs(int);
