@@ -9,7 +9,7 @@
 DEF_TEST_SUITE(IteratorForTest);
 	ADD_TEST(IteratorForTest, foreach_SumsAll);
 	ADD_TEST(IteratorForTest, foreach_ContinueSkips);
-	//ADD_TEST(IteratorForTest, foreach_BreakStopsEarly);
+	ADD_TEST(IteratorForTest, foreach_BreakStopsEarly);
 	ADD_TEST(IteratorForTest, foreach_EmptyRange);
 END_TEST_SUITE(IteratorForTest);
 

@@ -38,7 +38,7 @@ END_FUNCTIONS(Iterator);
 #define ITER_ADVANCE(IT, N)                       MFUN((IT), advance), (N) CALL
 #define ITER_CATEGORY(IT)   ((IT)->_category)
 
-#define ITER_CONTINUE do { __iter_skip_next = true; MFUN(_it, next) CALL; CONTINUE; } while(0)
+#define ITER_CONTINUE do { __iter_skip_next = true; MFUN(_it, next) CALL; goto __ITER_CONTINUE_LABEL__; } while(0)
 
 
 #define ITER_FOR(ElemType, varName, objPtr)                              \
@@ -46,23 +46,23 @@ END_FUNCTIONS(Iterator);
     bool __iter_skip_next = false;                                       \
     for (Iterator* _it = (Iterator*)&((objPtr)->_base.begin_iter),          \
                   *_end = (Iterator*)&((objPtr)->_base.end_iter);           \
-         !(__eq); )                                                              \
+         !(__eq)&&!(IS_BREAKING); )                                                              \
         for (;;) {                                                          \
             MFUN(_it, equals), (object*)_end, &__eq CALL;                   \
             if (__eq) break;                                                \
-            const ElemType* _p_##varName = NULL;                            \
+            const ElemType *_p_##varName = NULL;                            \
             MFUN(_it, get_cref), &_p_##varName CALL;                        \
             ElemType varName = *_p_##varName;                               \
             SCOPE_START;
 
-
 #define END_ITER_FOR \
+        __ITER_CONTINUE_LABEL__: \
         _scope_obj_list_call_dtors(&_scope_obj_list);                \
         if (!IS_BREAKING && !IS_IN_RETURNING() && !IS_IN_THROWING() && !__iter_skip_next) \
             MFUN(_it, next) CALL;                                    \
         __iter_skip_next = false;                                    \
     }                                                                \
-    if (IS_BREAKING) { IS_BREAKING = false; break; }                 \
+    if (IS_BREAKING) { break; IS_BREAKING=false; }                 \
     else if (IS_IN_RETURNING() || IS_IN_THROWING()) break;           \
 }
 
