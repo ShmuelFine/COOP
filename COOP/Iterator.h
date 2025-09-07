@@ -14,7 +14,7 @@ typedef enum IteratorCategory_e {
 
 /* ===== Base Class: Iterator ===== */
 DEF_CLASS(Iterator);
-IteratorCategory category;  
+IteratorCategory category;
 END_DEF(Iterator);
 
 

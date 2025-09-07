@@ -52,7 +52,7 @@ set(ALL_FILES
 ################################################################################
 # Target
 ################################################################################
-add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
+add_library(${PROJECT_NAME} STATIC ${ALL_FILES} "Iterator.h" "Iterator.c")
 
 set(ROOT_NAMESPACE COOP)
 
