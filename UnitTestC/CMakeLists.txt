@@ -61,7 +61,7 @@ set(ALL_FILES
 ################################################################################
 # Target
 ################################################################################
-add_executable(${PROJECT_NAME} ${ALL_FILES} "MyTest.c")
+add_executable(${PROJECT_NAME} ${ALL_FILES} "MyTest.c" "BinaryTreeUnitTest.h" "BinaryTreeUnitTest.c")
 
 set(ROOT_NAMESPACE UnitTestC)
 

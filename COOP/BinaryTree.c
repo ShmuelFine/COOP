@@ -63,7 +63,7 @@ DEF_DTOR(GenericBinaryTree)
 
 	WHILE(curr != NULL)
 	{
-		/* We came from the parent: try left ->  right -> delete */
+		/* We came down from parent into curr */
 		IF(prev == (curr ? curr->parent : NULL))
 		{
 			IF(curr->left != NULL)
@@ -78,15 +78,30 @@ DEF_DTOR(GenericBinaryTree)
 			}
 			ELSE
 			{
+				/* Leaf: detach from parent, then free */
 				BTNode * p = curr->parent;
+				IF(p != NULL)
+				{
+					IF(p->left == curr)
+					{
+						p->left = NULL;
+					}
+					ELSE
+					{
+						p->right = NULL;
+					}
+					END_IF;
+				}
+				END_IF;
+
 				DESTROY(curr);
 				FREE(curr);
+				prev = p;
 				curr = p;
-				prev = curr;
 			}
 			END_IF;
 		}
-		/* We came back from left: try right; none? Delete curr */
+		/* We came back from left child */
 		ELSE_IF(prev == (curr ? curr->left : NULL))
 		{
 			IF(curr->right != NULL)
@@ -96,22 +111,51 @@ DEF_DTOR(GenericBinaryTree)
 			}
 			ELSE
 			{
+				/* No right child: detach curr from its parent and free */
 				BTNode * p = curr->parent;
+				IF(p != NULL)
+				{
+					IF(p->left == curr)
+					{
+						p->left = NULL;
+					}
+					ELSE
+					{
+						p->right = NULL;
+					}
+					END_IF;
+				}
+				END_IF;
+
 				DESTROY(curr);
 				FREE(curr);
+				prev = p;
 				curr = p;
-				prev = curr;
 			}
 			END_IF;
 		}
-		/* We came back from the right (or no children): delete and go */
+		/* We came back from right child */
 		ELSE
 		{
 			BTNode * p = curr->parent;
+			IF(p != NULL)
+			{
+				IF(p->left == curr)
+				{
+					p->left = NULL;
+				}
+				ELSE
+				{
+					p->right = NULL;
+				}
+				END_IF;
+			}
+			END_IF;
+
 			DESTROY(curr);
 			FREE(curr);
+			prev = p;
 			curr = p;
-			prev = curr;
 		}
 		END_IF;
 	}
@@ -268,7 +312,7 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void* key, bool* out_rem
 		RETURN;
 	}
 	END_IF;
-	
+
 	/* Copy the value of last to the target and detach last from its parent */
 	memcpy(target->value, last->value, _this->elementSize);
 
@@ -344,6 +388,7 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_pre)
 {
 	IF(_this->root == NULL)
 	{
+		printf("(empty)");
 		RETURN;
 	}
 	END_IF;
@@ -358,7 +403,7 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_pre)
 	WHILE(top > 0)
 	{
 		BTNode* curr = stack[--top];
-		
+
 		IF(curr && curr->value)
 		{
 			MFUN(_this, __print_value), (const void*)curr->value CALL;
@@ -386,6 +431,13 @@ END_FUN
 
 MEM_FUN_IMPL(GenericBinaryTree, traverse_in)
 {
+	IF(_this->root == NULL)
+	{
+		printf("(empty)");
+		RETURN;
+	}
+	END_IF;
+
 	BTInOrderIterator* it = NULL;
 	BTInOrderIterator* end = NULL;
 
@@ -404,10 +456,10 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_in)
 		END_IF;
 
 		const void* p = NULL;
-		MFUN(it, get_cref), & p CALL;                 
-		IF (p != NULL)
+		MFUN(it, get_cref), & p CALL;
+		IF(p != NULL)
 		{
-			MFUN(_this, __print_value), p CALL;      
+			MFUN(_this, __print_value), p CALL;
 		}
 		END_IF;
 
@@ -425,6 +477,7 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_post)
 {
 	IF(_this->root == NULL)
 	{
+		printf("(empty)");
 		RETURN;
 	}
 	END_IF;
@@ -465,7 +518,7 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_post)
 		END_IF;
 	}
 	END_LOOP;
-	
+
 	FREE(stack1);
 	FREE(stack2);
 
@@ -558,7 +611,7 @@ DEF_DERIVED_CTOR(BTInOrderIterator, Iterator) SUPER, ITER_BIDIRECTIONAL ME
 }
 END_DERIVED_CTOR
 
-DEF_DERIVED_DTOR(BTInOrderIterator,Iterator) 
+DEF_DERIVED_DTOR(BTInOrderIterator, Iterator)
 {
 	_this->owner = NULL;
 	_this->current = NULL;
@@ -570,7 +623,7 @@ MEM_FUN_IMPL(BTInOrderIterator, init_begin, GenericBinaryTree* owner)
 	_this->owner = owner;
 
 	BTNode* cur = owner->root;
-	
+
 	WHILE(cur && cur->left)
 	{
 		cur = cur->left;
@@ -628,7 +681,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, next)
 	}
 	END_LOOP;
 
-	_this->current = p; 
+	_this->current = p;
 }
 END_FUN
 
@@ -678,7 +731,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, prev)
 	}
 	END_LOOP;
 
-	_this->current = p; 
+	_this->current = p;
 }
 END_FUN
 
@@ -735,19 +788,19 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, distance, object* other, ptrdiff_
 	WHILE(1)
 	{
 		bool atEnd = false;
-		MFUN(&itBegin, equals), (object*)&itEnd, &atEnd CALL;
+		MFUN(&itBegin, equals), (object*)&itEnd, & atEnd CALL;
 		IF(atEnd)
 		{
 			BREAK;
 		}
 		END_IF;
 
-		
+
 		IF(!foundThis)
 		{
 			bool eq1 = false;
 			MFUN(&itBegin, equals), (object*)_this, & eq1 CALL;
-			IF (eq1)
+			IF(eq1)
 			{
 				foundThis = true;
 			}
@@ -763,7 +816,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, distance, object* other, ptrdiff_
 		{
 			bool eq2 = false;
 			MFUN(&itBegin, equals), (object*)o, & eq2 CALL;
-			IF (eq2)
+			IF(eq2)
 			{
 				foundOther = true;
 			}
@@ -775,7 +828,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, distance, object* other, ptrdiff_
 		}
 		END_IF;
 
-		IF(foundThis && foundOther)
+		IF(foundThis&& foundOther)
 		{
 			BREAK;
 		}
@@ -857,7 +910,6 @@ END_INIT_CLASS(BTree_##type)
 
 ///////////////////////////////////////////////////////////////
 
-IMPL_SPECIFIC_BT_TYPE_xTORS(int, INT); 
+IMPL_SPECIFIC_BT_TYPE_xTORS(int, INT);
 IMPL_SPECIFIC_BT_TYPE_FUNCS(int);
-
-/* add more types */ 
+/* add more types */
