@@ -165,6 +165,20 @@ TEST_FUN_IMPL(ListTest, dtor_freesAllMemory)
     NTEST_ASSERT(free_bytes_at_end == free_bytes_at_start);
 } END_FUN
 
+TEST_FUN_IMPL(ListTest, print_SanityTest)
+{
+    CREATE(List_int, lst) CALL;
+    int numElements = 10;
+
+    FOR(int i = 0; i < numElements; i++)
+    {
+        MFUN(&lst, push_back), i CALL;
+    } END_LOOP;
+
+    MFUN(&lst, print) CALL;
+
+} END_FUN
+
 
 INIT_TEST_SUITE(ListTest)
 BIND_TEST(ListTest, push_back_SanityTest);
@@ -173,6 +187,7 @@ BIND_TEST(ListTest, push_front_SanityTest);
 BIND_TEST(ListTest, pop_front_SanityTest);
 BIND_TEST(ListTest, front_back_SanityTest);
 BIND_TEST(ListTest, size_empty_clear_SanityTest);
+BIND_TEST(ListTest, print_SanityTest);
 BIND_TEST(ListTest, front_onEmpty_Throws);
 BIND_TEST(ListTest, pop_front_onEmpty_Throws);
 BIND_TEST(ListTest, pop_back_onEmpty_Throws);

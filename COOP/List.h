@@ -8,6 +8,16 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+/* ===== Element type enum for printing/formatting ===== */
+typedef enum {
+    LIST_ELEM_INT,
+    LIST_ELEM_FLOAT,
+    LIST_ELEM_CHAR,
+    LIST_ELEM_OBJ_SPTR,
+    LIST_ELEM_RAW_BYTES   /* default: hex dump of elementSize bytes */
+} List_ElementType;
+
+
 /* ===== Node ===== */
 DEF_CLASS(ListNode);
 ListNode* prev;
@@ -21,6 +31,7 @@ MEM_SIZE_T size;           /* number of elements */
 MEM_SIZE_T elementSize;    /* size of each element in bytes */
 ListNode* head;            /* first node */
 ListNode* tail;            /* last node */
+List_ElementType elem_type;
 END_DEF(GenericList);
 
 /* ===== Ctors/Methods Declarations ===== */
@@ -41,6 +52,12 @@ MEM_FUN_DECL(GenericList, __make_node, const char* src_bytes, MEM_SIZE_T buff_si
 MEM_FUN_DECL(GenericList, size, MEM_SIZE_T* out_size);
 MEM_FUN_DECL(GenericList, empty, bool* out_is_empty);
 MEM_FUN_DECL(GenericList, clear);
+
+/* printing */
+MEM_FUN_DECL(GenericList, set_elem_type, List_ElementType t);
+MEM_FUN_DECL(GenericList, __print_value, const void* p); /* helper for single element */
+MEM_FUN_DECL(GenericList, print);                        /* print entire list using iterators */
+
 
 /* Iteration API Ц лое Vector */
 MEM_FUN_DECL(GenericList, begin, Iterator** out_it);
@@ -91,6 +108,7 @@ MEM_FUN_DECL(List_ ##type, clear);                                         \
 MEM_FUN_DECL(List_ ##type, begin,         Iterator** out_it);              \
 MEM_FUN_DECL(List_ ##type, end,           Iterator** out_it);              \
 MEM_FUN_DECL(List_ ##type, it_destroy,    Iterator* it);                   \
+MEM_FUN_DECL(List_ ##type, print);	\
 END_DERIVED_FUNCTIONS(List_ ##type)
 DECLARE_SPECIFIC_LIST_TYPE(int);
 

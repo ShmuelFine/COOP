@@ -11,6 +11,7 @@ ADD_TEST(ListTest, push_front_SanityTest);
 ADD_TEST(ListTest, pop_front_SanityTest);
 ADD_TEST(ListTest, front_back_SanityTest);
 ADD_TEST(ListTest, size_empty_clear_SanityTest);
+ADD_TEST(ListTest, print_SanityTest);
 ADD_TEST(ListTest, front_onEmpty_Throws);
 ADD_TEST(ListTest, pop_front_onEmpty_Throws);
 ADD_TEST(ListTest, pop_back_onEmpty_Throws);

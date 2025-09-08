@@ -1,4 +1,4 @@
-#include "List.h"
+﻿#include "List.h"
 #include "COOP.h"
 #include <string.h>
 
@@ -10,6 +10,7 @@ DEF_CTOR(GenericList, MEM_SIZE_T dataTypeSize)
     _this->elementSize = dataTypeSize;
     _this->head = NULL;
     _this->tail = NULL;
+    _this->elem_type = LIST_ELEM_RAW_BYTES;
 }
 END_CTOR
 
@@ -19,8 +20,8 @@ DEF_DTOR(GenericList)
 
     WHILE(cur != NULL)
         ListNode* next = cur->next;
-    FREE(cur);
-    cur = next;
+        FREE(cur);
+        cur = next;
     END_LOOP;
 
     _this->head = NULL;
@@ -56,7 +57,80 @@ MEM_FUN_IMPL(GenericList, __make_node, const char* src_bytes, MEM_SIZE_T buff_si
 }
 END_FUN
 
+/* ======================== print functions ======================== */
+MEM_FUN_IMPL(GenericList, set_elem_type, List_ElementType t)
+{
+    _this->elem_type = t;
+}
+END_FUN
+
+MEM_FUN_IMPL(GenericList, __print_value, const void* p)
+{
+    IF(_this->elem_type == LIST_ELEM_INT)
+        printf("%d ", *(const int*)p);
+
+    ELSE_IF(_this->elem_type == LIST_ELEM_FLOAT)
+        printf("%f ", *(const float*)p);
+
+    ELSE_IF(_this->elem_type == LIST_ELEM_CHAR)
+        printf("%c ", *(const char*)p);
+
+    //ELSE_IF(_this->elem_type == LIST_ELEM_OBJ_SPTR)
+    //{
+    //    /* האלמנט נשמר by-value מסוג objSPtr (struct עם שדה object* objPtr) */
+    //    const objSPtr* sp = (const objSPtr*)p;
+    //    IF(sp->objPtr != NULL)
+    //        /* אין לנו מתודת print ב-vtable, ולא מדפיסים כתובת → נותנים תווית ידידותית */
+    //        printf("<obj> ");
+    //    ELSE
+    //        printf("(null) ");
+    //    END_IF;
+    //}
+
+    ELSE /* LIST_ELEM_RAW_BYTES */
+    {
+        const unsigned char* bytes = (const unsigned char*)p;
+        FOR(MEM_SIZE_T i = 0; i < _this->elementSize; i++)
+            printf("%02X ", bytes[i]);
+        END_LOOP;
+        printf(" ");
+    }
+    END_IF;
+}
+END_FUN
+
+MEM_FUN_IMPL(GenericList, print)
+{
+    printf("\n");
+
+    Iterator* it = NULL;
+    Iterator* it_end = NULL;
+    MFUN(_this, begin), & it CALL;
+    MFUN(_this, end), & it_end CALL;
+
+    bool at_end = false;
+    WHILE(1)
+        MFUN(it, equals), (object*)it_end, & at_end CALL;
+        IF(at_end) BREAK; END_IF;
+
+        const void* p = NULL;
+        MFUN(it, get_cref), & p CALL;
+
+        MFUN(_this, __print_value), p CALL;
+
+        MFUN(it, next) CALL;
+    END_LOOP;
+
+    MFUN(_this, it_destroy), it CALL;
+    MFUN(_this, it_destroy), it_end CALL;
+
+    printf("\n");
+}
+END_FUN
+
 /* ======================== size / empty / clear ======================== */
+
+
 
 MEM_FUN_IMPL(GenericList, size, MEM_SIZE_T* out_size)
 {
@@ -78,8 +152,8 @@ MEM_FUN_IMPL(GenericList, clear)
 
     WHILE(cur != NULL)
         ListNode* next = cur->next;
-    FREE(cur);
-    cur = next;
+        FREE(cur);
+        cur = next;
     END_LOOP;
 
     _this->head = NULL;
@@ -88,7 +162,7 @@ MEM_FUN_IMPL(GenericList, clear)
 }
 END_FUN
 
-/* ======================== list functions (generic, Vector-style) ======================== */
+/* ======================== list functions  ======================== */
 
 
 /* ---- push_back ---- */
@@ -101,11 +175,11 @@ MEM_FUN_IMPL(GenericList, __push_back_generic, char* buff, MEM_SIZE_T buff_size)
 
     IF(_this->tail == NULL)
         _this->head = nd;
-    _this->tail = nd;
+        _this->tail = nd;
     ELSE
         nd->prev = _this->tail;
-    _this->tail->next = nd;
-    _this->tail = nd;
+        _this->tail->next = nd;
+        _this->tail = nd;
     END_IF;
 
     _this->size += 1;
@@ -128,11 +202,11 @@ MEM_FUN_IMPL(GenericList, __push_front_generic, char* buff, MEM_SIZE_T buff_size
 
     IF(_this->head == NULL)
         _this->head = nd;
-    _this->tail = nd;
+        _this->tail = nd;
     ELSE
         nd->next = _this->head;
-    _this->head->prev = nd;
-    _this->head = nd;
+        _this->head->prev = nd;
+        _this->head = nd;
     END_IF;
 
     _this->size += 1;
@@ -188,8 +262,10 @@ MEM_FUN_IMPL(GenericList, __pop_back_generic, char* buff, MEM_SIZE_T buff_size)
     memcpy(buff, nd->payload, (size_t)_this->elementSize);
 
     _this->tail = nd->prev;
-    IF(_this->tail) _this->tail->next = NULL;
-    ELSE             _this->head = NULL;
+    IF(_this->tail) 
+        _this->tail->next = NULL;
+    ELSE             
+        _this->head = NULL;
     END_IF;
 
     FREE(nd);
@@ -214,8 +290,10 @@ MEM_FUN_IMPL(GenericList, __pop_front_generic, char* buff, MEM_SIZE_T buff_size)
     memcpy(buff, nd->payload, (size_t)_this->elementSize);
 
     _this->head = nd->next;
-    IF(_this->head) _this->head->prev = NULL;
-    ELSE             _this->tail = NULL;
+    IF(_this->head) 
+        _this->head->prev = NULL;
+    ELSE            
+        _this->tail = NULL;
     END_IF;
 
     FREE(nd);
@@ -229,7 +307,7 @@ MEM_FUN_IMPL(GenericList, pop_front_ ##type, type* out_val) { \
 } END_FUN;
 IMPL_POP_FRONT_OF_TYPE(int)
 
-/* ======================== Iteration API (��� Vector) ======================== */
+/* ======================== Iteration API  ======================== */
 
 MEM_FUN_IMPL(GenericList, begin, Iterator** out_it)
 {
@@ -268,13 +346,18 @@ MEM_FUN_IMPL(GenericList, it_destroy, Iterator* it)
 }
 END_FUN
 
-/* ======================== BIND � GenericList ======================== */
+/* ======================== BIND – GenericList ======================== */
 
 INIT_CLASS(GenericList);
 BIND(GenericList, size);
 BIND(GenericList, empty);
 BIND(GenericList, clear);
 BIND(GenericList, __make_node);
+
+BIND(GenericList, set_elem_type);
+BIND(GenericList, __print_value);
+BIND(GenericList, print);
+
 
 BIND(GenericList, __push_back_generic);
 BIND(GenericList, __push_front_generic);
@@ -283,7 +366,7 @@ BIND(GenericList, __pop_front_generic);
 BIND(GenericList, __front_generic);
 BIND(GenericList, __back_generic);
 
-/* typed-on-base (exact vector pattern) */
+/* typed-on-base  */
 BIND(GenericList, push_back_int);
 BIND(GenericList, push_front_int);
 BIND(GenericList, pop_back_int);
@@ -320,7 +403,7 @@ FUN_OVERRIDE_IMPL(ListIter, Iterator, equals, object* other, bool* out_equal)
     *out_equal = 0;
     IF(other)
         ListIter* o = (ListIter*)other;
-    *out_equal = (o->list == _this->list) && (o->node == _this->node);
+        *out_equal = (o->list == _this->list) && (o->node == _this->node);
     END_IF;
 }
 END_FUN
@@ -337,7 +420,7 @@ FUN_OVERRIDE_IMPL(ListIter, Iterator, prev)
 {
     IF(_this->node)
         IF(_this->node->prev)
-        _this->node = _this->node->prev;
+            _this->node = _this->node->prev;
     ELSE
         THROW_MSG("Iterator::prev called on begin()");
     END_IF;
@@ -373,13 +456,13 @@ FUN_OVERRIDE_IMPL(ListIter, Iterator, distance, object* other, ptrdiff_t* out_di
     ListNode* cur = _this->node;
     WHILE(cur)
         IF(cur == o->node)* out_dist = d; return; END_IF;
-    cur = cur->next; d += 1;
+        cur = cur->next; d += 1;
     END_LOOP;
 
     d = 0; cur = _this->node;
     WHILE(cur)
         IF(cur == o->node)* out_dist = d; return; END_IF;
-    cur = cur->prev; d -= 1;
+        cur = cur->prev; d -= 1;
     END_LOOP;
 
     THROW_MSG_UNLESS(0, "iterators not reachable from each other");
@@ -390,16 +473,18 @@ FUN_OVERRIDE_IMPL(ListIter, Iterator, advance, ptrdiff_t n)
 {
     IF(n >= 0)
         WHILE(n > 0)
-        IF(_this->node) _this->node = _this->node->next; END_IF;
-    n -= 1;
-    END_LOOP;
+            IF(_this->node) _this->node = _this->node->next; END_IF;
+                n -= 1;
+        END_LOOP;
     ELSE
         WHILE(n < 0)
-        IF(_this->node) _this->node = _this->node->prev;
-    ELSE             _this->node = _this->list ? _this->list->tail : NULL;
-    END_IF;
-    n += 1;
-    END_LOOP;
+            IF(_this->node) 
+                _this->node = _this->node->prev;
+            ELSE             
+                _this->node = _this->list ? _this->list->tail : NULL;
+            END_IF;
+         n += 1;
+         END_LOOP;
     END_IF;
 }
 END_FUN
@@ -416,9 +501,11 @@ END_INIT_CLASS(ListIter)
 
 ////////////////////////////////////////////////
 
-
-#define IMPL_SPECIFIC_LIST_TYPE_xTORs(type)                                                    \
-DEF_DERIVED_CTOR(List_ ##type, GenericList) SUPER, sizeof(type) ME {} END_DERIVED_CTOR         \
+#define IMPL_SPECIFIC_LIST_TYPE_xTORs(type, elemTypeEnum)                                      \
+DEF_DERIVED_CTOR(List_ ##type, GenericList) SUPER, sizeof(type) ME                             \
+{                                                                                              \
+    _this->_base.elem_type = elemTypeEnum;                                                     \
+} END_DERIVED_CTOR                                                                             \
 DEF_DERIVED_DTOR(List_ ##type, GenericList) {} END_DERIVED_DTOR
 
 #define IMPL_SPECIFIC_LIST_TYPE_FUNCTIONS(type)                                                \
@@ -434,6 +521,7 @@ MEM_FUN_IMPL(List_ ##type, clear)                      { FUN_BASE(_this, clear) 
 MEM_FUN_IMPL(List_ ##type, begin, Iterator** it)  { FUN_BASE(_this, begin),     it CALL; } END_FUN; \
 MEM_FUN_IMPL(List_ ##type, end,   Iterator** it)  { FUN_BASE(_this, end),       it CALL; } END_FUN; \
 MEM_FUN_IMPL(List_ ##type, it_destroy, Iterator* it) { FUN_BASE(_this, it_destroy), it CALL; } END_FUN; \
+MEM_FUN_IMPL(List_ ##type, print)                     { FUN_BASE(_this, print) CALL; } END_FUN; \
 INIT_DERIVED_CLASS(List_ ##type, GenericList);                                                  \
 BIND(List_ ##type, push_back);                                                                  \
 BIND(List_ ##type, push_front);                                                                 \
@@ -447,10 +535,11 @@ BIND(List_ ##type, clear);                                                      
 BIND(List_ ##type, begin);                                                                      \
 BIND(List_ ##type, end);                                                                        \
 BIND(List_ ##type, it_destroy);                                                                 \
+BIND(List_ ##type, print);                                                                      \
 END_INIT_CLASS(List_ ##type)
 
 
 ////////////////////////////////////////////////
-IMPL_SPECIFIC_LIST_TYPE_xTORs(int);
-IMPL_SPECIFIC_LIST_TYPE_FUNCTIONS(int);
 
+IMPL_SPECIFIC_LIST_TYPE_xTORs(int, LIST_ELEM_INT);
+IMPL_SPECIFIC_LIST_TYPE_FUNCTIONS(int);
