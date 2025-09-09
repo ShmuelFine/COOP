@@ -32,12 +32,20 @@ MEM_SIZE_T elementSize;    /* size of each element in bytes */
 ListNode* head;            /* first node */
 ListNode* tail;            /* last node */
 List_ElementType elem_type;
+//ListIter begin_iter;
+//ListIter end_iter;
 END_DEF(GenericList);
 
-/* ===== Ctors/Methods Declarations ===== */
-FUNCTIONS(GenericList, MEM_SIZE_T dataTypeSize);
+/* ===== Iterator derived from Iterator =====*/
+DEF_DERIVED_CLASS(ListIter, Iterator);
+GenericList* list;
+ListNode* node;
+END_DEF_DERIVED(ListIter);
 
-/* ---- Generic API (Vector-style: char* + size) ---- */
+/* ===== Ctors/Methods Declarations ===== */
+FUNCTIONS(GenericList, MEM_SIZE_T dataTypeSize, List_ElementType enumTag);
+
+/* ---- Generic API ---- */
 MEM_FUN_DECL(GenericList, __push_back_generic, char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericList, __push_front_generic, char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericList, __pop_back_generic, char* buff, MEM_SIZE_T buff_size);
@@ -54,17 +62,16 @@ MEM_FUN_DECL(GenericList, empty, bool* out_is_empty);
 MEM_FUN_DECL(GenericList, clear);
 
 /* printing */
-MEM_FUN_DECL(GenericList, set_elem_type, List_ElementType t);
 MEM_FUN_DECL(GenericList, __print_value, const void* p); /* helper for single element */
 MEM_FUN_DECL(GenericList, print);                        /* print entire list using iterators */
 
 
-/* Iteration API Ц лое Vector */
+/* Iteration API */
 MEM_FUN_DECL(GenericList, begin, Iterator** out_it);
 MEM_FUN_DECL(GenericList, end, Iterator** out_it);
 MEM_FUN_DECL(GenericList, it_destroy, Iterator* it);
 
-/* ---- Typed wrappers ON BASE (лое б-Vector: push_back_int еле') ---- */
+/* ---- Typed wrappers ON BASE (int) ---- */
 MEM_FUN_DECL(GenericList, push_back_int, int val);
 MEM_FUN_DECL(GenericList, push_front_int, int val);
 MEM_FUN_DECL(GenericList, pop_back_int, int* out_val);
@@ -73,12 +80,6 @@ MEM_FUN_DECL(GenericList, front_int, int* out_val);
 MEM_FUN_DECL(GenericList, back_int, int* out_val);
 
 END_FUNCTIONS(GenericList);
-
-/* ===== Iterator derived from Iterator =====*/
-DEF_DERIVED_CLASS(ListIter, Iterator);
-GenericList* list;
-ListNode* node;
-END_DEF_DERIVED(ListIter);
 
 /* ===== ListIter overrides ===== */
 DERIVED_FUNCTIONS(ListIter, Iterator);
@@ -114,4 +115,4 @@ DECLARE_SPECIFIC_LIST_TYPE(int);
 
 #endif
 
-//add print, sort
+//add, sort

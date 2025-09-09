@@ -4,29 +4,32 @@
 
 /* ======================== CTOR / DTOR ======================== */
 
-DEF_CTOR(GenericList, MEM_SIZE_T dataTypeSize)
+DEF_CTOR(GenericList, MEM_SIZE_T dataTypeSize, List_ElementType enumTag)
 {
-    _this->size = 0;
-    _this->elementSize = dataTypeSize;
-    _this->head = NULL;
-    _this->tail = NULL;
-    _this->elem_type = LIST_ELEM_RAW_BYTES;
+	_this->size = 0;
+	_this->elementSize = dataTypeSize;
+	_this->head = NULL;
+	_this->tail = NULL;
+	_this->elem_type = LIST_ELEM_RAW_BYTES;
+	_this->elem_type = (enumTag);                                 
 }
 END_CTOR
 
 DEF_DTOR(GenericList)
 {
-    ListNode* cur = _this->head;
+	ListNode* cur = _this->head;
 
-    WHILE(cur != NULL)
-        ListNode* next = cur->next;
-        FREE(cur);
-        cur = next;
-    END_LOOP;
+	WHILE(cur != NULL)
+	{
+		ListNode* next = cur->next;
+		FREE(cur);
+		cur = next;
+	}
+	END_LOOP;
 
-    _this->head = NULL;
-    _this->tail = NULL;
-    _this->size = 0;
+	_this->head = NULL;
+	_this->tail = NULL;
+	_this->size = 0;
 }
 END_DTOR
 
@@ -34,99 +37,100 @@ END_DTOR
 
 MEM_FUN_IMPL(GenericList, __make_node, const char* src_bytes, MEM_SIZE_T buff_size, ListNode** out_node)
 {
-    THROW_MSG_UNLESS(out_node, "out_node must not be NULL");
-    IF(src_bytes != NULL)
-        THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
-    END_IF;
+	THROW_MSG_UNLESS(out_node, "out_node must not be NULL");
+	IF(src_bytes != NULL) {
+		THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
+	}
+	END_IF;
 
-    MEM_SIZE_T bytes = (MEM_SIZE_T)(sizeof(ListNode) + _this->elementSize);
+	MEM_SIZE_T bytes = (MEM_SIZE_T)(sizeof(ListNode) + _this->elementSize);
 
-    ListNode* nd = NULL;
-    ALLOC_ARRAY(nd, char, bytes);
+	ListNode* nd = NULL;
+	ALLOC_ARRAY(nd, char, bytes);
 
-    nd->prev = NULL;
-    nd->next = NULL;
+	nd->prev = NULL;
+	nd->next = NULL;
 
-    IF(src_bytes != NULL)
-        memcpy(nd->payload, src_bytes, (size_t)_this->elementSize);
-    ELSE
-        memset(nd->payload, 0, (size_t)_this->elementSize);
-    END_IF;
+	IF(src_bytes != NULL) {
+		memcpy(nd->payload, src_bytes, (size_t)_this->elementSize);
+	}
+	ELSE{
+		memset(nd->payload, 0, (size_t)_this->elementSize);
+	}
+	END_IF;
 
-    *out_node = nd;
+	*out_node = nd;
 }
 END_FUN
 
 /* ======================== print functions ======================== */
-MEM_FUN_IMPL(GenericList, set_elem_type, List_ElementType t)
-{
-    _this->elem_type = t;
-}
-END_FUN
+
 
 MEM_FUN_IMPL(GenericList, __print_value, const void* p)
 {
-    IF(_this->elem_type == LIST_ELEM_INT)
-        printf("%d ", *(const int*)p);
+	IF(_this->elem_type == LIST_ELEM_INT) {
+		printf("%d ", *(const int*)p);
+	}
 
-    ELSE_IF(_this->elem_type == LIST_ELEM_FLOAT)
-        printf("%f ", *(const float*)p);
+	ELSE_IF(_this->elem_type == LIST_ELEM_FLOAT) {
+		printf("%f ", *(const float*)p);
+	}
 
-    ELSE_IF(_this->elem_type == LIST_ELEM_CHAR)
-        printf("%c ", *(const char*)p);
+	ELSE_IF(_this->elem_type == LIST_ELEM_CHAR) {
+		printf("%c ", *(const char*)p);
+	}
 
-    //ELSE_IF(_this->elem_type == LIST_ELEM_OBJ_SPTR)
-    //{
-    //    /* האלמנט נשמר by-value מסוג objSPtr (struct עם שדה object* objPtr) */
-    //    const objSPtr* sp = (const objSPtr*)p;
-    //    IF(sp->objPtr != NULL)
-    //        /* אין לנו מתודת print ב-vtable, ולא מדפיסים כתובת → נותנים תווית ידידותית */
-    //        printf("<obj> ");
-    //    ELSE
-    //        printf("(null) ");
-    //    END_IF;
-    //}
+	//ELSE_IF(_this->elem_type == LIST_ELEM_OBJ_SPTR)
+	//{
+	//    const objSPtr* sp = (const objSPtr*)p;
+	//    IF(sp->objPtr != NULL)
+	//        printf("<obj> ");
+	//    ELSE
+	//        printf("(null) ");
+	//    END_IF;
+	//}
 
-    ELSE /* LIST_ELEM_RAW_BYTES */
-    {
-        const unsigned char* bytes = (const unsigned char*)p;
-        FOR(MEM_SIZE_T i = 0; i < _this->elementSize; i++)
-            printf("%02X ", bytes[i]);
-        END_LOOP;
-        printf(" ");
-    }
-    END_IF;
+	ELSE /* LIST_ELEM_RAW_BYTES */
+	{
+		const unsigned char* bytes = (const unsigned char*)p;
+	FOR(MEM_SIZE_T i = 0; i < _this->elementSize; i++) {
+		printf("%02X ", bytes[i]);
+	}
+	END_LOOP;
+		printf(" ");
+	}
+	END_IF;
 }
 END_FUN
 
 MEM_FUN_IMPL(GenericList, print)
 {
-    printf("\n");
+	printf("\n");
 
-    Iterator* it = NULL;
-    Iterator* it_end = NULL;
-    MFUN(_this, begin), & it CALL;
-    MFUN(_this, end), & it_end CALL;
+	Iterator* it = NULL;
+	Iterator* it_end = NULL;
+	MFUN(_this, begin), & it CALL;
+	MFUN(_this, end), & it_end CALL;
 
-    bool at_end = false;
-    WHILE(1)
-        MFUN(it, equals), (object*)it_end, & at_end CALL;
-        IF(at_end) BREAK; END_IF;
+	bool at_end = false;
+	MFUN(it, equals), (object*)it_end, & at_end CALL;
 
-        const void* p = NULL;
-        MFUN(it, get_cref), & p CALL;
+	WHILE(!at_end) {
+		const void* p = NULL;
+		MFUN(it, get_cref), & p CALL;
+		MFUN(_this, __print_value), p CALL;
+		MFUN(it, next) CALL;
+		MFUN(it, equals), (object*)it_end, & at_end CALL;
+	}
+	END_LOOP;
 
-        MFUN(_this, __print_value), p CALL;
+	MFUN(_this, it_destroy), it CALL;
+	MFUN(_this, it_destroy), it_end CALL;
 
-        MFUN(it, next) CALL;
-    END_LOOP;
-
-    MFUN(_this, it_destroy), it CALL;
-    MFUN(_this, it_destroy), it_end CALL;
-
-    printf("\n");
+	printf("\n");
 }
 END_FUN
+
 
 /* ======================== size / empty / clear ======================== */
 
@@ -134,31 +138,32 @@ END_FUN
 
 MEM_FUN_IMPL(GenericList, size, MEM_SIZE_T* out_size)
 {
-    THROW_MSG_UNLESS(out_size, "out_size must not be NULL");
-    *out_size = _this->size;
+	THROW_MSG_UNLESS(out_size, "out_size must not be NULL");
+	*out_size = _this->size;
 }
 END_FUN
 
 MEM_FUN_IMPL(GenericList, empty, bool* out_is_empty)
 {
-    THROW_MSG_UNLESS(out_is_empty, "out_is_empty must not be NULL");
-    *out_is_empty = (_this->size == 0);
+	THROW_MSG_UNLESS(out_is_empty, "out_is_empty must not be NULL");
+	*out_is_empty = (_this->size == 0);
 }
 END_FUN
 
 MEM_FUN_IMPL(GenericList, clear)
 {
-    ListNode* cur = _this->head;
+	ListNode* cur = _this->head;
 
-    WHILE(cur != NULL)
-        ListNode* next = cur->next;
-        FREE(cur);
-        cur = next;
-    END_LOOP;
+	WHILE(cur != NULL) {
+		ListNode* next = cur->next;
+		FREE(cur);
+		cur = next;
+	}
+	END_LOOP;
 
-    _this->head = NULL;
-    _this->tail = NULL;
-    _this->size = 0;
+	_this->head = NULL;
+	_this->tail = NULL;
+	_this->size = 0;
 }
 END_FUN
 
@@ -168,26 +173,28 @@ END_FUN
 /* ---- push_back ---- */
 MEM_FUN_IMPL(GenericList, __push_back_generic, char* buff, MEM_SIZE_T buff_size)
 {
-    THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
+	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 
-    ListNode* nd = NULL;
-    MFUN(_this, __make_node), (const char*)buff, buff_size, & nd CALL;
+	ListNode* nd = NULL;
+	MFUN(_this, __make_node), (const char*)buff, buff_size, & nd CALL;
 
-    IF(_this->tail == NULL)
-        _this->head = nd;
-        _this->tail = nd;
-    ELSE
-        nd->prev = _this->tail;
-        _this->tail->next = nd;
-        _this->tail = nd;
-    END_IF;
+	IF(_this->tail == NULL) {
+		_this->head = nd;
+		_this->tail = nd;
+	}
+	ELSE{
+		nd->prev = _this->tail;
+		_this->tail->next = nd;
+		_this->tail = nd;
+	}
+	END_IF;
 
-    _this->size += 1;
+	_this->size += 1;
 }
 END_FUN
 
-#define IMPL_PUSH_BACK_OF_TYPE(type) \
-MEM_FUN_IMPL(GenericList, push_back_ ##type, type val) { \
+#define IMPL_PUSH_BACK_OF_TYPE(type)												\
+MEM_FUN_IMPL(GenericList, push_back_ ##type, type val) {							\
     MFUN(_this, __push_back_generic), (char*)&(val), (MEM_SIZE_T)sizeof(type) CALL; \
 } END_FUN;
 IMPL_PUSH_BACK_OF_TYPE(int)
@@ -195,21 +202,23 @@ IMPL_PUSH_BACK_OF_TYPE(int)
 /* ---- push_front ---- */
 MEM_FUN_IMPL(GenericList, __push_front_generic, char* buff, MEM_SIZE_T buff_size)
 {
-    THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
+	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 
-    ListNode* nd = NULL;
-    MFUN(_this, __make_node), (const char*)buff, buff_size, & nd CALL;
+	ListNode* nd = NULL;
+	MFUN(_this, __make_node), (const char*)buff, buff_size, & nd CALL;
 
-    IF(_this->head == NULL)
-        _this->head = nd;
-        _this->tail = nd;
-    ELSE
-        nd->next = _this->head;
-        _this->head->prev = nd;
-        _this->head = nd;
-    END_IF;
+	IF(_this->head == NULL) {
+		_this->head = nd;
+		_this->tail = nd;
+	}
+	ELSE{
+		nd->next = _this->head;
+		_this->head->prev = nd;
+		_this->head = nd;
+	}
+	END_IF;
 
-    _this->size += 1;
+	_this->size += 1;
 }
 END_FUN
 
@@ -222,10 +231,10 @@ IMPL_PUSH_FRONT_OF_TYPE(int)
 /* ---- back ---- */
 MEM_FUN_IMPL(GenericList, __back_generic, char* buff, MEM_SIZE_T buff_size)
 {
-    THROW_MSG_UNLESS(_this->tail, "back() on empty list");
-    THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
-    ASSERT_NOT_NULL(buff);
-    memcpy(buff, _this->tail->payload, (size_t)_this->elementSize);
+	THROW_MSG_UNLESS(_this->tail, "back() on empty list");
+	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
+	ASSERT_NOT_NULL(buff);
+	memcpy(buff, _this->tail->payload, (size_t)_this->elementSize);
 }
 END_FUN
 
@@ -238,10 +247,10 @@ IMPL_BACK_OF_TYPE(int)
 /* ---- front ---- */
 MEM_FUN_IMPL(GenericList, __front_generic, char* buff, MEM_SIZE_T buff_size)
 {
-    THROW_MSG_UNLESS(_this->head, "front() on empty list");
-    THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
-    ASSERT_NOT_NULL(buff);
-    memcpy(buff, _this->head->payload, (size_t)_this->elementSize);
+	THROW_MSG_UNLESS(_this->head, "front() on empty list");
+	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
+	ASSERT_NOT_NULL(buff);
+	memcpy(buff, _this->head->payload, (size_t)_this->elementSize);
 }
 END_FUN
 
@@ -254,22 +263,24 @@ IMPL_FRONT_OF_TYPE(int)
 /* ---- pop_back ---- */
 MEM_FUN_IMPL(GenericList, __pop_back_generic, char* buff, MEM_SIZE_T buff_size)
 {
-    THROW_MSG_UNLESS(_this->tail, "pop_back() on empty list");
-    THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
-    ASSERT_NOT_NULL(buff);
+	THROW_MSG_UNLESS(_this->tail, "pop_back() on empty list");
+	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
+	ASSERT_NOT_NULL(buff);
 
-    ListNode* nd = _this->tail;
-    memcpy(buff, nd->payload, (size_t)_this->elementSize);
+	ListNode* nd = _this->tail;
+	memcpy(buff, nd->payload, (size_t)_this->elementSize);
 
-    _this->tail = nd->prev;
-    IF(_this->tail) 
-        _this->tail->next = NULL;
-    ELSE             
-        _this->head = NULL;
-    END_IF;
+	_this->tail = nd->prev;
+	IF(_this->tail) {
+		_this->tail->next = NULL;
+	}
+	ELSE{
+		_this->head = NULL;
+	}
+	END_IF;
 
-    FREE(nd);
-    _this->size -= 1;
+	FREE(nd);
+	_this->size -= 1;
 }
 END_FUN
 
@@ -282,22 +293,24 @@ IMPL_POP_BACK_OF_TYPE(int)
 /* ---- pop_front ---- */
 MEM_FUN_IMPL(GenericList, __pop_front_generic, char* buff, MEM_SIZE_T buff_size)
 {
-    THROW_MSG_UNLESS(_this->head, "pop_front() on empty list");
-    THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
-    ASSERT_NOT_NULL(buff);
+	THROW_MSG_UNLESS(_this->head, "pop_front() on empty list");
+	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
+	ASSERT_NOT_NULL(buff);
 
-    ListNode* nd = _this->head;
-    memcpy(buff, nd->payload, (size_t)_this->elementSize);
+	ListNode* nd = _this->head;
+	memcpy(buff, nd->payload, (size_t)_this->elementSize);
 
-    _this->head = nd->next;
-    IF(_this->head) 
-        _this->head->prev = NULL;
-    ELSE            
-        _this->tail = NULL;
-    END_IF;
+	_this->head = nd->next;
+	IF(_this->head) {
+		_this->head->prev = NULL;
+	}
+	ELSE{
+		_this->tail = NULL;
+	}
+	END_IF;
 
-    FREE(nd);
-    _this->size -= 1;
+	FREE(nd);
+	_this->size -= 1;
 }
 END_FUN
 
@@ -311,38 +324,38 @@ IMPL_POP_FRONT_OF_TYPE(int)
 
 MEM_FUN_IMPL(GenericList, begin, Iterator** out_it)
 {
-    THROW_MSG_UNLESS(out_it, "out_it must not be NULL");
+	THROW_MSG_UNLESS(out_it, "out_it must not be NULL");
 
-    ListIter* it = NULL;
-    ALLOC(it, ListIter);
-    INITIALIZE_INSTANCE(ListIter, (*it)) CALL;
+	ListIter* it = NULL;
+	ALLOC(it, ListIter);
+	INITIALIZE_INSTANCE(ListIter, (*it)) CALL;
 
-    it->list = _this;
-    it->node = _this->head;
+	it->list = _this;
+	it->node = _this->head;
 
-    *out_it = (Iterator*)it;
+	*out_it = (Iterator*)it;
 }
 END_FUN
 
 MEM_FUN_IMPL(GenericList, end, Iterator** out_it)
 {
-    THROW_MSG_UNLESS(out_it, "out_it must not be NULL");
+	THROW_MSG_UNLESS(out_it, "out_it must not be NULL");
 
-    ListIter* it = NULL;
-    ALLOC(it, ListIter);
-    INITIALIZE_INSTANCE(ListIter, (*it)) CALL;
+	ListIter* it = NULL;
+	ALLOC(it, ListIter);
+	INITIALIZE_INSTANCE(ListIter, (*it)) CALL;
 
-    it->list = _this;
-    it->node = NULL;
+	it->list = _this;
+	it->node = NULL;
 
-    *out_it = (Iterator*)it;
+	*out_it = (Iterator*)it;
 }
 END_FUN
 
 MEM_FUN_IMPL(GenericList, it_destroy, Iterator* it)
 {
-    ListIter* lit = (ListIter*)it;
-    DESTROY(lit);
+	ListIter* lit = (ListIter*)it;
+	DESTROY(lit);
 }
 END_FUN
 
@@ -354,7 +367,6 @@ BIND(GenericList, empty);
 BIND(GenericList, clear);
 BIND(GenericList, __make_node);
 
-BIND(GenericList, set_elem_type);
 BIND(GenericList, __print_value);
 BIND(GenericList, print);
 
@@ -383,109 +395,127 @@ END_INIT_CLASS(GenericList)
  *                 ListIter (derived from Iterator)
  * ========================================================= */
 
-DEF_DERIVED_CTOR(ListIter, Iterator) SUPER ME
+	DEF_DERIVED_CTOR(ListIter, Iterator) SUPER ME
 {
-    _this->list = NULL;
-    _this->node = NULL;
+	_this->list = NULL;
+	_this->node = NULL;
 }
 END_DERIVED_CTOR
 
 DEF_DERIVED_DTOR(ListIter, Iterator)
 {
-    _this->list = NULL;
-    _this->node = NULL;
+	_this->list = NULL;
+	_this->node = NULL;
 }
 END_DERIVED_DTOR
 
 FUN_OVERRIDE_IMPL(ListIter, Iterator, equals, object* other, bool* out_equal)
 {
-    THROW_MSG_UNLESS(out_equal, "out_equal must not be NULL");
-    *out_equal = 0;
-    IF(other)
-        ListIter* o = (ListIter*)other;
-        *out_equal = (o->list == _this->list) && (o->node == _this->node);
-    END_IF;
+	THROW_MSG_UNLESS(out_equal, "out_equal must not be NULL");
+	*out_equal = 0;
+	IF(other) {
+		ListIter* o = (ListIter*)other;
+		*out_equal = (o->list == _this->list) && (o->node == _this->node);
+	}
+	END_IF;
 }
 END_FUN
 
 FUN_OVERRIDE_IMPL(ListIter, Iterator, next)
 {
-    IF(_this->node)
-        _this->node = _this->node->next;
-    END_IF;
+	IF(_this->node) {
+		_this->node = _this->node->next;
+	}
+	END_IF;
 }
 END_FUN
 
 FUN_OVERRIDE_IMPL(ListIter, Iterator, prev)
 {
-    IF(_this->node)
-        IF(_this->node->prev)
-            _this->node = _this->node->prev;
-    ELSE
-        THROW_MSG("Iterator::prev called on begin()");
-    END_IF;
-    ELSE
-        _this->node = _this->list ? _this->list->tail : NULL;
-    END_IF;
+	IF(_this->node) {
+		IF(_this->node->prev) {
+			_this->node = _this->node->prev;
+		}
+		ELSE{
+			THROW_MSG("Iterator::prev called on begin()");
+		}
+		END_IF;
+	}
+	ELSE{
+		_this->node = _this->list ? _this->list->tail : NULL;
+	}
+	END_IF;
 }
 END_FUN
 
 FUN_OVERRIDE_IMPL(ListIter, Iterator, get_ref, void** out_ptr)
 {
-    THROW_MSG_UNLESS(out_ptr, "out_ptr must not be NULL");
-    THROW_MSG_UNLESS(_this->node, "dereference end() iterator");
-    *out_ptr = (void*)_this->node->payload;
+	THROW_MSG_UNLESS(out_ptr, "out_ptr must not be NULL");
+	THROW_MSG_UNLESS(_this->node, "dereference end() iterator");
+	*out_ptr = (void*)_this->node->payload;
 }
 END_FUN
 
 FUN_OVERRIDE_IMPL(ListIter, Iterator, get_cref, const void** out_ptr)
 {
-    THROW_MSG_UNLESS(out_ptr, "out_ptr must not be NULL");
-    THROW_MSG_UNLESS(_this->node, "dereference end() iterator");
-    *out_ptr = (const void*)_this->node->payload;
+	THROW_MSG_UNLESS(out_ptr, "out_ptr must not be NULL");
+	THROW_MSG_UNLESS(_this->node, "dereference end() iterator");
+	*out_ptr = (const void*)_this->node->payload;
 }
 END_FUN
 
 FUN_OVERRIDE_IMPL(ListIter, Iterator, distance, object* other, ptrdiff_t* out_dist)
 {
-    THROW_MSG_UNLESS(out_dist, "out_dist must not be NULL");
-    ListIter* o = (ListIter*)other;
-    THROW_MSG_UNLESS(o && o->list == _this->list, "iterators not from same list");
+	THROW_MSG_UNLESS(out_dist, "out_dist must not be NULL");
+	ListIter* o = (ListIter*)other;
+	THROW_MSG_UNLESS(o && o->list == _this->list, "iterators not from same list");
 
-    ptrdiff_t d = 0;
-    ListNode* cur = _this->node;
-    WHILE(cur)
-        IF(cur == o->node)* out_dist = d; return; END_IF;
-        cur = cur->next; d += 1;
-    END_LOOP;
+	ptrdiff_t d = 0;
+	ListNode* cur = _this->node;
+	WHILE(cur) {
+		IF(cur == o->node) {
+			*out_dist = d; return;
+		}END_IF;
+		cur = cur->next; d += 1;
+	}
+	END_LOOP;
 
-    d = 0; cur = _this->node;
-    WHILE(cur)
-        IF(cur == o->node)* out_dist = d; return; END_IF;
-        cur = cur->prev; d -= 1;
-    END_LOOP;
+	d = 0; cur = _this->node;
+	WHILE(cur) {
+		IF(cur == o->node) {
+			*out_dist = d; return;
+		}
+		END_IF;
+		cur = cur->prev; d -= 1;
+	}
+	END_LOOP;
 
-    THROW_MSG_UNLESS(0, "iterators not reachable from each other");
+	THROW_MSG_UNLESS(0, "iterators not reachable from each other");
 }
 END_FUN
 
 FUN_OVERRIDE_IMPL(ListIter, Iterator, advance, ptrdiff_t n)
 {
-    IF(n >= 0)
-        WHILE(n > 0)
-            IF(_this->node) _this->node = _this->node->next; END_IF;
-                n -= 1;
-        END_LOOP;
-    ELSE
-        WHILE(n < 0)
-            IF(_this->node) 
-                _this->node = _this->node->prev;
-            ELSE             
-                _this->node = _this->list ? _this->list->tail : NULL;
-            END_IF;
-         n += 1;
-         END_LOOP;
-    END_IF;
+	IF(n >= 0) {
+		WHILE(n > 0) {
+			IF(_this->node) {
+				_this->node = _this->node->next;
+			}END_IF;
+			n -= 1;
+		}END_LOOP;
+	}
+	ELSE{
+		WHILE(n < 0) {
+			IF(_this->node) {
+				_this->node = _this->node->prev;
+			}
+			ELSE{
+				_this->node = _this->list ? _this->list->tail : NULL;
+			}END_IF;
+			n += 1;
+		}END_LOOP;
+	}
+	END_IF;
 }
 END_FUN
 
@@ -501,12 +531,9 @@ END_INIT_CLASS(ListIter)
 
 ////////////////////////////////////////////////
 
-#define IMPL_SPECIFIC_LIST_TYPE_xTORs(type, elemTypeEnum)                                      \
-DEF_DERIVED_CTOR(List_ ##type, GenericList) SUPER, sizeof(type) ME                             \
-{                                                                                              \
-    _this->_base.elem_type = elemTypeEnum;                                                     \
-} END_DERIVED_CTOR                                                                             \
-DEF_DERIVED_DTOR(List_ ##type, GenericList) {} END_DERIVED_DTOR
+#define IMPL_SPECIFIC_LIST_TYPE_xTORs(type, enumTag)                              \
+DEF_DERIVED_CTOR(List_##type, GenericList) SUPER, sizeof(type),enumTag ME {} END_DERIVED_CTOR                                                                \
+DEF_DERIVED_DTOR(List_##type, GenericList) {} END_DERIVED_DTOR
 
 #define IMPL_SPECIFIC_LIST_TYPE_FUNCTIONS(type)                                                \
 MEM_FUN_IMPL(List_ ##type, push_back,  type val)   { FUN_BASE(_this, push_back_  ##type), val CALL; } END_FUN; \
