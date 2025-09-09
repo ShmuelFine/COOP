@@ -101,7 +101,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_BASE_COOP_EXPORTING_;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>COOP.h</AdditionalIncludeDirectories>
+	  <AdditionalIncludeDirectories>
+	  </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,7 +151,9 @@
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="ICache.h" />
     <ClInclude Include="InheritenceDefMacros.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="SharedObjPtr.h" />
     <ClInclude Include="Tensor.h" />
     <ClInclude Include="Object.h" />
@@ -167,6 +170,8 @@
     <ClCompile Include="DynamicMemoryManagement.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="ICache.c" />
+    <ClCompile Include="List.c" />
+    <ClCompile Include="Queue.c" />
     <ClCompile Include="SharedObjPtr.c" />
     <ClCompile Include="Tensor.c" />
     <ClCompile Include="ObjectLifecycleManagement.c" />
@@ -174,7 +179,6 @@
     <ClCompile Include="Vector.c" />
     <ClCompile Include="VirtualFuncCalling.c" />
   </ItemGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
