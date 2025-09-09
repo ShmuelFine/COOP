@@ -16,13 +16,11 @@ END_DERIVED_CTOR
 
 DEF_DERIVED_DTOR(VectorIter, Iterator)
 {
-
 }
 END_DERIVED_DTOR
 
-FUN_OVERRIDE_IMPL(VectorIter, Iterator, equals, object* other, bool* out_equal)
+FUN_OVERRIDE_IMPL(VectorIter, Iterator, equals, Iterator* other, bool* out_equal)
 {
-
 	*out_equal = 0;
 	IF(other) {
 		VectorIter* o = (VectorIter*)other;
@@ -38,9 +36,8 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, next)
 	THROW_MSG_UNLESS(_this->vec != NULL, "Iterator not bound");
 	MEM_SIZE_T n = 0;
 	MFUN((GenericVector*)_this->vec, size), & n CALL;
-	THROW_MSG_UNLESS(_this->index <= n, "Advance past end");
+	THROW_MSG_UNLESS(_this->index < n, "Advance past end");
 	_this->index++;
-
 }
 END_FUN;
 
@@ -74,7 +71,7 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, get_cref, const void** out_ptr)
 }
 END_FUN;
 
-FUN_OVERRIDE_IMPL(VectorIter, Iterator, distance, object* other, ptrdiff_t* out_dist)
+FUN_OVERRIDE_IMPL(VectorIter, Iterator, distance, Iterator* other, ptrdiff_t* out_dist)
 {
 	THROW_MSG_UNLESS(other != NULL, "Null other iterator");
 	VectorIter* o = (VectorIter*)other;
@@ -115,7 +112,6 @@ BIND_OVERIDE(VectorIter, Iterator, reset_begin);
 END_INIT_CLASS(VectorIter)
 
 
-
 ////////////////////////////////////////////////
 
 DEF_CTOR(GenericVector, MEM_SIZE_T dataTypeSize)
@@ -142,7 +138,6 @@ END_CTOR
 DEF_DTOR(GenericVector)
 {
 	FREE(_this->data);
-
 }
 END_DTOR
 
@@ -159,7 +154,7 @@ MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, ch
 	{
 		THROW_MSG("Index out of range");
 	}END_IF
-		* val_ptr = _this->data + _this->elementSize * i;
+	* val_ptr = _this->data + _this->elementSize * i;
 }
 END_FUN;
 
@@ -348,9 +343,7 @@ BIND(GenericVector, pop_back_objSPtr);
 
 BIND(GenericVector, zero_all);
 
-
 END_INIT_CLASS(GenericVector)
-
 
 
 #define IMPL_SPECIFIC_VECTOR_TYPE_xTORs(type)																		\

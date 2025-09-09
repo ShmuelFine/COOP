@@ -164,12 +164,12 @@ TEST_FUN_IMPL(VectorTest, nextPrev_MoveOK_andPrevThrowsAtBegin)
 	MFUN(it, next) CALL;
 
 	bool eq = false;
-	MFUN(it, equals), (object*)end, & eq CALL;
+	MFUN(it, equals), (Iterator*)end, & eq CALL;
 	NTEST_ASSERT(!eq);
 
 	/* one more next to index 3, still not end (size=5) */
 	MFUN(it, next) CALL;
-	MFUN(it, equals), (object*)end, & eq CALL;
+	MFUN(it, equals), (Iterator*)end, & eq CALL;
 	NTEST_ASSERT(!eq);
 } END_FUN
 
@@ -208,13 +208,13 @@ TEST_FUN_IMPL(VectorTest, distance_And_Advance_Bounds)
 
 	/* distance(begin, end) == size */
 	ptrdiff_t dist = -999;
-	MFUN(b, distance), (object*)e, & dist CALL;
+	MFUN(b, distance), (Iterator*)e, & dist CALL;
 	NTEST_ASSERT(dist == 6);
 
 	/* distance after advancing begin by 3 -> should be 3 */
 	MFUN(b, advance), (ptrdiff_t)3 CALL;
 	dist = -999;
-	MFUN(b, distance), (object*)e, & dist CALL;
+	MFUN(b, distance), (Iterator*)e, & dist CALL;
 	NTEST_ASSERT(dist == 3);
 
 	/* advance negative out of range -> throw */

@@ -151,7 +151,6 @@
     <ClInclude Include="HeapCache.h" />
     <ClInclude Include="ICache.h" />
     <ClInclude Include="InheritenceDefMacros.h" />
-    <ClInclude Include="List.h" />
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="SharedObjPtr.h" />

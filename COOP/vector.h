@@ -14,12 +14,12 @@ void* vec;
 END_DEF_DERIVED(VectorIter);
 
 DERIVED_FUNCTIONS(VectorIter, Iterator);
-FUN_OVERRIDE(Iterator, equals, object* other, bool* out_equal);
+FUN_OVERRIDE(Iterator, equals, Iterator* other, bool* out_equal);
 FUN_OVERRIDE(Iterator, next);
 FUN_OVERRIDE(Iterator, prev);
 FUN_OVERRIDE(Iterator, get_ref, void** out_ptr);
 FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
-FUN_OVERRIDE(Iterator, distance, object* other, ptrdiff_t* out_dist);
+FUN_OVERRIDE(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
 FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
 FUN_OVERRIDE(Iterator, reset_begin);
 END_DERIVED_FUNCTIONS(VectorIter);

@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="BaseClassExample.c" />
     <ClCompile Include="CodeBlocksUnitTest.c" />
+    <ClCompile Include="IteratorUnitTest.c" />
     <ClCompile Include="SharedPodPtrUnitTest.c" />
     <ClCompile Include="DemoClassTest.c" />
     <ClCompile Include="DerivedClassExample.c" />
@@ -169,6 +170,7 @@
     <ClInclude Include="DerivedClassExample.h" />
     <ClInclude Include="ExeptionUnitTest.h" />
     <ClInclude Include="InheritanceTest.h" />
+    <ClInclude Include="IteratorUnitTest.h" />
     <ClInclude Include="MemManagementUnitTest.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ScopesUnitTest.h" />
