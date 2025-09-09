@@ -1,6 +1,7 @@
 #include "BinaryTree.h"
 #include "DynamicMemoryManagement.h"
 #include "SharedObjPtr.h"
+#include "InMemoryCache.h"
 #include <string.h>
 
 
@@ -58,108 +59,53 @@ END_CTOR
 
 DEF_DTOR(GenericBinaryTree)
 {
-	BTNode* curr = _this->root;
-	BTNode* prev = NULL;
 
-	WHILE(curr != NULL)
+	IF(_this->root == NULL)
 	{
-		/* We came down from parent into curr */
-		IF(prev == (curr ? curr->parent : NULL))
-		{
-			IF(curr->left != NULL)
-			{
-				prev = curr;
-				curr = curr->left;
-			}
-			ELSE_IF(curr->right != NULL)
-			{
-				prev = curr;
-				curr = curr->right;
-			}
-			ELSE
-			{
-				/* Leaf: detach from parent, then free */
-				BTNode * p = curr->parent;
-				IF(p != NULL)
-				{
-					IF(p->left == curr)
-					{
-						p->left = NULL;
-					}
-					ELSE
-					{
-						p->right = NULL;
-					}
-					END_IF;
-				}
-				END_IF;
+		_this->size = 0;
+		RETURN;
+	}
+	END_IF;
 
-				DESTROY(curr);
-				FREE(curr);
-				prev = p;
-				curr = p;
-			}
-			END_IF;
+	MEM_SIZE_T cap = (_this->size ? _this->size : 8);
+	BTNode** stack1 = NULL;
+	ALLOC_ARRAY(stack1, BTNode*, cap);
+	BTNode** stack2 = NULL;
+	ALLOC_ARRAY(stack2, BTNode*, cap);
+	MEM_SIZE_T top1 = 0, top2 = 0;
+
+	stack1[top1++] = _this->root;
+
+	/* Step 1: Fill stack2 in reverse order */
+	WHILE(top1 > 0)
+	{
+		BTNode* curr = stack1[--top1];
+		stack2[top2++] = curr;
+
+		IF(curr->left)
+		{
+			stack1[top1++] = curr->left;
 		}
-		/* We came back from left child */
-		ELSE_IF(prev == (curr ? curr->left : NULL))
+		END_IF;
+		IF(curr->right)
 		{
-			IF(curr->right != NULL)
-			{
-				prev = curr;
-				curr = curr->right;
-			}
-			ELSE
-			{
-				/* No right child: detach curr from its parent and free */
-				BTNode * p = curr->parent;
-				IF(p != NULL)
-				{
-					IF(p->left == curr)
-					{
-						p->left = NULL;
-					}
-					ELSE
-					{
-						p->right = NULL;
-					}
-					END_IF;
-				}
-				END_IF;
-
-				DESTROY(curr);
-				FREE(curr);
-				prev = p;
-				curr = p;
-			}
-			END_IF;
-		}
-		/* We came back from right child */
-		ELSE
-		{
-			BTNode * p = curr->parent;
-			IF(p != NULL)
-			{
-				IF(p->left == curr)
-				{
-					p->left = NULL;
-				}
-				ELSE
-				{
-					p->right = NULL;
-				}
-				END_IF;
-			}
-			END_IF;
-
-			DESTROY(curr);
-			FREE(curr);
-			prev = p;
-			curr = p;
+			stack1[top1++] = curr->right;
 		}
 		END_IF;
 	}
 	END_LOOP;
+
+	/* Step 2: Pop from stack2 — this is where the actual release is done */
+	WHILE(top2 > 0)
+	{
+		BTNode* curr = stack2[--top2];
+		DESTROY(curr);
+		FREE(curr);
+	}
+	END_LOOP;
+
+	FREE(stack1);
+	FREE(stack2);
 
 	_this->root = NULL;
 	_this->size = 0;

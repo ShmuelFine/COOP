@@ -292,20 +292,21 @@ TEST_FUN_IMPL(BinaryTreeTest, dtor_freesAllMemory)
 
     MEM_SIZE_T free_start = 0, free_end = 0;
     FUN(get_total_free_bytes)& free_start CALL;
-
-    FOR(int k = 0; k < 1; ++k)
+    FOR(int k = 0; k < 10; ++k)
     {
         CREATE(BTree_int, bt) CALL;
 
-        FOR(int i = 0; i < 2; ++i)
+        FOR(int i = 0; i < 17; ++i)
         {
             MFUN(&bt, insert), i CALL;
         }
-        END_LOOP; 
+        END_LOOP;
 
     }
-    END_LOOP; 
+    END_LOOP;
 
+
+    MFUN(TheGlobalCache, reset) CALL;
     FUN(get_total_free_bytes)& free_end CALL;
     NTEST_ASSERT(free_end == free_start);
 }
