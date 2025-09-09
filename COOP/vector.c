@@ -375,11 +375,6 @@ MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	ELSE_IF (first_type_name_letter == 'o') /*its a float type*/ format = "%p ";									\
 	END_IF                                                                                                          \
     type val;																										\
-	/*FOR (MEM_SIZE_T i = 0; i < _this->_base.size; i++) 																\
-	{ 																												\
-		MFUN(_this, get), i, & val CALL;																			\
-		printf(format, val); 																						\
-	}END_LOOP; 																										*/\
 	ITER_FOR(type, val, _this) {                                                                                     \
 		printf(format, val);                                                                                         \
 	} END_ITER_FOR                                                                                                  \
@@ -423,4 +418,3 @@ DEF_DERIVED_DTOR(Vector_objSPtr, GenericVector) {
 	}END_LOOP;
 } END_DERIVED_DTOR
 IMPL_SPECIFIC_VECTOR_TYPE_FUNCITONS(objSPtr);
-
