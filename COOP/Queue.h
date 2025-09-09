@@ -7,6 +7,15 @@
 #include "List.h"   
 #include <stdbool.h>
 #include <stddef.h>
+#include "SharedObjPtr.h"
+/* ====== Element kind (type-tag) for printing ====== */
+typedef enum {
+	INT,
+	FLOAT,
+	CHAR,
+	OBJ_SPTR,
+	RAW_BYTES   /* default: hex dump of elemSize bytes */
+} ElementType;
 
 /* =============================
  *   Queue Iterator (forward)
@@ -17,11 +26,11 @@ ListNode* node;       /* current node, NULL means end() */
 END_DEF_DERIVED(QueueIter);
 
 DERIVED_FUNCTIONS(QueueIter, Iterator);
-FUN_OVERRIDE(Iterator, equals, object* other, bool* out_equal);
+FUN_OVERRIDE(Iterator, equals, Iterator* other, bool* out_equal);
 FUN_OVERRIDE(Iterator, next);
 FUN_OVERRIDE(Iterator, get_ref, void** out_ptr);
 FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
-FUN_OVERRIDE(Iterator, distance, object* other, ptrdiff_t* out_dist);
+FUN_OVERRIDE(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
 FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
 FUN_OVERRIDE(Iterator, reset_begin);
 END_DERIVED_FUNCTIONS(QueueIter);
@@ -33,9 +42,11 @@ DEF_CLASS(GenericQueue);
 GenericList list;    
 QueueIter begin_iter;
 QueueIter end_iter;
+MEM_SIZE_T elementSize;
+ElementType elem_type;
 END_DEF(GenericQueue);
 
-FUNCTIONS(GenericQueue);
+FUNCTIONS(GenericQueue, MEM_SIZE_T elementSize,ElementType elem_type);
 
 /* basic ops (Vector-style generic + typed wrappers) */
 MEM_FUN_DECL(GenericQueue, enqueue_generic, const char* buff, MEM_SIZE_T buff_size); 
@@ -45,6 +56,8 @@ MEM_FUN_DECL(GenericQueue, front_generic_cref, const char** out_ptr);
 MEM_FUN_DECL(GenericQueue, clear);
 MEM_FUN_DECL(GenericQueue, size, MEM_SIZE_T* out_size);
 MEM_FUN_DECL(GenericQueue, empty, bool* out_empty);
+MEM_FUN_DECL(GenericQueue, print);
+MEM_FUN_DECL(GenericQueue, __print,const void *val);
 
 /* ====== Typed helpers ====== */
 MEM_FUN_DECL(GenericQueue, enqueue_int, int val);
@@ -83,6 +96,7 @@ MEM_FUN_DECL(Queue_##type, front_cref, const type** out_ptr);               \
 MEM_FUN_DECL(Queue_##type, clear);                                          \
 MEM_FUN_DECL(Queue_##type, size, MEM_SIZE_T* out_size);                     \
 MEM_FUN_DECL(Queue_##type, empty, bool* out_empty);                         \
+MEM_FUN_DECL(Queue_##type, print);                                         \
 END_DERIVED_FUNCTIONS(Queue_##type);
 
 DECLARE_SPECIFIC_QUEUE_TYPE(int);

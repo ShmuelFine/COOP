@@ -14,7 +14,7 @@ END_DERIVED_CTOR
 
 DEF_DERIVED_DTOR(QueueIter, Iterator) { } END_DERIVED_DTOR
 
-FUN_OVERRIDE_IMPL(QueueIter, Iterator, equals, object* other, bool* out_equal)
+FUN_OVERRIDE_IMPL(QueueIter, Iterator, equals, Iterator* other, bool* out_equal)
 {
     *out_equal = 0;
     IF(other) {
@@ -51,7 +51,7 @@ FUN_OVERRIDE_IMPL(QueueIter, Iterator, get_cref, const void** out_ptr)
 }
 END_FUN;
 
-FUN_OVERRIDE_IMPL(QueueIter, Iterator, distance, object* other, ptrdiff_t* out_dist)
+FUN_OVERRIDE_IMPL(QueueIter, Iterator, distance, Iterator* other, ptrdiff_t* out_dist)
 {
     THROW_MSG_UNLESS(other != NULL, "Null other iterator");
     QueueIter* o = (QueueIter*)other;
@@ -100,7 +100,7 @@ END_INIT_CLASS(QueueIter)
  *        GenericQueue
  * ============================= */
 
-DEF_CTOR(GenericQueue)
+DEF_CTOR(GenericQueue, MEM_SIZE_T elementSize, ElementType elem_type)
 {
     CREATE(QueueIter, b) CALL;
     CREATE(QueueIter, e) CALL;
@@ -111,6 +111,9 @@ DEF_CTOR(GenericQueue)
     _this->begin_iter.node = _this->list.head; /* head or NULL */
     _this->end_iter.list = &_this->list;
     _this->end_iter.node = NULL; /* end() is NULL */
+
+	_this->elementSize = elementSize;
+	_this->elem_type = elem_type;
     DESTROY(&b);
     DESTROY(&e);
 }
@@ -179,6 +182,54 @@ MEM_FUN_IMPL(GenericQueue, empty, bool* out_empty)
     MFUN(&_this->list, empty), out_empty CALL;
 }
 END_FUN;
+MEM_FUN_IMPL(GenericQueue, print)
+{
+	Iterator* it = (Iterator*) & _this->begin_iter;
+	Iterator* end_it = (Iterator*) & _this->end_iter;
+	bool eq = false;
+	MFUN(it, equals), end_it, &eq CALL;
+	WHILE (!eq) {
+		const void* val = NULL;
+		MFUN(it, get_cref), & val CALL;
+		MFUN(_this, __print), val CALL;
+		MFUN(it, next) CALL;
+		MFUN(it, equals), end_it, & eq CALL;
+	}END_LOOP
+	printf("\n");
+}END_FUN
+
+MEM_FUN_IMPL(GenericQueue, __print, const void* val)
+{
+    IF(_this->elem_type == INT)
+    {
+        printf("%d ", *(const int*)val);
+    }
+    ELSE_IF(_this->elem_type == FLOAT)
+    {
+        printf("%f ", *(const float*)val);
+    }
+    ELSE_IF(_this->elem_type == CHAR)
+    {
+        printf("%c ", *(const char*)val);
+    }
+    ELSE_IF(_this->elem_type == OBJ_SPTR)
+    {
+        MFUN((objSPtr*)val, print) CALL;
+        printf(" ");
+    }
+    ELSE /* RAW_BYTES */
+    {
+        const unsigned char* bytes = (const unsigned char*)val;
+        FOR(MEM_SIZE_T i = 0; i < _this->elementSize; i++)
+        {
+            printf("%02X ", bytes[i]);  
+        }
+        END_LOOP;
+        printf(" ");
+    }
+    END_IF;
+}
+END_FUN
 
 /* ===== Typed wrappers ===== */
 #define IMPL_ENQUEUE_OF_TYPE(type)                                         \
@@ -223,6 +274,7 @@ BIND(GenericQueue, front_generic_cref);
 BIND(GenericQueue, clear);
 BIND(GenericQueue, size);
 BIND(GenericQueue, empty);
+BIND(GenericQueue, print);
 
 BIND(GenericQueue, enqueue_int);
 BIND(GenericQueue, enqueue_char);
@@ -238,18 +290,21 @@ BIND(GenericQueue, front_int);
 BIND(GenericQueue, front_char);
 BIND(GenericQueue, front_float);
 BIND(GenericQueue, front_objSPtr);
+
 BIND(GenericQueue, front_int_cref);
 BIND(GenericQueue, front_char_cref);
 BIND(GenericQueue, front_float_cref);
 BIND(GenericQueue, front_objSPtr_cref);
+
+
 END_INIT_CLASS(GenericQueue)
 
 /* =============================
  *     Specific Queue types
  * ============================= */
 
-#define IMPL_SPECIFIC_QUEUE_TYPE_xTORs(type)                                \
-DEF_DERIVED_CTOR(Queue_##type, GenericQueue) SUPER ME                       \
+#define IMPL_SPECIFIC_QUEUE_TYPE_xTORs(type,enum_type)                                \
+DEF_DERIVED_CTOR(Queue_##type, GenericQueue) SUPER,sizeof(type),enum_type ME                       \
 {                                                                           \
     GenericQueue* base=(GenericQueue*)_this; \
     CREATE(List_##type, list_tmp)  CALL;                                           \
@@ -291,6 +346,10 @@ MEM_FUN_IMPL(Queue_##type, empty, bool* out_empty)                           \
 {                                                                            \
     FUN_BASE(_this, empty), out_empty CALL;                                  \
 } END_FUN;                                                                   \
+MEM_FUN_IMPL(Queue_##type, print)                                            \
+{                                                                            \
+	FUN_BASE(_this, print) CALL;                                            \
+} END_FUN;                                                                   \
 INIT_DERIVED_CLASS(Queue_##type, GenericQueue);                              \
 BIND(Queue_##type, enqueue);                                                 \
 BIND(Queue_##type, dequeue);                                                 \
@@ -299,17 +358,18 @@ BIND(Queue_##type, front_cref);                                              \
 BIND(Queue_##type, clear);                                                   \
 BIND(Queue_##type, size);                                                    \
 BIND(Queue_##type, empty);                                                   \
+BIND(Queue_##type, print);                                                   \
 END_INIT_CLASS(Queue_##type)
 
-IMPL_SPECIFIC_QUEUE_TYPE_xTORs(int);
+IMPL_SPECIFIC_QUEUE_TYPE_xTORs(int,INT);
 IMPL_SPECIFIC_QUEUE_TYPE_FUNCTIONS(int);
 
-IMPL_SPECIFIC_QUEUE_TYPE_xTORs(char);
+IMPL_SPECIFIC_QUEUE_TYPE_xTORs(char,CHAR);
 IMPL_SPECIFIC_QUEUE_TYPE_FUNCTIONS(char);
 
-IMPL_SPECIFIC_QUEUE_TYPE_xTORs(float);
+IMPL_SPECIFIC_QUEUE_TYPE_xTORs(float,FLOAT);
 IMPL_SPECIFIC_QUEUE_TYPE_FUNCTIONS(float);
 
-IMPL_SPECIFIC_QUEUE_TYPE_xTORs(objSPtr);
+IMPL_SPECIFIC_QUEUE_TYPE_xTORs(objSPtr,OBJ_SPTR);
 IMPL_SPECIFIC_QUEUE_TYPE_FUNCTIONS(objSPtr);
 
