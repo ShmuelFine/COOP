@@ -16,7 +16,7 @@ END_DERIVED_CTOR
 
 DEF_DERIVED_DTOR(VectorIter, Iterator)
 {
-	
+
 }
 END_DERIVED_DTOR
 
@@ -40,7 +40,7 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, next)
 	MFUN((GenericVector*)_this->vec, size), & n CALL;
 	THROW_MSG_UNLESS(_this->index <= n, "Advance past end");
 	_this->index++;
-	
+
 }
 END_FUN;
 
@@ -58,7 +58,7 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, get_ref, void** out_ptr)
 	THROW_MSG_UNLESS(_this->vec != NULL, "Iterator not bound");
 	char* p = NULL;
 	GenericVector* vec = (GenericVector*)_this->vec;
-	MFUN(vec, __at_generic), _this->index,vec->elementSize, & p CALL;
+	MFUN(vec, __at_generic), _this->index, vec->elementSize, & p CALL;
 	*out_ptr = (void*)p;
 }
 END_FUN;
@@ -134,8 +134,8 @@ DEF_CTOR(GenericVector, MEM_SIZE_T dataTypeSize)
 	_this->begin_iter.index = 0;
 
 	_this->end_iter.vec = _this;
-	_this->end_iter.index = _this->size;	
-	
+	_this->end_iter.index = _this->size;
+
 }
 END_CTOR
 
@@ -155,11 +155,11 @@ END_FUN;
 MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, char** val_ptr)
 {
 	THROW_MSG_UNLESS(data_size == _this->elementSize, "Invalid Data Size");
-	IF (i+1  > _this->capacity) // same as (i > size - 1), yet remember that capacity can be zero and this is an unsigned type.
+	IF(i + 1 > _this->capacity) // same as (i > size - 1), yet remember that capacity can be zero and this is an unsigned type.
 	{
 		THROW_MSG("Index out of range");
 	}END_IF
-	*val_ptr = _this->data + _this->elementSize * i;
+		* val_ptr = _this->data + _this->elementSize * i;
 }
 END_FUN;
 
@@ -221,10 +221,10 @@ MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity)
 	char* new_data = NULL;
 	ALLOC_ARRAY(new_data, char, _this->elementSize * new_capacity);
 
-	IF (_this->size > 0) {
+	IF(_this->size > 0) {
 		memcpy(new_data, _this->data, _this->elementSize * MIN(new_capacity, _this->capacity));
 	}END_IF
-	FREE(_this->data);
+		FREE(_this->data);
 	_this->data = new_data;
 	_this->capacity = new_capacity;
 	_this->size = MIN(_this->size, _this->capacity);
@@ -241,14 +241,14 @@ END_FUN;
 MEM_FUN_IMPL(GenericVector, __push_back_generic, char* buff, MEM_SIZE_T buff_size)
 {
 	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
-	IF (_this->size >= _this->capacity)
+	IF(_this->size >= _this->capacity)
 	{
 		MEM_SIZE_T new_capacity = _this->capacity == 0 ? 1 : _this->capacity * 2;
 
 		MFUN(_this, resize), new_capacity CALL;
 	}END_IF
 
-	char* placeToAssign = NULL;
+		char* placeToAssign = NULL;
 	MFUN(_this, __at_generic), _this->size, buff_size, & placeToAssign CALL;
 	ASSERT_NOT_NULL(placeToAssign);
 	memcpy(placeToAssign, buff, buff_size);
