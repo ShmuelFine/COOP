@@ -33,6 +33,25 @@ END_DEF(BTNode);
 FUNCTIONS(BTNode, MEM_SIZE_T elementSize, const void* src_bytes, BTNode* parent);
 END_FUNCTIONS(BTNode);
 
+/* ============ Inner In-Order Iterator ============ */
+
+DEF_DERIVED_CLASS(BTInOrderIterator, Iterator);
+void* owner;
+BTNode* current;  
+END_DEF_DERIVED(BTInOrderIterator);
+
+DERIVED_FUNCTIONS(BTInOrderIterator, Iterator);
+MEM_FUN_DECL(BTInOrderIterator, init_begin, void* owner);
+MEM_FUN_DECL(BTInOrderIterator, init_end, void* owner);
+FUN_OVERRIDE(Iterator, equals, Iterator* other, bool* out_equal);
+FUN_OVERRIDE(Iterator, next);
+FUN_OVERRIDE(Iterator, prev);
+FUN_OVERRIDE(Iterator, get_ref, void** out_ptr);
+FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
+FUN_OVERRIDE(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
+FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
+END_DERIVED_FUNCTIONS(BTInOrderIterator);
+
 /* ====== GenericBinaryTree class ====== */
 
 DEF_CLASS(GenericBinaryTree);
@@ -40,7 +59,12 @@ BTNode* root;
 MEM_SIZE_T size;
 MEM_SIZE_T elementSize;
 BT_ElementType BT_type;
+BTInOrderIterator begin_iter;
+BTInOrderIterator end_iter;
 END_DEF(GenericBinaryTree);
+
+/* Callback function type for traversal */
+typedef int (*BT_Action)(GenericBinaryTree* owner, const void* elem);
 
 FUNCTIONS(GenericBinaryTree, MEM_SIZE_T elementSize, BT_ElementType BT_type);
 
@@ -57,36 +81,14 @@ MEM_FUN_DECL(GenericBinaryTree, remove_int, int key, bool* out_removed);
 
 MEM_FUN_DECL(GenericBinaryTree, print, BT_VisitOrder order);
 
-MEM_FUN_DECL(GenericBinaryTree, traverse_pre);
-MEM_FUN_DECL(GenericBinaryTree, traverse_in);
-MEM_FUN_DECL(GenericBinaryTree, traverse_post);
+MEM_FUN_DECL(GenericBinaryTree, traverse_pre, BT_Action action);
+MEM_FUN_DECL(GenericBinaryTree, traverse_in, BT_Action action);
+MEM_FUN_DECL(GenericBinaryTree, traverse_post, BT_Action action);
 
 MEM_FUN_DECL(GenericBinaryTree, __print_value, const void* p);
 
-MEM_FUN_DECL(GenericBinaryTree, begin_inorder, Iterator** out_iter);
-MEM_FUN_DECL(GenericBinaryTree, end_inorder, Iterator** out_iter);
-MEM_FUN_DECL(GenericBinaryTree, it_destroy, Iterator* it);
-
 END_FUNCTIONS(GenericBinaryTree);
 
-/* ============ Inner In-Order Iterator ============ */
-
-DEF_DERIVED_CLASS(BTInOrderIterator, Iterator);
-GenericBinaryTree* owner;
-BTNode* current;  
-END_DEF_DERIVED(BTInOrderIterator);
-
-DERIVED_FUNCTIONS(BTInOrderIterator, Iterator);
-MEM_FUN_DECL(BTInOrderIterator, init_begin, GenericBinaryTree* owner);
-MEM_FUN_DECL(BTInOrderIterator, init_end, GenericBinaryTree* owner);
-FUN_OVERRIDE(Iterator, equals, object* other, bool* out_equal);
-FUN_OVERRIDE(Iterator, next);
-FUN_OVERRIDE(Iterator, prev);
-FUN_OVERRIDE(Iterator, get_ref, void** out_ptr);
-FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
-FUN_OVERRIDE(Iterator, distance, object* other, ptrdiff_t* out_dist);
-FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
-END_DERIVED_FUNCTIONS(BTInOrderIterator);
 
 ///////////////////////////////////////////////////////////////
 
@@ -100,17 +102,17 @@ MEM_FUN_DECL(BTree_ ##type, get_size, MEM_SIZE_T* out);               \
 MEM_FUN_DECL(BTree_ ##type, insert, type val);                        \
 MEM_FUN_DECL(BTree_ ##type, remove, type key, bool* out_removed);     \
 MEM_FUN_DECL(BTree_ ##type, print, BT_VisitOrder order);              \
-MEM_FUN_DECL(BTree_ ##type, traverse_pre);                            \
-MEM_FUN_DECL(BTree_ ##type, traverse_in);                             \
-MEM_FUN_DECL(BTree_ ##type, traverse_post);                           \
-MEM_FUN_DECL(BTree_ ##type, begin_inorder, object** out_iter);        \
-MEM_FUN_DECL(BTree_ ##type, end_inorder  , object** out_iter);        \
-MEM_FUN_DECL(BTree_ ##type, it_destroy, Iterator* it);                \
+MEM_FUN_DECL(BTree_ ##type, traverse_pre, BT_Action action);                            \
+MEM_FUN_DECL(BTree_ ##type, traverse_in, BT_Action action);                             \
+MEM_FUN_DECL(BTree_ ##type, traverse_post, BT_Action action);                           \
 END_DERIVED_FUNCTIONS(BTree_ ##type);
 
 ////////////////////////////////////////////////
 
 DECLARE_SPECIFIC_BT_TYPE(int);
 /* add more types */
+
+/* פונקציית עזר להפעלת __print_value כ־BT_Action */
+FUN_DECL(BT_action_print_value, GenericBinaryTree* owner, const void* p);
 
 #endif 

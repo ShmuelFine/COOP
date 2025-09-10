@@ -108,13 +108,11 @@ TEST_FUN_IMPL(BinaryTreeTest, iterators_beginEqualsEnd_onEmpty)
     CREATE(BTree_int, bt) CALL;
 
     // Act
-    object* b = NULL;
-    object* e = NULL;
-    MFUN(&bt, begin_inorder), & b CALL;
-    MFUN(&bt, end_inorder), & e CALL;
+    Iterator* b = (Iterator*)&bt._base.begin_iter;
+    Iterator* e = (Iterator*)&bt._base.end_iter;
 
     bool eq = false;
-    MFUN((Iterator*)b, equals), e, & eq CALL;
+    MFUN(b, equals), e, & eq CALL;
 
     // Assert
     NTEST_ASSERT(eq == true);
@@ -133,12 +131,11 @@ TEST_FUN_IMPL(BinaryTreeTest, prev_from_end_returns_rightmost)
     END_LOOP; /* expected inorder: 4,2,5,1,3 <- rightmost 3 */
 
     // Act
-    object* e = NULL;
-    MFUN(&bt, end_inorder), & e CALL;
-    MFUN((Iterator*)e, prev) CALL;
+    Iterator* e = (Iterator*)&bt._base.end_iter;
+    MFUN(e, prev) CALL;
 
     void* p = NULL;
-    MFUN((Iterator*)e, get_ref), & p CALL;
+    MFUN(e, get_ref), & p CALL;
 
     // Assert
     THROW_MSG_UNLESS(p, "Iterator ref must not be NULL");
@@ -157,19 +154,18 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_modifyThroughRef_persists)
     END_LOOP; /* inorder starts at the first value (4) */
 
     // Act
-    object* it = NULL;
-    MFUN(&bt, begin_inorder), & it CALL;
+    Iterator* it = (Iterator*)&bt._base.begin_iter;
 
     void* p = NULL;
-    MFUN((Iterator*)it, get_ref), & p CALL;
+    MFUN(it, get_ref), & p CALL;
     THROW_MSG_UNLESS(p, "Iterator ref must not be NULL");
 
     int before = *(int*)p;
     *(int*)p += 100;
 
-    /* call again to make sure the change survives */
+    /* fetch again to ensure persistence */
     p = NULL;
-    MFUN((Iterator*)it, get_ref), & p CALL;
+    MFUN(it, get_ref), & p CALL;
     THROW_MSG_UNLESS(p, "Iterator ref must not be NULL (2)");
     int after = *(int*)p;
 
@@ -182,28 +178,30 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_advance_WorksAndReachesEnd)
     // Arrange
     CREATE(BTree_int, bt) CALL;
     const int N = 8;
-    FOR(int i = 1; i <= N; ++i) { MFUN(&bt, insert), i CALL; } END_LOOP;
+    FOR(int i = 1; i <= N; ++i) 
+    {
+        MFUN(&bt, insert), i CALL; 
+    }
+    END_LOOP;
 
-    object* b = NULL;
-    object* e = NULL;
-    MFUN(&bt, begin_inorder), & b CALL;
-    MFUN(&bt, end_inorder), & e CALL;
+    Iterator* b = (Iterator*)&bt._base.begin_iter;
+    Iterator* e = (Iterator*)&bt._base.end_iter;
 
     // Act + Assert
     /* advance(0) doesn't change anything */
-    MFUN((Iterator*)b, advance), 0 CALL;
+    MFUN(b, advance), 0 CALL;
     bool eq = false;
-    MFUN((Iterator*)b, equals), e, & eq CALL;
+    MFUN(b, equals), e, & eq CALL;
     NTEST_ASSERT(eq == false);
 
     /* advance(N - 1) not yet at the end */
-    MFUN((Iterator*)b, advance), (N - 1) CALL;
-    MFUN((Iterator*)b, equals), e, & eq CALL;
+    MFUN(b, advance), (N - 1) CALL;
+    MFUN(b, equals), e, & eq CALL;
     NTEST_ASSERT(eq == false);
 
     /* one more step comes to an end */
-    MFUN((Iterator*)b, advance), 1 CALL;
-    MFUN((Iterator*)b, equals), e, & eq CALL;
+    MFUN(b, advance), 1 CALL;
+    MFUN(b, equals), e, & eq CALL;
     NTEST_ASSERT(eq == true);
 }
 END_FUN
@@ -214,28 +212,30 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_distance_BeginToEndEqualsSize)
     // Arrange
     CREATE(BTree_int, bt) CALL;
     const int N = 6;
-    FOR(int i = 1; i <= N; ++i) { MFUN(&bt, insert), i CALL; } END_LOOP;
+    FOR(int i = 1; i <= N; ++i) 
+    {
+        MFUN(&bt, insert), i CALL; 
+    }
+    END_LOOP;
 
-    object* b = NULL;
-    object* e = NULL;
-    MFUN(&bt, begin_inorder), & b CALL;
-    MFUN(&bt, end_inorder), & e CALL;
+    Iterator* b = (Iterator*)&bt._base.begin_iter;
+    Iterator* e = (Iterator*)&bt._base.end_iter;
 
     long d = -12345;
 
     // Act + Assert
     /* distance(begin, begin) == 0 */
-    MFUN((Iterator*)b, distance), b, & d CALL;
+    MFUN(b, distance), b, & d CALL;
     NTEST_ASSERT(d == 0);
 
     /* distance(begin, end) == N */
     d = -1;
-    MFUN((Iterator*)b, distance), e, & d CALL;
+    MFUN(b, distance), e, & d CALL;
     NTEST_ASSERT(d == (long)N);
 
     /* distance(end, end) == 0 */
     d = -1;
-    MFUN((Iterator*)e, distance), e, & d CALL;
+    MFUN(e, distance), e, & d CALL;
     NTEST_ASSERT(d == 0);
 }
 END_FUN
@@ -257,13 +257,8 @@ TEST_FUN_IMPL(BinaryTreeTest, traversals_DoNotCrash)
     MFUN(&bt, remove), 1, & removed CALL;
 
     // Act (no output check here; just that the calls don't throw)
-    MFUN(&bt, traverse_pre) CALL;  printf("\n");
 	MFUN(&bt, print), PRE CALL;    printf("\n");
-
-    MFUN(&bt, traverse_in) CALL;   printf("\n");
 	MFUN(&bt, print), IN CALL;     printf("\n");
-
-    MFUN(&bt, traverse_post) CALL; printf("\n");
 	MFUN(&bt, print), POST CALL;   printf("\n");
 
     // Assert

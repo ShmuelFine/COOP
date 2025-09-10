@@ -4,6 +4,12 @@
 #include "InMemoryCache.h"
 #include <string.h>
 
+FUN_IMPL(BT_action_print_value, GenericBinaryTree* owner, const void* p)
+{
+	MFUN(owner, __print_value), p CALL;
+}
+END_FUN
+
 
 /* ====== BTNode implementation ====== */
 
@@ -54,6 +60,10 @@ DEF_CTOR(GenericBinaryTree, MEM_SIZE_T elementSize, BT_ElementType BT_type)
 	_this->size = 0;
 	_this->elementSize = elementSize;
 	_this->BT_type = BT_type;
+	INITIALIZE_INSTANCE(BTInOrderIterator, _this->begin_iter) CALL;
+	MFUN(&_this->begin_iter, init_begin), _this CALL;
+	INITIALIZE_INSTANCE(BTInOrderIterator, _this->end_iter) CALL;
+	MFUN(&_this->end_iter, init_end), _this CALL;
 }
 END_CTOR
 
@@ -109,6 +119,8 @@ DEF_DTOR(GenericBinaryTree)
 
 	_this->root = NULL;
 	_this->size = 0;
+	DESTROY(&_this->begin_iter);
+	DESTROY(&_this->end_iter);
 }
 END_DTOR
 
@@ -134,6 +146,8 @@ MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void* src)
 		INITIALIZE_INSTANCE(BTNode, (*n)), _this->elementSize, (const void*)src, (BTNode*)NULL CALL;
 		_this->root = n;
 		_this->size = 1;
+		MFUN(&_this->begin_iter, init_begin), _this CALL;
+		MFUN(&_this->end_iter, init_end), _this CALL;
 		RETURN;
 	}
 	END_IF;
@@ -156,6 +170,8 @@ MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void* src)
 			curr->left = n;
 			_this->size++;
 			FREE(q);
+			MFUN(&_this->begin_iter, init_begin), _this CALL;
+			MFUN(&_this->end_iter, init_end), _this CALL;
 			RETURN;
 		}
 		ELSE
@@ -172,6 +188,8 @@ MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void* src)
 			curr->right = n;
 			_this->size++;
 			FREE(q);
+			MFUN(&_this->begin_iter, init_begin), _this CALL;
+			MFUN(&_this->end_iter, init_end), _this CALL;
 			RETURN;
 		}
 		ELSE
@@ -254,6 +272,8 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void* key, bool* out_rem
 		_this->root = NULL;
 		_this->size = 0;
 		*out_removed = true;
+		MFUN(&_this->begin_iter, init_begin), _this CALL;
+		MFUN(&_this->end_iter, init_end), _this CALL;
 		FREE(q);
 		RETURN;
 	}
@@ -285,6 +305,8 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void* key, bool* out_rem
 	FREE(last);
 	_this->size--;
 	*out_removed = true;
+	MFUN(&_this->begin_iter, init_begin), _this CALL;
+	MFUN(&_this->end_iter, init_end), _this CALL;
 	FREE(q);
 }
 END_FUN
@@ -330,7 +352,7 @@ MEM_FUN_IMPL(GenericBinaryTree, __print_value, const void* p)
 }
 END_FUN
 
-MEM_FUN_IMPL(GenericBinaryTree, traverse_pre)
+MEM_FUN_IMPL(GenericBinaryTree, traverse_pre, BT_Action action)
 {
 	IF(_this->root == NULL)
 	{
@@ -352,7 +374,7 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_pre)
 
 		IF(curr && curr->value)
 		{
-			MFUN(_this, __print_value), (const void*)curr->value CALL;
+			action(_this, (const void*)curr->value);
 		}
 		END_IF;
 
@@ -375,7 +397,7 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_pre)
 }
 END_FUN
 
-MEM_FUN_IMPL(GenericBinaryTree, traverse_in)
+MEM_FUN_IMPL(GenericBinaryTree, traverse_in, BT_Action action)
 {
 	IF(_this->root == NULL)
 	{
@@ -384,17 +406,14 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_in)
 	}
 	END_IF;
 
-	BTInOrderIterator* it = NULL;
-	BTInOrderIterator* end = NULL;
-
-	MFUN(_this, begin_inorder), & it  CALL;
-	MFUN(_this, end_inorder), & end CALL;
+	Iterator* it = (Iterator*)&_this->begin_iter;
+	Iterator* end = (Iterator*)&_this->end_iter;
 
 	/* while (it != end): */
 	FOR(;;)
 	{
 		bool eq = false;
-		MFUN(it, equals), (object*)end, & eq CALL;
+		MFUN(it, equals), (Iterator*)end, & eq CALL;
 		IF(eq)
 		{
 			BREAK;
@@ -405,21 +424,19 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_in)
 		MFUN(it, get_cref), & p CALL;
 		IF(p != NULL)
 		{
-			MFUN(_this, __print_value), p CALL;
+			action(_this, p);
 		}
 		END_IF;
 
-		MFUN(it, next) CALL;                         /* NEXT */
+		MFUN(it, next) CALL;   /* NEXT */
 	}
 	END_LOOP;
 
-	MFUN(_this, it_destroy), it  CALL;
-	MFUN(_this, it_destroy), end CALL;
 }
 END_FUN
 
 
-MEM_FUN_IMPL(GenericBinaryTree, traverse_post)
+MEM_FUN_IMPL(GenericBinaryTree, traverse_post, BT_Action action)
 {
 	IF(_this->root == NULL)
 	{
@@ -459,7 +476,7 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_post)
 		BTNode* curr = stack2[--top2];
 		IF(curr && curr->value)
 		{
-			MFUN(_this, __print_value), (const void*)curr->value CALL;
+			action(_this, (const void*)curr->value);
 		}
 		END_IF;
 	}
@@ -481,46 +498,18 @@ MEM_FUN_IMPL(GenericBinaryTree, print, BT_VisitOrder order)
 
 	IF(order == PRE)
 	{
-		MFUN(_this, traverse_pre) CALL;
+		MFUN(_this, traverse_pre), BT_action_print_value  CALL;
 	}
 	ELSE_IF(order == IN)
 	{
-		MFUN(_this, traverse_in) CALL;
+		MFUN(_this, traverse_in), BT_action_print_value  CALL;
 	}
 	ELSE /* POST */
 	{
-		MFUN(_this, traverse_post) CALL;
+		MFUN(_this, traverse_post), BT_action_print_value  CALL;
 	}
 	END_IF;
 	printf("\n");
-}
-END_FUN
-
-MEM_FUN_IMPL(GenericBinaryTree, begin_inorder, Iterator** out_iter)
-{
-	BTInOrderIterator* it = NULL;
-	ALLOC(it, BTInOrderIterator);
-	INITIALIZE_INSTANCE(BTInOrderIterator, (*it)) CALL;
-	MFUN(it, init_begin), _this CALL;
-	*out_iter = (Iterator*)it;
-}
-END_FUN
-
-MEM_FUN_IMPL(GenericBinaryTree, end_inorder, Iterator** out_iter)
-{
-	BTInOrderIterator* it = NULL;
-	ALLOC(it, BTInOrderIterator);
-	INITIALIZE_INSTANCE(BTInOrderIterator, (*it)) CALL;
-	MFUN(it, init_end), _this CALL;
-	*out_iter = (Iterator*)it;
-}
-END_FUN
-
-MEM_FUN_IMPL(GenericBinaryTree, it_destroy, Iterator* it)
-{
-	BTInOrderIterator* BTit = (BTInOrderIterator*)it;
-	DESTROY(BTit);
-	FREE(BTit);
 }
 END_FUN
 
@@ -542,10 +531,6 @@ BIND(GenericBinaryTree, traverse_pre);
 BIND(GenericBinaryTree, traverse_in);
 BIND(GenericBinaryTree, traverse_post);
 BIND(GenericBinaryTree, __print_value);
-
-BIND(GenericBinaryTree, begin_inorder);
-BIND(GenericBinaryTree, end_inorder);
-BIND(GenericBinaryTree, it_destroy);
 END_INIT_CLASS(GenericBinaryTree)
 
 /* ============ In-order Iterator implementation ============ */
@@ -587,7 +572,7 @@ MEM_FUN_IMPL(BTInOrderIterator, init_end, GenericBinaryTree* owner)
 }
 END_FUN
 
-FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, equals, object* other, bool* out_equal)
+FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, equals, Iterator* other, bool* out_equal)
 {
 	BTInOrderIterator* o = (BTInOrderIterator*)other;
 	*out_equal = (_this->owner == o->owner) && (_this->current == o->current);
@@ -641,7 +626,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, prev)
 
 	IF(_this->current == NULL)
 	{
-		BTNode* cur = _this->owner->root;
+		BTNode* cur = ((GenericBinaryTree*)_this->owner)->root;
 		WHILE(cur && cur->right)
 		{
 			cur = cur->right;
@@ -707,7 +692,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, get_cref, const void** out_ptr)
 }
 END_FUN
 
-FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, distance, object* other, ptrdiff_t* out_dist)
+FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, distance, Iterator* other, ptrdiff_t* out_dist)
 {
 	*out_dist = 0;
 	BTInOrderIterator* o = (BTInOrderIterator*)other;
@@ -734,7 +719,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, distance, object* other, ptrdiff_
 	WHILE(1)
 	{
 		bool atEnd = false;
-		MFUN(&itBegin, equals), (object*)&itEnd, & atEnd CALL;
+		MFUN(&itBegin, equals), (Iterator*)&itEnd, & atEnd CALL;
 		IF(atEnd)
 		{
 			BREAK;
@@ -745,7 +730,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, distance, object* other, ptrdiff_
 		IF(!foundThis)
 		{
 			bool eq1 = false;
-			MFUN(&itBegin, equals), (object*)_this, & eq1 CALL;
+			MFUN(&itBegin, equals), (Iterator*)_this, & eq1 CALL;
 			IF(eq1)
 			{
 				foundThis = true;
@@ -761,7 +746,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, distance, object* other, ptrdiff_
 		IF(!foundOther)
 		{
 			bool eq2 = false;
-			MFUN(&itBegin, equals), (object*)o, & eq2 CALL;
+			MFUN(&itBegin, equals), (Iterator*)o, & eq2 CALL;
 			IF(eq2)
 			{
 				foundOther = true;
@@ -834,12 +819,9 @@ MEM_FUN_IMPL(BTree_##type, get_size, MEM_SIZE_T* out){ FUN_BASE(_this, get_size)
 MEM_FUN_IMPL(BTree_##type, insert, type val){ FUN_BASE(_this, insert_##type), val CALL; } END_FUN \
 MEM_FUN_IMPL(BTree_##type, remove, type key, bool* out_removed){ FUN_BASE(_this, remove_##type), key, out_removed CALL; } END_FUN \
 MEM_FUN_IMPL(BTree_##type, print, BT_VisitOrder order){ FUN_BASE(_this, print), order CALL; } END_FUN \
-MEM_FUN_IMPL(BTree_##type, traverse_pre){ FUN_BASE(_this, traverse_pre) CALL; } END_FUN \
-MEM_FUN_IMPL(BTree_##type, traverse_in){ FUN_BASE(_this, traverse_in) CALL; } END_FUN \
-MEM_FUN_IMPL(BTree_##type, traverse_post){ FUN_BASE(_this, traverse_post) CALL; } END_FUN \
-MEM_FUN_IMPL(BTree_##type, begin_inorder, object** out_iter){ FUN_BASE(_this, begin_inorder), (Iterator**)out_iter CALL; } END_FUN \
-MEM_FUN_IMPL(BTree_##type, end_inorder, object** out_iter){ FUN_BASE(_this, end_inorder), (Iterator**)out_iter CALL; } END_FUN \
-MEM_FUN_IMPL(BTree_ ##type, it_destroy, Iterator* it) { FUN_BASE(_this, it_destroy), it CALL; } END_FUN; \
+MEM_FUN_IMPL(BTree_##type, traverse_pre, BT_Action action){ FUN_BASE(_this, traverse_pre), action CALL; } END_FUN \
+MEM_FUN_IMPL(BTree_##type, traverse_in, BT_Action action){ FUN_BASE(_this, traverse_in), action CALL; } END_FUN \
+MEM_FUN_IMPL(BTree_##type, traverse_post, BT_Action action){ FUN_BASE(_this, traverse_post), action CALL; } END_FUN \
 INIT_DERIVED_CLASS(BTree_##type, GenericBinaryTree); \
 BIND(BTree_##type, is_empty); \
 BIND(BTree_##type, get_size); \
@@ -849,9 +831,6 @@ BIND(BTree_##type, print); \
 BIND(BTree_##type, traverse_pre); \
 BIND(BTree_##type, traverse_in); \
 BIND(BTree_##type, traverse_post); \
-BIND(BTree_##type, begin_inorder); \
-BIND(BTree_##type, end_inorder); \
-BIND(BTree_ ##type, it_destroy);                                         \
 END_INIT_CLASS(BTree_##type)
 
 ///////////////////////////////////////////////////////////////
