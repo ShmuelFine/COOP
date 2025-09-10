@@ -21,6 +21,7 @@ typedef enum {
 	POST = 2
 } BT_VisitOrder;
 
+
 /* ====== BTNode class  ======== */
 
 DEF_CLASS(BTNode);
@@ -102,9 +103,9 @@ MEM_FUN_DECL(BTree_ ##type, get_size, MEM_SIZE_T* out);               \
 MEM_FUN_DECL(BTree_ ##type, insert, type val);                        \
 MEM_FUN_DECL(BTree_ ##type, remove, type key, bool* out_removed);     \
 MEM_FUN_DECL(BTree_ ##type, print, BT_VisitOrder order);              \
-MEM_FUN_DECL(BTree_ ##type, traverse_pre, BT_Action action);                            \
-MEM_FUN_DECL(BTree_ ##type, traverse_in, BT_Action action);                             \
-MEM_FUN_DECL(BTree_ ##type, traverse_post, BT_Action action);                           \
+MEM_FUN_DECL(BTree_ ##type, traverse_pre, BT_Action action);          \
+MEM_FUN_DECL(BTree_ ##type, traverse_in, BT_Action action);           \
+MEM_FUN_DECL(BTree_ ##type, traverse_post, BT_Action action);         \
 END_DERIVED_FUNCTIONS(BTree_ ##type);
 
 ////////////////////////////////////////////////
@@ -112,7 +113,7 @@ END_DERIVED_FUNCTIONS(BTree_ ##type);
 DECLARE_SPECIFIC_BT_TYPE(int);
 /* add more types */
 
-/* פונקציית עזר להפעלת __print_value כ־BT_Action */
+/* Helper function to run __print_value as BT_Action */
 FUN_DECL(BT_action_print_value, GenericBinaryTree* owner, const void* p);
 
 #endif 
