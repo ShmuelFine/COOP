@@ -47,9 +47,9 @@ END_FUNCTIONS(Iterator);
        bool __eq = 0;                                \
        Iterator *_it = &((objPtr)->_base.begin_iter);\
        Iterator *_end = &((objPtr)->_base.end_iter); \
-       FOR (;!(__eq);) {                             \
+       FOR (;!(__eq)&&!(IS_BREAKING);) {             \
          ITER_EQUALS(_it,_end,&__eq);                \
-         if (__eq){ITER_RESET_BEGIN(_it); break;}    \
+         if (__eq||IS_BREAKING){ITER_RESET_BEGIN(_it); break;}   \
          const ElemType *_p_##varName = NULL;        \
          ITER_GET_CREF(_it,&_p_##varName);           \
          ElemType varName = *_p_##varName;           \
