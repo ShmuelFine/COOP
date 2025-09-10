@@ -101,8 +101,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_BASE_COOP_EXPORTING_;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-	  <AdditionalIncludeDirectories>
-	  </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,7 +152,6 @@
     <ClInclude Include="ICache.h" />
     <ClInclude Include="InheritenceDefMacros.h" />
     <ClInclude Include="MathUtils.h" />
-    <ClInclude Include="Queue.h" />
     <ClInclude Include="SharedObjPtr.h" />
     <ClInclude Include="Tensor.h" />
     <ClInclude Include="Object.h" />
@@ -169,8 +168,6 @@
     <ClCompile Include="DynamicMemoryManagement.c" />
     <ClCompile Include="HeapCache.c" />
     <ClCompile Include="ICache.c" />
-    <ClCompile Include="List.c" />
-    <ClCompile Include="Queue.c" />
     <ClCompile Include="SharedObjPtr.c" />
     <ClCompile Include="Tensor.c" />
     <ClCompile Include="ObjectLifecycleManagement.c" />
