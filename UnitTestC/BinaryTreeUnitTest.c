@@ -23,9 +23,9 @@ TEST_FUN_IMPL(BinaryTreeTest, insert_SanityTest)
     MFUN(&bt, is_empty), &isEmpty CALL;
     NTEST_ASSERT(!isEmpty);
 
-    MEM_SIZE_T sz = 0;
-    MFUN(&bt, get_size), &sz CALL;
-    NTEST_ASSERT(sz == (MEM_SIZE_T)num);
+    MEM_SIZE_T size= 0;
+    MFUN(&bt, get_size), &size CALL;
+    NTEST_ASSERT(size == (MEM_SIZE_T)num);
 
 } END_FUN
 
@@ -47,9 +47,9 @@ TEST_FUN_IMPL(BinaryTreeTest, removeLeaf_SanityTest)
     // Assert
     NTEST_ASSERT(removed == true);
 
-    MEM_SIZE_T sz = 999;
-    MFUN(&bt, get_size), &sz CALL;
-    NTEST_ASSERT(sz == 4);
+    MEM_SIZE_T size = 999;
+    MFUN(&bt, get_size), &size CALL;
+    NTEST_ASSERT(size == 4);
 
     /* Another attempt to delete the same value should return false */
     removed = true;
@@ -76,9 +76,9 @@ TEST_FUN_IMPL(BinaryTreeTest, removeRoot_SanityTest)
     // Assert
     NTEST_ASSERT(removed == true);
 
-    MEM_SIZE_T sz = 0;
-    MFUN(&bt, get_size), &sz CALL;
-    NTEST_ASSERT(sz == 2);
+    MEM_SIZE_T size = 0;
+    MFUN(&bt, get_size), &size CALL;
+    NTEST_ASSERT(size == 2);
 
     /* After deleting the root, another deletion of 1 should fail */
     removed = true;
@@ -108,14 +108,14 @@ TEST_FUN_IMPL(BinaryTreeTest, iterators_beginEqualsEnd_onEmpty)
     CREATE(BTree_int, bt) CALL;
 
     // Act
-    Iterator *b = (Iterator*)&bt._base.begin_iter;
-    Iterator *e = (Iterator*)&bt._base.end_iter;
+    Iterator *begin = (Iterator*)&bt._base.begin_iter;
+    Iterator *end = (Iterator*)&bt._base.end_iter;
 
-    bool eq = false;
-    MFUN(b, equals), e, &eq CALL;
+    bool is_equals = false;
+    MFUN(begin, equals), end, & is_equals CALL;
 
     // Assert
-    NTEST_ASSERT(eq == true);
+    NTEST_ASSERT(is_equals == true);
 
 } END_FUN
 
@@ -131,15 +131,15 @@ TEST_FUN_IMPL(BinaryTreeTest, prev_from_end_returns_rightmost)
     END_LOOP; /* expected inorder: 4,2,5,1,3 <- rightmost 3 */
 
     // Act
-    Iterator *e = (Iterator*)&bt._base.end_iter;
-    MFUN(e, prev) CALL;
+    Iterator *end = (Iterator*)&bt._base.end_iter;
+    MFUN(end, prev) CALL;
 
-    void *p = NULL;
-    MFUN(e, get_ref), &p CALL;
+    void *last_value = NULL;
+    MFUN(end, get_ref), &last_value CALL;
 
     // Assert
-    THROW_MSG_UNLESS(p, "Iterator ref must not be NULL");
-    NTEST_ASSERT(*(int*)p == 3);
+    THROW_MSG_UNLESS(last_value, "Iterator ref must not be NULL");
+    NTEST_ASSERT(*(int*)last_value == 3);
 } END_FUN
 
 
@@ -154,20 +154,20 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_modifyThroughRef_persists)
     END_LOOP; /* inorder starts at the first value (4) */
 
     // Act
-    Iterator *it = (Iterator*)&bt._base.begin_iter;
+    Iterator *iter = (Iterator*)&bt._base.begin_iter;
 
-    void *p = NULL;
-    MFUN(it, get_ref), &p CALL;
-    THROW_MSG_UNLESS(p, "Iterator ref must not be NULL");
+    void *iter_value = NULL;
+    MFUN(iter, get_ref), &iter_value CALL;
+    THROW_MSG_UNLESS(iter_value, "Iterator ref must not be NULL");
 
-    int before = *(int*)p;
-    *(int*)p += 100;
+    int before = *(int*)iter_value;
+    *(int*)iter_value += 100;
 
     /* fetch again to ensure persistence */
-    p = NULL;
-    MFUN(it, get_ref), &p CALL;
-    THROW_MSG_UNLESS(p, "Iterator ref must not be NULL (2)");
-    int after = *(int*)p;
+    iter_value = NULL;
+    MFUN(iter, get_ref), & iter_value CALL;
+    THROW_MSG_UNLESS(iter_value, "Iterator ref must not be NULL (2)");
+    int after = *(int*)iter_value;
 
     // Assert
     NTEST_ASSERT(after == before + 100);
@@ -184,25 +184,25 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_advance_WorksAndReachesEnd)
     }
     END_LOOP;
 
-    Iterator *b = (Iterator*)&bt._base.begin_iter;
-    Iterator *e = (Iterator*)&bt._base.end_iter;
+    Iterator *begin = (Iterator*)&bt._base.begin_iter;
+    Iterator *end = (Iterator*)&bt._base.end_iter;
 
     // Act + Assert
     /* advance(0) doesn't change anything */
-    MFUN(b, advance), 0 CALL;
-    bool eq = false;
-    MFUN(b, equals), e, &eq CALL;
-    NTEST_ASSERT(eq == false);
+    MFUN(begin, advance), 0 CALL;
+    bool is_equals = false;
+    MFUN(begin, equals), end, &is_equals CALL;
+    NTEST_ASSERT(is_equals == false);
 
     /* advance(N - 1) not yet at the end */
-    MFUN(b, advance), (N - 1) CALL;
-    MFUN(b, equals), e, &eq CALL;
-    NTEST_ASSERT(eq == false);
+    MFUN(begin, advance), (N - 1) CALL;
+    MFUN(begin, equals), end, &is_equals CALL;
+    NTEST_ASSERT(is_equals == false);
 
     /* one more step comes to an end */
-    MFUN(b, advance), 1 CALL;
-    MFUN(b, equals), e, &eq CALL;
-    NTEST_ASSERT(eq == true);
+    MFUN(begin, advance), 1 CALL;
+    MFUN(begin, equals), end, &is_equals CALL;
+    NTEST_ASSERT(is_equals == true);
 }
 END_FUN
 
@@ -218,25 +218,25 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_distance_BeginToEndEqualsSize)
     }
     END_LOOP;
 
-    Iterator *b = (Iterator*)&bt._base.begin_iter;
-    Iterator *e = (Iterator*)&bt._base.end_iter;
+    Iterator *begin = (Iterator*)&bt._base.begin_iter;
+    Iterator *end = (Iterator*)&bt._base.end_iter;
 
-    long d = -12345;
+    long dist = -12345;
 
     // Act + Assert
     /* distance(begin, begin) == 0 */
-    MFUN(b, distance), b, &d CALL;
-    NTEST_ASSERT(d == 0);
+    MFUN(begin, distance), begin, &dist CALL;
+    NTEST_ASSERT(dist == 0);
 
     /* distance(begin, end) == N */
-    d = -1;
-    MFUN(b, distance), e, &d CALL;
-    NTEST_ASSERT(d == (long)N);
+    dist = -1;
+    MFUN(begin, distance), end, &dist CALL;
+    NTEST_ASSERT(dist == (long)N);
 
     /* distance(end, end) == 0 */
-    d = -1;
-    MFUN(e, distance), e, &d CALL;
-    NTEST_ASSERT(d == 0);
+    dist = -1;
+    MFUN(end, distance), end, &dist CALL;
+    NTEST_ASSERT(dist == 0);
 }
 END_FUN
 
@@ -287,6 +287,7 @@ TEST_FUN_IMPL(BinaryTreeTest, dtor_freesAllMemory)
 
     MEM_SIZE_T free_start = 0, free_end = 0;
     FUN(get_total_free_bytes) &free_start CALL;
+
     FOR(int k = 0; k < 10; ++k)
     {
         CREATE(BTree_int, bt) CALL;
