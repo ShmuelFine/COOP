@@ -2,6 +2,8 @@
 #include "COOP.h"
 #include <string.h>
 
+
+
 /* ======================== CTOR / DTOR ======================== */
 
 DEF_CTOR(GenericList, MEM_SIZE_T dataTypeSize, List_ElementType enumTag)
@@ -11,7 +13,15 @@ DEF_CTOR(GenericList, MEM_SIZE_T dataTypeSize, List_ElementType enumTag)
 	_this->head = NULL;
 	_this->tail = NULL;
 	_this->elem_type = LIST_ELEM_RAW_BYTES;
-	_this->elem_type = (enumTag);                                 
+	_this->elem_type = (enumTag);
+
+	CREATE(ListIter, begin) CALL;
+	CREATE(ListIter, end) CALL;
+	_this->begin_iter = begin;
+	_this->end_iter = end;
+
+	LIST_UPDATE_ITERS_TAILEND(_this);
+
 }
 END_CTOR
 
@@ -30,6 +40,8 @@ DEF_DTOR(GenericList)
 	_this->head = NULL;
 	_this->tail = NULL;
 	_this->size = 0;
+	LIST_UPDATE_ITERS_TAILEND(_this);
+
 }
 END_DTOR
 
@@ -107,10 +119,8 @@ MEM_FUN_IMPL(GenericList, print)
 {
 	printf("\n");
 
-	Iterator* it = NULL;
-	Iterator* it_end = NULL;
-	MFUN(_this, begin), & it CALL;
-	MFUN(_this, end), & it_end CALL;
+	Iterator* it = (Iterator*)&_this->begin_iter;
+	Iterator* it_end = (Iterator*)&_this->end_iter;
 
 	bool at_end = false;
 	MFUN(it, equals), (object*)it_end, & at_end CALL;
@@ -164,6 +174,8 @@ MEM_FUN_IMPL(GenericList, clear)
 	_this->head = NULL;
 	_this->tail = NULL;
 	_this->size = 0;
+	LIST_UPDATE_ITERS_TAILEND(_this);
+
 }
 END_FUN
 
@@ -190,6 +202,8 @@ MEM_FUN_IMPL(GenericList, __push_back_generic, char* buff, MEM_SIZE_T buff_size)
 	END_IF;
 
 	_this->size += 1;
+	LIST_UPDATE_ITERS_TAILEND(_this);
+
 }
 END_FUN
 
@@ -219,6 +233,8 @@ MEM_FUN_IMPL(GenericList, __push_front_generic, char* buff, MEM_SIZE_T buff_size
 	END_IF;
 
 	_this->size += 1;
+	LIST_UPDATE_ITERS_TAILEND(_this);
+
 }
 END_FUN
 
@@ -281,6 +297,9 @@ MEM_FUN_IMPL(GenericList, __pop_back_generic, char* buff, MEM_SIZE_T buff_size)
 
 	FREE(nd);
 	_this->size -= 1;
+
+	LIST_UPDATE_ITERS_TAILEND(_this);
+
 }
 END_FUN
 
@@ -311,6 +330,9 @@ MEM_FUN_IMPL(GenericList, __pop_front_generic, char* buff, MEM_SIZE_T buff_size)
 
 	FREE(nd);
 	_this->size -= 1;
+
+	LIST_UPDATE_ITERS_TAILEND(_this);
+
 }
 END_FUN
 
@@ -325,37 +347,22 @@ IMPL_POP_FRONT_OF_TYPE(int)
 MEM_FUN_IMPL(GenericList, begin, Iterator** out_it)
 {
 	THROW_MSG_UNLESS(out_it, "out_it must not be NULL");
-
-	ListIter* it = NULL;
-	ALLOC(it, ListIter);
-	INITIALIZE_INSTANCE(ListIter, (*it)) CALL;
-
-	it->list = _this;
-	it->node = _this->head;
-
-	*out_it = (Iterator*)it;
+	LIST_UPDATE_ITERS_TAILEND(_this);
+	*out_it = (Iterator*)&_this->begin_iter;
 }
 END_FUN
 
 MEM_FUN_IMPL(GenericList, end, Iterator** out_it)
 {
 	THROW_MSG_UNLESS(out_it, "out_it must not be NULL");
-
-	ListIter* it = NULL;
-	ALLOC(it, ListIter);
-	INITIALIZE_INSTANCE(ListIter, (*it)) CALL;
-
-	it->list = _this;
-	it->node = NULL;
-
-	*out_it = (Iterator*)it;
+	LIST_UPDATE_ITERS_TAILEND(_this);
+	*out_it = (Iterator*)&_this->end_iter;
 }
 END_FUN
 
 MEM_FUN_IMPL(GenericList, it_destroy, Iterator* it)
 {
-	ListIter* lit = (ListIter*)it;
-	DESTROY(lit);
+	(void)it;
 }
 END_FUN
 
@@ -442,7 +449,8 @@ FUN_OVERRIDE_IMPL(ListIter, Iterator, prev)
 		END_IF;
 	}
 	ELSE{
-		_this->node = _this->list ? _this->list->tail : NULL;
+		   GenericList * owner = (GenericList*)_this->list;
+		   _this->node = owner ? owner->tail : NULL;
 	}
 	END_IF;
 }
@@ -510,9 +518,10 @@ FUN_OVERRIDE_IMPL(ListIter, Iterator, advance, ptrdiff_t n)
 				_this->node = _this->node->prev;
 			}
 			ELSE{
-				_this->node = _this->list ? _this->list->tail : NULL;
+				GenericList * owner = (GenericList*)_this->list;
+				_this->node = owner ? owner->tail : NULL;
 			}END_IF;
-			n += 1;
+		n += 1;
 		}END_LOOP;
 	}
 	END_IF;

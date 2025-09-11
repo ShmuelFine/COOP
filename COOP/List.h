@@ -25,6 +25,12 @@ ListNode* next;
 unsigned char payload[];   /* element bytes (length = elementSize) */
 END_DEF(ListNode);
 
+/* ===== Iterator derived from Iterator =====*/
+DEF_DERIVED_CLASS(ListIter, Iterator);
+void* list;
+ListNode* node;
+END_DEF_DERIVED(ListIter);
+
 /* ===== GenericList (homogeneous by elementSize) ===== */
 DEF_CLASS(GenericList);
 MEM_SIZE_T size;           /* number of elements */
@@ -32,15 +38,18 @@ MEM_SIZE_T elementSize;    /* size of each element in bytes */
 ListNode* head;            /* first node */
 ListNode* tail;            /* last node */
 List_ElementType elem_type;
-//ListIter begin_iter;
-//ListIter end_iter;
+ListIter begin_iter;
+ListIter end_iter;
 END_DEF(GenericList);
 
-/* ===== Iterator derived from Iterator =====*/
-DEF_DERIVED_CLASS(ListIter, Iterator);
-GenericList* list;
-ListNode* node;
-END_DEF_DERIVED(ListIter);
+
+
+#define LIST_UPDATE_ITERS_TAILEND(self)       \
+        (self)->begin_iter.list = (self);   \
+        (self)->begin_iter.node = (self)->head ? (self)->head : NULL; \
+        (self)->end_iter.list   = (self);   \
+        (self)->end_iter.node   = (self)->tail ? (self)->tail->next : NULL; \
+
 
 /* ===== Ctors/Methods Declarations ===== */
 FUNCTIONS(GenericList, MEM_SIZE_T dataTypeSize, List_ElementType enumTag);
@@ -90,6 +99,7 @@ FUN_OVERRIDE(Iterator, get_ref, void** out_ptr);
 FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
 FUN_OVERRIDE(Iterator, distance, object* other, ptrdiff_t* out_dist);
 FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
+//FUN_OVERRIDE(Iterator, reset_begin);
 END_DERIVED_FUNCTIONS(ListIter);
 
 /* ===== Typed facade  ===== */
