@@ -1,9 +1,10 @@
 #include "Iterator.h"
 
 
-DEF_CTOR(Iterator, IteratorCategory category)
+DEF_CTOR(Iterator, IteratorCategory category, void *container_ptr)
 {
     _this->_category = category;
+	_this->container_ptr = container_ptr;
 }
 END_CTOR
 
@@ -11,11 +12,20 @@ DEF_DTOR(Iterator)
 END_DTOR
 
 PURE_VIRTUAL(Iterator, next);
-PURE_VIRTUAL(Iterator, equals, object* other, bool* out_equal);
 PURE_VIRTUAL(Iterator, get_ref, void** out_ptr);
 PURE_VIRTUAL(Iterator, get_cref, const void** out_ptr);
-PURE_VIRTUAL(Iterator, distance, object* other, ptrdiff_t* out_dist);
+PURE_VIRTUAL(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
 PURE_VIRTUAL(Iterator, reset_begin);
+
+MEM_FUN_IMPL(Iterator, equals, Iterator* other, bool* out_equal)
+{
+    *out_equal = 0;
+    IF(other) {
+        *out_equal = (_this->_category == other->_category) &&
+            (_this->container_ptr == other->container_ptr);
+    }END_IF
+
+}END_FUN
 
 MEM_FUN_IMPL(Iterator, prev)
 {

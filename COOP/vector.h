@@ -10,10 +10,9 @@
 
 DEF_DERIVED_CLASS(VectorIter, Iterator);
 MEM_SIZE_T index;
-void* vec;
 END_DEF_DERIVED(VectorIter);
 
-DERIVED_FUNCTIONS(VectorIter, Iterator);
+DERIVED_FUNCTIONS(VectorIter, Iterator, void* container_ptr);
 FUN_OVERRIDE(Iterator, equals, Iterator* other, bool* out_equal);
 FUN_OVERRIDE(Iterator, next);
 FUN_OVERRIDE(Iterator, prev);

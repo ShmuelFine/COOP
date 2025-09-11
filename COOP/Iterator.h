@@ -13,10 +13,11 @@ typedef enum IteratorCategory {
 /* ===== Base Class: Iterator ===== */
 DEF_CLASS(Iterator);
 IteratorCategory _category;
+void* container_ptr;
 END_DEF(Iterator);
 
 
-FUNCTIONS(Iterator, IteratorCategory category);
+FUNCTIONS(Iterator, IteratorCategory category,void *container_ptr);
 
 MEM_FUN_DECL(Iterator, equals, Iterator* other, bool* out_equal);
 MEM_FUN_DECL(Iterator, next);

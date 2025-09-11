@@ -7,10 +7,9 @@
  *                 VectorIter (derived from Iterator)
  * ========================================================= */
 
-DEF_DERIVED_CTOR(VectorIter, Iterator)SUPER, (ITER_RANDOM_ACCESS)ME
+DEF_DERIVED_CTOR(VectorIter, Iterator,void *container_ptr) SUPER, ITER_RANDOM_ACCESS, container_ptr ME
 {
 	_this->index = 0;
-	_this->vec = NULL;
 }
 END_DERIVED_CTOR
 
@@ -23,8 +22,10 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, equals, Iterator* other, bool* out_equal
 {
 	*out_equal = 0;
 	IF(other) {
-		VectorIter* o = (VectorIter*)other;
-		*out_equal = (o->vec == _this->vec) && (o->index == _this->index);
+		VectorIter* other_iterator = (VectorIter*)other;
+		bool is_equals = false;
+		FUN_BASE(_this, equals), other_iterator, &is_equals CALL;
+		*out_equal = is_equals &&(other_iterator->index == _this->index);
 
 	}END_IF
 }
@@ -33,9 +34,9 @@ END_FUN;
 /* ++it */
 FUN_OVERRIDE_IMPL(VectorIter, Iterator, next)
 {
-	THROW_MSG_UNLESS(_this->vec != NULL, "Iterator not bound");
+	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
 	MEM_SIZE_T n = 0;
-	MFUN((GenericVector*)_this->vec, size), & n CALL;
+	MFUN((GenericVector*)_this->_base.container_ptr, size), & n CALL;
 	THROW_MSG_UNLESS(_this->index < n, "Advance past end");
 	_this->index++;
 }
@@ -44,7 +45,7 @@ END_FUN;
 /* --it */
 FUN_OVERRIDE_IMPL(VectorIter, Iterator, prev)
 {
-	THROW_MSG_UNLESS(_this->vec != NULL, "Iterator not bound");
+	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
 	THROW_MSG_UNLESS(_this->index > 0, "Advance before begin");
 	_this->index--;
 }
@@ -52,9 +53,9 @@ END_FUN;
 
 FUN_OVERRIDE_IMPL(VectorIter, Iterator, get_ref, void** out_ptr)
 {
-	THROW_MSG_UNLESS(_this->vec != NULL, "Iterator not bound");
+	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
 	char* p = NULL;
-	GenericVector* vec = (GenericVector*)_this->vec;
+	GenericVector* vec = (GenericVector*)_this->_base.container_ptr;
 	MFUN(vec, __at_generic), _this->index, vec->elementSize, & p CALL;
 	*out_ptr = (void*)p;
 }
@@ -63,9 +64,9 @@ END_FUN;
 /* read-only pointer */
 FUN_OVERRIDE_IMPL(VectorIter, Iterator, get_cref, const void** out_ptr)
 {
-	THROW_MSG_UNLESS(_this->vec != NULL, "Iterator not bound");
+	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
 	char* p = NULL;
-	GenericVector* vec = (GenericVector*)_this->vec;
+	GenericVector* vec = (GenericVector*)_this->_base.container_ptr;
 	MFUN(vec, __at_generic), _this->index, vec->elementSize, & p CALL;
 	*out_ptr = (const void*)p;
 }
@@ -75,7 +76,7 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, distance, Iterator* other, ptrdiff_t* ou
 {
 	THROW_MSG_UNLESS(other != NULL, "Null other iterator");
 	VectorIter* o = (VectorIter*)other;
-	THROW_MSG_UNLESS(o->vec == _this->vec, "Iterators of different vectors");
+	THROW_MSG_UNLESS(o->_base.container_ptr == _this->_base.container_ptr, "Iterators of different vectors");
 	*out_dist = (ptrdiff_t)o->index - (ptrdiff_t)_this->index;
 }
 END_FUN;
@@ -83,10 +84,10 @@ END_FUN;
 
 FUN_OVERRIDE_IMPL(VectorIter, Iterator, advance, ptrdiff_t n)
 {
-	THROW_MSG_UNLESS(_this->vec != NULL, "Iterator not bound");
+	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
 
 	MEM_SIZE_T sz = 0;
-	MFUN((GenericVector*)_this->vec, size), & sz CALL;
+	MFUN((GenericVector*)_this->_base.container_ptr, size), & sz CALL;
 
 	ptrdiff_t target = (ptrdiff_t)_this->index + n;
 	THROW_MSG_UNLESS(target >= 0 && target <= (ptrdiff_t)sz, "Iterator advance out of range");
@@ -96,7 +97,7 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, advance, ptrdiff_t n)
 END_FUN;
 FUN_OVERRIDE_IMPL(VectorIter, Iterator, reset_begin)
 {
-	THROW_MSG_UNLESS(_this->vec != NULL, "Iterator not bound");
+	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
 	_this->index = 0;
 }END_FUN;
 
@@ -121,15 +122,12 @@ DEF_CTOR(GenericVector, MEM_SIZE_T dataTypeSize)
 	_this->elementSize = dataTypeSize;
 	_this->data = NULL;
 
-	CREATE(VectorIter, begin)CALL;
-	CREATE(VectorIter, end) CALL;
+	CREATE(VectorIter, begin),_this CALL;
+	CREATE(VectorIter, end), _this CALL;
 	_this->begin_iter = begin;
 	_this->end_iter = end;
 
-	_this->begin_iter.vec = _this;
 	_this->begin_iter.index = 0;
-
-	_this->end_iter.vec = _this;
 	_this->end_iter.index = _this->size;
 
 }
