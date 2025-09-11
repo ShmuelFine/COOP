@@ -29,6 +29,7 @@
     </ClInclude>
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Tensor.h" />
+    <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="UnitTestsInfra.h">
       <Filter>Infra</Filter>
     </ClInclude>
@@ -56,7 +57,6 @@
     </ClInclude>
     <ClInclude Include="SharedObjPtr.h" />
     <ClInclude Include="Iterator.h" />
-    <ClInclude Include="IteratorQueue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InMemoryCache.c">
@@ -73,6 +73,7 @@
     </ClCompile>
     <ClCompile Include="Vector.c" />
     <ClCompile Include="Tensor.c" />
+    <ClCompile Include="BinaryTree.c" />
     <ClCompile Include="SharedPodPtr.c" />
     <ClCompile Include="ObjectLifecycleManagement.c">
       <Filter>Infra</Filter>

@@ -101,7 +101,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_BASE_COOP_EXPORTING_;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>COOP.h</AdditionalIncludeDirectories>
+		<AdditionalIncludeDirectories>
+		</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Iterator.h" />
+    <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="InMemoryCache.h" />
     <ClInclude Include="ClassDefMacros.h" />
     <ClInclude Include="COOP.h" />
@@ -163,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Iterator.c" />
+    <ClCompile Include="BinaryTree.c" />
     <ClCompile Include="InMemoryCache.c" />
     <ClCompile Include="DynamicMemoryManagement.c" />
     <ClCompile Include="HeapCache.c" />

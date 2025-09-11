@@ -27,6 +27,8 @@ set(DataStructuresTests
     "TensorUnitTest.h"
     "VectorUnitTest.c"
     "VectorUnitTest.h"
+    "BinaryTreeUnitTest.h"
+    "BinaryTreeUnitTest.c"
 )
 source_group("DataStructuresTests" FILES ${DataStructuresTests})
 
@@ -61,7 +63,7 @@ set(ALL_FILES
 ################################################################################
 # Target
 ################################################################################
-add_executable(${PROJECT_NAME} ${ALL_FILES} "MyTest.c" "BinaryTreeUnitTest.h" "BinaryTreeUnitTest.c")
+add_executable(${PROJECT_NAME} ${ALL_FILES} "MyTest.c")
 
 set(ROOT_NAMESPACE UnitTestC)
 
