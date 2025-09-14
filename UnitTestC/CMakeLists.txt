@@ -63,7 +63,7 @@ set(ALL_FILES
 ################################################################################
 # Target
 ################################################################################
-add_executable(${PROJECT_NAME} ${ALL_FILES} "listUnitTest.c" "listUnitTest.h")
+add_executable(${PROJECT_NAME} ${ALL_FILES})
 
 set(ROOT_NAMESPACE UnitTestC)
 

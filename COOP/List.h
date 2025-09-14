@@ -46,9 +46,9 @@ END_DEF(GenericList);
 
 #define LIST_UPDATE_ITERS_TAILEND(self)       \
         (self)->begin_iter.list = (self);   \
-        (self)->begin_iter.node = (self)->head ? (self)->head : NULL; \
+        (self)->begin_iter.node = (self)->head; \
         (self)->end_iter.list   = (self);   \
-        (self)->end_iter.node   = (self)->tail ? (self)->tail->next : NULL; \
+        (self)->end_iter.node   =  NULL; \
 
 
 /* ===== Ctors/Methods Declarations ===== */
@@ -78,7 +78,6 @@ MEM_FUN_DECL(GenericList, print);                        /* print entire list us
 /* Iteration API */
 MEM_FUN_DECL(GenericList, begin, Iterator** out_it);
 MEM_FUN_DECL(GenericList, end, Iterator** out_it);
-MEM_FUN_DECL(GenericList, it_destroy, Iterator* it);
 
 /* ---- Typed wrappers ON BASE (int) ---- */
 MEM_FUN_DECL(GenericList, push_back_int, int val);
@@ -103,6 +102,7 @@ FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
 END_DERIVED_FUNCTIONS(ListIter);
 
 /* ===== Typed facade  ===== */
+
 #define DECLARE_SPECIFIC_LIST_TYPE(type)                                   \
 DEF_DERIVED_CLASS(List_ ##type, GenericList);                              \
 END_DEF_DERIVED(List_ ##type);                                             \
@@ -118,9 +118,10 @@ MEM_FUN_DECL(List_ ##type, empty,         bool* out_is_empty);             \
 MEM_FUN_DECL(List_ ##type, clear);                                         \
 MEM_FUN_DECL(List_ ##type, begin,         Iterator** out_it);              \
 MEM_FUN_DECL(List_ ##type, end,           Iterator** out_it);              \
-MEM_FUN_DECL(List_ ##type, it_destroy,    Iterator* it);                   \
-MEM_FUN_DECL(List_ ##type, print);	\
+MEM_FUN_DECL(List_ ##type, print);	                                       \
 END_DERIVED_FUNCTIONS(List_ ##type)
+
+
 DECLARE_SPECIFIC_LIST_TYPE(int);
 
 #endif
