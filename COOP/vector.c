@@ -24,7 +24,7 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, equals, Iterator* other, bool* out_equal
 	IF(other) {
 		VectorIter* other_iterator = (VectorIter*)other;
 		bool is_equals = false;
-		FUN_BASE(_this, equals), other_iterator, &is_equals CALL;
+		FUN_BASE(_this, equals), (Iterator*)other_iterator, &is_equals CALL;
 		*out_equal = is_equals &&(other_iterator->index == _this->index);
 
 	}END_IF
@@ -129,7 +129,6 @@ DEF_CTOR(GenericVector, MEM_SIZE_T dataTypeSize)
 
 	_this->begin_iter.index = 0;
 	_this->end_iter.index = _this->size;
-
 }
 END_CTOR
 
@@ -366,7 +365,7 @@ MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	ELSE_IF (first_type_name_letter == 'o') /*its a float type*/ format = "%p ";									\
 	END_IF                                                                                                          \
     type val;																										\
-	ITER_FOR(type, val, _this) {                                                                                     \
+	ITER_FOR(type, val, (GenericVector*)_this) {                                                                                     \
 		printf(format, val);                                                                                         \
 	} END_ITER_FOR                                                                                                  \
 	printf("\n");																									\

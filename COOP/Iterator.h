@@ -41,13 +41,14 @@ END_FUNCTIONS(Iterator);
 #define ITER_CATEGORY(IT)   ((IT)->_category)
 #define ITER_RESET_BEGIN(IT)                      MFUN((IT), reset_begin) CALL
 
+
 #define ITER_CONTINUE do { goto __ITER_CONTINUE_LABEL__;} while(0)
 
 #define ITER_FOR(ElemType, varName, objPtr)          \
 {                                                    \
        bool __eq = 0;                                \
-       Iterator *_it = &((objPtr)->_base.begin_iter);\
-       Iterator *_end = &((objPtr)->_base.end_iter); \
+       Iterator *_it = (Iterator*)&((objPtr)->begin_iter);\
+       Iterator *_end = (Iterator*)&((objPtr)->end_iter); \
        FOR (;!(__eq)&&!(IS_BREAKING);) {             \
          ITER_EQUALS(_it,_end,&__eq);                \
          if (__eq||IS_BREAKING){ITER_RESET_BEGIN(_it); break;}   \

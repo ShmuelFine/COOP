@@ -11,10 +11,10 @@ TEST_FUN_IMPL(IteratorForTest, foreach_SumsAll)
 		MFUN(&v, push_back), i CALL;
 	} END_LOOP
 
-		int sum = 0;
-	ITER_FOR(void*, val, &v)
+	int sum = 0;
+	ITER_FOR(int, val, (GenericVector*)& v)
 	{
-		sum += (int)val;
+		sum += val;
 	} END_ITER_FOR
 
 	NTEST_ASSERT(sum == 1 + 2 + 3 + 4 + 5);
@@ -29,13 +29,13 @@ TEST_FUN_IMPL(IteratorForTest, foreach_ContinueSkips)
 
 	int sum = 0;
 
-	ITER_FOR(int, val, &vec)
+	ITER_FOR(int, val, (GenericVector*)&vec)
 	{
 		IF(val == 2 || val == 4) {
 			ITER_CONTINUE;
 		} END_IF
 
-			sum += val;
+	sum += val;
 	}END_ITER_FOR
 	ASSERT(sum == (0 + 1 + 3));
 }END_FUN;
@@ -50,7 +50,7 @@ TEST_FUN_IMPL(IteratorForTest, foreach_BreakStopsEarly)
 	int sum = 0;
 
 
-	ITER_FOR(int, val, &vec)
+	ITER_FOR(int, val, (GenericVector*)&vec)
 	{
 		IF(val >= 4) {
 			BREAK;
@@ -69,7 +69,7 @@ TEST_FUN_IMPL(IteratorForTest, foreach_EmptyRange)
 
 	int count = 0;
 
-	ITER_FOR(int, val, &vec)
+	ITER_FOR(int, val, (GenericVector*)&vec)
 	{
 		count++;
 	}END_ITER_FOR
