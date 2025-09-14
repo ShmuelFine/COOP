@@ -12,6 +12,8 @@ set(no_group_source_files
     "Tensor.h"
     "Vector.c"
     "Vector.h"
+    "BinaryTree.h"
+    "BinaryTree.c"
     "Iterator.c"  
     "Iterator.h"  
 )
@@ -54,7 +56,7 @@ set(ALL_FILES
 ################################################################################
 # Target
 ################################################################################
-add_library(${PROJECT_NAME} STATIC ${ALL_FILES} "BinaryTree.h" "BinaryTree.c")
+add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
 set(ROOT_NAMESPACE COOP)
 
