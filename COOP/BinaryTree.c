@@ -2,7 +2,6 @@
 #include "DynamicMemoryManagement.h"
 #include "SharedObjPtr.h"
 #include "InMemoryCache.h"
-#include <string.h>
 
 FUN_IMPL(BT_action_print_value, GenericBinaryTree *owner, const void *value)
 {
@@ -111,8 +110,7 @@ DEF_DTOR(GenericBinaryTree)
 	WHILE(top2 > 0)
 	{
 		BTNode *current = stack2[--top2];
-		DESTROY(current);
-		FREE(current);
+		DELETE(current);
 	}
 	END_LOOP;
 
@@ -269,8 +267,7 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *out_rem
 	/* Single node tree case */
 	IF(last == target && target->parent == NULL && target->left == NULL && target->right == NULL)
 	{
-		DESTROY(target);
-		FREE(target);
+		DELETE(target);
 		_this->root = NULL;
 		_this->size = 0;
 		*out_removed = true;
@@ -303,8 +300,7 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *out_rem
 	}
 	END_IF;
 
-	DESTROY(last);
-	FREE(last);
+	DELETE(last);
 	_this->size--;
 	*out_removed = true;
 	MFUN(&_this->begin_iter, init_begin), _this CALL;
