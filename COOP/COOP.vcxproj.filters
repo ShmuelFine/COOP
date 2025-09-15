@@ -55,6 +55,7 @@
       <Filter>Infra</Filter>
     </ClInclude>
     <ClInclude Include="SharedObjPtr.h" />
+    <ClInclude Include="Iterator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InMemoryCache.c">
@@ -79,5 +80,7 @@
       <Filter>Infra</Filter>
     </ClCompile>
     <ClCompile Include="SharedObjPtr.c" />
+    <ClCompile Include="Iterator.c" />
   </ItemGroup>
+
 </Project>

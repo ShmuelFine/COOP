@@ -8,6 +8,7 @@
 #include "ScopesUnitTest.h"
 #include "TensorUnitTest.h"
 #include "CodeBlocksUnitTest.h"
+#include "IteratorUnitTest.h""
 
 
 IMPORT_TESTS(Infra_ScopesTest);
@@ -19,6 +20,7 @@ IMPORT_TESTS(InheritanceTest);
 IMPORT_TESTS(ExceptionTests);
 IMPORT_TESTS(SharedPtrTest);
 IMPORT_TESTS(CodeBlocksTest);
+IMPORT_TESTS(IteratorForTest);
 
 int main() {
 
@@ -33,6 +35,7 @@ int main() {
 	
 	RUN_TESTS(VectorTest);
 	RUN_TESTS(TensorTest);
+	RUN_TESTS(IteratorForTest);
 
 	RUN_TESTS(DemoClassTest);
 

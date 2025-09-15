@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Iterator.h" />
     <ClInclude Include="InMemoryCache.h" />
     <ClInclude Include="ClassDefMacros.h" />
     <ClInclude Include="COOP.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="VirtualFuncCalling.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Iterator.c" />
     <ClCompile Include="InMemoryCache.c" />
     <ClCompile Include="DynamicMemoryManagement.c" />
     <ClCompile Include="HeapCache.c" />
