@@ -252,15 +252,15 @@ END_FUN;
 
 MEM_FUN_IMPL(GenericVector, zero_all)
 {
-	if (_this->size > 0) {
-		if (_this->elementSize == sizeof(objSPtr)) {
-			for (MEM_SIZE_T i = 0; i < _this->size; ++i) {
+	IF (_this->size > 0) {
+		IF (_this->elementSize == sizeof(objSPtr)) {
+			FOR (MEM_SIZE_T i = 0; i < _this->size; ++i) {
 				objSPtr* slot = (objSPtr*)(_this->data + i * _this->elementSize);
 				DESTROY(slot);
-			}
-		}
-		memset(_this->data, 0, _this->elementSize * _this->size);
-	}
+			}END_LOOP
+		}END_IF
+	}END_IF
+	memset(_this->data, 0, _this->elementSize * _this->capacity);
 }
 END_FUN;
 
