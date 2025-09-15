@@ -1,0 +1,8 @@
+nofile:0:0: information: Unmatched suppression: misra-c2012-2.1 [unmatchedSuppression]
+
+nofile:0:0: information: Unmatched suppression: unusedFunction [unmatchedSuppression]
+
+nofile:0:0: information: Unmatched suppression: staticFunction [unmatchedSuppression]
+
+nofile:0:0: information: Active checkers: 110/966 (use --checkers-report=<filename> to see details) [checkersReport]
+

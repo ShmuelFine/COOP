@@ -1,0 +1,17 @@
+Iterator.c:0:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches. [normalCheckLevelMaxBranches]
+
+^
+Iterator.c:36:6: Required: Statements following 'break' will never be executed. [2.1]
+    }END_IF
+     ^
+Iterator.c:47:6: Required: Statements following 'break' will never be executed. [2.1]
+    }END_IF
+     ^
+Iterator.c:63:10: Required: Statements following 'break' will never be executed. [2.1]
+        }END_IF
+         ^
+Iterator.c:-1:0: information: Unmatched suppression: misra-c2012-2.1 [unmatchedSuppression]
+
+^
+nofile:0:0: information: Active checkers: 110/966 (use --checkers-report=<filename> to see details) [checkersReport]
+

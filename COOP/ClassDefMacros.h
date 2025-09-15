@@ -96,8 +96,6 @@ V_TABLE_TYPE(type) V_TABLE_INSTANCE(type);			\
 	V_TABLE_INSTANCE(type).function_name.inner_function = inner_function_ ##type ##_ ##function_name;				\
 	V_TABLE_INSTANCE(type).function_name.next = NULL
 
-
-
 // Finally, it ends with:
 #define END_INIT_CLASS(type) \
 is_ ##type ##VirtualTable__initialized = true;\

@@ -1,0 +1,12 @@
+# Suppress false positives from END_IF macro
+misra-c2012-2.1
+
+# Ignore style warnings from macros
+unusedFunction
+staticFunction
+
+# Ignore noise from system includes
+*:*Windows Kits\*
+*:*MSVC\*\include\*
+*:*ucrt\*
+missingIncludeSystem:*
