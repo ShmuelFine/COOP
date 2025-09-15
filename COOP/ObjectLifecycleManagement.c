@@ -2,11 +2,13 @@
 #include <stdlib.h>
 
 
+
 void _scope_obj_list_add(object* scope_list, object* obj)
 {
 	obj->_next = scope_list->_next;
 	scope_list->_next = obj;
 }
+
 
 void _scope_obj_list_call_dtors(object* _scope_obj_list_ptr)
 {

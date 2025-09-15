@@ -3,6 +3,7 @@
 
 #include "ExportDefs.h"
 #include "ObjectBaseStructs.h"
+#include <stdlib.h>
 
 ///////////////// PREDEFINED RETURN CODES: ///////////////////////////////
 
@@ -68,6 +69,7 @@ COOP_API void _scope_obj_list_call_dtors(object* _scope_obj_list);
 	type instance_name;                  							\
 	REGISTER_OBJECT(&instance_name);								\
 	INITIALIZE_INSTANCE(type, instance_name)
+
 
 // D'TOR IS NOT ALLOWED TO THROW... otherwise it creates a cyclic dependence with _scope_obj_list_call_dtors.
 #define DESTROY(instance_ptr) {if (instance_ptr) (instance_ptr)->vTable->_dtor(instance_ptr);}

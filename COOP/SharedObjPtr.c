@@ -28,6 +28,12 @@ MEM_FUN_IMPL(objSPtr, copyFrom, objSPtr const* other)
 }
 END_FUN
 
+MEM_FUN_IMPL(objSPtr, print)
+{
+	printf("objSPtr at %p: ", _this);
+}
+END_FUN
+
 FUN_OVERRIDE_IMPL(objSPtr, SharedPodPtr, release)
 {
 	if (_this->objPtr)

@@ -87,7 +87,7 @@ bool is_ ##type ##VirtualTable__initialized = false;\
 V_TABLE_TYPE(type) V_TABLE_INSTANCE(type);			\
 	void type ##_init(){							\
 	/*For safety, set all ptrs to NULL instead of garbage: */				\
-	memset(& V_TABLE_INSTANCE(type), sizeof(V_TABLE_INSTANCE(type)), 0);	\
+	memset(& V_TABLE_INSTANCE(type),0, sizeof(V_TABLE_INSTANCE(type)));	\
 	ATTACH_TORs_ToClass(type)
 
 
@@ -95,6 +95,8 @@ V_TABLE_TYPE(type) V_TABLE_INSTANCE(type);			\
 	V_TABLE_INSTANCE(type).function_name.outer_function = type ##_ ##function_name ##_outer_function;				\
 	V_TABLE_INSTANCE(type).function_name.inner_function = inner_function_ ##type ##_ ##function_name;				\
 	V_TABLE_INSTANCE(type).function_name.next = NULL
+
+
 
 // Finally, it ends with:
 #define END_INIT_CLASS(type) \
@@ -104,6 +106,7 @@ is_ ##type ##VirtualTable__initialized = true;\
 //////////////////////////////////////////////////////////////////////
 
 // Macro to define a pure virtual function that throws if not overridden
+//TODO CREATE A REAL PURE VIRTUAL LIKE CPP
 #define PURE_VIRTUAL(CLASS, FUNC_NAME, ...) \
     MEM_FUN_IMPL(CLASS, FUNC_NAME, ##__VA_ARGS__) \
     { \

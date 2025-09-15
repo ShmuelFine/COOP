@@ -135,10 +135,14 @@ MEM_FUN_IMPL(GenericTensor, reshape, MEM_SIZE_T ndim, MEM_SIZE_T* shape)
 	}END_LOOP;
 }
 END_FUN
-
+//I change this bc the vector clean data by _this->size and here we never increase the size
 MEM_FUN_IMPL(GenericTensor, zero_all)
 {
-	MFUN(&_this->data, zero_all) CALL;
+	char* p = NULL;
+	MFUN(&_this->data, dataPtr), & p CALL;
+	if (p && _this->num_elements > 0) {
+		memset(p, 0, _this->_element_size * _this->num_elements);
+	}
 }
 END_FUN
 

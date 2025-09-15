@@ -81,6 +81,6 @@
     </ClCompile>
     <ClCompile Include="SharedObjPtr.c" />
     <ClCompile Include="Iterator.c" />
+    <ClCompile Include="List.c" />
   </ItemGroup>
-
 </Project>

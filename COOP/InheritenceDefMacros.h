@@ -1,6 +1,7 @@
 #ifndef __COOP_INHERITENCE_DEF_MACROS__
 #define __COOP_INHERITENCE_DEF_MACROS__
 
+
 /////////////////// Inheritence and Virtual Functions: ///////////////
 ///////////////////////  The H File Structure ////////////////////////
 
@@ -96,6 +97,7 @@ void type ##_init()		{								\
 	V_TABLE_INSTANCE(type).function.inner_function = inner_function_ ##type ##_ ##function;\
 	V_TABLE_INSTANCE(type)._base.function.next = &(V_TABLE_INSTANCE(type).function);\
 	V_TABLE_INSTANCE(type).function.outer_function = V_TABLE_INSTANCE(type)._base.function.outer_function;
+
 
 //V_TABLE_INSTANCE(type).__ ##function.outer_function = NULL; /*outer function called only on the base. otherwise let's crash.*/\
 //
