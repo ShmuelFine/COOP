@@ -12,6 +12,8 @@ set(no_group_source_files
     "Tensor.h"
     "Vector.c"
     "Vector.h"
+    "List.c"
+    "List.h"
 )
 source_group("" FILES ${no_group_source_files})
 

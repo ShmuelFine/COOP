@@ -21,6 +21,7 @@ typedef enum {
  *   Queue Iterator (forward)
  * ============================= */
 DEF_DERIVED_CLASS(QueueIter, Iterator);
+//TODO dont needed bc the iteratir have this
 GenericList* list;    
 ListNode* node;       /* current node, NULL means end() */
 END_DEF_DERIVED(QueueIter);

@@ -5,21 +5,24 @@
 /* =============================
  *     QueueIter (Iterator)
  * ============================= */
-DEF_DERIVED_CTOR(QueueIter, Iterator) SUPER, (ITER_FORWARD)ME
+DEF_DERIVED_CTOR(QueueIter, Iterator,void *container_ptr) SUPER, ITER_FORWARD, container_ptr ME
 {
-    _this->list = NULL;
     _this->node = NULL;
 }
 END_DERIVED_CTOR
 
 DEF_DERIVED_DTOR(QueueIter, Iterator) { } END_DERIVED_DTOR
 
+
 FUN_OVERRIDE_IMPL(QueueIter, Iterator, equals, Iterator* other, bool* out_equal)
 {
     *out_equal = 0;
     IF(other) {
         QueueIter* o = (QueueIter*)other;
-        *out_equal = (_this->list == o->list) && (_this->node == o->node);
+        bool is_equals = false;
+
+		FUN_BASE(_this, equals), (Iterator*)o, & is_equals CALL;
+        *out_equal = is_equals && (_this->node == o->node);
     } END_IF
 }
 END_FUN;
@@ -27,7 +30,10 @@ END_FUN;
 FUN_OVERRIDE_IMPL(QueueIter, Iterator, next)
 {
     THROW_MSG_UNLESS(_this->list != NULL, "Iterator not bound");
-    if (_this->node) _this->node = _this->node->next;
+    IF(_this->node)
+    {
+        _this->node = _this->node->next;
+    }END_IF
 }
 END_FUN;
 
@@ -59,24 +65,15 @@ FUN_OVERRIDE_IMPL(QueueIter, Iterator, distance, Iterator* other, ptrdiff_t* out
 
     ptrdiff_t d = 0;
     ListNode* it = _this->node;
-    while (it && it != o->node) {
+    WHILE (it && it != o->node) {
         it = it->next;
         ++d;
-    }
+    }END_LOOP
     THROW_MSG_UNLESS(it == o->node, "Iterators not reachable (Queue is forward-only)");
     *out_dist = d;
 }
 END_FUN;
 
-FUN_OVERRIDE_IMPL(QueueIter, Iterator, advance, ptrdiff_t n)
-{
-    THROW_MSG_UNLESS(_this->list != NULL, "Iterator not bound");
-    THROW_MSG_UNLESS(n >= 0, "QueueIter advance() only supports non-negative n");
-    ListNode* it = _this->node;
-    while (n-- > 0 && it) it = it->next;
-    _this->node = it;
-}
-END_FUN;
 
 FUN_OVERRIDE_IMPL(QueueIter, Iterator, reset_begin)
 {
@@ -91,7 +88,6 @@ BIND_OVERIDE(QueueIter, Iterator, next);
 BIND_OVERIDE(QueueIter, Iterator, get_ref);
 BIND_OVERIDE(QueueIter, Iterator, get_cref);
 BIND_OVERIDE(QueueIter, Iterator, distance);
-BIND_OVERIDE(QueueIter, Iterator, advance);
 BIND_OVERIDE(QueueIter, Iterator, reset_begin);
 END_INIT_CLASS(QueueIter)
 
@@ -102,8 +98,8 @@ END_INIT_CLASS(QueueIter)
 
 DEF_CTOR(GenericQueue, MEM_SIZE_T elementSize, ElementType elem_type)
 {
-    CREATE(QueueIter, b) CALL;
-    CREATE(QueueIter, e) CALL;
+    CREATE(QueueIter, b), _this->list CALL;
+    CREATE(QueueIter, e), _this->list CALL;
     _this->begin_iter = b;
     _this->end_iter = e;
 
@@ -114,8 +110,6 @@ DEF_CTOR(GenericQueue, MEM_SIZE_T elementSize, ElementType elem_type)
 
 	_this->elementSize = elementSize;
 	_this->elem_type = elem_type;
-    DESTROY(&b);
-    DESTROY(&e);
 }
 END_CTOR
 
@@ -184,17 +178,24 @@ MEM_FUN_IMPL(GenericQueue, empty, bool* out_empty)
 END_FUN;
 MEM_FUN_IMPL(GenericQueue, print)
 {
-	Iterator* it = (Iterator*) & _this->begin_iter;
-	Iterator* end_it = (Iterator*) & _this->end_iter;
-	bool eq = false;
-	MFUN(it, equals), end_it, &eq CALL;
-	WHILE (!eq) {
-		const void* val = NULL;
-		MFUN(it, get_cref), & val CALL;
+	//Iterator* it = (Iterator*) & _this->begin_iter;
+	//Iterator* end_it = (Iterator*) & _this->end_iter;
+	//bool eq = false;
+	//MFUN(it, equals), end_it, &eq CALL;
+ //   //TODO use iter_for loop
+	//WHILE (!eq) {
+	//	const void* val = NULL;
+	//	MFUN(it, get_cref), & val CALL;
+	//	MFUN(_this, __print), val CALL;
+	//	MFUN(it, next) CALL;
+	//	MFUN(it, equals), end_it, & eq CALL;
+	//}END_LOOP
+	//printf("\n");
+
+    ITER_FOR(void, val, &_this)
+    {
 		MFUN(_this, __print), val CALL;
-		MFUN(it, next) CALL;
-		MFUN(it, equals), end_it, & eq CALL;
-	}END_LOOP
+    }END_ITER_FOR
 	printf("\n");
 }END_FUN
 
@@ -309,7 +310,6 @@ DEF_DERIVED_CTOR(Queue_##type, GenericQueue) SUPER,sizeof(type),enum_type ME    
     GenericQueue* base=(GenericQueue*)_this; \
     CREATE(List_##type, list_tmp)  CALL;                                           \
     base->list = *((GenericList*)&list_tmp);                                   \
-    DESTROY(&list_tmp);                                                         \
 } END_DERIVED_CTOR                                                          \
 DEF_DERIVED_DTOR(Queue_##type, GenericQueue)                                \
 {                                                                           \
