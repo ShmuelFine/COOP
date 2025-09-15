@@ -13,6 +13,7 @@ typedef enum IteratorCategory {
 /* ===== Base Class: Iterator ===== */
 DEF_CLASS(Iterator);
 IteratorCategory _category;
+void* container_ptr;
 END_DEF(Iterator);
 
 

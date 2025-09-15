@@ -68,7 +68,7 @@ TEST_FUN_IMPL(QueueTest,Queue_clear_resets)
 
     /* iteration after clear should do nothing */
     int sum = 0;
-    ITER_FOR(int, v, &q) {
+    ITER_FOR(int, v, (GenericQueue*)&q) {
         sum += v;
     } END_ITER_FOR
     ASSERT(0== sum);
@@ -88,26 +88,26 @@ TEST_FUN_IMPL(QueueTest,Queue_iterator_foreach)
     } END_LOOP;
 
     int sum = 0;
-    ITER_FOR(int, v, &q) {
+    ITER_FOR(int, v, (GenericQueue*) &q) {
         sum += v;
     } END_ITER_FOR
     ASSERT(60== sum);
 
     /* test continue: skip 20 */
-    //int sum2 = 0;
-    //ITER_FOR(int, v, &q) {
-    //    IF(v == 20) { ITER_CONTINUE; } END_IF
-    //        sum2 += v;
-    //} END_ITER_FOR
-    //ASSERT(40== sum2);
+    int sum2 = 0;
+    ITER_FOR(int, v, (GenericQueue*)& q) {
+        IF(v == 20) { ITER_CONTINUE; } END_IF
+            sum2 += v;
+    } END_ITER_FOR
+    ASSERT(40== sum2);
 
-    ///* test break: stop at first 30 */
-    //int sum3 = 0;
-    //ITER_FOR(int, v, &q) {
-    //    IF(v == 30) { BREAK; } END_IF
-    //        sum3 += v;
-    //} END_ITER_FOR
-    //ASSERT(30== sum3);
+    /* test break: stop at first 30 */
+    int sum3 = 0;
+    ITER_FOR(int, v, (GenericQueue*)&q) {
+        IF(v == 30) { BREAK; } END_IF
+            sum3 += v;
+    } END_ITER_FOR
+    ASSERT(30== sum3);
 }
 END_FUN
 
