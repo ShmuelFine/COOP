@@ -26,12 +26,12 @@ int main() {
 
 	init_global_memory(sizeof(int) * 10, HEAP_BASED_MEMORY);
 
-	/*RUN_TESTS(Infra_ScopesTest);
+	RUN_TESTS(Infra_ScopesTest);
 	RUN_TESTS(CodeBlocksTest);
 	RUN_TESTS(MemoryManagementTest);
 	RUN_TESTS(InheritanceTest);
 	RUN_TESTS(ExceptionTests);
-	RUN_TESTS(SharedPtrTest);*/
+	RUN_TESTS(SharedPtrTest);
 	
 	RUN_TESTS(VectorTest);
 	RUN_TESTS(TensorTest);
