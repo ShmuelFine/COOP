@@ -72,6 +72,8 @@ DEF_DTOR(GenericBinaryTree)
 	IF(_this->root == NULL)
 	{
 		_this->size = 0;
+		DESTROY(&_this->begin_iter);
+		DESTROY(&_this->end_iter);
 		RETURN;
 	}
 	END_IF;
@@ -152,7 +154,7 @@ MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void *src)
 	}
 	END_IF;
 
-	MEM_SIZE_T capacity = _this->size + 2;
+	MEM_SIZE_T capacity = _this->size + 1;
 	BTNode **queue = NULL;
 	ALLOC_ARRAY(queue, BTNode*, capacity);
 	MEM_SIZE_T head = 0, tail = 0;
@@ -222,7 +224,7 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *out_rem
 	}
 	END_IF;
 
-	MEM_SIZE_T capacity = _this->size + 2;
+	MEM_SIZE_T capacity = _this->size + 1;
 	BTNode **queue = NULL;
 	ALLOC_ARRAY(queue, BTNode*, capacity);
 	MEM_SIZE_T head = 0, tail = 0;

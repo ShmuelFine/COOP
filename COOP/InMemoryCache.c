@@ -130,27 +130,11 @@ FUN_OVERRIDE_IMPL(InMemoryCache, ICache, getTotalFreeBytes, MEM_SIZE_T* out_coun
 }
 END_FUN
 
-FUN_OVERRIDE_IMPL(InMemoryCache, ICache, reset)
-{
-	memset(_this->buffer, 0, _this->size);
-
-	MEM_SIZE_T anchor_idx = 0, suffix_idx = END_OF_BLOCKS_IDX;
-	BLOCK_SIZE(anchor_idx) = 0;
-	JUMP_TILL_NEXT_BLOCK(anchor_idx) = suffix_idx - anchor_idx;
-	JUMP_TILL_PREV_BLOCK(anchor_idx) = 0;
-
-	BLOCK_SIZE(suffix_idx) = 0;
-	JUMP_TILL_NEXT_BLOCK(suffix_idx) = 0;
-	JUMP_TILL_PREV_BLOCK(suffix_idx) = suffix_idx - anchor_idx;
-}
-END_FUN
-
 
 INIT_DERIVED_CLASS(InMemoryCache, ICache);
 BIND_OVERIDE(InMemoryCache, ICache, AddNewBlock);
 BIND_OVERIDE(InMemoryCache, ICache, RemoveBlock);
 BIND_OVERIDE(InMemoryCache, ICache, getTotalFreeBytes);
-BIND_OVERIDE(InMemoryCache, ICache, reset);
 BIND(InMemoryCache, print_block);
 BIND(InMemoryCache, print_all);
 END_INIT_CLASS(InMemoryCache)

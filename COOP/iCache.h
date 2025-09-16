@@ -12,7 +12,6 @@ FUNCTIONS(ICache);
 MEM_FUN_DECL(ICache, AddNewBlock, MEM_SIZE_T block_size, void ** returned);
 MEM_FUN_DECL(ICache, RemoveBlock, void* toDelete);
 MEM_FUN_DECL(ICache, getTotalFreeBytes, MEM_SIZE_T* out_count);
-MEM_FUN_DECL(ICache, reset);
 END_FUNCTIONS(ICache);
 
 #endif

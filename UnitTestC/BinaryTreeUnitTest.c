@@ -302,7 +302,6 @@ TEST_FUN_IMPL(BinaryTreeTest, dtor_freesAllMemory)
     END_LOOP;
 
 
-    MFUN(TheGlobalCache, reset) CALL;
     FUN(get_total_free_bytes) &free_end CALL;
     NTEST_ASSERT(free_end == free_start);
 }
