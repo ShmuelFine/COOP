@@ -76,7 +76,7 @@ TEST_FUN_IMPL(QueueTest,Queue_clear_resets)
 END_FUN
 
 /* ============================
- *   ITERATOR FOREACH
+ *   ITERATOR FOREACH  
  * ============================ */
 TEST_FUN_IMPL(QueueTest,Queue_iterator_foreach)
 {
@@ -96,16 +96,22 @@ TEST_FUN_IMPL(QueueTest,Queue_iterator_foreach)
     /* test continue: skip 20 */
     int sum2 = 0;
     ITER_FOR(int, v, (GenericQueue*)& q) {
-        IF(v == 20) { ITER_CONTINUE; } END_IF
-            sum2 += v;
+        IF(v == 20) 
+        {
+            ITER_CONTINUE; 
+        } END_IF
+        sum2 += v;
     } END_ITER_FOR
     ASSERT(40== sum2);
 
     /* test break: stop at first 30 */
     int sum3 = 0;
     ITER_FOR(int, v, (GenericQueue*)&q) {
-        IF(v == 30) { BREAK; } END_IF
-            sum3 += v;
+        IF(v == 30)
+        {
+            BREAK;
+        } END_IF
+        sum3 += v;
     } END_ITER_FOR
     ASSERT(30== sum3);
 }

@@ -8,46 +8,17 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include "SharedObjPtr.h"
-/* ====== Element kind (type-tag) for printing ====== */
-typedef enum {
-	INT,
-	FLOAT,
-	CHAR,
-	OBJ_SPTR,
-	RAW_BYTES   /* default: hex dump of elemSize bytes */
-} ElementType;
-
-/* =============================
- *   Queue Iterator (forward)
- * ============================= */
-DEF_DERIVED_CLASS(QueueIter, Iterator);
-//TODO dont needed bc the iteratir have this
-GenericList* list;    
-ListNode* node;       /* current node, NULL means end() */
-END_DEF_DERIVED(QueueIter);
-
-DERIVED_FUNCTIONS(QueueIter, Iterator);
-FUN_OVERRIDE(Iterator, equals, Iterator* other, bool* out_equal);
-FUN_OVERRIDE(Iterator, next);
-FUN_OVERRIDE(Iterator, get_ref, void** out_ptr);
-FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
-FUN_OVERRIDE(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
-FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
-FUN_OVERRIDE(Iterator, reset_begin);
-END_DERIVED_FUNCTIONS(QueueIter);
 
 /* =============================
  *        Generic Queue
  * ============================= */
 DEF_CLASS(GenericQueue);
 GenericList list;    
-QueueIter begin_iter;
-QueueIter end_iter;
-MEM_SIZE_T elementSize;
-ElementType elem_type;
+ListIter begin_iter;
+ListIter end_iter;
 END_DEF(GenericQueue);
 
-FUNCTIONS(GenericQueue, MEM_SIZE_T elementSize,ElementType elem_type);
+FUNCTIONS(GenericQueue);
 
 /* basic ops (Vector-style generic + typed wrappers) */
 MEM_FUN_DECL(GenericQueue, enqueue_generic, const char* buff, MEM_SIZE_T buff_size); 
