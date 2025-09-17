@@ -42,8 +42,8 @@ BTNode *current;
 END_DEF_DERIVED(BTInOrderIterator);
 
 DERIVED_FUNCTIONS(BTInOrderIterator, Iterator);
-MEM_FUN_DECL(BTInOrderIterator, init_begin, void *owner);
-MEM_FUN_DECL(BTInOrderIterator, init_end, void *owner);
+MEM_FUN_DECL(BTInOrderIterator, reset_begin, void *owner);
+MEM_FUN_DECL(BTInOrderIterator, reset_end, void *owner);
 FUN_OVERRIDE(Iterator, equals, Iterator *other, bool *out_equal);
 FUN_OVERRIDE(Iterator, next);
 FUN_OVERRIDE(Iterator, prev);
