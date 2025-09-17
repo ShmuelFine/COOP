@@ -67,7 +67,6 @@ MEM_FUN_DECL(GenericList, __make_node, const char* src_bytes, MEM_SIZE_T buff_si
 MEM_FUN_DECL(GenericList, size, MEM_SIZE_T* out_size);
 MEM_FUN_DECL(GenericList, empty, bool* out_is_empty);
 MEM_FUN_DECL(GenericList, clear);
-
 /* printing */
 MEM_FUN_DECL(GenericList, __print_value, const void* p); /* helper for single element */
 MEM_FUN_DECL(GenericList, print);                        /* print entire list using iterators */
@@ -79,6 +78,30 @@ MEM_FUN_DECL(GenericList, pop_back_int, int* out_val);
 MEM_FUN_DECL(GenericList, pop_front_int, int* out_val);
 MEM_FUN_DECL(GenericList, front_int, int* out_val);
 MEM_FUN_DECL(GenericList, back_int, int* out_val);
+
+/* ---- Typed wrappers ON BASE (char) ---- */
+MEM_FUN_DECL(GenericList, push_back_char, char val);
+MEM_FUN_DECL(GenericList, push_front_char, char val);
+MEM_FUN_DECL(GenericList, pop_back_char, char* out_val);
+MEM_FUN_DECL(GenericList, pop_front_char, char* out_val);
+MEM_FUN_DECL(GenericList, front_char, char* out_val);
+MEM_FUN_DECL(GenericList, back_char, char* out_val);
+
+/* ---- Typed wrappers ON BASE (float) ---- */
+MEM_FUN_DECL(GenericList, push_back_float, float val);
+MEM_FUN_DECL(GenericList, push_front_float, float val);
+MEM_FUN_DECL(GenericList, pop_back_float, float* out_val);
+MEM_FUN_DECL(GenericList, pop_front_float, float* out_val);
+MEM_FUN_DECL(GenericList, front_float, float* out_val);
+MEM_FUN_DECL(GenericList, back_float, float* out_val);
+
+/* ---- Typed wrappers ON BASE (objSPtr) ---- */
+MEM_FUN_DECL(GenericList, push_back_objSPtr, objSPtr val);
+MEM_FUN_DECL(GenericList, push_front_objSPtr, objSPtr val);
+MEM_FUN_DECL(GenericList, pop_back_objSPtr, objSPtr* out_val);
+MEM_FUN_DECL(GenericList, pop_front_objSPtr, objSPtr* out_val);
+MEM_FUN_DECL(GenericList, front_objSPtr, objSPtr* out_val);
+MEM_FUN_DECL(GenericList, back_objSPtr, objSPtr* out_val);
 
 END_FUNCTIONS(GenericList);
 
@@ -114,6 +137,9 @@ END_DERIVED_FUNCTIONS(List_ ##type)
 
 
 DECLARE_SPECIFIC_LIST_TYPE(int);
+DECLARE_SPECIFIC_LIST_TYPE(float);
+DECLARE_SPECIFIC_LIST_TYPE(char);
+DECLARE_SPECIFIC_LIST_TYPE(objSPtr);
 
 #endif
 

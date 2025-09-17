@@ -207,7 +207,10 @@ END_FUN
 MEM_FUN_IMPL(GenericList, push_back_ ##type, type val) {							\
     MFUN(_this, __push_back_generic), (char*)&(val), (MEM_SIZE_T)sizeof(type) CALL; \
 } END_FUN;
-IMPL_PUSH_BACK_OF_TYPE(int)
+IMPL_PUSH_BACK_OF_TYPE(int);
+IMPL_PUSH_BACK_OF_TYPE(char);
+IMPL_PUSH_BACK_OF_TYPE(float);
+IMPL_PUSH_BACK_OF_TYPE(objSPtr);
 
 /* ---- push_front ---- */
 MEM_FUN_IMPL(GenericList, __push_front_generic, char* buff, MEM_SIZE_T buff_size)
@@ -238,7 +241,12 @@ END_FUN
 MEM_FUN_IMPL(GenericList, push_front_ ##type, type val) { \
     MFUN(_this, __push_front_generic), (char*)&(val), (MEM_SIZE_T)sizeof(type) CALL; \
 } END_FUN;
-IMPL_PUSH_FRONT_OF_TYPE(int)
+IMPL_PUSH_FRONT_OF_TYPE(int);
+IMPL_PUSH_FRONT_OF_TYPE(char);
+IMPL_PUSH_FRONT_OF_TYPE(float);
+IMPL_PUSH_FRONT_OF_TYPE(objSPtr);
+
+
 
 /* ---- back ---- */
 MEM_FUN_IMPL(GenericList, __back_generic, char* buff, MEM_SIZE_T buff_size)
@@ -254,7 +262,10 @@ END_FUN
 MEM_FUN_IMPL(GenericList, back_ ##type, type* out_val) { \
     MFUN(_this, __back_generic), (char*)(out_val), (MEM_SIZE_T)sizeof(type) CALL; \
 } END_FUN;
-IMPL_BACK_OF_TYPE(int)
+IMPL_BACK_OF_TYPE(int);
+IMPL_BACK_OF_TYPE(char);
+IMPL_BACK_OF_TYPE(float);
+IMPL_BACK_OF_TYPE(objSPtr);
 
 /* ---- front ---- */
 MEM_FUN_IMPL(GenericList, __front_generic, char* buff, MEM_SIZE_T buff_size)
@@ -270,7 +281,10 @@ END_FUN
 MEM_FUN_IMPL(GenericList, front_ ##type, type* out_val) { \
     MFUN(_this, __front_generic), (char*)(out_val), (MEM_SIZE_T)sizeof(type) CALL; \
 } END_FUN;
-IMPL_FRONT_OF_TYPE(int)
+IMPL_FRONT_OF_TYPE(int);
+IMPL_FRONT_OF_TYPE(char);
+IMPL_FRONT_OF_TYPE(float);
+IMPL_FRONT_OF_TYPE(objSPtr);
 
 /* ---- pop_back ---- */
 MEM_FUN_IMPL(GenericList, __pop_back_generic, char* buff, MEM_SIZE_T buff_size)
@@ -316,7 +330,10 @@ END_FUN
 MEM_FUN_IMPL(GenericList, pop_back_ ##type, type* out_val) { \
     MFUN(_this, __pop_back_generic), (char*)(out_val), (MEM_SIZE_T)sizeof(type) CALL; \
 } END_FUN;
-IMPL_POP_BACK_OF_TYPE(int)
+IMPL_POP_BACK_OF_TYPE(int);
+IMPL_POP_BACK_OF_TYPE(char);
+IMPL_POP_BACK_OF_TYPE(float);
+IMPL_POP_BACK_OF_TYPE(objSPtr);
 
 /* ---- pop_front ---- */
 MEM_FUN_IMPL(GenericList, __pop_front_generic, char* buff, MEM_SIZE_T buff_size)
@@ -360,7 +377,10 @@ END_FUN
 MEM_FUN_IMPL(GenericList, pop_front_ ##type, type* out_val) { \
     MFUN(_this, __pop_front_generic), (char*)(out_val), (MEM_SIZE_T)sizeof(type) CALL; \
 } END_FUN;
-IMPL_POP_FRONT_OF_TYPE(int)
+IMPL_POP_FRONT_OF_TYPE(int);
+IMPL_POP_FRONT_OF_TYPE(char);
+IMPL_POP_FRONT_OF_TYPE(float);
+IMPL_POP_FRONT_OF_TYPE(objSPtr);
 
 /* ======================== BIND – GenericList ======================== */
 
@@ -388,6 +408,27 @@ BIND(GenericList, pop_back_int);
 BIND(GenericList, pop_front_int);
 BIND(GenericList, front_int);
 BIND(GenericList, back_int);
+
+BIND(GenericList, push_back_char);
+BIND(GenericList, push_front_char);
+BIND(GenericList, pop_back_char);
+BIND(GenericList, pop_front_char);
+BIND(GenericList, front_char);
+BIND(GenericList, back_char);
+
+BIND(GenericList, push_back_float);
+BIND(GenericList, push_front_float);
+BIND(GenericList, pop_back_float);
+BIND(GenericList, pop_front_float);
+BIND(GenericList, front_float);
+BIND(GenericList, back_float);
+
+BIND(GenericList, push_back_objSPtr);
+BIND(GenericList, push_front_objSPtr);
+BIND(GenericList, pop_back_objSPtr);
+BIND(GenericList, pop_front_objSPtr);
+BIND(GenericList, front_objSPtr);
+BIND(GenericList, back_objSPtr);
 
 END_INIT_CLASS(GenericList)
 
@@ -565,3 +606,12 @@ END_INIT_CLASS(List_##type);
 
 IMPL_SPECIFIC_LIST_TYPE_xTORs(int, LIST_ELEM_INT);
 IMPL_SPECIFIC_LIST_TYPE_FUNCTIONS(int);
+
+IMPL_SPECIFIC_LIST_TYPE_xTORs(char, LIST_ELEM_CHAR);
+IMPL_SPECIFIC_LIST_TYPE_FUNCTIONS(char);
+
+IMPL_SPECIFIC_LIST_TYPE_xTORs(float, LIST_ELEM_FLOAT);
+IMPL_SPECIFIC_LIST_TYPE_FUNCTIONS(float);
+
+IMPL_SPECIFIC_LIST_TYPE_xTORs(objSPtr, LIST_ELEM_OBJ_SPTR);
+IMPL_SPECIFIC_LIST_TYPE_FUNCTIONS(objSPtr);

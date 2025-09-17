@@ -6,22 +6,28 @@
 
 TEST_FUN_IMPL(ListTest, push_back_SanityTest)
 {
-    CREATE(List_int, lst) CALL;
+    CREATE(List_int, lst_int) CALL;
+    CREATE(List_char, lst_char) CALL;
     int numElements = 54;
 
     FOR(int i = 0; i < numElements; i++)
     {
-        MFUN(&lst, push_back), i CALL;
+        MFUN(&lst_int, push_back), i CALL;
+        MFUN(&lst_char, push_back), i CALL;
+
     } END_LOOP;
 
     MEM_SIZE_T curr_size = 0;
-    MFUN(&lst, size), & curr_size CALL;
+    MFUN(&lst_int, size), & curr_size CALL;
+    MFUN(&lst_char, size), & curr_size CALL;
     NTEST_ASSERT(curr_size == numElements);
 
     int v = -1;
-    MFUN(&lst, front), & v CALL; NTEST_ASSERT(v == 0);
+    MFUN(&lst_int, front), & v CALL; NTEST_ASSERT(v == 0);
+    MFUN(&lst_char, front), & v CALL; NTEST_ASSERT(v == 0);
     v = -1;
-    MFUN(&lst, back), & v CALL; NTEST_ASSERT(v == (numElements - 1));
+    MFUN(&lst_int, back), & v CALL; NTEST_ASSERT(v == (numElements - 1));
+    MFUN(&lst_char, back), & v CALL; NTEST_ASSERT(v == (numElements - 1));
 } END_FUN
 
 
@@ -167,15 +173,21 @@ TEST_FUN_IMPL(ListTest, dtor_freesAllMemory)
 
 TEST_FUN_IMPL(ListTest, print_SanityTest)
 {
-    CREATE(List_int, lst) CALL;
+    CREATE(List_int, lst_int) CALL;
+    CREATE(List_char, lst_char) CALL;
+    CREATE(List_float, lst_float) CALL;
     int numElements = 10;
 
     FOR(int i = 0; i < numElements; i++)
     {
-        MFUN(&lst, push_back), i CALL;
+        MFUN(&lst_int, push_back), i CALL;
+        MFUN(&lst_char, push_back), i*1.2 CALL;
+        MFUN(&lst_float, push_back), i * 1.2 CALL;
     } END_LOOP;
 
-    MFUN(&lst, print) CALL;
+    MFUN(&lst_int, print) CALL;
+    MFUN(&lst_char, print) CALL;
+    MFUN(&lst_float, print) CALL;
 
 } END_FUN
 
