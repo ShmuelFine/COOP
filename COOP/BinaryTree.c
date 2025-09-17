@@ -208,7 +208,9 @@ MEM_FUN_IMPL(GenericBinaryTree, insert_ ##type, type value) {\
 END_FUN;
 
 IMPL_INSERT_OF_TYPE(int);
-/* add more types */
+IMPL_INSERT_OF_TYPE(char);
+IMPL_INSERT_OF_TYPE(float);
+IMPL_INSERT_OF_TYPE(objSPtr);
 
 MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *out_removed)
 {
@@ -312,7 +314,9 @@ MEM_FUN_IMPL(GenericBinaryTree, remove_ ##type, type key, bool *out_removed) {\
 }END_FUN;
 
 IMPL_REMOVE_OF_TYPE(int);
-/* add more types */
+IMPL_REMOVE_OF_TYPE(char);
+IMPL_REMOVE_OF_TYPE(float);
+IMPL_REMOVE_OF_TYPE(objSPtr);
 
 MEM_FUN_IMPL(GenericBinaryTree, __print_value, const void *value)
 {
@@ -496,11 +500,15 @@ BIND(GenericBinaryTree, is_empty);
 
 BIND(GenericBinaryTree, __insert_generic);
 BIND(GenericBinaryTree, insert_int);
-/* add more types */
+BIND(GenericBinaryTree, insert_char);
+BIND(GenericBinaryTree, insert_float);
+BIND(GenericBinaryTree, insert_objSPtr);
 
 BIND(GenericBinaryTree, __remove_generic);
 BIND(GenericBinaryTree, remove_int);
-/* add more types */
+BIND(GenericBinaryTree, remove_char);
+BIND(GenericBinaryTree, remove_float);
+BIND(GenericBinaryTree, remove_objSPtr);
 
 BIND(GenericBinaryTree, print);
 BIND(GenericBinaryTree, traverse_pre);
@@ -803,4 +811,9 @@ END_INIT_CLASS(BTree_##type)
 
 IMPL_SPECIFIC_BT_TYPE_xTORS(int, INT);
 IMPL_SPECIFIC_BT_TYPE_FUNCS(int);
-/* add more types */
+IMPL_SPECIFIC_BT_TYPE_xTORS(char, CHAR);
+IMPL_SPECIFIC_BT_TYPE_FUNCS(char);
+IMPL_SPECIFIC_BT_TYPE_xTORS(float, FLOAT);
+IMPL_SPECIFIC_BT_TYPE_FUNCS(float);
+IMPL_SPECIFIC_BT_TYPE_xTORS(objSPtr, OBJ_SPTR);
+IMPL_SPECIFIC_BT_TYPE_FUNCS(objSPtr);

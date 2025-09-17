@@ -4,6 +4,7 @@
 
 #include "COOP.h"
 #include "Iterator.h"
+#include "SharedObjPtr.h"
 
 /* ====== Element kind (type-tag) for printing ====== */
 typedef enum {
@@ -72,11 +73,15 @@ MEM_FUN_DECL(GenericBinaryTree, get_size, MEM_SIZE_T *out);
 
 MEM_FUN_DECL(GenericBinaryTree, __insert_generic, const void *src);
 MEM_FUN_DECL(GenericBinaryTree, insert_int, int value);
-/* add more types */
+MEM_FUN_DECL(GenericBinaryTree, insert_char, char value);
+MEM_FUN_DECL(GenericBinaryTree, insert_float, float value);
+MEM_FUN_DECL(GenericBinaryTree, insert_objSPtr, objSPtr value);
 
 MEM_FUN_DECL(GenericBinaryTree, __remove_generic, const void *key, bool *out_removed);
 MEM_FUN_DECL(GenericBinaryTree, remove_int, int key, bool *out_removed);
-/* add more types */
+MEM_FUN_DECL(GenericBinaryTree, remove_char, char key, bool *out_removed);
+MEM_FUN_DECL(GenericBinaryTree, remove_float, float key, bool *out_removed);
+MEM_FUN_DECL(GenericBinaryTree, remove_objSPtr, objSPtr key, bool *out_removed);
 
 MEM_FUN_DECL(GenericBinaryTree, print, BT_VisitOrder order);
 
@@ -109,7 +114,9 @@ END_DERIVED_FUNCTIONS(BTree_ ##type);
 ////////////////////////////////////////////////
 
 DECLARE_SPECIFIC_BT_TYPE(int);
-/* add more types */
+DECLARE_SPECIFIC_BT_TYPE(char);
+DECLARE_SPECIFIC_BT_TYPE(float);
+DECLARE_SPECIFIC_BT_TYPE(objSPtr);
 
 /* Helper function to run __print_value as BT_Action */
 FUN_DECL(BT_action_print_value, GenericBinaryTree *owner, const void *value);
