@@ -19,13 +19,13 @@
 typedef struct class_name##_t class_name;                                \
 typedef struct class_name ##VirtualTable_t V_TABLE_TYPE(class_name); \
 struct class_name ##_t{                                      \
-	object *_next;                                                   \
-	V_TABLE_TYPE(class_name)* vTable
+    object *_next;                                                   \
+    V_TABLE_TYPE(class_name)* vTable
 
 // Define your members here, between DEF_CLASS and END_DEF
 
 // Macro that ends class member definitions:
-#define END_DEF(class_name)											\
+#define END_DEF(class_name)                                            \
 };														\
 COOP_API extern bool is_ ##class_name ##VirtualTable__initialized
 
@@ -109,5 +109,6 @@ is_ ##type ##VirtualTable__initialized = true;\
     { \
         THROW_MSG("Pure virtual function '" #FUNC_NAME "' not implemented!"); \
     } END_FUN
+
 
 #endif

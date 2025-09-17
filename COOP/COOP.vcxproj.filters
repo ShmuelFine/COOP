@@ -84,4 +84,5 @@
     <ClCompile Include="SharedObjPtr.c" />
     <ClCompile Include="Iterator.c" />
   </ItemGroup>
+
 </Project>

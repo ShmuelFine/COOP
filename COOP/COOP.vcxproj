@@ -101,8 +101,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_BASE_COOP_EXPORTING_;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-		<AdditionalIncludeDirectories>
-		</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
