@@ -24,7 +24,13 @@ END_FUN
 MEM_FUN_IMPL(objSPtr, copyFrom, objSPtr const* other)
 {
 	MFUN(_this, release) CALL;
-	FUN_BASE(_this, copyFrom), (SharedPodPtr *)other CALL;
+	FUN_BASE(_this, copyFrom), (SharedPodPtr*)other CALL;
+}
+END_FUN
+
+MEM_FUN_IMPL(objSPtr, print)
+{
+	printf("objSPtr at %p: ", _this);
 }
 END_FUN
 
@@ -36,8 +42,10 @@ FUN_OVERRIDE_IMPL(objSPtr, SharedPodPtr, release)
 }
 END_FUN
 
+
 INIT_DERIVED_CLASS(objSPtr, SharedPodPtr);
 BIND(objSPtr, reset);
 BIND(objSPtr, copyFrom);
+BIND(objSPtr, print);
 BIND_OVERIDE(objSPtr, SharedPodPtr, release);
 END_INIT_CLASS(objSPtr)

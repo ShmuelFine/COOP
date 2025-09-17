@@ -11,6 +11,9 @@ ADD_TEST(VectorTest, at_ThrowsWhenIdxIsOutOfRange);
 ADD_TEST(VectorTest, set_SanityTest);
 ADD_TEST(VectorTest, get_SanityTest);
 ADD_TEST(VectorTest, dtor_freesAllMemory);
+ADD_TEST(VectorTest, nextPrev_MoveOK_andPrevThrowsAtBegin);
+ADD_TEST(VectorTest, getRef_getCref_PointsToCurrent);
+ADD_TEST(VectorTest, distance_And_Advance_Bounds);
 END_TEST_SUITE(VectorTest);
 
 #endif

@@ -27,7 +27,6 @@ END_DEF(ListNode);
 
 /* ===== Iterator derived from Iterator =====*/
 DEF_DERIVED_CLASS(ListIter, Iterator);
-void* list;
 ListNode* node;
 END_DEF_DERIVED(ListIter);
 
@@ -45,9 +44,8 @@ END_DEF(GenericList);
 
 
 #define LIST_UPDATE_ITERS_TAILEND(self)       \
-        (self)->begin_iter.list = (self);   \
+        (self)->begin_iter._base.container_ptr = (self);   \
         (self)->begin_iter.node = (self)->head; \
-        (self)->end_iter.list   = (self);   \
         (self)->end_iter.node   =  NULL; \
 
 
@@ -74,11 +72,6 @@ MEM_FUN_DECL(GenericList, clear);
 MEM_FUN_DECL(GenericList, __print_value, const void* p); /* helper for single element */
 MEM_FUN_DECL(GenericList, print);                        /* print entire list using iterators */
 
-
-/* Iteration API */
-MEM_FUN_DECL(GenericList, begin, Iterator** out_it);
-MEM_FUN_DECL(GenericList, end, Iterator** out_it);
-
 /* ---- Typed wrappers ON BASE (int) ---- */
 MEM_FUN_DECL(GenericList, push_back_int, int val);
 MEM_FUN_DECL(GenericList, push_front_int, int val);
@@ -90,15 +83,15 @@ MEM_FUN_DECL(GenericList, back_int, int* out_val);
 END_FUNCTIONS(GenericList);
 
 /* ===== ListIter overrides ===== */
-DERIVED_FUNCTIONS(ListIter, Iterator);
-FUN_OVERRIDE(Iterator, equals, object* other, bool* out_equal);
+DERIVED_FUNCTIONS(ListIter, Iterator,IteratorCategory category, void* container_ptr);
+FUN_OVERRIDE(Iterator, equals, Iterator* other, bool* out_equal);
 FUN_OVERRIDE(Iterator, next);
 FUN_OVERRIDE(Iterator, prev);
 FUN_OVERRIDE(Iterator, get_ref, void** out_ptr);
 FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
-FUN_OVERRIDE(Iterator, distance, object* other, ptrdiff_t* out_dist);
+FUN_OVERRIDE(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
 FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
-//FUN_OVERRIDE(Iterator, reset_begin);
+FUN_OVERRIDE(Iterator, reset_begin);
 END_DERIVED_FUNCTIONS(ListIter);
 
 /* ===== Typed facade  ===== */
@@ -116,8 +109,6 @@ MEM_FUN_DECL(List_ ##type, back,          type* out_val);                  \
 MEM_FUN_DECL(List_ ##type, size,          MEM_SIZE_T* out_size);           \
 MEM_FUN_DECL(List_ ##type, empty,         bool* out_is_empty);             \
 MEM_FUN_DECL(List_ ##type, clear);                                         \
-MEM_FUN_DECL(List_ ##type, begin,         Iterator** out_it);              \
-MEM_FUN_DECL(List_ ##type, end,           Iterator** out_it);              \
 MEM_FUN_DECL(List_ ##type, print);	                                       \
 END_DERIVED_FUNCTIONS(List_ ##type)
 

@@ -161,7 +161,9 @@
 		<ClCompile Include="ScopesUnitTest.c" />
 		<ClCompile Include="ScopeTester.c" />
 		<ClCompile Include="VectorUnitTest.c" />
-		<ClCompile Include="ListUnitTest.c" />
+		<ClCompile Include="listUnitTest.c" />
+		<ClCompile Include="IteratorUnitTest.c" />
+		
 	</ItemGroup>
 	<ItemGroup>
 		<ClInclude Include="BaseClassExample.h" />
@@ -177,7 +179,8 @@
 		<ClInclude Include="SharedPodPtrUnitTest.h" />
 		<ClInclude Include="TensorUnitTest.h" />
 		<ClInclude Include="VectorUnitTest.h" />
-		<ClInclude Include="ListUnitTest.h" />
+		<ClInclude Include="listUnitTest.h" />
+		<ClInclude Include="IteratorUnitTest.h" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\COOP\COOP.vcxproj">
@@ -187,4 +190,4 @@
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 	<ImportGroup Label="ExtensionTargets">
 	</ImportGroup>
-</Project>
+ </Project>
