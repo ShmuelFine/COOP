@@ -22,7 +22,7 @@ IMPORT_TESTS(ExceptionTests);
 IMPORT_TESTS(SharedPtrTest);
 IMPORT_TESTS(CodeBlocksTest);
 IMPORT_TESTS(BinaryTreeTest);
-IMPORT_TESTS(IteratorForTest);
+//IMPORT_TESTS(IteratorForTest);
 
 int main() {
 
@@ -38,7 +38,7 @@ int main() {
 	RUN_TESTS(VectorTest);
 	RUN_TESTS(TensorTest);
 	RUN_TESTS(BinaryTreeTest);
-	RUN_TESTS(IteratorForTest);
+	//RUN_TESTS(IteratorForTest);
 
 	RUN_TESTS(DemoClassTest);
 

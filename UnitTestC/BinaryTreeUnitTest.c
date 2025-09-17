@@ -1,3 +1,7 @@
+//#include "BinaryTree.h"
+//#include "BinaryTree.c"
+
+
 #include "BinaryTreeUnitTest.h"
 #include "ExportDefs.h"
 #include "BinaryTree.h"
@@ -221,7 +225,7 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_distance_BeginToEndEqualsSize)
     Iterator *begin = (Iterator*)&bt._base.begin_iter;
     Iterator *end = (Iterator*)&bt._base.end_iter;
 
-    long dist = -12345;
+    ptrdiff_t dist = -12345;
 
     // Act + Assert
     /* distance(begin, begin) == 0 */
@@ -231,7 +235,7 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_distance_BeginToEndEqualsSize)
     /* distance(begin, end) == N */
     dist = -1;
     MFUN(begin, distance), end, &dist CALL;
-    NTEST_ASSERT(dist == (long)N);
+    NTEST_ASSERT(dist == (ptrdiff_t)N);
 
     /* distance(end, end) == 0 */
     dist = -1;

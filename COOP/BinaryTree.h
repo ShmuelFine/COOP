@@ -25,10 +25,10 @@ typedef enum {
 /* ====== BTNode class  ======== */
 
 DEF_CLASS(BTNode);
+void *value;
 BTNode *left;
 BTNode *right;
 BTNode *parent;
-void *value;
 END_DEF(BTNode);
 
 FUNCTIONS(BTNode, MEM_SIZE_T elementSize, const void *src_bytes, BTNode *parent);
@@ -37,13 +37,10 @@ END_FUNCTIONS(BTNode);
 /* ============ Inner In-Order Iterator ============ */
 
 DEF_DERIVED_CLASS(BTInOrderIterator, Iterator);
-void *owner;
 BTNode *current;  
 END_DEF_DERIVED(BTInOrderIterator);
 
-DERIVED_FUNCTIONS(BTInOrderIterator, Iterator);
-MEM_FUN_DECL(BTInOrderIterator, reset_begin, void *owner);
-MEM_FUN_DECL(BTInOrderIterator, reset_end, void *owner);
+DERIVED_FUNCTIONS(BTInOrderIterator, Iterator, void* container_ptr);
 FUN_OVERRIDE(Iterator, equals, Iterator *other, bool *out_equal);
 FUN_OVERRIDE(Iterator, next);
 FUN_OVERRIDE(Iterator, prev);
@@ -51,6 +48,7 @@ FUN_OVERRIDE(Iterator, get_ref, void **out_ptr);
 FUN_OVERRIDE(Iterator, get_cref, const void **out_ptr);
 FUN_OVERRIDE(Iterator, distance, Iterator *other, ptrdiff_t *out_dist);
 FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
+FUN_OVERRIDE(Iterator, reset_begin);
 END_DERIVED_FUNCTIONS(BTInOrderIterator);
 
 /* ====== GenericBinaryTree class ====== */
@@ -65,7 +63,7 @@ BTInOrderIterator end_iter;
 END_DEF(GenericBinaryTree);
 
 /* Callback function type for traversal */
-typedef int (*BT_Action)(GenericBinaryTree *owner, const void *value);
+typedef void (*BT_Action)(GenericBinaryTree *owner, const void *value);
 
 FUNCTIONS(GenericBinaryTree, MEM_SIZE_T elementSize, BT_ElementType BT_type);
 
