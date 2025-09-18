@@ -26,7 +26,6 @@ MEM_FUN_DECL(Iterator, get_ref, void** out_ptr);
 MEM_FUN_DECL(Iterator, get_cref, const void** out_ptr);
 MEM_FUN_DECL(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
 MEM_FUN_DECL(Iterator, advance, ptrdiff_t n);
-MEM_FUN_DECL(Iterator, reset_begin);
 
 END_FUNCTIONS(Iterator);
 
@@ -39,19 +38,19 @@ END_FUNCTIONS(Iterator);
 #define ITER_DISTANCE(IT_A, IT_B, OUT_DIST)       MFUN((IT_A), distance), (IT_B), (OUT_DIST) CALL
 #define ITER_ADVANCE(IT, N)                       MFUN((IT), advance), (N) CALL
 #define ITER_CATEGORY(IT)   ((IT)->_category)
-#define ITER_RESET_BEGIN(IT)                      MFUN((IT), reset_begin) CALL
-
 
 #define ITER_CONTINUE do { goto __ITER_CONTINUE_LABEL__;} while(0)
 
 #define ITER_FOR(ElemType, varName, objPtr)          \
 {                                                    \
        bool __eq = 0;                                \
-       Iterator *_it = (Iterator*)&((objPtr)->begin_iter);\
-       Iterator *_end = (Iterator*)&((objPtr)->end_iter); \
+       Iterator *_it=NULL;                           \
+       Iterator *_end=NULL;                          \
+       MFUN(objPtr,begin),&_it CALL;                 \
+       MFUN(objPtr, end), &_end CALL;                \
        FOR (;!(__eq)&&!(IS_BREAKING);) {             \
          ITER_EQUALS(_it,_end,&__eq);                \
-         if (__eq||IS_BREAKING){ITER_RESET_BEGIN(_it); break;}   \
+         if (__eq||IS_BREAKING){break;}              \
          const ElemType *_p_##varName = NULL;        \
          ITER_GET_CREF(_it,&_p_##varName);           \
          ElemType varName = *_p_##varName;           \
@@ -60,6 +59,8 @@ END_FUNCTIONS(Iterator);
             __ITER_CONTINUE_LABEL__: \
             ITER_NEXT(_it);          \
         END_LOOP                     \
+        DESTROY(_it);                \
+	    DESTROY(_end);               \
       }                              \
 }
 

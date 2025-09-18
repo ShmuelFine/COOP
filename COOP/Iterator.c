@@ -15,7 +15,6 @@ PURE_VIRTUAL(Iterator, next);
 PURE_VIRTUAL(Iterator, get_ref, void** out_ptr);
 PURE_VIRTUAL(Iterator, get_cref, const void** out_ptr);
 PURE_VIRTUAL(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
-PURE_VIRTUAL(Iterator, reset_begin);
 
 MEM_FUN_IMPL(Iterator, equals, Iterator* other, bool* out_equal)
 {
@@ -75,5 +74,4 @@ MEM_FUN_IMPL(Iterator, prev)
     BIND(Iterator, get_cref);
     BIND(Iterator, distance);
     BIND(Iterator, advance);
-    BIND(Iterator, reset_begin);
     END_INIT_CLASS(Iterator);

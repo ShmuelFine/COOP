@@ -108,15 +108,19 @@ TEST_FUN_IMPL(BinaryTreeTest, iterators_beginEqualsEnd_onEmpty)
     CREATE(BTree_int, bt) CALL;
 
     // Act
-    Iterator *begin = (Iterator*)&bt._base.begin_iter;
-    Iterator *end = (Iterator*)&bt._base.end_iter;
+    Iterator *iter_begin = NULL;
+    Iterator *iter_end = NULL;
+    MFUN(&bt, begin), &iter_begin CALL;
+    MFUN(&bt, end), &iter_end CALL;
 
     bool is_equals = false;
-    MFUN(begin, equals), end, & is_equals CALL;
+    MFUN(iter_begin, equals), iter_end, & is_equals CALL;
 
     // Assert
     NTEST_ASSERT(is_equals == true);
 
+    DESTROY(iter_begin);
+    DESTROY(iter_end);
 } END_FUN
 
 
@@ -131,15 +135,18 @@ TEST_FUN_IMPL(BinaryTreeTest, prev_from_end_returns_rightmost)
     END_LOOP; /* expected inorder: 4,2,5,1,3 <- rightmost 3 */
 
     // Act
-    Iterator *end = (Iterator*)&bt._base.end_iter;
-    MFUN(end, prev) CALL;
+    Iterator *iter_end = NULL;
+    MFUN(&bt, end), &iter_end CALL;
+    MFUN(iter_end, prev) CALL;
 
     void *last_value = NULL;
-    MFUN(end, get_ref), &last_value CALL;
+    MFUN(iter_end, get_ref), &last_value CALL;
 
     // Assert
     THROW_MSG_UNLESS(last_value, "Iterator ref must not be NULL");
     NTEST_ASSERT(*(int*)last_value == 3);
+
+    DESTROY(iter_end);
 } END_FUN
 
 
@@ -154,7 +161,8 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_modifyThroughRef_persists)
     END_LOOP; /* inorder starts at the first value (4) */
 
     // Act
-    Iterator *iter = (Iterator*)&bt._base.begin_iter;
+    Iterator *iter = NULL;
+    MFUN(&bt, begin), &iter CALL;
 
     void *iter_value = NULL;
     MFUN(iter, get_ref), &iter_value CALL;
@@ -171,6 +179,8 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_modifyThroughRef_persists)
 
     // Assert
     NTEST_ASSERT(after == before + 100);
+
+    DESTROY(iter);
 } END_FUN
 
 TEST_FUN_IMPL(BinaryTreeTest, iterator_advance_WorksAndReachesEnd)
@@ -184,25 +194,29 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_advance_WorksAndReachesEnd)
     }
     END_LOOP;
 
-    Iterator *begin = (Iterator*)&bt._base.begin_iter;
-    Iterator *end = (Iterator*)&bt._base.end_iter;
+    Iterator *iter_begin = NULL, *iter_end = NULL;
+    MFUN(&bt, begin), &iter_begin CALL;
+    MFUN(&bt, end), &iter_end CALL;
 
     // Act + Assert
     /* advance(0) doesn't change anything */
-    MFUN(begin, advance), 0 CALL;
+    MFUN(iter_begin, advance), 0 CALL;
     bool is_equals = false;
-    MFUN(begin, equals), end, &is_equals CALL;
+    MFUN(iter_begin, equals), iter_end, &is_equals CALL;
     NTEST_ASSERT(is_equals == false);
 
     /* advance(N - 1) not yet at the end */
-    MFUN(begin, advance), (N - 1) CALL;
-    MFUN(begin, equals), end, &is_equals CALL;
+    MFUN(iter_begin, advance), (N - 1) CALL;
+    MFUN(iter_begin, equals), iter_end, &is_equals CALL;
     NTEST_ASSERT(is_equals == false);
 
     /* one more step comes to an end */
-    MFUN(begin, advance), 1 CALL;
-    MFUN(begin, equals), end, &is_equals CALL;
+    MFUN(iter_begin, advance), 1 CALL;
+    MFUN(iter_begin, equals), iter_end, &is_equals CALL;
     NTEST_ASSERT(is_equals == true);
+
+    DESTROY(iter_begin);
+    DESTROY(iter_end);
 }
 END_FUN
 
@@ -218,25 +232,29 @@ TEST_FUN_IMPL(BinaryTreeTest, iterator_distance_BeginToEndEqualsSize)
     }
     END_LOOP;
 
-    Iterator *begin = (Iterator*)&bt._base.begin_iter;
-    Iterator *end = (Iterator*)&bt._base.end_iter;
+    Iterator *iter_begin = NULL, *iter_end = NULL;
+    MFUN(&bt, begin), &iter_begin CALL;
+    MFUN(&bt, end), &iter_end CALL;
 
     ptrdiff_t dist = -12345;
 
     // Act + Assert
-    /* distance(begin, begin) == 0 */
-    MFUN(begin, distance), begin, &dist CALL;
+    /* distance(iter_begin, iter_begin) == 0 */
+    MFUN(iter_begin, distance), iter_begin, &dist CALL;
     NTEST_ASSERT(dist == 0);
 
-    /* distance(begin, end) == N */
+    /* distance(iter_begin, iter_end) == N */
     dist = -1;
-    MFUN(begin, distance), end, &dist CALL;
+    MFUN(iter_begin, distance), iter_end, &dist CALL;
     NTEST_ASSERT(dist == (ptrdiff_t)N);
 
-    /* distance(end, end) == 0 */
+    /* distance(iter_end, iter_end) == 0 */
     dist = -1;
-    MFUN(end, distance), end, &dist CALL;
+    MFUN(iter_end, distance), iter_end, &dist CALL;
     NTEST_ASSERT(dist == 0);
+
+    DESTROY(iter_begin);
+    DESTROY(iter_end);
 }
 END_FUN
 

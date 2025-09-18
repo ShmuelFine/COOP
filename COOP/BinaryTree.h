@@ -49,7 +49,7 @@ FUN_OVERRIDE(Iterator, get_ref, void **out_ptr);
 FUN_OVERRIDE(Iterator, get_cref, const void **out_ptr);
 FUN_OVERRIDE(Iterator, distance, Iterator *other, ptrdiff_t *out_dist);
 FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
-FUN_OVERRIDE(Iterator, reset_begin);
+MEM_FUN_DECL(BTInOrderIterator, reset_begin); 
 END_DERIVED_FUNCTIONS(BTInOrderIterator);
 
 /* ====== GenericBinaryTree class ====== */
@@ -59,8 +59,6 @@ BTNode *root;
 MEM_SIZE_T size;
 MEM_SIZE_T elementSize;
 BT_ElementType BT_type;
-BTInOrderIterator begin_iter;
-BTInOrderIterator end_iter;
 END_DEF(GenericBinaryTree);
 
 /* Callback function type for traversal */
@@ -91,6 +89,9 @@ MEM_FUN_DECL(GenericBinaryTree, traverse_post, BT_Action action);
 
 MEM_FUN_DECL(GenericBinaryTree, __print_value, const void *value);
 
+MEM_FUN_DECL(GenericBinaryTree, begin, Iterator **out_it);
+MEM_FUN_DECL(GenericBinaryTree, end, Iterator **out_it);
+
 END_FUNCTIONS(GenericBinaryTree);
 
 
@@ -109,6 +110,8 @@ MEM_FUN_DECL(BTree_ ##type, print, BT_VisitOrder order);              \
 MEM_FUN_DECL(BTree_ ##type, traverse_pre, BT_Action action);          \
 MEM_FUN_DECL(BTree_ ##type, traverse_in, BT_Action action);           \
 MEM_FUN_DECL(BTree_ ##type, traverse_post, BT_Action action);         \
+MEM_FUN_DECL(BTree_ ##type, begin, Iterator **out_it);                \
+MEM_FUN_DECL(BTree_ ##type, end, Iterator **out_it);                  \
 END_DERIVED_FUNCTIONS(BTree_ ##type);
 
 ////////////////////////////////////////////////

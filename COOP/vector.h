@@ -20,7 +20,6 @@ FUN_OVERRIDE(Iterator, get_ref, void** out_ptr);
 FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
 FUN_OVERRIDE(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
 FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
-FUN_OVERRIDE(Iterator, reset_begin);
 END_DERIVED_FUNCTIONS(VectorIter);
 
 //////////////////////////////////////////////////////
@@ -31,8 +30,6 @@ MEM_SIZE_T size;
 MEM_SIZE_T capacity;
 MEM_SIZE_T elementSize;
 char* data;
-VectorIter begin_iter;  
-VectorIter end_iter;
 END_DEF(GenericVector);
 
 FUNCTIONS(GenericVector, MEM_SIZE_T dataTypeSize);
@@ -72,6 +69,8 @@ MEM_FUN_DECL(GenericVector, pop_back_float, float* val);
 MEM_FUN_DECL(GenericVector, pop_back_objSPtr, objSPtr* val);
 
 MEM_FUN_DECL(GenericVector, zero_all);
+MEM_FUN_DECL(GenericVector, begin, Iterator** out_it);
+MEM_FUN_DECL(GenericVector, end, Iterator** out_it);
 
 END_FUNCTIONS(GenericVector);
 
@@ -93,6 +92,8 @@ MEM_FUN_DECL(Vector_ ##type, resize, MEM_SIZE_T new_capacity); \
 MEM_FUN_DECL(Vector_ ##type, size, MEM_SIZE_T * out_size); \
 MEM_FUN_DECL(Vector_ ##type, zero_all); \
 MEM_FUN_DECL(Vector_ ##type, print); \
+MEM_FUN_DECL(Vector_ ##type, begin, VectorIter* out_it); \
+MEM_FUN_DECL(Vector_ ##type, end, VectorIter* out_it); \
 END_DERIVED_FUNCTIONS(Vector_ ##type);
 
 DECLARE_SPECIFIC_VECTOR_TYPE(int);
