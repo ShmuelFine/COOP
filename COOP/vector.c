@@ -96,12 +96,6 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, advance, ptrdiff_t n)
 }
 END_FUN;
 
-FUN_OVERRIDE_IMPL(VectorIter, Iterator, reset_begin)
-{
-	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
-	_this->index = 0;
-}END_FUN;
-
 INIT_DERIVED_CLASS(VectorIter, Iterator);
 BIND_OVERIDE(VectorIter, Iterator, equals);
 BIND_OVERIDE(VectorIter, Iterator, next);
@@ -110,7 +104,6 @@ BIND_OVERIDE(VectorIter, Iterator, get_ref);
 BIND_OVERIDE(VectorIter, Iterator, get_cref);
 BIND_OVERIDE(VectorIter, Iterator, distance);
 BIND_OVERIDE(VectorIter, Iterator, advance);
-BIND_OVERIDE(VectorIter, Iterator, reset_begin);
 END_INIT_CLASS(VectorIter)
 
 

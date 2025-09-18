@@ -26,7 +26,6 @@ MEM_FUN_DECL(Iterator, get_ref, void** out_ptr);
 MEM_FUN_DECL(Iterator, get_cref, const void** out_ptr);
 MEM_FUN_DECL(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
 MEM_FUN_DECL(Iterator, advance, ptrdiff_t n);
-MEM_FUN_DECL(Iterator, reset_begin);
 
 END_FUNCTIONS(Iterator);
 
@@ -39,8 +38,6 @@ END_FUNCTIONS(Iterator);
 #define ITER_DISTANCE(IT_A, IT_B, OUT_DIST)       MFUN((IT_A), distance), (IT_B), (OUT_DIST) CALL
 #define ITER_ADVANCE(IT, N)                       MFUN((IT), advance), (N) CALL
 #define ITER_CATEGORY(IT)   ((IT)->_category)
-#define ITER_RESET_BEGIN(IT)                      MFUN((IT), reset_begin) CALL
-
 
 #define ITER_CONTINUE do { goto __ITER_CONTINUE_LABEL__;} while(0)
 
