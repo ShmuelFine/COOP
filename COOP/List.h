@@ -105,6 +105,10 @@ MEM_FUN_DECL(GenericList, back_objSPtr, objSPtr* out_val);
 
 END_FUNCTIONS(GenericList);
 
+/* ===== ListNode  ===== */
+FUNCTIONS(ListNode, MEM_SIZE_T element_size, const void* src_bytes);
+END_FUNCTIONS(ListNode);
+
 /* ===== ListIter overrides ===== */
 DERIVED_FUNCTIONS(ListIter, Iterator,IteratorCategory category, void* container_ptr);
 FUN_OVERRIDE(Iterator, equals, Iterator* other, bool* out_equal);

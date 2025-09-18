@@ -50,35 +50,35 @@ DEF_DTOR(GenericList)
 }
 END_DTOR
 
-/* ======================== Helpers ======================== */
-
-MEM_FUN_IMPL(GenericList, __make_node, const char* src_bytes, MEM_SIZE_T buff_size, ListNode** out_node)
+DEF_CTOR(ListNode, MEM_SIZE_T element_size, const void* src_bytes)
 {
-	THROW_MSG_UNLESS(out_node, "out_node must not be NULL");
-	IF(src_bytes != NULL) {
-		THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
+	_this->prev = NULL;
+	_this->next = NULL;
+
+	IF(element_size > 0)
+	{
+		IF(src_bytes != NULL)
+		{
+			memcpy(_this->payload, src_bytes, element_size);
+		}
+		ELSE
+		{
+			memset(_this->payload, 0, element_size);
+		}
+		END_IF;
 	}
 	END_IF;
-
-	MEM_SIZE_T bytes = (MEM_SIZE_T)(sizeof(ListNode) + _this->elementSize);
-
-	ListNode* nd = NULL;
-	ALLOC_ARRAY(nd, char, bytes);
-
-	nd->prev = NULL;
-	nd->next = NULL;
-
-	IF(src_bytes != NULL) {
-		memcpy(nd->payload, src_bytes, (size_t)_this->elementSize);
-	}
-	ELSE{
-		memset(nd->payload, 0, (size_t)_this->elementSize);
-	}
-	END_IF;
-
-	*out_node = nd;
 }
-END_FUN
+END_CTOR
+
+DEF_DTOR(ListNode)
+{
+	_this->prev = NULL;
+	_this->next = NULL;
+	FREE(_this);
+}
+END_DTOR
+
 
 /* ======================== print functions ======================== */
 
@@ -183,17 +183,20 @@ MEM_FUN_IMPL(GenericList, __push_back_generic, char* buff, MEM_SIZE_T buff_size)
 {
 	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 
-	ListNode* nd = NULL;
-	MFUN(_this, __make_node), (const char*)buff, buff_size, & nd CALL;
+	ListNode* new_node = NULL;
+	ALLOC_ARRAY(new_node, char, (MEM_SIZE_T)(sizeof(ListNode) + _this->elementSize));
+	INITIALIZE_INSTANCE(ListNode, (*new_node)), _this->elementSize, (const void*)buff CALL;
+
+	new_node->prev = _this->tail;
+	new_node->next = NULL;
 
 	IF(_this->tail == NULL) {
-		_this->head = nd;
-		_this->tail = nd;
+		_this->head = new_node;
+		_this->tail = new_node;
 	}
 	ELSE{
-		nd->prev = _this->tail;
-		_this->tail->next = nd;
-		_this->tail = nd;
+		_this->tail->next = new_node;
+		_this->tail = new_node;
 	}
 	END_IF;
 
@@ -217,17 +220,21 @@ MEM_FUN_IMPL(GenericList, __push_front_generic, char* buff, MEM_SIZE_T buff_size
 {
 	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 
-	ListNode* nd = NULL;
-	MFUN(_this, __make_node), (const char*)buff, buff_size, & nd CALL;
+	ListNode* new_node = NULL;
+	ALLOC_ARRAY(new_node, char, (MEM_SIZE_T)(sizeof(ListNode) + _this->elementSize));
+	INITIALIZE_INSTANCE(ListNode, (*new_node)), _this->elementSize, (const void*)buff CALL;
+
+	new_node->prev = NULL;
+	new_node->next = _this->head;
 
 	IF(_this->head == NULL) {
-		_this->head = nd;
-		_this->tail = nd;
+		_this->head = new_node;
+		_this->tail = new_node;
 	}
 	ELSE{
-		nd->next = _this->head;
-		_this->head->prev = nd;
-		_this->head = nd;
+		new_node->next = _this->head;
+		_this->head->prev = new_node;
+		_this->head = new_node;
 	}
 	END_IF;
 
@@ -318,7 +325,7 @@ MEM_FUN_IMPL(GenericList, __pop_back_generic, char* buff, MEM_SIZE_T buff_size)
 	}
 	END_IF;
 
-	FREE(nd);
+	DESTROY(nd);
 	_this->size -= 1;
 
 	LIST_UPDATE_ITERS_TAILEND(_this);
@@ -365,7 +372,7 @@ MEM_FUN_IMPL(GenericList, __pop_front_generic, char* buff, MEM_SIZE_T buff_size)
 	}
 	END_IF;
 
-	FREE(nd);
+	DESTROY(nd);
 	_this->size -= 1;
 
 	LIST_UPDATE_ITERS_TAILEND(_this);
@@ -388,7 +395,6 @@ INIT_CLASS(GenericList);
 BIND(GenericList, size);
 BIND(GenericList, empty);
 BIND(GenericList, clear);
-BIND(GenericList, __make_node);
 
 BIND(GenericList, __print_value);
 BIND(GenericList, print);
@@ -431,6 +437,9 @@ BIND(GenericList, front_objSPtr);
 BIND(GenericList, back_objSPtr);
 
 END_INIT_CLASS(GenericList)
+
+INIT_CLASS(ListNode);
+END_INIT_CLASS(ListNode)
 
 /* =========================================================
  *                 ListIter (derived from Iterator)
