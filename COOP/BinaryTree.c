@@ -60,11 +60,10 @@ DEF_CTOR(GenericBinaryTree, MEM_SIZE_T elementSize, BT_ElementType BT_type)
 	_this->elementSize = elementSize;
 	_this->BT_type = BT_type;
 
-	CREATE(BTInOrderIterator, begin), _this CALL;
-	CREATE(BTInOrderIterator, end), _this CALL;
-	_this->begin_iter = begin;
-	_this->end_iter = end;
+	INITIALIZE_INSTANCE(BTInOrderIterator, _this->begin_iter), _this CALL;
 	MFUN(&_this->begin_iter, reset_begin) CALL;
+
+	INITIALIZE_INSTANCE(BTInOrderIterator, _this->end_iter), _this CALL;
 	_this->end_iter.current = NULL;
 }
 END_CTOR
@@ -122,6 +121,8 @@ DEF_DTOR(GenericBinaryTree)
 
 	_this->root = NULL;
 	_this->size = 0;
+	DESTROY(&_this->begin_iter);
+	DESTROY(&_this->end_iter);
 }
 END_DTOR
 

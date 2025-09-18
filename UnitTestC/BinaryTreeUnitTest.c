@@ -1,7 +1,3 @@
-//#include "BinaryTree.h"
-//#include "BinaryTree.c"
-
-
 #include "BinaryTreeUnitTest.h"
 #include "ExportDefs.h"
 #include "BinaryTree.h"
