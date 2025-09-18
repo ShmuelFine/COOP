@@ -61,7 +61,7 @@ set(ALL_FILES
 ################################################################################
 # Target
 ################################################################################
-add_executable(${PROJECT_NAME} ${ALL_FILES})
+add_executable(${PROJECT_NAME} ${ALL_FILES} "QueueUnitTest.h" "QueueUnitTest.c")
 
 set(ROOT_NAMESPACE UnitTestC)
 
