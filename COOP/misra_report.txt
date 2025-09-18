@@ -1,0 +1,509 @@
+Checking List.c ...
+List.c:420:1: error: syntax error [syntaxError]
+FUN_OVERRIDE_IMPL(ListIter, Iterator, next)
+^
+1/2 files checked 76% done
+Checking List.h ...
+iCache.h:15:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.2]
+END_FUNCTIONS(ICache);
+^
+Iterator.h:31:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.2]
+END_FUNCTIONS(Iterator);
+^
+SharedPodPtr.h:16:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.2]
+END_FUNCTIONS(SharedPodPtr);
+^
+SharedObjPtr.h:15:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.2]
+END_DERIVED_FUNCTIONS(objSPtr);
+^
+List.h:90:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.2]
+END_FUNCTIONS(GenericList);
+^
+List.h:102:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.2]
+END_DERIVED_FUNCTIONS(ListIter);
+^
+List.h:125:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.2]
+DECLARE_SPECIFIC_LIST_TYPE(int);
+^
+SharedObjPtr.h:6:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+DEF_DERIVED_CLASS(objSPtr, SharedPodPtr);
+^
+List.h:29:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+DEF_DERIVED_CLASS(ListIter, Iterator);
+^
+List.h:125:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+DECLARE_SPECIFIC_LIST_TYPE(int);
+^
+SharedObjPtr.h:6:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+DEF_DERIVED_CLASS(objSPtr, SharedPodPtr);
+^
+List.h:29:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+DEF_DERIVED_CLASS(ListIter, Iterator);
+^
+List.h:125:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+DECLARE_SPECIFIC_LIST_TYPE(int);
+^
+SharedObjPtr.h:6:1: error: Because of missing configuration, misra checking is incomplete. There can be false negatives! Unknown array size, please review configuration [misra-config]
+DEF_DERIVED_CLASS(objSPtr, SharedPodPtr);
+^
+List.h:29:1: error: Because of missing configuration, misra checking is incomplete. There can be false negatives! Unknown array size, please review configuration [misra-config]
+DEF_DERIVED_CLASS(ListIter, Iterator);
+^
+List.h:125:1: error: Because of missing configuration, misra checking is incomplete. There can be false negatives! Unknown array size, please review configuration [misra-config]
+DECLARE_SPECIFIC_LIST_TYPE(int);
+^
+List.h:25:22: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.7]
+unsigned char payload[];   /* element bytes (length = elementSize) */
+                     ^
+SharedObjPtr.h:6:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-19.2]
+DEF_DERIVED_CLASS(objSPtr, SharedPodPtr);
+^
+List.h:29:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-19.2]
+DEF_DERIVED_CLASS(ListIter, Iterator);
+^
+List.h:125:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-19.2]
+DECLARE_SPECIFIC_LIST_TYPE(int);
+^
+List.h:106:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define DECLARE_SPECIFIC_LIST_TYPE(type)                                   \
+^
+ClassDefMacros.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define DEF_CLASS(class_name)                                        \
+^
+ClassDefMacros.h:51:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define END_FUNCTIONS(class_name) } class_name ##VirtualTable;   \
+^
+ClassDefMacros.h:62:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define DEF_DTOR(class_name) FUN_IMPL(__dtor__ ##class_name, class_name * _this)
+^
+ClassDefMacros.h:85:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define INIT_CLASS(type)       \
+^
+ClassDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define BIND(type, function_name)\
+^
+DynamicMemoryManagement.h:28:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define FREE(buff) if (buff) MFUN(TheGlobalCache, RemoveBlock), buff CALL;
+^
+DynamicMemoryManagement.h:29:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define DELETE(instance_ptr) {printf("\nDelete " #instance_ptr "\n"); DESTROY(instance_ptr); FREE(instance_ptr); instance_ptr = NULL;}
+^
+InheritenceDefMacros.h:14:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define DEF_DERIVED_CLASS(class_name, base)          \
+^
+InheritenceDefMacros.h:28:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define END_DEF_DERIVED(class_name) };};        \
+^
+InheritenceDefMacros.h:69:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define DEF_DERIVED_DTOR(class_name, BaseName) FUN_IMPL(__dtor__ ##class_name, class_name * _this) \
+^
+InheritenceDefMacros.h:84:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define INIT_DERIVED_CLASS(type,base)     \
+^
+InheritenceDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define BIND_OVERIDE(type,base,function) \
+^
+Iterator.h:46:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define ITER_FOR(T, VAR, BEGIN_IT, END_IT)                           \
+^
+ObjectLifecycleManagement.h:59:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
+^
+ObjectLifecycleManagement.h:61:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define INITIALIZE_INSTANCE(type, instance_name)     \
+^
+ObjectLifecycleManagement.h:67:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define CREATE(type, instance_name)         \
+^
+ObjectLifecycleManagement.h:116:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define FUN(funcName)\
+^
+SharedPodPtr.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define GET(s_ptr, Type) ((Type*)(s_ptr.px))
+^
+VirtualFuncCalling.h:11:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define FUN_BASE(_this, funcName)\
+^
+List.h:106:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define DECLARE_SPECIFIC_LIST_TYPE(type)                                   \
+^
+ClassDefMacros.h:14:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define V_TABLE_TYPE(class_name) class_name ##VirtualTable
+^
+ClassDefMacros.h:15:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define V_TABLE_INSTANCE(class_name) class_name ##VTable
+^
+ClassDefMacros.h:16:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define V_TABLE_TYPEDEF(class_name) class_name ##VirtualTable_t
+^
+ClassDefMacros.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define DEF_CLASS(class_name)                                        \
+^
+ClassDefMacros.h:28:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define END_DEF(class_name)                                            \
+^
+ClassDefMacros.h:51:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define END_FUNCTIONS(class_name) } class_name ##VirtualTable;   \
+^
+ClassDefMacros.h:62:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define DEF_DTOR(class_name) FUN_IMPL(__dtor__ ##class_name, class_name * _this)
+^
+ClassDefMacros.h:79:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define ATTACH_TORs_ToClass(class_name)       \
+^
+ClassDefMacros.h:85:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define INIT_CLASS(type)       \
+^
+ClassDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define BIND(type, function_name)\
+^
+ClassDefMacros.h:100:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define END_INIT_CLASS(type) \
+^
+DynamicMemoryManagement.h:19:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define ALLOC(dest, whatToPutThere)\
+^
+DynamicMemoryManagement.h:23:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define ALLOC_ARRAY(dest, type, howMuchToPutThere)\
+^
+DynamicMemoryManagement.h:29:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define DELETE(instance_ptr) {printf("\nDelete " #instance_ptr "\n"); DESTROY(instance_ptr); FREE(instance_ptr); instance_ptr = NULL;}
+^
+InheritenceDefMacros.h:14:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define DEF_DERIVED_CLASS(class_name, base)          \
+^
+InheritenceDefMacros.h:28:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define END_DEF_DERIVED(class_name) };};        \
+^
+InheritenceDefMacros.h:69:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define DEF_DERIVED_DTOR(class_name, BaseName) FUN_IMPL(__dtor__ ##class_name, class_name * _this) \
+^
+InheritenceDefMacros.h:84:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define INIT_DERIVED_CLASS(type,base)     \
+^
+InheritenceDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define BIND_OVERIDE(type,base,function) \
+^
+ObjectLifecycleManagement.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define TRY IS_BREAKING = false; \
+^
+ObjectLifecycleManagement.h:61:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define INITIALIZE_INSTANCE(type, instance_name)     \
+^
+ObjectLifecycleManagement.h:125:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define ASSERT_NOT_NULL(x) if (!(x)) {THROW_MSG(#x " is null");}
+^
+List.h:106:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define DECLARE_SPECIFIC_LIST_TYPE(type)                                   \
+^
+ClassDefMacros.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define DEF_CLASS(class_name)                                        \
+^
+ClassDefMacros.h:51:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define END_FUNCTIONS(class_name) } class_name ##VirtualTable;   \
+^
+InheritenceDefMacros.h:14:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define DEF_DERIVED_CLASS(class_name, base)          \
+^
+InheritenceDefMacros.h:28:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define END_DEF_DERIVED(class_name) };};        \
+^
+List.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP__LIST__H_
+^
+COOP.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_COOP_H__
+^
+ClassDefMacros.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_CLASS_DEF_MACROS__
+^
+DynamicMemoryManagement.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __DYNAMIC_MEMORY_MANAGEMENT__H_
+^
+ExportDefs.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __EXPORT_DEFS__H_
+^
+InheritenceDefMacros.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_INHERITENCE_DEF_MACROS__
+^
+Iterator.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP__ITERATOR__H_
+^
+ObjectBaseStructs.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_OBJ_BASE_STRUCTS__
+^
+ObjectLifecycleManagement.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_OBJ_LIEFCYCLE_MANAGEMENT__
+^
+SharedObjPtr.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __MY__SHARED_OBJ_PTR__H__
+^
+SharedPodPtr.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __MY__SHARED_PTR__H__
+^
+VirtualFuncCalling.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __LINKED_LISTS__H_
+^
+iCache.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __I_CACHE__H_
+^
+object.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_OBJECT__H_
+^
+2/2 files checked 100% done
+ObjectBaseStructs.h:5:25: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+typedef struct object_t object;
+                        ^
+ObjectBaseStructs.h:16:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+}object;
+ ^
+iCache.h:8:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+DEF_CLASS(ICache);
+^
+iCache.h:15:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+END_FUNCTIONS(ICache);
+^
+Iterator.h:16:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+DEF_CLASS(Iterator);
+^
+Iterator.h:31:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+END_FUNCTIONS(Iterator);
+^
+SharedPodPtr.h:6:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+DEF_CLASS(SharedPodPtr);
+^
+SharedPodPtr.h:16:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+END_FUNCTIONS(SharedPodPtr);
+^
+SharedObjPtr.h:6:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+DEF_DERIVED_CLASS(objSPtr, SharedPodPtr);
+^
+SharedObjPtr.h:15:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+END_DERIVED_FUNCTIONS(objSPtr);
+^
+List.h:35:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+DEF_CLASS(GenericList);
+^
+List.h:90:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+END_FUNCTIONS(GenericList);
+^
+List.h:29:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+DEF_DERIVED_CLASS(ListIter, Iterator);
+^
+List.h:102:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+END_DERIVED_FUNCTIONS(ListIter);
+^
+List.h:47:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define LIST_UPDATE_ITERS_TAILEND(self)       \
+^
+ClassDefMacros.h:58:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define DEF_CTOR(class_name, ...) FUN_IMPL(__ctor__ ##class_name, class_name * _this, ##__VA_ARGS__)
+^
+ClassDefMacros.h:59:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_CTOR END_FUN
+^
+ClassDefMacros.h:62:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define DEF_DTOR(class_name) FUN_IMPL(__dtor__ ##class_name, class_name * _this)
+^
+ClassDefMacros.h:64:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_DTOR END_FUN
+^
+ClassDefMacros.h:68:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define MEM_FUN_IMPL(type, function_name, ...)         \
+^
+ClassDefMacros.h:79:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ATTACH_TORs_ToClass(class_name)       \
+^
+ClassDefMacros.h:85:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define INIT_CLASS(type)       \
+^
+ClassDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define BIND(type, function_name)\
+^
+ClassDefMacros.h:100:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_INIT_CLASS(type) \
+^
+DynamicMemoryManagement.h:19:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ALLOC(dest, whatToPutThere)\
+^
+DynamicMemoryManagement.h:23:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ALLOC_ARRAY(dest, type, howMuchToPutThere)\
+^
+DynamicMemoryManagement.h:28:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define FREE(buff) if (buff) MFUN(TheGlobalCache, RemoveBlock), buff CALL;
+^
+DynamicMemoryManagement.h:29:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define DELETE(instance_ptr) {printf("\nDelete " #instance_ptr "\n"); DESTROY(instance_ptr); FREE(instance_ptr); instance_ptr = NULL;}
+^
+InheritenceDefMacros.h:52:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define SUPER &(_this->_base)
+^
+InheritenceDefMacros.h:53:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ME CALL;
+^
+InheritenceDefMacros.h:59:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define DEF_DERIVED_CTOR(class_name, baseName, ...)  FUN_IMPL(__ctor__ ##class_name, class_name * _this, ##__VA_ARGS__)  \
+^
+InheritenceDefMacros.h:64:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define  END_DERIVED_CTOR } END_FUN
+^
+InheritenceDefMacros.h:69:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define DEF_DERIVED_DTOR(class_name, BaseName) FUN_IMPL(__dtor__ ##class_name, class_name * _this) \
+^
+InheritenceDefMacros.h:73:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_DERIVED_DTOR __base_dtor_to_call_after_i_finish_with_derived_class__(&(_this->_base)); }END_FUN
+^
+InheritenceDefMacros.h:76:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define FUN_OVERRIDE_IMPL(type, base, function_name, ...)\
+^
+InheritenceDefMacros.h:84:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define INIT_DERIVED_CLASS(type,base)     \
+^
+InheritenceDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define BIND_OVERIDE(type,base,function) \
+^
+Iterator.h:34:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ITER_EQUALS(IT_A, IT_B, OUT_BOOL)         MFUN((IT_A), equals), (object*)(IT_B), (OUT_BOOL) CALL
+^
+Iterator.h:35:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ITER_NEXT(IT)                             MFUN((IT), next) CALL
+^
+Iterator.h:36:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ITER_PREV(IT)                             MFUN((IT), prev) CALL
+^
+Iterator.h:37:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ITER_GET_REF(IT, OUT_VOIDPTR)             MFUN((IT), get_ref), (void**)(OUT_VOIDPTR) CALL
+^
+Iterator.h:38:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ITER_GET_CREF(IT, OUT_CVOIDPTR)           MFUN((IT), get_cref), (const void**)(OUT_CVOIDPTR) CALL
+^
+Iterator.h:39:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ITER_DISTANCE(IT_A, IT_B, OUT_DIST)       MFUN((IT_A), distance), (object*)(IT_B), (OUT_DIST) CALL
+^
+Iterator.h:40:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ITER_ADVANCE(IT, N)                       MFUN((IT), advance), (N) CALL
+^
+Iterator.h:43:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ITER_CONTINUE  do { goto __ITER_CONTINUE__; } while (0)
+^
+Iterator.h:44:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ITER_BREAK     do { goto __ITER_BREAK__; } while (0)
+^
+Iterator.h:46:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ITER_FOR(T, VAR, BEGIN_IT, END_IT)                           \
+^
+Iterator.h:58:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_ITER_FOR(BEGIN_IT)                                       \
+^
+ObjectLifecycleManagement.h:9:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define SUCCESS_VALUE 0
+^
+ObjectLifecycleManagement.h:10:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ERROR_VALUE 1
+^
+ObjectLifecycleManagement.h:11:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define IN_THROWING_VALUE 2
+^
+ObjectLifecycleManagement.h:12:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define IN_RETURNING_VALUE 3
+^
+ObjectLifecycleManagement.h:13:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define IS_IN_THROWING() (__RET_VAL__ == IN_THROWING_VALUE)
+^
+ObjectLifecycleManagement.h:14:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define IS_IN_RETURNING() (__RET_VAL__ == IN_RETURNING_VALUE)
+^
+ObjectLifecycleManagement.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define TRY IS_BREAKING = false; \
+^
+ObjectLifecycleManagement.h:22:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define BREAK {IS_BREAKING = true; _scope_obj_list_call_dtors(&_scope_obj_list); break;}
+^
+ObjectLifecycleManagement.h:24:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define CONTINUE {IS_BREAKING = false; _scope_obj_list_call_dtors(&_scope_obj_list); break;}
+^
+ObjectLifecycleManagement.h:26:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define CATCH            \
+^
+ObjectLifecycleManagement.h:31:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_TRY            \
+^
+ObjectLifecycleManagement.h:35:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define THROW \
+^
+ObjectLifecycleManagement.h:38:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define RETURN \
+^
+ObjectLifecycleManagement.h:44:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define THROW_MSG(msg) LAST_EXCEPTION_ERROR_MSG = (msg); THROW
+^
+ObjectLifecycleManagement.h:48:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define SCOPE_START     \
+^
+ObjectLifecycleManagement.h:54:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define SCOPE_END }
+^
+ObjectLifecycleManagement.h:59:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
+^
+ObjectLifecycleManagement.h:61:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define INITIALIZE_INSTANCE(type, instance_name)     \
+^
+ObjectLifecycleManagement.h:67:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define CREATE(type, instance_name)         \
+^
+ObjectLifecycleManagement.h:73:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define DESTROY(instance_ptr) {if (instance_ptr) (instance_ptr)->vTable->_dtor(instance_ptr);}
+^
+ObjectLifecycleManagement.h:76:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define IF(...) if (__VA_ARGS__) { SCOPE_START;
+^
+ObjectLifecycleManagement.h:77:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ELSE_IF(...) _scope_obj_list_call_dtors(&_scope_obj_list); SCOPE_END } \
+^
+ObjectLifecycleManagement.h:81:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ELSE ELSE_IF(1)
+^
+ObjectLifecycleManagement.h:83:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_IF   _scope_obj_list_call_dtors(&_scope_obj_list); SCOPE_END\
+^
+ObjectLifecycleManagement.h:87:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define FOR(...) for (__VA_ARGS__) { SCOPE_START;
+^
+ObjectLifecycleManagement.h:88:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define WHILE(...) while (__VA_ARGS__) { SCOPE_START;
+^
+ObjectLifecycleManagement.h:90:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_LOOP  _scope_obj_list_call_dtors(&_scope_obj_list); } \
+^
+ObjectLifecycleManagement.h:101:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define FUN_IMPL(function_name, ...)   \
+^
+ObjectLifecycleManagement.h:109:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_FUN            \
+^
+ObjectLifecycleManagement.h:116:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define FUN(funcName)\
+^
+ObjectLifecycleManagement.h:119:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define CALL ); if (IN_THROWING_VALUE == __INNER_FUNC_CALL_RET_VALUE__) {THROW;} }
+^
+ObjectLifecycleManagement.h:123:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ASSERT(x) if (!(x)) {THROW;}
+^
+ObjectLifecycleManagement.h:124:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define THROW_MSG_UNLESS(x, msg) if (!(x)) {THROW_MSG(msg);}
+^
+ObjectLifecycleManagement.h:125:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ASSERT_NOT_NULL(x) if (!(x)) {THROW_MSG(#x " is null");}
+^
+SharedPodPtr.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define GET(s_ptr, Type) ((Type*)(s_ptr.px))
+^
+VirtualFuncCalling.h:7:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define MFUN(_this, funcName)\
+^
+VirtualFuncCalling.h:11:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define FUN_BASE(_this, funcName)\
+^
+nofile:0:0: information: Active checkers: There was critical errors (use --checkers-report=<filename> to see details) [checkersReport]

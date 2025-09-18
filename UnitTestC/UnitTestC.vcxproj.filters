@@ -58,6 +58,9 @@
     <ClCompile Include="IteratorUnitTest.c">
       <Filter>DataStructuresTests</Filter>
     </ClCompile>
+	  <ClCompile Include="listUnitTest.c">
+		  <Filter>DataStructuresTests</Filter>
+	  </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClassExample.h">
@@ -102,5 +105,8 @@
     <ClInclude Include="IteratorUnitTest.h">
       <Filter>DataStructuresTests</Filter>
     </ClInclude>
+	  <ClInclude Include="listUnitTest.h">
+		  <Filter>DataStructuresTests</Filter>
+	  </ClInclude>
   </ItemGroup>
 </Project>

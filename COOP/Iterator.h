@@ -17,7 +17,7 @@ void* container_ptr;
 END_DEF(Iterator);
 
 
-FUNCTIONS(Iterator, IteratorCategory category,void *container_ptr);
+FUNCTIONS(Iterator, IteratorCategory category, void* container_ptr);
 
 MEM_FUN_DECL(Iterator, equals, Iterator* other, bool* out_equal);
 MEM_FUN_DECL(Iterator, next);
