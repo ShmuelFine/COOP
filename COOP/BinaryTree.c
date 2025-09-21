@@ -485,7 +485,7 @@ MEM_FUN_IMPL(GenericBinaryTree, begin, Iterator** out_it)
 	BTInOrderIterator* bt_iter = NULL;
 	ALLOC_ARRAY(bt_iter, BTInOrderIterator, 1);
 	INITIALIZE_INSTANCE(BTInOrderIterator, (*bt_iter)), _this CALL;
-	MFUN(bt_iter, reset_begin) CALL;
+	MFUN(bt_iter, find_begin) CALL;
 
 	*out_it = (Iterator*)bt_iter;
 }
@@ -678,7 +678,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, distance, Iterator *other, ptrdif
 	BTInOrderIterator iter_begin;
 	INITIALIZE_INSTANCE(BTInOrderIterator, iter_begin), _this->_base.container_ptr CALL;
 	iter_begin._base.container_ptr = _this->_base.container_ptr;
-	MFUN(&iter_begin, reset_begin) CALL;
+	MFUN(&iter_begin, find_begin) CALL;
 
 	BTInOrderIterator iter_end;
 	INITIALIZE_INSTANCE(BTInOrderIterator, iter_end), _this->_base.container_ptr CALL;
@@ -769,7 +769,7 @@ FUN_OVERRIDE_IMPL(BTInOrderIterator, Iterator, advance, ptrdiff_t n)
 }
 END_FUN
 
-MEM_FUN_IMPL(BTInOrderIterator, reset_begin)
+MEM_FUN_IMPL(BTInOrderIterator, find_begin)
 {
 	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
 	GenericBinaryTree* owner = (GenericBinaryTree*)_this->_base.container_ptr;
@@ -794,7 +794,7 @@ BIND_OVERIDE(BTInOrderIterator, Iterator, get_ref);
 BIND_OVERIDE(BTInOrderIterator, Iterator, get_cref);
 BIND_OVERIDE(BTInOrderIterator, Iterator, distance);
 BIND_OVERIDE(BTInOrderIterator, Iterator, advance);
-BIND(BTInOrderIterator, reset_begin);
+BIND(BTInOrderIterator, find_begin);
 END_INIT_CLASS(BTInOrderIterator)
 
 #define IMPL_SPECIFIC_BT_TYPE_xTORS(type, type_name) \
