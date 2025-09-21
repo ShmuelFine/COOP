@@ -1,6 +1,7 @@
 #include "listUnitTest.h"
 #include "ExportDefs.h"
 #include "List.h"
+#include "Iterator.h"
 #include "ScopeTester.h"
 
 
@@ -191,6 +192,77 @@ TEST_FUN_IMPL(ListTest, print_SanityTest)
 
 } END_FUN
 
+TEST_FUN_IMPL(ListTest, iter_nextPrev_MoveOK_andPrevThrowsAtBegin)
+{
+    CREATE(List_int, lst) CALL;
+    FOR(int i = 0; i < 5; i++) { MFUN(&lst, push_back), i CALL; } END_LOOP;
+
+    Iterator* it = (Iterator*)&(lst._base.begin_iter);
+    Iterator* end = (Iterator*)&(lst._base.end_iter);
+
+    /* prev at begin must throw */
+    EXPECT_THROW;
+    MFUN(it, prev) CALL;
+    ASSERT_THROW;
+
+    /* move 2 steps with next; not yet at end */
+    MFUN(it, next) CALL;
+    MFUN(it, next) CALL;
+    bool eq = false;
+    MFUN(it, equals), end, & eq CALL;
+    NTEST_ASSERT(!eq);
+
+    /* advance one more */
+    MFUN(it, next) CALL;
+    MFUN(it, equals), end, & eq CALL;
+    NTEST_ASSERT(!eq);
+} END_FUN
+
+
+TEST_FUN_IMPL(ListTest, iter_getRef_getCref_PointsToCurrent)
+{
+    CREATE(List_int, lst) CALL;
+    FOR(int i = 0; i < 5; i++) { MFUN(&lst, push_back), i CALL; } END_LOOP;
+
+    Iterator* it = (Iterator*)&(lst._base.begin_iter);
+
+    /* at begin -> value 0 */
+    const void* cptr = NULL;
+    MFUN(it, get_cref), & cptr CALL;
+    NTEST_ASSERT(cptr != NULL);
+    NTEST_ASSERT(*(const int*)cptr == 0);
+
+    /* advance to index 2, expect value 2 */
+    MFUN(it, advance), (ptrdiff_t)2 CALL;
+    void* ptr = NULL;
+    MFUN(it, get_ref), & ptr CALL;
+    NTEST_ASSERT(ptr != NULL);
+    NTEST_ASSERT(*(int*)ptr == 2);
+} END_FUN
+
+
+TEST_FUN_IMPL(ListTest, iter_distance_And_Advance_Bounds)
+{
+    CREATE(List_int, lst) CALL;
+    FOR(int i = 0; i < 6; i++) { MFUN(&lst, push_back), i CALL; } END_LOOP;
+
+    Iterator* b = (Iterator*)&(lst._base.begin_iter);
+    Iterator* e = (Iterator*)&(lst._base.end_iter);
+
+    /* distance(begin, end) == size */
+    ptrdiff_t dist = -999;
+    MFUN(b, distance), e, & dist CALL;
+    NTEST_ASSERT(dist == 6);
+
+    /* advance 3 -> remaining distance 3 */
+    MFUN(b, advance), (ptrdiff_t)3 CALL;
+    dist = -999;
+    MFUN(b, distance), e, & dist CALL;
+    NTEST_ASSERT(dist == 3);
+
+} END_FUN
+
+
 
 INIT_TEST_SUITE(ListTest)
 BIND_TEST(ListTest, push_back_SanityTest);
@@ -204,4 +276,7 @@ BIND_TEST(ListTest, front_onEmpty_Throws);
 BIND_TEST(ListTest, pop_front_onEmpty_Throws);
 BIND_TEST(ListTest, pop_back_onEmpty_Throws);
 BIND_TEST(ListTest, dtor_freesAllMemory);
+BIND_TEST(ListTest, iter_nextPrev_MoveOK_andPrevThrowsAtBegin);
+BIND_TEST(ListTest, iter_getRef_getCref_PointsToCurrent);
+BIND_TEST(ListTest, iter_distance_And_Advance_Bounds);
 END_INIT_TEST_SUITE(ListTest)

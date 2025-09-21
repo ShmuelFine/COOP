@@ -527,36 +527,68 @@ FUN_OVERRIDE_IMPL(ListIter, Iterator, distance, Iterator* other_iter, ptrdiff_t*
 
 	ListIter* target_iter = (ListIter*)other_iter;
 
+	/* same node -> distance 0 */
 	IF(_this->node == target_iter->node) {
 		*out_distance = 0;
+		RETURN;
 	} END_IF;
 
+	/* ---------- try forward (toward tail, including NULL as 'end') ---------- */
 	{
 		ptrdiff_t  steps_forward = 0;
 		ListNode* current_node = _this->node;
+
 		WHILE(current_node) {
 			IF(current_node == target_iter->node) {
 				*out_distance = steps_forward;
+				RETURN;
 			} END_IF;
+
 			current_node = current_node->next;
 			steps_forward += 1;
 		} END_LOOP;
+
+		/* not found before NULL; if target is end(NULL), distance is steps_forward */
+		IF(target_iter->node == NULL) {
+			*out_distance = steps_forward; /* e.g., distance(begin, end) == size */
+			RETURN;
+		} END_IF;
 	}
 
+	/* ---------- try backward (toward head) ---------- */
 	{
 		ptrdiff_t  steps_backward = 0;
 		ListNode* current_node = _this->node;
+
 		WHILE(current_node) {
 			IF(current_node == target_iter->node) {
 				*out_distance = steps_backward;
+				RETURN;
 			} END_IF;
+
 			current_node = current_node->prev;
 			steps_backward -= 1;
 		} END_LOOP;
+
+		/* special case: start==end(NULL) and target is some node -> negative distance */
+		IF(_this->node == NULL) {
+			ptrdiff_t  neg = 0;
+			ListNode* cur = this_list->tail;
+			WHILE(cur) {
+				neg -= 1;
+				IF(cur == target_iter->node) {
+					*out_distance = neg;
+					RETURN;
+				} END_IF;
+				cur = cur->prev;
+			} END_LOOP;
+		} END_IF;
 	}
+
+	/* not reachable */
+	THROW_MSG("target iterator not reachable from source iterator");
 }
 END_FUN
-
 
 FUN_OVERRIDE_IMPL(ListIter, Iterator, advance, ptrdiff_t n)
 {

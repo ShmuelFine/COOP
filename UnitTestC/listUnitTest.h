@@ -16,6 +16,9 @@ ADD_TEST(ListTest, front_onEmpty_Throws);
 ADD_TEST(ListTest, pop_front_onEmpty_Throws);
 ADD_TEST(ListTest, pop_back_onEmpty_Throws);
 ADD_TEST(ListTest, dtor_freesAllMemory);
+ADD_TEST(ListTest, iter_nextPrev_MoveOK_andPrevThrowsAtBegin);
+ADD_TEST(ListTest, iter_getRef_getCref_PointsToCurrent);
+ADD_TEST(ListTest, iter_distance_And_Advance_Bounds);
 END_TEST_SUITE(ListTest);
 
 #endif
