@@ -37,17 +37,7 @@ MEM_SIZE_T elementSize;    /* size of each element in bytes */
 ListNode* head;            /* first node */
 ListNode* tail;            /* last node */
 List_ElementType elem_type;
-ListIter begin_iter;
-ListIter end_iter;
 END_DEF(GenericList);
-
-
-
-#define LIST_UPDATE_ITERS_TAILEND(self)       \
-        (self)->begin_iter._base.container_ptr = (self);   \
-        (self)->begin_iter.node = (self)->head; \
-        (self)->end_iter.node   =  NULL; \
-
 
 /* ===== Ctors/Methods Declarations ===== */
 FUNCTIONS(GenericList, MEM_SIZE_T dataTypeSize, List_ElementType enumTag);
@@ -103,6 +93,11 @@ MEM_FUN_DECL(GenericList, pop_front_objSPtr, objSPtr* out_val);
 MEM_FUN_DECL(GenericList, front_objSPtr, objSPtr* out_val);
 MEM_FUN_DECL(GenericList, back_objSPtr, objSPtr* out_val);
 
+/* ---- Iterator support ---- */
+MEM_FUN_DECL(GenericList, begin, Iterator** out_iter);
+MEM_FUN_DECL(GenericList, end, Iterator** out_iter);
+
+
 END_FUNCTIONS(GenericList);
 
 /* ===== ListNode  ===== */
@@ -118,7 +113,6 @@ FUN_OVERRIDE(Iterator, get_ref, void** out_ptr);
 FUN_OVERRIDE(Iterator, get_cref, const void** out_ptr);
 FUN_OVERRIDE(Iterator, distance, Iterator* other, ptrdiff_t* out_dist);
 FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
-FUN_OVERRIDE(Iterator, reset_begin);
 END_DERIVED_FUNCTIONS(ListIter);
 
 /* ===== Typed facade  ===== */
@@ -137,6 +131,8 @@ MEM_FUN_DECL(List_ ##type, size,          MEM_SIZE_T* out_size);           \
 MEM_FUN_DECL(List_ ##type, empty,         bool* out_is_empty);             \
 MEM_FUN_DECL(List_ ##type, clear);                                         \
 MEM_FUN_DECL(List_ ##type, print);	                                       \
+MEM_FUN_DECL(List_ ##type, begin,         Iterator **out_iter);            \
+MEM_FUN_DECL(List_ ##type, end,           Iterator **out_iter);            \
 END_DERIVED_FUNCTIONS(List_ ##type)
 
 

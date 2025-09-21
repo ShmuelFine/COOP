@@ -13,14 +13,6 @@ DEF_CTOR(GenericList, MEM_SIZE_T dataTypeSize, List_ElementType enumTag)
 	_this->tail = NULL;
 	_this->elem_type = (enumTag);
 
-	CREATE(ListIter, begin),ITER_BIDIRECTIONAL, _this CALL;
-	CREATE(ListIter, end), ITER_BIDIRECTIONAL, _this CALL;
-
-	_this->begin_iter = begin;
-	_this->end_iter = end;
-
-	LIST_UPDATE_ITERS_TAILEND(_this);
-
 }
 END_CTOR
 
@@ -45,7 +37,6 @@ DEF_DTOR(GenericList)
 	_this->head = NULL;
 	_this->tail = NULL;
 	_this->size = 0;
-	LIST_UPDATE_ITERS_TAILEND(_this);
 
 }
 END_DTOR
@@ -170,7 +161,6 @@ MEM_FUN_IMPL(GenericList, clear)
 	_this->head = NULL;
 	_this->tail = NULL;
 	_this->size = 0;
-	LIST_UPDATE_ITERS_TAILEND(_this);
 
 }
 END_FUN
@@ -201,7 +191,6 @@ MEM_FUN_IMPL(GenericList, __push_back_generic, char* buff, MEM_SIZE_T buff_size)
 	END_IF;
 
 	_this->size += 1;
-	LIST_UPDATE_ITERS_TAILEND(_this);
 
 }
 END_FUN
@@ -239,7 +228,6 @@ MEM_FUN_IMPL(GenericList, __push_front_generic, char* buff, MEM_SIZE_T buff_size
 	END_IF;
 
 	_this->size += 1;
-	LIST_UPDATE_ITERS_TAILEND(_this);
 
 }
 END_FUN
@@ -328,7 +316,6 @@ MEM_FUN_IMPL(GenericList, __pop_back_generic, char* buff, MEM_SIZE_T buff_size)
 	DESTROY(nd);
 	_this->size -= 1;
 
-	LIST_UPDATE_ITERS_TAILEND(_this);
 
 }
 END_FUN
@@ -375,8 +362,6 @@ MEM_FUN_IMPL(GenericList, __pop_front_generic, char* buff, MEM_SIZE_T buff_size)
 	DESTROY(nd);
 	_this->size -= 1;
 
-	LIST_UPDATE_ITERS_TAILEND(_this);
-
 }
 END_FUN
 
@@ -388,6 +373,36 @@ IMPL_POP_FRONT_OF_TYPE(int);
 IMPL_POP_FRONT_OF_TYPE(char);
 IMPL_POP_FRONT_OF_TYPE(float);
 IMPL_POP_FRONT_OF_TYPE(objSPtr);
+
+MEM_FUN_IMPL(GenericList, begin, Iterator** out_iter)
+{
+	THROW_MSG_UNLESS(out_iter, "out_iter must not be NULL");
+
+	ListIter* list_it = NULL;
+	ALLOC_ARRAY(list_it, ListIter, 1);
+	ASSERT_NOT_NULL(list_it);
+	
+	INITIALIZE_INSTANCE(ListIter, (*list_it)), ITER_BIDIRECTIONAL, _this CALL;
+	list_it->node = _this->head;
+
+	*out_iter = (Iterator*)list_it;
+}
+END_FUN
+
+MEM_FUN_IMPL(GenericList, end, Iterator** out_iter)
+{
+	THROW_MSG_UNLESS(out_iter, "out_iter must not be NULL");
+
+	ListIter* list_it = NULL;
+	ALLOC_ARRAY(list_it, ListIter, 1);
+	ASSERT_NOT_NULL(list_it);
+
+	INITIALIZE_INSTANCE(ListIter, (*list_it)), ITER_BIDIRECTIONAL, _this CALL;
+	list_it->node = _this->tail->next;//or = NULL;
+
+	*out_iter = (Iterator*)list_it;
+}
+END_FUN
 
 /* ======================== BIND – GenericList ======================== */
 
@@ -435,6 +450,9 @@ BIND(GenericList, pop_back_objSPtr);
 BIND(GenericList, pop_front_objSPtr);
 BIND(GenericList, front_objSPtr);
 BIND(GenericList, back_objSPtr);
+
+BIND(GenericList, begin);
+BIND(GenericList, end);
 
 END_INIT_CLASS(GenericList)
 
@@ -596,13 +614,6 @@ FUN_OVERRIDE_IMPL(ListIter, Iterator, advance, ptrdiff_t n)
 }
 END_FUN
 
-FUN_OVERRIDE_IMPL(ListIter, Iterator, reset_begin)
-{
-	GenericList* owner = (GenericList*)(_this)->_base.container_ptr;
-	THROW_MSG_UNLESS(owner, "Iterator not bound");
-	_this->node = owner->head;
-}
-END_FUN
 
 INIT_DERIVED_CLASS(ListIter, Iterator);
 BIND_OVERIDE(ListIter, Iterator, equals);
@@ -612,7 +623,6 @@ BIND_OVERIDE(ListIter, Iterator, get_ref);
 BIND_OVERIDE(ListIter, Iterator, get_cref);
 BIND_OVERIDE(ListIter, Iterator, distance);
 BIND_OVERIDE(ListIter, Iterator, advance);
-BIND_OVERIDE(ListIter, Iterator, reset_begin);
 END_INIT_CLASS(ListIter)
 
 ////////////////////////////////////////////////
@@ -632,6 +642,8 @@ MEM_FUN_IMPL(List_##type, size,       MEM_SIZE_T* out) { FUN_BASE(_this, size), 
 MEM_FUN_IMPL(List_##type, empty,      bool* out)       { FUN_BASE(_this, empty),             out CALL; } END_FUN; \
 MEM_FUN_IMPL(List_##type, clear)                        { FUN_BASE(_this, clear) CALL; } END_FUN;               \
 MEM_FUN_IMPL(List_##type, print)                        { FUN_BASE(_this, print) CALL; } END_FUN;              \
+MEM_FUN_IMPL(List_##type, end,Iterator **out_it) {FUN_BASE(_this,end),out_it CALL;}END_FUN;						    \
+MEM_FUN_IMPL(List_##type, begin,Iterator **out_it) {FUN_BASE(_this,begin),out_it CALL;}END_FUN;						\
 INIT_DERIVED_CLASS(List_##type, GenericList);                                               \
 BIND(List_##type, push_back);                                                               \
 BIND(List_##type, push_front);                                                              \
@@ -643,6 +655,8 @@ BIND(List_##type, size);                                                        
 BIND(List_##type, empty);                                                                   \
 BIND(List_##type, clear);                                                                   \
 BIND(List_##type, print);                                                                   \
+BIND(List_##type, end);																		\
+BIND(List_##type, begin);                                                                   \
 END_INIT_CLASS(List_##type);
 
 IMPL_SPECIFIC_LIST_TYPE_xTORs(int, LIST_ELEM_INT);

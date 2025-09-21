@@ -195,10 +195,14 @@ TEST_FUN_IMPL(ListTest, print_SanityTest)
 TEST_FUN_IMPL(ListTest, iter_nextPrev_MoveOK_andPrevThrowsAtBegin)
 {
     CREATE(List_int, lst) CALL;
-    FOR(int i = 0; i < 5; i++) { MFUN(&lst, push_back), i CALL; } END_LOOP;
+    FOR(int i = 0; i < 5; i++) { 
+        MFUN(&lst, push_back), i CALL;
+    } END_LOOP;
 
-    Iterator* it = (Iterator*)&(lst._base.begin_iter);
-    Iterator* end = (Iterator*)&(lst._base.end_iter);
+    Iterator* it = NULL;
+    Iterator* end = NULL;
+    MFUN(&lst, begin), & it CALL;
+    MFUN(&lst, end), & end CALL;
 
     /* prev at begin must throw */
     EXPECT_THROW;
@@ -222,9 +226,12 @@ TEST_FUN_IMPL(ListTest, iter_nextPrev_MoveOK_andPrevThrowsAtBegin)
 TEST_FUN_IMPL(ListTest, iter_getRef_getCref_PointsToCurrent)
 {
     CREATE(List_int, lst) CALL;
-    FOR(int i = 0; i < 5; i++) { MFUN(&lst, push_back), i CALL; } END_LOOP;
+    FOR(int i = 0; i < 5; i++) { 
+        MFUN(&lst, push_back), i CALL; 
+    } END_LOOP;
 
-    Iterator* it = (Iterator*)&(lst._base.begin_iter);
+    Iterator* it = NULL;
+    MFUN(&lst, begin), & it CALL;
 
     /* at begin -> value 0 */
     const void* cptr = NULL;
@@ -244,10 +251,14 @@ TEST_FUN_IMPL(ListTest, iter_getRef_getCref_PointsToCurrent)
 TEST_FUN_IMPL(ListTest, iter_distance_And_Advance_Bounds)
 {
     CREATE(List_int, lst) CALL;
-    FOR(int i = 0; i < 6; i++) { MFUN(&lst, push_back), i CALL; } END_LOOP;
+    FOR(int i = 0; i < 6; i++) { 
+        MFUN(&lst, push_back), i CALL; 
+    } END_LOOP;
 
-    Iterator* b = (Iterator*)&(lst._base.begin_iter);
-    Iterator* e = (Iterator*)&(lst._base.end_iter);
+    Iterator* b = NULL;
+    Iterator* e = NULL;
+    MFUN(&lst, begin), & b CALL;
+    MFUN(&lst, end), & e CALL;
 
     /* distance(begin, end) == size */
     ptrdiff_t dist = -999;
