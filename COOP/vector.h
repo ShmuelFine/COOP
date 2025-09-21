@@ -92,8 +92,8 @@ MEM_FUN_DECL(Vector_ ##type, resize, MEM_SIZE_T new_capacity); \
 MEM_FUN_DECL(Vector_ ##type, size, MEM_SIZE_T * out_size); \
 MEM_FUN_DECL(Vector_ ##type, zero_all); \
 MEM_FUN_DECL(Vector_ ##type, print); \
-MEM_FUN_DECL(Vector_ ##type, begin, VectorIter* out_it); \
-MEM_FUN_DECL(Vector_ ##type, end, VectorIter* out_it); \
+MEM_FUN_DECL(Vector_ ##type, begin, Iterator **out_it); \
+MEM_FUN_DECL(Vector_ ##type, end, Iterator **out_it); \
 END_DERIVED_FUNCTIONS(Vector_ ##type);
 
 DECLARE_SPECIFIC_VECTOR_TYPE(int);
