@@ -7,7 +7,7 @@
  *                 VectorIter (derived from Iterator)
  * ========================================================= */
 
-DEF_DERIVED_CTOR(VectorIter, Iterator,void *container_ptr) SUPER, ITER_RANDOM_ACCESS, container_ptr ME
+DEF_DERIVED_CTOR(VectorIter, Iterator, void* container_ptr) SUPER, ITER_RANDOM_ACCESS, container_ptr ME
 {
 	_this->index = 0;
 }
@@ -24,8 +24,8 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, equals, Iterator* other, bool* out_equal
 	IF(other) {
 		VectorIter* other_iterator = (VectorIter*)other;
 		bool is_equals = false;
-		FUN_BASE(_this, equals), (Iterator*)other_iterator, &is_equals CALL;
-		*out_equal = is_equals &&(other_iterator->index == _this->index);
+		FUN_BASE(_this, equals), (Iterator*)other_iterator, & is_equals CALL;
+		*out_equal = is_equals && (other_iterator->index == _this->index);
 
 	}END_IF
 }
@@ -95,11 +95,6 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, advance, ptrdiff_t n)
 	_this->index = (MEM_SIZE_T)target;
 }
 END_FUN;
-FUN_OVERRIDE_IMPL(VectorIter, Iterator, reset_begin)
-{
-	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
-	_this->index = 0;
-}END_FUN;
 
 INIT_DERIVED_CLASS(VectorIter, Iterator);
 BIND_OVERIDE(VectorIter, Iterator, equals);
@@ -109,7 +104,6 @@ BIND_OVERIDE(VectorIter, Iterator, get_ref);
 BIND_OVERIDE(VectorIter, Iterator, get_cref);
 BIND_OVERIDE(VectorIter, Iterator, distance);
 BIND_OVERIDE(VectorIter, Iterator, advance);
-BIND_OVERIDE(VectorIter, Iterator, reset_begin);
 END_INIT_CLASS(VectorIter)
 
 
@@ -121,14 +115,6 @@ DEF_CTOR(GenericVector, MEM_SIZE_T dataTypeSize)
 	_this->capacity = 0;
 	_this->elementSize = dataTypeSize;
 	_this->data = NULL;
-
-	CREATE(VectorIter, begin),_this CALL;
-	CREATE(VectorIter, end), _this CALL;
-	_this->begin_iter = begin;
-	_this->end_iter = end;
-
-	_this->begin_iter.index = 0;
-	_this->end_iter.index = _this->size;
 }
 END_CTOR
 
@@ -151,7 +137,7 @@ MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, ch
 	{
 		THROW_MSG("Index out of range");
 	}END_IF
-	* val_ptr = _this->data + _this->elementSize * i;
+		* val_ptr = _this->data + _this->elementSize * i;
 }
 END_FUN;
 
@@ -220,7 +206,6 @@ MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity)
 	_this->data = new_data;
 	_this->capacity = new_capacity;
 	_this->size = MIN(_this->size, _this->capacity);
-	_this->end_iter.index = _this->size;
 }
 END_FUN;
 
@@ -246,21 +231,20 @@ MEM_FUN_IMPL(GenericVector, __push_back_generic, char* buff, MEM_SIZE_T buff_siz
 	memcpy(placeToAssign, buff, buff_size);
 
 	_this->size++;
-	_this->end_iter.index = _this->size;
 }
 END_FUN;
 
 MEM_FUN_IMPL(GenericVector, zero_all)
 {
-	if (_this->size > 0) {
-		if (_this->elementSize == sizeof(objSPtr)) {
-			for (MEM_SIZE_T i = 0; i < _this->size; ++i) {
+	IF(_this->size > 0) {
+		IF(_this->elementSize == sizeof(objSPtr)) {
+			FOR(MEM_SIZE_T i = 0; i < _this->size; ++i) {
 				objSPtr* slot = (objSPtr*)(_this->data + i * _this->elementSize);
 				DESTROY(slot);
-			}
-		}
-		memset(_this->data, 0, _this->elementSize * _this->size);
-	}
+			}END_LOOP
+		}END_IF
+	}END_IF
+		memset(_this->data, 0, _this->elementSize * _this->capacity);
 }
 END_FUN;
 
@@ -276,7 +260,6 @@ MEM_FUN_IMPL(GenericVector, __pop_back_generic, char* buff, MEM_SIZE_T buff_size
 	memcpy(buff, src, buff_size);
 	memset(src, 0, buff_size); /* sanitize */
 	_this->size = last;
-	_this->end_iter.index = _this->size;
 }
 END_FUN;
 
@@ -302,6 +285,39 @@ IMPL_POP_OF_TYPE(int);
 IMPL_POP_OF_TYPE(char);
 IMPL_POP_OF_TYPE(float);
 IMPL_POP_OF_TYPE(objSPtr);
+
+
+MEM_FUN_IMPL(GenericVector, begin, Iterator** out_it)
+{
+	THROW_MSG_UNLESS(out_it, "out_it is NULL");
+
+	VectorIter* vector_it = NULL;
+	ALLOC_ARRAY(vector_it, VectorIter, 1);
+	ASSERT_NOT_NULL(vector_it);
+
+	INITIALIZE_INSTANCE(VectorIter, (*vector_it)), _this CALL;/* vTable + CTOR */
+	vector_it->index = 0;
+
+	*out_it = (Iterator*)vector_it;
+}
+END_FUN
+
+MEM_FUN_IMPL(GenericVector, end, Iterator** out_it)
+{
+	THROW_MSG_UNLESS(out_it, "out_it is NULL");
+
+	VectorIter* vector_it = NULL;
+	ALLOC_ARRAY(vector_it, VectorIter, 1);
+	ASSERT_NOT_NULL(vector_it);
+
+	INITIALIZE_INSTANCE(VectorIter, (*vector_it)), _this CALL;/* vTable + CTOR */
+	MEM_SIZE_T n = 0;
+	MFUN(_this, size), & n CALL;
+	vector_it->index = n;                                   /* end = size */
+
+	*out_it = (Iterator*)vector_it;
+}
+END_FUN
 
 
 INIT_CLASS(GenericVector)
@@ -339,6 +355,8 @@ BIND(GenericVector, pop_back_float);
 BIND(GenericVector, pop_back_objSPtr);
 
 BIND(GenericVector, zero_all);
+BIND(GenericVector, begin);
+BIND(GenericVector, end);
 
 END_INIT_CLASS(GenericVector)
 
@@ -357,6 +375,8 @@ MEM_FUN_IMPL(Vector_ ##type, set, MEM_SIZE_T i, type val) { FUN_BASE(_this, set_
 MEM_FUN_IMPL(Vector_ ##type, resize, MEM_SIZE_T new_capacity) {FUN_BASE(_this, resize), new_capacity CALL; }END_FUN;\
 MEM_FUN_IMPL(Vector_ ##type, size, MEM_SIZE_T * out_size) {FUN_BASE(_this, size), out_size CALL; }END_FUN;			\
 MEM_FUN_IMPL(Vector_ ##type, zero_all) {FUN_BASE(_this, zero_all) CALL; }END_FUN;									\
+MEM_FUN_IMPL(Vector_ ##type, begin,Iterator **out_it) {FUN_BASE(_this,begin),out_it CALL;}END_FUN;						\
+MEM_FUN_IMPL(Vector_ ##type, end,Iterator **out_it) {FUN_BASE(_this,end),out_it CALL;}END_FUN;						    \
 MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	printf("\n");																									\
 	char* format = " %d"; char first_type_name_letter = * #type;													\
@@ -365,7 +385,7 @@ MEM_FUN_IMPL(Vector_ ##type, print) {																				\
 	ELSE_IF (first_type_name_letter == 'o') /*its a float type*/ format = "%p ";									\
 	END_IF                                                                                                          \
     type val;																										\
-	ITER_FOR(type, val, (GenericVector*)_this) {                                                                                     \
+	ITER_FOR(type, val, (GenericVector*)_this) {                                                                    \
 		printf(format, val);                                                                                         \
 	} END_ITER_FOR                                                                                                  \
 	printf("\n");																									\
@@ -381,7 +401,9 @@ BIND(Vector_ ##type, set);																							\
 BIND(Vector_ ##type, resize);																						\
 BIND(Vector_ ##type, size);																							\
 BIND(Vector_ ##type, zero_all);																						\
-BIND(Vector_ ##type, print);																							\
+BIND(Vector_ ##type, print);																						\
+BIND(Vector_ ##type, begin);																						\
+BIND(Vector_ ##type, end);																							\
 END_INIT_CLASS(Vector_ ##type)																						
 
 ////////////////////////////////////////////////
