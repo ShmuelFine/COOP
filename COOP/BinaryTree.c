@@ -40,7 +40,6 @@ END_CTOR
 
 DEF_DTOR(BTNode)
 {
-	FREE(_this->value);
 	_this->value = NULL;
 	_this->left = NULL;
 	_this->right = NULL;
@@ -106,6 +105,20 @@ DEF_DTOR(GenericBinaryTree)
 	WHILE(top2 > 0)
 	{
 		BTNode *current = stack2[--top2];
+
+		IF(current && current->value)
+		{
+			IF(_this->BT_type == OBJ_SPTR)
+			{
+				DESTROY((objSPtr*)current->value);
+			}
+			END_IF;
+
+			FREE(current->value);
+			current->value = NULL;
+		}
+		END_IF;
+
 		DELETE(current);
 	}
 	END_LOOP;
@@ -223,7 +236,21 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *out_rem
 	{
 		BTNode *current = queue[head++];
 
-		IF(target == NULL && memcmp(current->value, key, _this->elementSize) == 0)
+		bool match = false;
+
+		IF(_this->BT_type == OBJ_SPTR)
+		{
+			bool is_equals = false;
+			MFUN((objSPtr*)current->value, equals), (objSPtr*)key, &is_equals CALL;
+			match = is_equals;
+		}
+		ELSE
+		{
+			match = (memcmp(current->value, key, _this->elementSize) == 0);
+		}
+		END_IF;
+
+		IF(target == NULL && match)
 		{
 			target = current;
 		}
@@ -255,6 +282,18 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *out_rem
 	/* Single node tree case */
 	IF(last == target && target->parent == NULL && target->left == NULL && target->right == NULL)
 	{
+		IF(target->value)
+		{
+			IF(_this->BT_type == OBJ_SPTR)
+			{
+				DESTROY((objSPtr*)target->value);
+			}
+			END_IF;
+			FREE(target->value);
+			target->value = NULL;
+		}
+		END_IF;
+
 		DELETE(target);
 		_this->root = NULL;
 		_this->size = 0;
@@ -283,6 +322,13 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *out_rem
 	ELSE
 	{
 		_this->root = NULL;
+	}
+	END_IF;
+
+	IF(last->value)
+	{
+		FREE(last->value);
+		last->value = NULL;
 	}
 	END_IF;
 
