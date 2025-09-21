@@ -49,7 +49,7 @@ FUN_OVERRIDE(Iterator, get_ref, void **out_ptr);
 FUN_OVERRIDE(Iterator, get_cref, const void **out_ptr);
 FUN_OVERRIDE(Iterator, distance, Iterator *other, ptrdiff_t *out_dist);
 FUN_OVERRIDE(Iterator, advance, ptrdiff_t n);
-MEM_FUN_DECL(BTInOrderIterator, find_begin); 
+MEM_FUN_DECL(BTInOrderIterator, __find_begin); 
 END_DERIVED_FUNCTIONS(BTInOrderIterator);
 
 /* ====== GenericBinaryTree class ====== */
