@@ -56,17 +56,17 @@ TRY									\
 COOP_API void _scope_obj_list_add(object* scope_list, object* obj);
 COOP_API void _scope_obj_list_call_dtors(object* _scope_obj_list);
 
-#define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
+#define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)(obj))
 
 #define INITIALIZE_INSTANCE(type, instance_name)					\
 	if (!is_ ##type ##VirtualTable__initialized) type ##_init();	\
-	instance_name.vTable = &V_TABLE_INSTANCE(type);					\
-	{ int __INNER_FUNC_CALL_RET_VALUE__ = instance_name.vTable->_ctor(&instance_name
+	(instance_name).vTable = &V_TABLE_INSTANCE(type);					\
+	{ int __INNER_FUNC_CALL_RET_VALUE__ = (instance_name).vTable->_ctor(&(instance_name)
 
 
 #define CREATE(type, instance_name)									\
 	type instance_name;                  							\
-	REGISTER_OBJECT(&instance_name);								\
+	REGISTER_OBJECT(&(instance_name));								\
 	INITIALIZE_INSTANCE(type, instance_name)
 
 // D'TOR IS NOT ALLOWED TO THROW... otherwise it creates a cyclic dependence with _scope_obj_list_call_dtors.
@@ -114,7 +114,7 @@ SCOPE_START;
 }
 
 #define FUN(funcName)\
-{ int __INNER_FUNC_CALL_RET_VALUE__ = funcName(
+{ int __INNER_FUNC_CALL_RET_VALUE__ = (funcName)(
 
 #define CALL ); if (IN_THROWING_VALUE == __INNER_FUNC_CALL_RET_VALUE__) {THROW;} } 
 
