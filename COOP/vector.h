@@ -69,8 +69,8 @@ MEM_FUN_DECL(GenericVector, pop_back_float, float* val);
 MEM_FUN_DECL(GenericVector, pop_back_objSPtr, objSPtr* val);
 
 MEM_FUN_DECL(GenericVector, zero_all);
-MEM_FUN_DECL(GenericVector, begin, Iterator **out_it);
-MEM_FUN_DECL(GenericVector, end, Iterator **out_it);
+MEM_FUN_DECL(GenericVector, begin, Iterator** out_it);
+MEM_FUN_DECL(GenericVector, end, Iterator** out_it);
 
 END_FUNCTIONS(GenericVector);
 

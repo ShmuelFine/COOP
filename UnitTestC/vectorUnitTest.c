@@ -145,16 +145,16 @@ TEST_FUN_IMPL(VectorTest, nextPrev_MoveOK_andPrevThrowsAtBegin)
 {
 	CREATE(Vector_int, vec) CALL;
 	/* Helpers */
-	
-    FOR(int i = 0; i < 5; i++) {
-	 MFUN(&vec, push_back), i CALL;
-	} END_LOOP;
-	
 
-	Iterator* it = NULL;                           
-	Iterator* end = NULL;                          
-	MFUN(&vec, begin), & it CALL;               
-	MFUN(&vec, end), & end CALL;                
+	FOR(int i = 0; i < 5; i++) {
+		MFUN(&vec, push_back), i CALL;
+	} END_LOOP;
+
+
+	Iterator* it = NULL;
+	Iterator* end = NULL;
+	MFUN(&vec, begin), & it CALL;
+	MFUN(&vec, end), & end CALL;
 
 	/* prev at begin must throw */
 	EXPECT_THROW;
@@ -206,10 +206,10 @@ TEST_FUN_IMPL(VectorTest, distance_And_Advance_Bounds)
 		MFUN(&vec, push_back), i CALL;
 	} END_LOOP;
 
-	Iterator* b = NULL;                          
-	Iterator* e = NULL;                         
-	MFUN(&vec, begin), & b CALL;               
-	MFUN(&vec, end), & e CALL;                
+	Iterator* b = NULL;
+	Iterator* e = NULL;
+	MFUN(&vec, begin), & b CALL;
+	MFUN(&vec, end), & e CALL;
 
 	/* distance(begin, end) == size */
 	ptrdiff_t dist = -999;

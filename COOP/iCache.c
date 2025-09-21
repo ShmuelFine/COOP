@@ -17,6 +17,7 @@ END_FUN
 MEM_FUN_IMPL(ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
 END_FUN
 
+
 INIT_CLASS(ICache)
 BIND(ICache, AddNewBlock);
 BIND(ICache, RemoveBlock);

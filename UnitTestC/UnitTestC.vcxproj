@@ -162,6 +162,7 @@
     <ClCompile Include="ScopesUnitTest.c" />
     <ClCompile Include="ScopeTester.c" />
     <ClCompile Include="VectorUnitTest.c" />
+    <ClCompile Include="BinaryTreeUnitTest.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseClassExample.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="SharedPodPtrUnitTest.h" />
     <ClInclude Include="TensorUnitTest.h" />
     <ClInclude Include="VectorUnitTest.h" />
+    <ClInclude Include="BinaryTreeUnitTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\COOP\COOP.vcxproj">
