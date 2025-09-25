@@ -9,6 +9,6 @@
 
 
 #define FUN_BASE(_this, funcName)\
-{ int __INNER_FUNC_CALL_RET_VALUE__ = _this->_base.vTable->funcName.inner_function(&(_this->_base)
+{ int __INNER_FUNC_CALL_RET_VALUE__ = _this->_base.vTable->(funcName).inner_function(&(_this->_base)
 
 #endif
