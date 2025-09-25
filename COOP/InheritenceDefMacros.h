@@ -66,7 +66,7 @@ struct base_class ##_ ##function_name ##_t_ function_name
 // and you should fill in the extra work needed.
 
 #define DEF_DERIVED_DTOR(class_name, BaseName) FUN_IMPL(__dtor__ ##class_name, class_name * _this) \
-{  void (*__base_dtor_to_call_after_i_finish_with_derived_class__)()  = __dtor__ ##BaseName;
+{  void (*__base_dtor_to_call_after_i_finish_with_derived_class__)()  = (__dtor__ ##BaseName);
 	
 
 #define END_DERIVED_DTOR __base_dtor_to_call_after_i_finish_with_derived_class__(&(_this->_base)); }END_FUN
@@ -87,14 +87,14 @@ void type ##_init()		{								\
 	if(!(is_ ##base ##VirtualTable__initialized))		\
 		base ##_init();									\
 	ATTACH_TORs_ToClass(type);							\
-	V_TABLE_INSTANCE(type)._base = base ##VTable
+	(V_TABLE_INSTANCE(type))._base = (base ##VTable)
 
 // Than, for each implemented, overriding func. : 
 #define BIND_OVERIDE(type,base,function) \
-	V_TABLE_INSTANCE(type).function.next = NULL;\
-	V_TABLE_INSTANCE(type).function.inner_function = inner_function_ ##type ##_ ##function;\
-	V_TABLE_INSTANCE(type)._base.function.next = &(V_TABLE_INSTANCE(type).function);\
-	V_TABLE_INSTANCE(type).function.outer_function = V_TABLE_INSTANCE(type)._base.function.outer_function;
+	(V_TABLE_INSTANCE(type)).function.next = NULL;\
+	(V_TABLE_INSTANCE(type)).function.inner_function = (inner_function_ ##type ##_ ##function);\
+	(V_TABLE_INSTANCE(type))._base.function.next = &(V_TABLE_INSTANCE(type).function);\
+	(V_TABLE_INSTANCE(type)).function.outer_function = (V_TABLE_INSTANCE(type)._base.function.outer_function);
 
 //V_TABLE_INSTANCE(type).__ ##function.outer_function = NULL; /*outer function called only on the base. otherwise let's crash.*/\
 //
