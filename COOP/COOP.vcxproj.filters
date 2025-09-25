@@ -28,6 +28,8 @@
       <Filter>MemoryManagement</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h" />
+	<ClInclude Include="List.h" />
+	<ClInclude Include="Queue.h" />
     <ClInclude Include="Tensor.h" />
     <ClInclude Include="UnitTestsInfra.h">
       <Filter>Infra</Filter>
@@ -71,6 +73,8 @@
       <Filter>MemoryManagement</Filter>
     </ClCompile>
     <ClCompile Include="Vector.c" />
+	<ClCompile Include="List.c" />
+	<ClCompile Include="Queue.c" />
     <ClCompile Include="Tensor.c" />
     <ClCompile Include="SharedPodPtr.c" />
     <ClCompile Include="ObjectLifecycleManagement.c">

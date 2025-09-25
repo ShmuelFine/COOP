@@ -160,6 +160,8 @@
     <ClInclude Include="SharedPodPtr.h" />
     <ClInclude Include="UnitTestsInfra.h" />
     <ClInclude Include="Vector.h" />
+	<ClInclude Include="List.h" />
+	<ClInclude Include="Queue.h" />
     <ClInclude Include="VirtualFuncCalling.h" />
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +175,8 @@
     <ClCompile Include="ObjectLifecycleManagement.c" />
     <ClCompile Include="SharedPodPtr.c" />
     <ClCompile Include="Vector.c" />
+	<ClCompile Include="List.c" />
+	<ClCompile Include="Queue.c" />
     <ClCompile Include="VirtualFuncCalling.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

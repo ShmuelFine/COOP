@@ -45,6 +45,9 @@
     <ClCompile Include="VectorUnitTest.c">
       <Filter>DataStructuresTests</Filter>
     </ClCompile>
+	<ClCompile Include="QueueUnitTest.c">
+		<Filter>DataStructuresTests</Filter>
+	</ClCompile>
     <ClCompile Include="DemoClassTest.c">
       <Filter>Sample</Filter>
     </ClCompile>
@@ -87,6 +90,9 @@
     <ClInclude Include="VectorUnitTest.h">
       <Filter>DataStructuresTests</Filter>
     </ClInclude>
+	<ClInclude Include="QueueUnitTest.h">
+	  <Filter>DataStructuresTests</Filter>
+	</ClInclude>
     <ClInclude Include="SharedPodPtrUnitTest.h">
       <Filter>DataStructuresTests</Filter>
     </ClInclude>

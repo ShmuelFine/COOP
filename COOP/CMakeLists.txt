@@ -12,6 +12,12 @@ set(no_group_source_files
     "Tensor.h"
     "Vector.c"
     "Vector.h"
+    "Iterator.c"  
+    "Iterator.h"
+    "List.h"
+    "List.c"
+    "Queue.c"
+    "Queue.h"
 )
 source_group("" FILES ${no_group_source_files})
 
@@ -52,7 +58,7 @@ set(ALL_FILES
 ################################################################################
 # Target
 ################################################################################
-add_library(${PROJECT_NAME} STATIC ${ALL_FILES} "Queue.h" "Queue.c")
+add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
 set(ROOT_NAMESPACE COOP)
 
