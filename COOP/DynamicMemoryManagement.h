@@ -26,7 +26,7 @@ FUN_DECL(get_total_free_bytes, MEM_SIZE_T* out_count);
 
 
 #define FREE(buff) if (buff) MFUN(TheGlobalCache, RemoveBlock), buff CALL;
-#define DELETE(instance_ptr) {printf("\nDelete " #instance_ptr "\n"); DESTROY(instance_ptr); FREE(instance_ptr); instance_ptr = NULL;}
+#define DELETE(instance_ptr) {DESTROY(instance_ptr); FREE(instance_ptr); instance_ptr = NULL;}
 
 
 #endif

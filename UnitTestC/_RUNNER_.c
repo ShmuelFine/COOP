@@ -10,6 +10,8 @@
 #include "CodeBlocksUnitTest.h"
 #include "listUnitTest.h"
 #include "IteratorUnitTest.h"
+#include "BinaryTreeUnitTest.h"
+#include "IteratorUnitTest.h""
 
 
 IMPORT_TESTS(Infra_ScopesTest);
@@ -22,6 +24,7 @@ IMPORT_TESTS(ExceptionTests);
 IMPORT_TESTS(SharedPtrTest);
 IMPORT_TESTS(CodeBlocksTest);
 IMPORT_TESTS(ListTest);
+IMPORT_TESTS(BinaryTreeTest);
 IMPORT_TESTS(IteratorForTest);
 
 int main() {
@@ -37,6 +40,7 @@ int main() {
 	
 	RUN_TESTS(VectorTest);
 	RUN_TESTS(TensorTest);
+	RUN_TESTS(BinaryTreeTest);
 	RUN_TESTS(IteratorForTest);
 
 	RUN_TESTS(DemoClassTest);

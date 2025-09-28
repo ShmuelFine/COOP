@@ -87,7 +87,7 @@ bool is_ ##type ##VirtualTable__initialized = false;\
 V_TABLE_TYPE(type) V_TABLE_INSTANCE(type);			\
 	void type ##_init(){							\
 	/*For safety, set all ptrs to NULL instead of garbage: */				\
-    memset(& V_TABLE_INSTANCE(type),0, sizeof(V_TABLE_INSTANCE(type)));    \
+	memset(& V_TABLE_INSTANCE(type), 0, sizeof(V_TABLE_INSTANCE(type)));	\
 	ATTACH_TORs_ToClass(type)
 
 
