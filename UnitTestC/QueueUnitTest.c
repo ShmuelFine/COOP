@@ -119,23 +119,22 @@ END_FUN
 
 TEST_FUN_IMPL(QueueTest, Queue_destroy_frees_memory)
 {
-    Queue_int *q = NULL;
-    ALLOC_ARRAY(q, Queue_int, 1);
-    ASSERT_NOT_NULL(q);
 
-    INITIALIZE_INSTANCE(Queue_int, (*q)) CALL;
+    MEM_SIZE_T free_bytes_at_start = 0, free_bytes_at_end = 0;
+    FUN(get_total_free_bytes)& free_bytes_at_start CALL;
 
-    FOR(int i = 0; i < 5; ++i) {
-        MFUN(q, enqueue), i CALL;
+    FOR(int k = 0; k < 10; k++)
+    {
+        CREATE(Queue_int, q) CALL;
+
+        FOR(int i = 0; i < 5; ++i) {
+            MFUN(&q, enqueue), i CALL;
+        } END_LOOP;
+
     } END_LOOP;
 
-    // destroy queue
-    DESTROY(q);
-
-    // after destroy, pointer should be NULL (common COOP convention)
-    ASSERT(q->_base.list.head == NULL);
-    ASSERT(q->_base.list.tail == NULL);
-    ASSERT(q->_base.list.size == 0);
+    FUN(get_total_free_bytes)& free_bytes_at_end CALL;
+    NTEST_ASSERT(free_bytes_at_end == free_bytes_at_start);
 }
 END_FUN
 /* ============================
