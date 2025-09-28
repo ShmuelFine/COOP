@@ -75,10 +75,6 @@ struct base_class ##_ ##function_name ##_t_ function_name
 #define FUN_OVERRIDE_IMPL(type, base, function_name, ...)\
 FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
 
-#define FUN_OVERRIDE_IMPL0(type, base, function_name) \
-    FUN_IMPL(inner_function_##type##_##function_name, type * _this)
-
-
 
 
 // And finally we init the vTable.
