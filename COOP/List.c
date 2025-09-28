@@ -29,7 +29,7 @@ DEF_DTOR(GenericList)
 			DESTROY(sp);
 		}
 		END_IF;
-		FREE(cur);
+		DESTROY(cur);
 		cur = next;
 	}
 	END_LOOP;
@@ -153,7 +153,7 @@ MEM_FUN_IMPL(GenericList, clear)
 			DESTROY(sp);
 		}
 		END_IF;
-		FREE(cur);
+		DESTROY(cur);
 		cur = next;
 	}
 	END_LOOP;

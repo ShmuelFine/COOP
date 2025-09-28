@@ -1,0 +1,890 @@
+InMemoryCache.h:4:0: information: Include file: <stdbool.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <stdbool.h>
+^
+ClassDefMacros.h:6:0: information: Include file: <stdbool.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <stdbool.h>
+^
+ClassDefMacros.h:7:0: information: Include file: <string.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <string.h>
+^
+ClassDefMacros.h:8:0: information: Include file: <stdio.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <stdio.h>
+^
+InMemoryCache.c:3:0: information: Include file: <stdbool.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <stdbool.h>
+^
+InMemoryCache.c:4:0: information: Include file: <stdlib.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <stdlib.h>
+^
+InMemoryCache.c:5:0: information: Include file: <string.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <string.h>
+^
+InMemoryCache.c:6:0: information: Include file: <assert.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+#include <assert.h>
+^
+InMemoryCache.c:0:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches. [normalCheckLevelMaxBranches]
+
+^
+InMemoryCache.c:33:9: style: Statements following 'break' will never be executed. [unreachableCode]
+  THROW("Could not allocate buffer");
+        ^
+InMemoryCache.c:33:9: warning: Redundant code: Found a statement that begins with string constant. [constStatement]
+  THROW("Could not allocate buffer");
+        ^
+InMemoryCache.c:85:9: style: Variable 'this_block_end_ptr' can be declared as pointer to const [constVariablePointer]
+  char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+        ^
+InMemoryCache.c:106:1: style: Parameter '_this' can be declared as pointer to const. However it seems that 'inner_function_InMemoryCache_RemoveBlock' is a callback function, if '_this' is declared with const you might also need to cast function pointer(s). [constParameterCallback]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, RemoveBlock, void* toDelete)
+^
+InMemoryCache.c:135:1: note: You might need to cast the function pointer here
+BIND_OVERIDE(InMemoryCache, ICache, RemoveBlock);
+^
+InMemoryCache.c:106:1: note: Parameter '_this' can be declared as pointer to const
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, RemoveBlock, void* toDelete)
+^
+InMemoryCache.c:119:1: style: Parameter '_this' can be declared as pointer to const. However it seems that 'inner_function_InMemoryCache_getTotalFreeBytes' is a callback function, if '_this' is declared with const you might also need to cast function pointer(s). [constParameterCallback]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+^
+InMemoryCache.c:136:1: note: You might need to cast the function pointer here
+BIND_OVERIDE(InMemoryCache, ICache, getTotalFreeBytes);
+^
+InMemoryCache.c:119:1: note: Parameter '_this' can be declared as pointer to const
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+^
+InMemoryCache.c:124:9: style: Variable 'this_block_end_ptr' can be declared as pointer to const [constVariablePointer]
+  char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+        ^
+iCache.h:15:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.2]
+END_FUNCTIONS(ICache);
+^
+InMemoryCache.h:21:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.2]
+END_DERIVED_FUNCTIONS(InMemoryCache);
+^
+InMemoryCache.c:57:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.4]
+MEM_FUN_IMPL(InMemoryCache, print_block, MEM_SIZE_T offset)
+^
+InMemoryCache.c:68:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.4]
+MEM_FUN_IMPL(InMemoryCache, print_all)
+^
+InMemoryCache.c:80:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.4]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, AddNewBlock, MEM_SIZE_T num_bytes_to_alloc, void** returned)
+^
+InMemoryCache.c:106:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.4]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, RemoveBlock, void* toDelete)
+^
+InMemoryCache.c:119:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.4]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+^
+InMemoryCache.h:10:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+DEF_DERIVED_CLASS(InMemoryCache, ICache);
+^
+InMemoryCache.c:38:42: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ MEM_SIZE_T anchor_idx = 0, suffix_idx = END_OF_BLOCKS_IDX;
+                                         ^
+InMemoryCache.c:39:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ BLOCK_SIZE(anchor_idx) = 0;
+ ^
+InMemoryCache.c:40:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ JUMP_TILL_NEXT_BLOCK(anchor_idx) = suffix_idx - anchor_idx;
+ ^
+InMemoryCache.c:41:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ JUMP_TILL_PREV_BLOCK(anchor_idx) = 0;
+ ^
+InMemoryCache.c:43:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ BLOCK_SIZE(suffix_idx) = 0;
+ ^
+InMemoryCache.c:44:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ JUMP_TILL_NEXT_BLOCK(suffix_idx) = 0;
+ ^
+InMemoryCache.c:45:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ JUMP_TILL_PREV_BLOCK(suffix_idx) = suffix_idx - anchor_idx;
+ ^
+InMemoryCache.c:60:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+  BLOCK_SIZE(offset),
+  ^
+InMemoryCache.c:61:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+  NEXT_BLOCK_LOCATION(offset),
+  ^
+InMemoryCache.c:62:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+  PREV_BLOCK_LOCATION(offset)
+  ^
+InMemoryCache.c:71:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:83:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:85:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+  char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+                             ^
+InMemoryCache.c:87:37: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+  MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+                                    ^
+InMemoryCache.c:88:50: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+  if (space_between_blocks >= num_bytes_to_alloc + BLOCK_METADATA_SIZE)
+                                                 ^
+InMemoryCache.c:88:52: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+  if (space_between_blocks >= num_bytes_to_alloc + BLOCK_METADATA_SIZE)
+                                                   ^
+InMemoryCache.c:90:41: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+   MEM_SIZE_T new_block_idx = mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                        ^
+InMemoryCache.c:92:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+   BLOCK_SIZE(new_block_idx) = num_bytes_to_alloc;
+   ^
+InMemoryCache.c:93:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+   ^
+InMemoryCache.c:93:42: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+                                         ^
+InMemoryCache.c:93:84: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+                                                                                   ^
+InMemoryCache.c:94:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+   JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+   ^
+InMemoryCache.c:94:42: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+   JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                         ^
+InMemoryCache.c:96:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+   JUMP_TILL_NEXT_BLOCK(mem_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+   ^
+InMemoryCache.c:96:36: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+   JUMP_TILL_NEXT_BLOCK(mem_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                   ^
+InMemoryCache.c:97:16: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+   *returned = BLOCK_MEM_START(new_block_idx);
+               ^
+InMemoryCache.c:108:74: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ MEM_SIZE_T mem_idx = (MEM_SIZE_T)((((char*)toDelete) - _this->buffer) - BLOCK_METADATA_SIZE);
+                                                                         ^
+InMemoryCache.c:111:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ MEM_SIZE_T prev_block_idx = PREV_BLOCK_LOCATION(mem_idx);
+                             ^
+InMemoryCache.c:112:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ MEM_SIZE_T next_block_idx = NEXT_BLOCK_LOCATION(mem_idx);
+                             ^
+InMemoryCache.c:114:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ JUMP_TILL_PREV_BLOCK(next_block_idx) =
+ ^
+InMemoryCache.c:115:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+  JUMP_TILL_NEXT_BLOCK(prev_block_idx) = next_block_idx - prev_block_idx;
+  ^
+InMemoryCache.c:122:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:124:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+  char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+                             ^
+InMemoryCache.c:126:37: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.4]
+  MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+                                    ^
+InMemoryCache.c:86:35: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.8]
+  MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
+                                  ^
+InMemoryCache.c:125:35: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-10.8]
+  MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
+                                  ^
+InMemoryCache.c:39:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ BLOCK_SIZE(anchor_idx) = 0;
+ ^
+InMemoryCache.c:40:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ JUMP_TILL_NEXT_BLOCK(anchor_idx) = suffix_idx - anchor_idx;
+ ^
+InMemoryCache.c:41:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ JUMP_TILL_PREV_BLOCK(anchor_idx) = 0;
+ ^
+InMemoryCache.c:43:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ BLOCK_SIZE(suffix_idx) = 0;
+ ^
+InMemoryCache.c:44:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ JUMP_TILL_NEXT_BLOCK(suffix_idx) = 0;
+ ^
+InMemoryCache.c:45:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ JUMP_TILL_PREV_BLOCK(suffix_idx) = suffix_idx - anchor_idx;
+ ^
+InMemoryCache.c:60:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+  BLOCK_SIZE(offset),
+  ^
+InMemoryCache.c:61:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+  NEXT_BLOCK_LOCATION(offset),
+  ^
+InMemoryCache.c:62:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+  PREV_BLOCK_LOCATION(offset)
+  ^
+InMemoryCache.c:71:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:83:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:85:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+  char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+                             ^
+InMemoryCache.c:87:37: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+  MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+                                    ^
+InMemoryCache.c:90:41: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+   MEM_SIZE_T new_block_idx = mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                        ^
+InMemoryCache.c:92:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+   BLOCK_SIZE(new_block_idx) = num_bytes_to_alloc;
+   ^
+InMemoryCache.c:93:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+   ^
+InMemoryCache.c:93:42: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+                                         ^
+InMemoryCache.c:93:84: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+                                                                                   ^
+InMemoryCache.c:94:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+   JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+   ^
+InMemoryCache.c:94:42: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+   JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                         ^
+InMemoryCache.c:96:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+   JUMP_TILL_NEXT_BLOCK(mem_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+   ^
+InMemoryCache.c:96:36: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+   JUMP_TILL_NEXT_BLOCK(mem_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                   ^
+InMemoryCache.c:111:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ MEM_SIZE_T prev_block_idx = PREV_BLOCK_LOCATION(mem_idx);
+                             ^
+InMemoryCache.c:112:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ MEM_SIZE_T next_block_idx = NEXT_BLOCK_LOCATION(mem_idx);
+                             ^
+InMemoryCache.c:114:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ JUMP_TILL_PREV_BLOCK(next_block_idx) =
+ ^
+InMemoryCache.c:115:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+  JUMP_TILL_NEXT_BLOCK(prev_block_idx) = next_block_idx - prev_block_idx;
+  ^
+InMemoryCache.c:122:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:124:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+  char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+                             ^
+InMemoryCache.c:126:37: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.3]
+  MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+                                    ^
+InMemoryCache.c:108:38: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-11.5]
+ MEM_SIZE_T mem_idx = (MEM_SIZE_T)((((char*)toDelete) - _this->buffer) - BLOCK_METADATA_SIZE);
+                                     ^
+InMemoryCache.h:10:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+DEF_DERIVED_CLASS(InMemoryCache, ICache);
+^
+InMemoryCache.c:39:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ BLOCK_SIZE(anchor_idx) = 0;
+ ^
+InMemoryCache.c:40:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ JUMP_TILL_NEXT_BLOCK(anchor_idx) = suffix_idx - anchor_idx;
+ ^
+InMemoryCache.c:41:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ JUMP_TILL_PREV_BLOCK(anchor_idx) = 0;
+ ^
+InMemoryCache.c:43:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ BLOCK_SIZE(suffix_idx) = 0;
+ ^
+InMemoryCache.c:44:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ JUMP_TILL_NEXT_BLOCK(suffix_idx) = 0;
+ ^
+InMemoryCache.c:45:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ JUMP_TILL_PREV_BLOCK(suffix_idx) = suffix_idx - anchor_idx;
+ ^
+InMemoryCache.c:60:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+  BLOCK_SIZE(offset),
+  ^
+InMemoryCache.c:61:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+  NEXT_BLOCK_LOCATION(offset),
+  ^
+InMemoryCache.c:62:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+  PREV_BLOCK_LOCATION(offset)
+  ^
+InMemoryCache.c:71:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:83:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:85:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+  char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+                             ^
+InMemoryCache.c:87:37: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+  MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+                                    ^
+InMemoryCache.c:88:28: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+  if (space_between_blocks >= num_bytes_to_alloc + BLOCK_METADATA_SIZE)
+                           ^
+InMemoryCache.c:90:41: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+   MEM_SIZE_T new_block_idx = mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                        ^
+InMemoryCache.c:92:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+   BLOCK_SIZE(new_block_idx) = num_bytes_to_alloc;
+   ^
+InMemoryCache.c:93:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+   ^
+InMemoryCache.c:93:42: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+                                         ^
+InMemoryCache.c:93:84: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+                                                                                   ^
+InMemoryCache.c:94:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+   JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+   ^
+InMemoryCache.c:94:42: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+   JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                         ^
+InMemoryCache.c:96:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+   JUMP_TILL_NEXT_BLOCK(mem_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+   ^
+InMemoryCache.c:96:36: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+   JUMP_TILL_NEXT_BLOCK(mem_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                   ^
+InMemoryCache.c:111:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ MEM_SIZE_T prev_block_idx = PREV_BLOCK_LOCATION(mem_idx);
+                             ^
+InMemoryCache.c:112:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ MEM_SIZE_T next_block_idx = NEXT_BLOCK_LOCATION(mem_idx);
+                             ^
+InMemoryCache.c:114:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ JUMP_TILL_PREV_BLOCK(next_block_idx) =
+ ^
+InMemoryCache.c:115:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+  JUMP_TILL_NEXT_BLOCK(prev_block_idx) = next_block_idx - prev_block_idx;
+  ^
+InMemoryCache.c:122:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:124:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+  char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+                             ^
+InMemoryCache.c:126:37: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.1]
+  MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+                                    ^
+InMemoryCache.c:38:27: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-12.3]
+ MEM_SIZE_T anchor_idx = 0, suffix_idx = END_OF_BLOCKS_IDX;
+                          ^
+InMemoryCache.c:115:40: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-13.4]
+  JUMP_TILL_NEXT_BLOCK(prev_block_idx) = next_block_idx - prev_block_idx;
+                                       ^
+InMemoryCache.c:51:5: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-14.4]
+ if (_this->buffer)
+    ^
+InMemoryCache.c:57:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-14.4]
+MEM_FUN_IMPL(InMemoryCache, print_block, MEM_SIZE_T offset)
+^
+InMemoryCache.c:68:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-14.4]
+MEM_FUN_IMPL(InMemoryCache, print_all)
+^
+InMemoryCache.c:74:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-14.4]
+ }END_LOOP;
+  ^
+InMemoryCache.c:101:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-14.4]
+ }END_LOOP;
+  ^
+InMemoryCache.c:129:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-14.4]
+ }END_LOOP;
+  ^
+InMemoryCache.c:27:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-15.4]
+DEF_DERIVED_CTOR(InMemoryCache, ICache, MEM_SIZE_T size) SUPER ME
+^
+InMemoryCache.c:71:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-15.4]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:83:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-15.4]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:80:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-15.4]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, AddNewBlock, MEM_SIZE_T num_bytes_to_alloc, void** returned)
+^
+InMemoryCache.c:122:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-15.4]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:51:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-15.6]
+ if (_this->buffer)
+ ^
+InMemoryCache.c:74:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-15.7]
+ }END_LOOP;
+^
+InMemoryCache.c:101:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-15.7]
+ }END_LOOP;
+^
+InMemoryCache.c:129:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-15.7]
+ }END_LOOP;
+^
+InMemoryCache.h:10:1: error: Because of missing configuration, misra checking is incomplete. There can be false negatives! Unknown array size, please review configuration [misra-config]
+DEF_DERIVED_CLASS(InMemoryCache, ICache);
+^
+InMemoryCache.c:35:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-17.7]
+ memset(_this->buffer, 0, _this->size);
+       ^
+InMemoryCache.c:59:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-17.7]
+ printf("B[%d]:Size=%d,Next=%d,Prev=%d\n", offset,
+       ^
+InMemoryCache.c:64:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-17.7]
+ fflush(stdout);
+       ^
+InMemoryCache.c:70:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-17.7]
+ printf("***********************\n");
+       ^
+InMemoryCache.c:75:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-17.7]
+ printf("***********************\n");
+       ^
+InMemoryCache.c:76:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-17.7]
+ fflush(stdout);
+       ^
+InMemoryCache.c:39:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ BLOCK_SIZE(anchor_idx) = 0;
+ ^
+InMemoryCache.c:40:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ JUMP_TILL_NEXT_BLOCK(anchor_idx) = suffix_idx - anchor_idx;
+ ^
+InMemoryCache.c:41:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ JUMP_TILL_PREV_BLOCK(anchor_idx) = 0;
+ ^
+InMemoryCache.c:43:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ BLOCK_SIZE(suffix_idx) = 0;
+ ^
+InMemoryCache.c:44:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ JUMP_TILL_NEXT_BLOCK(suffix_idx) = 0;
+ ^
+InMemoryCache.c:45:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ JUMP_TILL_PREV_BLOCK(suffix_idx) = suffix_idx - anchor_idx;
+ ^
+InMemoryCache.c:60:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+  BLOCK_SIZE(offset),
+  ^
+InMemoryCache.c:61:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+  NEXT_BLOCK_LOCATION(offset),
+  ^
+InMemoryCache.c:62:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+  PREV_BLOCK_LOCATION(offset)
+  ^
+InMemoryCache.c:71:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:83:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:85:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+  char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+                             ^
+InMemoryCache.c:86:67: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+  MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
+                                                                  ^
+InMemoryCache.c:87:37: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+  MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+                                    ^
+InMemoryCache.c:90:41: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+   MEM_SIZE_T new_block_idx = mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                        ^
+InMemoryCache.c:92:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+   BLOCK_SIZE(new_block_idx) = num_bytes_to_alloc;
+   ^
+InMemoryCache.c:93:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+   ^
+InMemoryCache.c:93:42: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+                                         ^
+InMemoryCache.c:93:84: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+   JUMP_TILL_NEXT_BLOCK(new_block_idx) = NEXT_BLOCK_LOCATION(mem_idx) - (mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx));
+                                                                                   ^
+InMemoryCache.c:94:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+   JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+   ^
+InMemoryCache.c:94:42: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+   JUMP_TILL_PREV_BLOCK(new_block_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                         ^
+InMemoryCache.c:96:4: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+   JUMP_TILL_NEXT_BLOCK(mem_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+   ^
+InMemoryCache.c:96:36: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+   JUMP_TILL_NEXT_BLOCK(mem_idx) = BLOCK_SIZE_WITH_METADATA(mem_idx);
+                                   ^
+InMemoryCache.c:97:16: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+   *returned = BLOCK_MEM_START(new_block_idx);
+               ^
+InMemoryCache.c:108:55: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ MEM_SIZE_T mem_idx = (MEM_SIZE_T)((((char*)toDelete) - _this->buffer) - BLOCK_METADATA_SIZE);
+                                                      ^
+InMemoryCache.c:111:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ MEM_SIZE_T prev_block_idx = PREV_BLOCK_LOCATION(mem_idx);
+                             ^
+InMemoryCache.c:112:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ MEM_SIZE_T next_block_idx = NEXT_BLOCK_LOCATION(mem_idx);
+                             ^
+InMemoryCache.c:114:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ JUMP_TILL_PREV_BLOCK(next_block_idx) =
+ ^
+InMemoryCache.c:115:3: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+  JUMP_TILL_NEXT_BLOCK(prev_block_idx) = next_block_idx - prev_block_idx;
+  ^
+InMemoryCache.c:122:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+ FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
+ ^
+InMemoryCache.c:124:30: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+  char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+                             ^
+InMemoryCache.c:125:67: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+  MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
+                                                                  ^
+InMemoryCache.c:126:37: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-18.4]
+  MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
+                                    ^
+InMemoryCache.h:10:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-19.2]
+DEF_DERIVED_CLASS(InMemoryCache, ICache);
+^
+InMemoryCache.c:12:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define BLOCK_SIZE(i)    *((MEM_SIZE_T*)(_this->buffer + i + BLOCK_SIZE_IDX*sizeof(MEM_SIZE_T)))
+^
+InMemoryCache.c:15:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define JUMP_TILL_NEXT_BLOCK(i)  *((MEM_SIZE_T*)(_this->buffer + i + JMP_TO_NEXT_IDX*sizeof(MEM_SIZE_T)))
+^
+InMemoryCache.c:16:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define NEXT_BLOCK_LOCATION(i)  (i + JUMP_TILL_NEXT_BLOCK(i))
+^
+InMemoryCache.c:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define JUMP_TILL_PREV_BLOCK(i)  *((MEM_SIZE_T*)(_this->buffer + i + JMP_TO_PREV_IDX*sizeof(MEM_SIZE_T)))
+^
+InMemoryCache.c:19:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define PREV_BLOCK_LOCATION(i)  (i - JUMP_TILL_PREV_BLOCK(i))
+^
+InMemoryCache.c:21:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define BLOCK_MEM_START(i) (_this->buffer + i + BLOCK_METADATA_SIZE )
+^
+InMemoryCache.c:22:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define BLOCK_MEM_END(i) (_this->buffer + i + BLOCK_METADATA_SIZE + BLOCK_SIZE(i))
+^
+ClassDefMacros.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define DEF_CLASS(class_name)                                        \
+^
+ClassDefMacros.h:51:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define END_FUNCTIONS(class_name) } class_name ##VirtualTable;   \
+^
+ClassDefMacros.h:62:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define DEF_DTOR(class_name) FUN_IMPL(__dtor__ ##class_name, class_name * _this)
+^
+ClassDefMacros.h:85:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define INIT_CLASS(type)       \
+^
+ClassDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define BIND(type, function_name)\
+^
+InheritenceDefMacros.h:14:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define DEF_DERIVED_CLASS(class_name, base)          \
+^
+InheritenceDefMacros.h:28:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define END_DEF_DERIVED(class_name) };};        \
+^
+InheritenceDefMacros.h:69:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define DEF_DERIVED_DTOR(class_name, BaseName) FUN_IMPL(__dtor__ ##class_name, class_name * _this) \
+^
+InheritenceDefMacros.h:84:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define INIT_DERIVED_CLASS(type,base)     \
+^
+InheritenceDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define BIND_OVERIDE(type,base,function) \
+^
+ObjectLifecycleManagement.h:59:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
+^
+ObjectLifecycleManagement.h:61:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define INITIALIZE_INSTANCE(type, instance_name)     \
+^
+ObjectLifecycleManagement.h:67:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define CREATE(type, instance_name)         \
+^
+ObjectLifecycleManagement.h:116:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define FUN(funcName)\
+^
+VirtualFuncCalling.h:11:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.7]
+#define FUN_BASE(_this, funcName)\
+^
+ClassDefMacros.h:14:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define V_TABLE_TYPE(class_name) class_name ##VirtualTable
+^
+ClassDefMacros.h:15:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define V_TABLE_INSTANCE(class_name) class_name ##VTable
+^
+ClassDefMacros.h:16:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define V_TABLE_TYPEDEF(class_name) class_name ##VirtualTable_t
+^
+ClassDefMacros.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define DEF_CLASS(class_name)                                        \
+^
+ClassDefMacros.h:28:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define END_DEF(class_name)                                            \
+^
+ClassDefMacros.h:51:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define END_FUNCTIONS(class_name) } class_name ##VirtualTable;   \
+^
+ClassDefMacros.h:62:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define DEF_DTOR(class_name) FUN_IMPL(__dtor__ ##class_name, class_name * _this)
+^
+ClassDefMacros.h:79:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define ATTACH_TORs_ToClass(class_name)       \
+^
+ClassDefMacros.h:85:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define INIT_CLASS(type)       \
+^
+ClassDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define BIND(type, function_name)\
+^
+ClassDefMacros.h:100:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define END_INIT_CLASS(type) \
+^
+InheritenceDefMacros.h:14:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define DEF_DERIVED_CLASS(class_name, base)          \
+^
+InheritenceDefMacros.h:28:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define END_DEF_DERIVED(class_name) };};        \
+^
+InheritenceDefMacros.h:69:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define DEF_DERIVED_DTOR(class_name, BaseName) FUN_IMPL(__dtor__ ##class_name, class_name * _this) \
+^
+InheritenceDefMacros.h:84:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define INIT_DERIVED_CLASS(type,base)     \
+^
+InheritenceDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define BIND_OVERIDE(type,base,function) \
+^
+ObjectLifecycleManagement.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define TRY IS_BREAKING = false; \
+^
+ObjectLifecycleManagement.h:61:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define INITIALIZE_INSTANCE(type, instance_name)     \
+^
+ObjectLifecycleManagement.h:125:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.10]
+#define ASSERT_NOT_NULL(x) if (!(x)) {THROW_MSG(#x " is null");}
+^
+ClassDefMacros.h:18:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define DEF_CLASS(class_name)                                        \
+^
+ClassDefMacros.h:51:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define END_FUNCTIONS(class_name) } class_name ##VirtualTable;   \
+^
+ClassDefMacros.h:79:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define ATTACH_TORs_ToClass(class_name)       \
+^
+ClassDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define BIND(type, function_name)\
+^
+InheritenceDefMacros.h:14:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define DEF_DERIVED_CLASS(class_name, base)          \
+^
+InheritenceDefMacros.h:28:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define END_DEF_DERIVED(class_name) };};        \
+^
+InheritenceDefMacros.h:69:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define DEF_DERIVED_DTOR(class_name, BaseName) FUN_IMPL(__dtor__ ##class_name, class_name * _this) \
+^
+InheritenceDefMacros.h:84:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define INIT_DERIVED_CLASS(type,base)     \
+^
+InheritenceDefMacros.h:94:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-20.12]
+#define BIND_OVERIDE(type,base,function) \
+^
+ClassDefMacros.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_CLASS_DEF_MACROS__
+^
+ExportDefs.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __EXPORT_DEFS__H_
+^
+InMemoryCache.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __IN_MEMORY_CACHE__ICACHE_H_
+^
+InheritenceDefMacros.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_INHERITENCE_DEF_MACROS__
+^
+ObjectBaseStructs.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_OBJ_BASE_STRUCTS__
+^
+ObjectLifecycleManagement.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_OBJ_LIEFCYCLE_MANAGEMENT__
+^
+VirtualFuncCalling.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __LINKED_LISTS__H_
+^
+iCache.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __I_CACHE__H_
+^
+object.h:2:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.1]
+#define __COOP_OBJECT__H_
+^
+InMemoryCache.c:30:31: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.3]
+ _this->buffer = (char*)malloc(sizeof(char) * size);
+                              ^
+InMemoryCache.c:52:7: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.3]
+  free(_this->buffer);
+      ^
+InMemoryCache.c:59:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.6]
+ printf("B[%d]:Size=%d,Next=%d,Prev=%d\n", offset,
+       ^
+InMemoryCache.c:64:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.6]
+ fflush(stdout);
+       ^
+InMemoryCache.c:70:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.6]
+ printf("***********************\n");
+       ^
+InMemoryCache.c:75:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.6]
+ printf("***********************\n");
+       ^
+InMemoryCache.c:76:8: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-21.6]
+ fflush(stdout);
+       ^
+InMemoryCache.c:133:1: style: The function 'InMemoryCache_init' is never used. [unusedFunction]
+INIT_DERIVED_CLASS(InMemoryCache, ICache);
+^
+InMemoryCache.c:27:1: style: The function '__ctor__InMemoryCache' should have static linkage since it is not used outside of its translation unit. [staticFunction]
+DEF_DERIVED_CTOR(InMemoryCache, ICache, MEM_SIZE_T size) SUPER ME
+^
+InMemoryCache.c:49:1: style: The function '__dtor__InMemoryCache' should have static linkage since it is not used outside of its translation unit. [staticFunction]
+DEF_DERIVED_DTOR(InMemoryCache, ICache)
+^
+InMemoryCache.c:57:1: style: The function 'InMemoryCache_print_block_outer_function' should have static linkage since it is not used outside of its translation unit. [staticFunction]
+MEM_FUN_IMPL(InMemoryCache, print_block, MEM_SIZE_T offset)
+^
+InMemoryCache.c:57:1: style: The function 'inner_function_InMemoryCache_print_block' should have static linkage since it is not used outside of its translation unit. [staticFunction]
+MEM_FUN_IMPL(InMemoryCache, print_block, MEM_SIZE_T offset)
+^
+InMemoryCache.c:68:1: style: The function 'InMemoryCache_print_all_outer_function' should have static linkage since it is not used outside of its translation unit. [staticFunction]
+MEM_FUN_IMPL(InMemoryCache, print_all)
+^
+InMemoryCache.c:68:1: style: The function 'inner_function_InMemoryCache_print_all' should have static linkage since it is not used outside of its translation unit. [staticFunction]
+MEM_FUN_IMPL(InMemoryCache, print_all)
+^
+InMemoryCache.c:80:1: style: The function 'inner_function_InMemoryCache_AddNewBlock' should have static linkage since it is not used outside of its translation unit. [staticFunction]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, AddNewBlock, MEM_SIZE_T num_bytes_to_alloc, void** returned)
+^
+InMemoryCache.c:106:1: style: The function 'inner_function_InMemoryCache_RemoveBlock' should have static linkage since it is not used outside of its translation unit. [staticFunction]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, RemoveBlock, void* toDelete)
+^
+InMemoryCache.c:119:1: style: The function 'inner_function_InMemoryCache_getTotalFreeBytes' should have static linkage since it is not used outside of its translation unit. [staticFunction]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+^
+ObjectBaseStructs.h:5:25: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+typedef struct object_t object;
+                        ^
+ObjectBaseStructs.h:16:2: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+}object;
+ ^
+iCache.h:8:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+DEF_CLASS(ICache);
+^
+iCache.h:15:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+END_FUNCTIONS(ICache);
+^
+InMemoryCache.h:10:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+DEF_DERIVED_CLASS(InMemoryCache, ICache);
+^
+InMemoryCache.h:21:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-5.6]
+END_DERIVED_FUNCTIONS(InMemoryCache);
+^
+InMemoryCache.c:8:27: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.4]
+enum BLOCK_METADATA_PARTS {BLOCK_SIZE_IDX = 0, JMP_TO_NEXT_IDX, JMP_TO_PREV_IDX, NUM_MD_PARTS};
+                          ^
+ClassDefMacros.h:58:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define DEF_CTOR(class_name, ...) FUN_IMPL(__ctor__ ##class_name, class_name * _this, ##__VA_ARGS__)
+^
+ClassDefMacros.h:59:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_CTOR END_FUN
+^
+ClassDefMacros.h:62:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define DEF_DTOR(class_name) FUN_IMPL(__dtor__ ##class_name, class_name * _this)
+^
+ClassDefMacros.h:64:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_DTOR END_FUN
+^
+ClassDefMacros.h:85:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define INIT_CLASS(type)       \
+^
+ClassDefMacros.h:107:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define PURE_VIRTUAL(CLASS, FUNC_NAME, ...) \
+^
+ObjectLifecycleManagement.h:10:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ERROR_VALUE 1
+^
+ObjectLifecycleManagement.h:22:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define BREAK {IS_BREAKING = true; _scope_obj_list_call_dtors(&_scope_obj_list); break;}
+^
+ObjectLifecycleManagement.h:24:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define CONTINUE {IS_BREAKING = false; _scope_obj_list_call_dtors(&_scope_obj_list); break;}
+^
+ObjectLifecycleManagement.h:26:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define CATCH            \
+^
+ObjectLifecycleManagement.h:31:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_TRY            \
+^
+ObjectLifecycleManagement.h:59:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define REGISTER_OBJECT(obj) _scope_obj_list_add(&_scope_obj_list, (object*)obj)
+^
+ObjectLifecycleManagement.h:61:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define INITIALIZE_INSTANCE(type, instance_name)     \
+^
+ObjectLifecycleManagement.h:67:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define CREATE(type, instance_name)         \
+^
+ObjectLifecycleManagement.h:73:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define DESTROY(instance_ptr) {if (instance_ptr) (instance_ptr)->vTable->_dtor(instance_ptr);}
+^
+ObjectLifecycleManagement.h:76:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define IF(...) if (__VA_ARGS__) { SCOPE_START;
+^
+ObjectLifecycleManagement.h:77:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ELSE_IF(...) _scope_obj_list_call_dtors(&_scope_obj_list); SCOPE_END } \
+^
+ObjectLifecycleManagement.h:81:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ELSE ELSE_IF(1)
+^
+ObjectLifecycleManagement.h:83:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define END_IF   _scope_obj_list_call_dtors(&_scope_obj_list); SCOPE_END\
+^
+ObjectLifecycleManagement.h:88:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define WHILE(...) while (__VA_ARGS__) { SCOPE_START;
+^
+ObjectLifecycleManagement.h:99:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define FUN_DECL(function_name, ...) int function_name(__VA_ARGS__)
+^
+ObjectLifecycleManagement.h:123:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ASSERT(x) if (!(x)) {THROW;}
+^
+ObjectLifecycleManagement.h:124:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define THROW_MSG_UNLESS(x, msg) if (!(x)) {THROW_MSG(msg);}
+^
+ObjectLifecycleManagement.h:125:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define ASSERT_NOT_NULL(x) if (!(x)) {THROW_MSG(#x " is null");}
+^
+VirtualFuncCalling.h:11:0: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-2.5]
+#define FUN_BASE(_this, funcName)\
+^
+InMemoryCache.c:133:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.7]
+INIT_DERIVED_CLASS(InMemoryCache, ICache);
+^
+InMemoryCache.c:80:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.7]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, AddNewBlock, MEM_SIZE_T num_bytes_to_alloc, void** returned)
+^
+InMemoryCache.c:106:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.7]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, RemoveBlock, void* toDelete)
+^
+InMemoryCache.c:119:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.7]
+FUN_OVERRIDE_IMPL(InMemoryCache, ICache, getTotalFreeBytes, MEM_SIZE_T* out_count)
+^
+InMemoryCache.c:57:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.7]
+MEM_FUN_IMPL(InMemoryCache, print_block, MEM_SIZE_T offset)
+^
+InMemoryCache.c:68:1: style: misra violation (use --rule-texts=<file> to get proper output) [misra-c2012-8.7]
+MEM_FUN_IMPL(InMemoryCache, print_all)
+^
+nofile:0:0: information: Active checkers: 391/1166 (use --checkers-report=<filename> to see details) [checkersReport]
+
