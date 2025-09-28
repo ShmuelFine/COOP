@@ -25,7 +25,7 @@ END_FUN
 MEM_FUN_IMPL(objSPtr, copyFrom, objSPtr const* other)
 {
 	MFUN(_this, release) CALL;
-	FUN_BASE(_this, copyFrom), (SharedPodPtr *)other CALL;
+	FUN_BASE(_this, copyFrom), &(other->_base) CALL;
 	_this->objPtr = (object*)_this->_base.px;
 }
 END_FUN
