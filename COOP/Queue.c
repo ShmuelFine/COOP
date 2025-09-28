@@ -12,7 +12,7 @@ END_CTOR
 
 DEF_DTOR(GenericQueue)
 {
-    MFUN(&_this->list, clear) CALL;
+    DESTROY(&(_this->list));
 }
 END_DTOR
 
