@@ -33,6 +33,8 @@ set(DataStructuresTests
     "BinaryTreeUnitTest.c"
     "IteratorUnitTest.c"
     "IteratorUnitTest.h"
+    "QueueUnitTest.c"
+    "QueueUnitTest.h"
 )
 source_group("DataStructuresTests" FILES ${DataStructuresTests})
 

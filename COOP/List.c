@@ -398,7 +398,7 @@ MEM_FUN_IMPL(GenericList, end, Iterator** out_iter)
 	ASSERT_NOT_NULL(list_it);
 
 	INITIALIZE_INSTANCE(ListIter, (*list_it)), ITER_BIDIRECTIONAL, _this CALL;
-	list_it->node = _this->tail->next;//or = NULL;
+	list_it->node = NULL;
 
 	*out_iter = (Iterator*)list_it;
 }
