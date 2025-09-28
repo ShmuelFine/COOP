@@ -27,6 +27,8 @@ set(DataStructuresTests
     "TensorUnitTest.h"
     "VectorUnitTest.c"
     "VectorUnitTest.h"
+    "listUnitTest.c"
+    "listUnitTest.h"
     "BinaryTreeUnitTest.h"
     "BinaryTreeUnitTest.c"
     "IteratorUnitTest.c"
