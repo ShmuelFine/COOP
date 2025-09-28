@@ -159,10 +159,7 @@ DEF_DERIVED_CTOR(Queue_##type, GenericQueue) SUPER ME                       \
     CREATE(List_##type, list_tmp)  CALL;                                           \
     base->list = *((GenericList*)&list_tmp);                                   \
 } END_DERIVED_CTOR                                                          \
-DEF_DERIVED_DTOR(Queue_##type, GenericQueue)                                \
-{                                                                           \
-    FUN_BASE(_this, clear) CALL;                                            \
-} END_DERIVED_DTOR
+DEF_DERIVED_DTOR(Queue_##type, GenericQueue){ } END_DERIVED_DTOR
 
 
 #define IMPL_SPECIFIC_QUEUE_TYPE_FUNCTIONS(type)                             \
