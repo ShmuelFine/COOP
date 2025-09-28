@@ -51,8 +51,11 @@ END_FUN
 
 FUN_OVERRIDE_IMPL(objSPtr, SharedPodPtr, release)
 {
-	if (_this->objPtr)
+	IF(_this->objPtr)
+	{
 		DESTROY(_this->objPtr);
+	}
+	END_IF;
 	FUN_BASE(_this, release) CALL;
 	_this->objPtr = (object*)_this->_base.px;
 }
