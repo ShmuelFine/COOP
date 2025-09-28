@@ -5,7 +5,7 @@ DEF_CTOR(SharedPodPtr, MEM_SIZE_T size_bytes)
 {
 	_this->px = NULL;
 	_this->pn = NULL;
-	if (size_bytes)
+	if (size_bytes != 0U)
 	{
 		char* data = NULL;
 		ALLOC_ARRAY(data, char, size_bytes);
