@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "QueueUnitTest.h"
 
+
 /* ============================
  *   BASIC QUEUE BEHAVIOR
  * ============================ */
@@ -116,6 +117,27 @@ TEST_FUN_IMPL(QueueTest, Queue_iterator_foreach)
 }
 END_FUN
 
+TEST_FUN_IMPL(QueueTest, Queue_destroy_frees_memory)
+{
+    Queue_int *q = NULL;
+    ALLOC_ARRAY(q, Queue_int, 1);
+    ASSERT_NOT_NULL(q);
+
+    INITIALIZE_INSTANCE(Queue_int, (*q)) CALL;
+
+    FOR(int i = 0; i < 5; ++i) {
+        MFUN(q, enqueue), i CALL;
+    } END_LOOP;
+
+    // destroy queue
+    DESTROY(q);
+
+    // after destroy, pointer should be NULL (common COOP convention)
+    ASSERT(q->_base.list.head == NULL);
+    ASSERT(q->_base.list.tail == NULL);
+    ASSERT(q->_base.list.size == 0);
+}
+END_FUN
 /* ============================
  *   SUITE
  * ============================ */
@@ -124,4 +146,5 @@ BIND_TEST(QueueTest, Queue_fifo_order);
 BIND_TEST(QueueTest, Queue_front_size_empty);
 BIND_TEST(QueueTest, Queue_clear_resets);
 BIND_TEST(QueueTest, Queue_iterator_foreach);
+BIND_TEST(QueueTest, Queue_destroy_frees_memory);
 END_INIT_TEST_SUITE(QueueTest)

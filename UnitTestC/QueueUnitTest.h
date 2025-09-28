@@ -10,6 +10,7 @@ ADD_TEST(QueueTest, Queue_fifo_order);
 ADD_TEST(QueueTest, Queue_front_size_empty);
 ADD_TEST(QueueTest, Queue_clear_resets);
 ADD_TEST(QueueTest, Queue_iterator_foreach);
+ADD_TEST(QueueTest, Queue_destroy_frees_memory);
 END_TEST_SUITE(QueueTest);
 
 #endif 
