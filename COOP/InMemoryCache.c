@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <stddef.h> 
 
 enum BLOCK_METADATA_PARTS {BLOCK_SIZE_IDX = 0, JMP_TO_NEXT_IDX, JMP_TO_PREV_IDX, NUM_MD_PARTS};
 
@@ -36,7 +37,8 @@ DEF_DERIVED_CTOR(InMemoryCache, ICache, MEM_SIZE_T size) SUPER ME
 	memset(_this->buffer, 0, _this->size);
 
 	// anchor and suffix: (a.k.a "begin" and "end")
-	MEM_SIZE_T anchor_idx = 0, suffix_idx = END_OF_BLOCKS_IDX;
+	MEM_SIZE_T anchor_idx = (MEM_SIZE_T)0;
+	MEM_SIZE_T suffix_idx = END_OF_BLOCKS_IDX;
 	BLOCK_SIZE(anchor_idx) = 0;
 	JUMP_TILL_NEXT_BLOCK(anchor_idx) = suffix_idx - anchor_idx;
 	JUMP_TILL_PREV_BLOCK(anchor_idx) = 0;
@@ -71,12 +73,12 @@ END_FUN
 
 MEM_FUN_IMPL(InMemoryCache, print_all)
 {
-	printf("***********************\n");
+	(void)printf("***********************\n");
 	FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
 	{
 		MFUN(_this, print_block), mem_idx CALL;
 	}END_LOOP;
-	printf("***********************\n");
+	(void)printf("***********************\n");
 	(void)fflush(stdout);
 }
 END_FUN;
@@ -114,7 +116,14 @@ END_FUN
 
 FUN_OVERRIDE_IMPL(InMemoryCache, ICache, RemoveBlock, void* toDelete)
 {
-	MEM_SIZE_T mem_idx = (MEM_SIZE_T)((((char*)toDelete) - _this->buffer) - BLOCK_METADATA_SIZE);
+	assert(toDelete != NULL);
+	assert((const char*)toDelete >= _this->buffer);
+	assert((const char*)toDelete <= _this->buffer + END_OF_BLOCKS_IDX);
+
+	ptrdiff_t delta = (const char*)toDelete - (const char*)_this->buffer;
+	assert(delta >= (ptrdiff_t)BLOCK_METADATA_SIZE);
+
+	MEM_SIZE_T mem_idx = (MEM_SIZE_T)(delta - (ptrdiff_t)BLOCK_METADATA_SIZE);
 
 	// prev block should now point to next block: (anchor is never removed)
 	MEM_SIZE_T prev_block_idx = PREV_BLOCK_LOCATION(mem_idx);
