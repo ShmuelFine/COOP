@@ -144,7 +144,8 @@
   <ItemGroup>
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="BinaryTree.h" />
-    <ClInclude Include="InMemoryCache.h" />
+	<ClInclude Include="List.h" />
+	<ClInclude Include="InMemoryCache.h" />
     <ClInclude Include="ClassDefMacros.h" />
     <ClInclude Include="COOP.h" />
     <ClInclude Include="DynamicMemoryManagement.h" />
@@ -166,6 +167,7 @@
   <ItemGroup>
     <ClCompile Include="Iterator.c" />
     <ClCompile Include="BinaryTree.c" />
+	<ClCompile Include="List.c" />
     <ClCompile Include="InMemoryCache.c" />
     <ClCompile Include="DynamicMemoryManagement.c" />
     <ClCompile Include="HeapCache.c" />

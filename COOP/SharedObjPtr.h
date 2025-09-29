@@ -7,8 +7,8 @@ DEF_DERIVED_CLASS(objSPtr, SharedPodPtr);
 object* objPtr;
 END_DEF_DERIVED(objSPtr);
 
-DERIVED_FUNCTIONS(objSPtr, SharedPodPtr, object * obj);
-MEM_FUN_DECL(objSPtr, reset, object * newObjr);
+DERIVED_FUNCTIONS(objSPtr, SharedPodPtr, object* obj);
+MEM_FUN_DECL(objSPtr, reset, object* newObjr);
 MEM_FUN_DECL(objSPtr, copyFrom, objSPtr const* other);
 MEM_FUN_DECL(objSPtr, print);
 MEM_FUN_DECL(objSPtr, equals, objSPtr const* other, bool* out_equal);
