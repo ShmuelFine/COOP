@@ -29,6 +29,7 @@
     </ClInclude>
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Tensor.h" />
+	<ClInclude Include="Queue.h" />
     <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="UnitTestsInfra.h">
       <Filter>Infra</Filter>
@@ -76,6 +77,7 @@
     <ClCompile Include="Tensor.c" />
     <ClCompile Include="BinaryTree.c" />
     <ClCompile Include="SharedPodPtr.c" />
+	<ClCompile Include="Queue.c" />
     <ClCompile Include="ObjectLifecycleManagement.c">
       <Filter>Infra</Filter>
     </ClCompile>

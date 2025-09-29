@@ -48,6 +48,9 @@
     <ClCompile Include="DemoClassTest.c">
       <Filter>Sample</Filter>
     </ClCompile>
+	<ClCompile Include="QueueUnitTest.c">
+		<Filter>DataStructuresTests</Filter>
+	</ClCompile>
     <ClCompile Include="_RUNNER_.c" />
     <ClCompile Include="TensorUnitTest.c">
       <Filter>DataStructuresTests</Filter>
@@ -90,6 +93,9 @@
     <ClInclude Include="VectorUnitTest.h">
       <Filter>DataStructuresTests</Filter>
     </ClInclude>
+	<ClInclude Include="QueueUnitTest.h">
+		<Filter>DataStructuresTests</Filter>
+	</ClInclude>
     <ClInclude Include="SharedPodPtrUnitTest.h">
       <Filter>DataStructuresTests</Filter>
     </ClInclude>
