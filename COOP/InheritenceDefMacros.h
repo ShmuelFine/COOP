@@ -6,7 +6,7 @@
 
 // Macros for inner use:
 #define DELTA_SIZE(classA, classB) (sizeof(classA) - sizeof(classB))
-#define PLACE_HOLDER_MEM_BUFF(base)  char __dummy__[ ((DELTA_SIZE(base, object) > 0) ? (DELTA_SIZE(base, object)) : (1)) ]
+#define PLACE_HOLDER_MEM_BUFF(base) char __dummy__[ ((DELTA_SIZE(base, object) > 0) ? (DELTA_SIZE(base, object)) : (1)) ]
 
 
 // Macro that defines a DERRIVED class:

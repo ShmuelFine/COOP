@@ -46,7 +46,7 @@ MEM_FUN_IMPL(GenericTensor, _get_location, MEM_SIZE_T* coords, MEM_SIZE_T* ret_v
 
 		MFUN(&_this->shape, get), dim_idx, & ith_dim CALL;
 		THROW_MSG_UNLESS(coords[dim_idx] < ith_dim, "index out of range");
-		dimsProduct *= ith_dim;
+		dimsProduct *= (MEM_SIZE_T)ith_dim;
 	}END_LOOP;
 
 	(*ret_val) = innerOffset;
