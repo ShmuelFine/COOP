@@ -61,7 +61,7 @@ MEM_FUN_IMPL(InMemoryCache, print_block, MEM_SIZE_T offset)
 		NEXT_BLOCK_LOCATION(offset),
 		PREV_BLOCK_LOCATION(offset)
 	);
-	fflush(stdout);
+	(void)fflush(stdout);
 }
 END_FUN
 
@@ -73,7 +73,7 @@ MEM_FUN_IMPL(InMemoryCache, print_all)
 		MFUN(_this, print_block), mem_idx CALL;
 	}END_LOOP;
 	printf("***********************\n");
-	fflush(stdout);
+	(void)fflush(stdout);
 }
 END_FUN;
 
@@ -82,8 +82,10 @@ FUN_OVERRIDE_IMPL(InMemoryCache, ICache, AddNewBlock, MEM_SIZE_T num_bytes_to_al
 	*returned = NULL;
 	FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
 	{
-		char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
-		MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
+		const char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+		ptrdiff_t delta_end = this_block_end_ptr - (const char*)_this->buffer;
+		assert(delta_end >= 0);
+		MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)delta_end;
 		MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
 		if (space_between_blocks >= num_bytes_to_alloc + BLOCK_METADATA_SIZE)
 		{
@@ -123,8 +125,10 @@ FUN_OVERRIDE_IMPL(InMemoryCache, ICache, getTotalFreeBytes, MEM_SIZE_T* out_coun
 	*out_count = 0;
 	FOR(MEM_SIZE_T mem_idx = 0; mem_idx < END_OF_BLOCKS_IDX; mem_idx = NEXT_BLOCK_LOCATION(mem_idx))
 	{
-		char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
-		MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
+		const char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
+		ptrdiff_t delta_end = this_block_end_ptr - (const char*)_this->buffer;
+		assert(delta_end >= 0);
+		MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)delta_end;
 		MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
 
 		*out_count += space_between_blocks;
