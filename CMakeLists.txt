@@ -76,3 +76,18 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_subdirectory(COOP)
 add_subdirectory(UnitTestC)
 
+################################################################################
+# ----- Pure C Binary Tree -----
+################################################################################
+add_library(bt_pure STATIC
+  Compare/PureCDemo/bt_pure.c
+)
+target_include_directories(bt_pure PUBLIC
+  ${CMAKE_SOURCE_DIR}/Compare/PureCDemo
+)
+
+add_executable(bt_demo
+  Compare/PureCDemo/main.c
+)
+target_link_libraries(bt_demo PRIVATE bt_pure)
+
