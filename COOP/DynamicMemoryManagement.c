@@ -20,15 +20,19 @@ FUN_IMPL(init_global_memory, int size, CACHE_TYPES type)
 	case LIMITED_SIZE_MEMORY: {
         TheGlobalCache = (ICache*)malloc(sizeof(InMemoryCache));
 		ASSERT_NOT_NULL(TheGlobalCache);
-		INITIALIZE_INSTANCE(InMemoryCache, (*((InMemoryCache*)TheGlobalCache))), size CALL;
+		InMemoryCache* imCache = (InMemoryCache*)TheGlobalCache;
+		INITIALIZE_INSTANCE(InMemoryCache, (*imCache)), size CALL;
 	} break;
 	case HEAP_BASED_MEMORY: {
         TheGlobalCache = (ICache*)malloc(sizeof(HeapCache));
 		ASSERT_NOT_NULL(TheGlobalCache);
-		INITIALIZE_INSTANCE(HeapCache, (*((HeapCache*)TheGlobalCache))) CALL;
+		HeapCache* hCache = (HeapCache*)TheGlobalCache;
+		INITIALIZE_INSTANCE(HeapCache, (*hCache)) CALL;
 	} break;
 	default:
+	{
 		THROW_MSG("Unknown memory type");
+	}
 	}
 }
 END_FUN;
