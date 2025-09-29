@@ -28,10 +28,11 @@ DEF_DERIVED_CTOR(InMemoryCache, ICache, MEM_SIZE_T size) SUPER ME
 {
 	_this->size = size;
 	_this->buffer = (char*)malloc(sizeof(char) * size);
-	if (NULL == _this->buffer)
+	IF (NULL == _this->buffer)
 	{
 		THROW("Could not allocate buffer");
 	}
+	END_IF;
 	memset(_this->buffer, 0, _this->size);
 
 	// anchor and suffix: (a.k.a "begin" and "end")
@@ -48,8 +49,11 @@ END_DERIVED_CTOR
 
 DEF_DERIVED_DTOR(InMemoryCache, ICache)
 {
-	if (_this->buffer)
+	IF (_this->buffer)
+	{
 		free(_this->buffer);
+	}
+	END_IF;
 }
 END_DERIVED_DTOR
 
@@ -85,7 +89,7 @@ FUN_OVERRIDE_IMPL(InMemoryCache, ICache, AddNewBlock, MEM_SIZE_T num_bytes_to_al
 		char* this_block_end_ptr = BLOCK_MEM_END(mem_idx);
 		MEM_SIZE_T this_block_end_idx = (MEM_SIZE_T)(this_block_end_ptr - _this->buffer);
 		MEM_SIZE_T space_between_blocks = NEXT_BLOCK_LOCATION(mem_idx) - this_block_end_idx;
-		if (space_between_blocks >= num_bytes_to_alloc + BLOCK_METADATA_SIZE)
+		IF (space_between_blocks >= num_bytes_to_alloc + BLOCK_METADATA_SIZE)
 		{
 			MEM_SIZE_T original_next_idx = NEXT_BLOCK_LOCATION(mem_idx);             
 			MEM_SIZE_T new_block_idx = mem_idx + BLOCK_SIZE_WITH_METADATA(mem_idx);
@@ -100,6 +104,7 @@ FUN_OVERRIDE_IMPL(InMemoryCache, ICache, AddNewBlock, MEM_SIZE_T num_bytes_to_al
 
 			RETURN;
 		}
+		END_IF;
 	}END_LOOP;
 	THROW_MSG("Could not allocate new block");
 }
