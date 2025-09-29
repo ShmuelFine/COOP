@@ -9,17 +9,17 @@ enum BLOCK_METADATA_PARTS {BLOCK_SIZE_IDX = 0, JMP_TO_NEXT_IDX, JMP_TO_PREV_IDX,
 
 #define BLOCK_METADATA_SIZE (NUM_MD_PARTS*sizeof(MEM_SIZE_T))
 
-#define BLOCK_SIZE(i)				*((MEM_SIZE_T*)(_this->buffer + i + BLOCK_SIZE_IDX*sizeof(MEM_SIZE_T)))
+#define BLOCK_SIZE(i)				(*((MEM_SIZE_T*)(void*)(_this->buffer + (size_t)(i) + (size_t)BLOCK_SIZE_IDX*sizeof(MEM_SIZE_T))))
 #define BLOCK_SIZE_WITH_METADATA(i) (BLOCK_METADATA_SIZE + BLOCK_SIZE(i))
 
-#define JUMP_TILL_NEXT_BLOCK(i)		*((MEM_SIZE_T*)(_this->buffer + i + JMP_TO_NEXT_IDX*sizeof(MEM_SIZE_T)))
-#define NEXT_BLOCK_LOCATION(i)		(i + JUMP_TILL_NEXT_BLOCK(i))
+#define JUMP_TILL_NEXT_BLOCK(i)		(*((MEM_SIZE_T*)(void*)(_this->buffer + (size_t)(i) + (size_t)JMP_TO_NEXT_IDX*sizeof(MEM_SIZE_T))))
+#define NEXT_BLOCK_LOCATION(i)		((MEM_SIZE_T)((MEM_SIZE_T)(i) + (MEM_SIZE_T)JUMP_TILL_NEXT_BLOCK(i)))
 
-#define JUMP_TILL_PREV_BLOCK(i)		*((MEM_SIZE_T*)(_this->buffer + i + JMP_TO_PREV_IDX*sizeof(MEM_SIZE_T)))
-#define PREV_BLOCK_LOCATION(i)		(i - JUMP_TILL_PREV_BLOCK(i))
+#define JUMP_TILL_PREV_BLOCK(i)		(*((MEM_SIZE_T*)(void*)(_this->buffer + (size_t)(i) + (size_t)JMP_TO_PREV_IDX*sizeof(MEM_SIZE_T))))
+#define PREV_BLOCK_LOCATION(i)		((MEM_SIZE_T)((MEM_SIZE_T)(i) - (MEM_SIZE_T)JUMP_TILL_PREV_BLOCK(i)))
 
-#define BLOCK_MEM_START(i) (_this->buffer + i + BLOCK_METADATA_SIZE )
-#define BLOCK_MEM_END(i) (_this->buffer + i + BLOCK_METADATA_SIZE + BLOCK_SIZE(i))
+#define BLOCK_MEM_START(i) (_this->buffer + (size_t)(i) + (size_t)BLOCK_METADATA_SIZE)
+#define BLOCK_MEM_END(i) (BLOCK_MEM_START(i) + (size_t)BLOCK_SIZE(i))
 
 #define END_OF_BLOCKS_IDX (_this->size - BLOCK_METADATA_SIZE)
 
