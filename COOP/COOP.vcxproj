@@ -163,6 +163,7 @@
     <ClInclude Include="UnitTestsInfra.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="VirtualFuncCalling.h" />
+	<ClInclude Include="Queue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Iterator.c" />
@@ -178,6 +179,7 @@
     <ClCompile Include="SharedPodPtr.c" />
     <ClCompile Include="Vector.c" />
     <ClCompile Include="VirtualFuncCalling.c" />
+	<ClCompile Include="Queue.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

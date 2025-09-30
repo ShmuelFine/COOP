@@ -18,6 +18,8 @@ set(no_group_source_files
     "BinaryTree.c"
     "Iterator.c"  
     "Iterator.h"  
+    "Queue.c"
+    "Queue.h"
 )
 source_group("" FILES ${no_group_source_files})
 
