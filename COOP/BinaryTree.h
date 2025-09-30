@@ -70,10 +70,14 @@ MEM_FUN_DECL(GenericBinaryTree, is_empty, bool *out);
 MEM_FUN_DECL(GenericBinaryTree, get_size, MEM_SIZE_T *out);
 
 MEM_FUN_DECL(GenericBinaryTree, __insert_generic, const void *src);
-MEM_FUN_DECL(GenericBinaryTree, insert_int, int value);
-MEM_FUN_DECL(GenericBinaryTree, insert_char, char value);
-MEM_FUN_DECL(GenericBinaryTree, insert_float, float value);
-MEM_FUN_DECL(GenericBinaryTree, insert_objSPtr, objSPtr value);
+//MEM_FUN_DECL(GenericBinaryTree, insert_int, int value);
+//MEM_FUN_DECL(GenericBinaryTree, insert_char, char value);
+//MEM_FUN_DECL(GenericBinaryTree, insert_float, float value);
+//MEM_FUN_DECL(GenericBinaryTree, insert_objSPtr, objSPtr value);
+MEM_FUN_DECL(GenericBinaryTree, insert_int, const int* value);
+MEM_FUN_DECL(GenericBinaryTree, insert_char, const char* value);
+MEM_FUN_DECL(GenericBinaryTree, insert_float, const float* value);
+MEM_FUN_DECL(GenericBinaryTree, insert_objSPtr, const objSPtr * value);
 
 MEM_FUN_DECL(GenericBinaryTree, __remove_generic, const void *key, bool *out_removed);
 MEM_FUN_DECL(GenericBinaryTree, remove_int, int key, bool *out_removed);
@@ -104,7 +108,8 @@ END_DEF_DERIVED(BTree_ ##type);                                       \
 DERIVED_FUNCTIONS(BTree_ ##type, GenericBinaryTree);                  \
 MEM_FUN_DECL(BTree_ ##type, is_empty, bool *out);                     \
 MEM_FUN_DECL(BTree_ ##type, get_size, MEM_SIZE_T *out);               \
-MEM_FUN_DECL(BTree_ ##type, insert, type value);                      \
+/*MEM_FUN_DECL(BTree_ ##type, insert, type value);*/                  \
+MEM_FUN_DECL(BTree_ ##type, insert, const type* value);				  \
 MEM_FUN_DECL(BTree_ ##type, remove, type key, bool *out_removed);     \
 MEM_FUN_DECL(BTree_ ##type, print, BT_VisitOrder order);              \
 MEM_FUN_DECL(BTree_ ##type, traverse_pre, BT_Action action);          \

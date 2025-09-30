@@ -14,7 +14,7 @@ TEST_FUN_IMPL(BinaryTreeTest, insert_SanityTest)
 	int num = 7;
     FOR(int i = 1; i <= num; ++i)
     {
-        MFUN(&bt, insert), i CALL;
+        MFUN(&bt, insert), &(const char)i CALL;
     }
     END_LOOP;
 

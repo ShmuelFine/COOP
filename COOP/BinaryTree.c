@@ -201,9 +201,14 @@ MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void *src)
 }
 END_FUN
 
+//#define IMPL_INSERT_OF_TYPE(type)\
+//MEM_FUN_IMPL(GenericBinaryTree, insert_ ##type, type value) {\
+//	MFUN(_this, __insert_generic), (const void*)&value CALL;\
+//}\
+//END_FUN;
 #define IMPL_INSERT_OF_TYPE(type)\
-MEM_FUN_IMPL(GenericBinaryTree, insert_ ##type, type value) {\
-	MFUN(_this, __insert_generic), (const void*)&value CALL;\
+MEM_FUN_IMPL(GenericBinaryTree, insert_ ##type, const type* value) {\
+    MFUN(_this, __insert_generic), (const void*)value CALL;\
 }\
 END_FUN;
 
@@ -835,7 +840,8 @@ END_INIT_CLASS(BTInOrderIterator)
 #define IMPL_SPECIFIC_BT_TYPE_FUNCS(type) \
 MEM_FUN_IMPL(BTree_##type, is_empty, bool *out){ FUN_BASE(_this, is_empty), out CALL; } END_FUN \
 MEM_FUN_IMPL(BTree_##type, get_size, MEM_SIZE_T *out){ FUN_BASE(_this, get_size), out CALL; } END_FUN \
-MEM_FUN_IMPL(BTree_##type, insert, type value){ FUN_BASE(_this, insert_##type), value CALL; } END_FUN \
+/*MEM_FUN_IMPL(BTree_##type, insert, type value){ FUN_BASE(_this, insert_##type), value CALL; } END_FUN*/ \
+MEM_FUN_IMPL(BTree_##type, insert, const type* value){ FUN_BASE(_this, insert_##type), value CALL; } END_FUN \
 MEM_FUN_IMPL(BTree_##type, remove, type key, bool *out_removed){ FUN_BASE(_this, remove_##type), key, out_removed CALL; } END_FUN \
 MEM_FUN_IMPL(BTree_##type, print, BT_VisitOrder order){ FUN_BASE(_this, print), order CALL; } END_FUN \
 MEM_FUN_IMPL(BTree_##type, traverse_pre, BT_Action action){ FUN_BASE(_this, traverse_pre), action CALL; } END_FUN \
