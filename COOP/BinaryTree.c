@@ -19,7 +19,7 @@ DEF_CTOR(BTNode, MEM_SIZE_T elementSize, const void *src_bytes, BTNode *parent)
 	_this->parent = NULL;
 	_this->value = NULL;
 
-	IF(elementSize > 0)
+	IF(elementSize > (MEM_SIZE_T)0)
 	{
 		ALLOC_ARRAY(_this->value, char, elementSize);
 		IF(src_bytes != NULL)
@@ -131,7 +131,7 @@ END_DTOR
 
 MEM_FUN_IMPL(GenericBinaryTree, is_empty, bool *out)
 {
-	*out = (_this->size == 0);
+	*out = (_this->size == (MEM_SIZE_T)0);
 }
 END_FUN
 
@@ -155,7 +155,7 @@ MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void *src)
 	}
 	END_IF;
 
-	MEM_SIZE_T capacity = _this->size + 1;
+	MEM_SIZE_T capacity = _this->size + (MEM_SIZE_T)1;
 	BTNode **queue = NULL;
 	ALLOC_ARRAY(queue, BTNode*, capacity);
 	MEM_SIZE_T head = 0, tail = 0;
@@ -221,7 +221,7 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *out_rem
 	}
 	END_IF;
 
-	MEM_SIZE_T capacity = _this->size + 1;
+	MEM_SIZE_T capacity = _this->size + (MEM_SIZE_T)1;
 	BTNode **queue = NULL;
 	ALLOC_ARRAY(queue, BTNode*, capacity);
 	MEM_SIZE_T head = 0, tail = 0;
