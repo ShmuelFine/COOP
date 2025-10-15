@@ -74,5 +74,25 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 # Sub-projects
 ################################################################################
 add_subdirectory(COOP)
+# ==== Benchmark: COOP List (built only on UNIX/WSL) ====
+if(UNIX AND NOT APPLE)
+  if (NOT TARGET bench_list)
+    add_executable(bench_list ${CMAKE_SOURCE_DIR}/bench_list.c)
+    set_target_properties(bench_list PROPERTIES FOLDER "Compare")
+
+    target_include_directories(bench_list PRIVATE ${CMAKE_SOURCE_DIR}/COOP)
+
+    if (TARGET COOP)
+      target_link_libraries(bench_list PRIVATE COOP)
+    elseif (TARGET coop)
+      target_link_libraries(bench_list PRIVATE coop)
+    elseif (TARGET COOP_lib)
+      target_link_libraries(bench_list PRIVATE COOP_lib)
+    else()
+      message(FATAL_ERROR "COOP library target not found. Check COOP/CMakeLists.txt")
+    endif()
+    target_compile_options(bench_list PRIVATE -O3 -march=native -DNDEBUG)
+  endif()
+endif()
 add_subdirectory(UnitTestC)
 
