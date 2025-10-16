@@ -169,13 +169,13 @@ END_FUN
 
 
 /* ---- push_back ---- */
-MEM_FUN_IMPL(GenericList, __push_back_generic, char* buff, MEM_SIZE_T buff_size)
+MEM_FUN_IMPL(GenericList, __push_back_generic, const char* buff, MEM_SIZE_T buff_size)
 {
 	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 
 	ListNode* new_node = NULL;
 	ALLOC_ARRAY(new_node, char, (MEM_SIZE_T)(sizeof(ListNode) + _this->elementSize));
-	INITIALIZE_INSTANCE(ListNode, (*new_node)), _this->elementSize, (const void*)buff CALL;
+	INITIALIZE_INSTANCE(ListNode, (*new_node)), _this->elementSize,buff CALL;
 
 	new_node->prev = _this->tail;
 	new_node->next = NULL;
@@ -197,7 +197,7 @@ END_FUN
 
 #define IMPL_PUSH_BACK_OF_TYPE(type)												\
 MEM_FUN_IMPL(GenericList, push_back_ ##type, type val) {							\
-    MFUN(_this, __push_back_generic), (char*)&(val), (MEM_SIZE_T)sizeof(type) CALL; \
+    MFUN(_this, __push_back_generic), (const char*)&(val), (MEM_SIZE_T)sizeof(type) CALL; \
 } END_FUN;
 IMPL_PUSH_BACK_OF_TYPE(int);
 IMPL_PUSH_BACK_OF_TYPE(char);

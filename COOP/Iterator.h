@@ -2,6 +2,7 @@
 #define __COOP__ITERATOR__H_
 
 #include "COOP.h"
+#include <stddef.h>
 typedef enum IteratorCategory {
     ITER_INPUT = 1,
     ITER_OUTPUT,
@@ -50,7 +51,7 @@ END_FUNCTIONS(Iterator);
          if (__eq||IS_BREAKING){break;}              \
          const ElemType *_p_##varName = NULL;        \
          ITER_GET_CREF(_it,&_p_##varName);           \
-         ElemType varName = *_p_##varName;           \
+         const ElemType varName = *(const ElemType*)_p_##varName;           \
 
 #define END_ITER_FOR                 \
             __ITER_CONTINUE_LABEL__: \
