@@ -73,7 +73,7 @@ struct base_class ##_ ##function_name ##_t_ function_name
 
 
 #define FUN_OVERRIDE_IMPL(type, base, function_name, ...)\
-FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, __VA_ARGS__)
+FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, ##__VA_ARGS__)
 
 
 
