@@ -113,7 +113,7 @@ MEM_FUN_IMPL(GenericList, print)
 
 	printf("\n");
 	
-	ITER_FOR(void*, value, _this) {
+	ITER_FOR(const void*, value, _this) {
 		MFUN(_this, __print_value), (const void*)&value CALL;
 	}END_ITER_FOR;
 
