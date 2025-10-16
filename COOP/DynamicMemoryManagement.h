@@ -25,8 +25,8 @@ FUN_DECL(get_total_free_bytes, MEM_SIZE_T* out_count);
 	THROW_MSG_UNLESS(dest, "could not allocate " #howMuchToPutThere " x sizeof " #type " for " #dest); \
 
 
-#define FREE(buff) if (buff) MFUN(TheGlobalCache, RemoveBlock), buff CALL;
-#define DELETE(instance_ptr) {DESTROY(instance_ptr); FREE(instance_ptr); instance_ptr = NULL;}
+#define FREE(buff) do { if (buff != NULL) { MFUN(TheGlobalCache, RemoveBlock), (buff) CALL; } } while(0)
+#define DELETE(instance_ptr) {DESTROY(instance_ptr); FREE(instance_ptr); (instance_ptr) = NULL;}
 
 
 #endif
