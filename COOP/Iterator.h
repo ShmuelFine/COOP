@@ -2,6 +2,8 @@
 #define __COOP__ITERATOR__H_
 
 #include "COOP.h"
+#include <stddef.h>
+
 typedef enum IteratorCategory {
     ITER_INPUT = 1,
     ITER_OUTPUT,
