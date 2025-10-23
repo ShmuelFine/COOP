@@ -24,7 +24,7 @@ MEM_FUN_DECL(GenericQueue, dequeue_generic, char* out_buff, MEM_SIZE_T buff_size
 MEM_FUN_DECL(GenericQueue, front_generic, char** out_ptr);
 MEM_FUN_DECL(GenericQueue, front_generic_cref, const char** out_ptr);
 MEM_FUN_DECL(GenericQueue, clear);
-MEM_FUN_DECL(GenericQueue, size, MEM_SIZE_T* out_size);
+MEM_FUN_DECL(GenericQueue, size, int* out_size);
 MEM_FUN_DECL(GenericQueue, begin, Iterator** out_it);
 MEM_FUN_DECL(GenericQueue, end, Iterator** out_it);
 MEM_FUN_DECL(GenericQueue, empty, bool* out_empty);
@@ -65,7 +65,7 @@ MEM_FUN_DECL(Queue_##type, dequeue, type* out_val);                         \
 MEM_FUN_DECL(Queue_##type, front, type** out_ptr);                          \
 MEM_FUN_DECL(Queue_##type, front_cref, const type** out_ptr);               \
 MEM_FUN_DECL(Queue_##type, clear);                                          \
-MEM_FUN_DECL(Queue_##type, size, MEM_SIZE_T* out_size);                     \
+MEM_FUN_DECL(Queue_##type, size, int* out_size);                     \
 MEM_FUN_DECL(Queue_ ##type, begin, Iterator **out_it);                     \
 MEM_FUN_DECL(Queue_ ##type, end, Iterator **out_it);                        \
 MEM_FUN_DECL(Queue_##type, empty, bool* out_empty);                         \

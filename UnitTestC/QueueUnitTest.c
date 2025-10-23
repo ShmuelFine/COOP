@@ -35,9 +35,9 @@ END_FUN
 
     MFUN(&q, enqueue), 42 CALL;
 
-    MEM_SIZE_T sz = 0;
+    int sz = 0;
     MFUN(&q, size), & sz CALL;
-    ASSERT(1 == (int)sz);
+    ASSERT(1 == sz);
 
     int* p = NULL;
     MFUN(&q, front), & p CALL;
@@ -63,9 +63,9 @@ END_FUN
     MFUN(&q, empty), & is_empty CALL;
     ASSERT(is_empty == 1);
 
-    MEM_SIZE_T sz = 123;
+    int sz = 123;
     MFUN(&q, size), & sz CALL;
-    ASSERT(0 == (int)sz);
+    ASSERT(0 == sz);
 
     /* iteration after clear should do nothing */
     int sum = 0;

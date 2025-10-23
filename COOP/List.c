@@ -127,7 +127,7 @@ END_FUN
 
 
 
-MEM_FUN_IMPL(GenericList, size, MEM_SIZE_T* out_size)
+MEM_FUN_IMPL(GenericList, size, int* out_size)
 {
 	THROW_MSG_UNLESS(out_size, "out_size must not be NULL");
 	*out_size = _this->size;
@@ -638,7 +638,7 @@ MEM_FUN_IMPL(List_##type, pop_back,   type* out)       { FUN_BASE(_this, pop_bac
 MEM_FUN_IMPL(List_##type, pop_front,  type* out)       { FUN_BASE(_this, pop_front_##type),  out CALL; } END_FUN; \
 MEM_FUN_IMPL(List_##type, front,      type* out)       { FUN_BASE(_this, front_##type),      out CALL; } END_FUN; \
 MEM_FUN_IMPL(List_##type, back,       type* out)       { FUN_BASE(_this, back_##type),       out CALL; } END_FUN; \
-MEM_FUN_IMPL(List_##type, size,       MEM_SIZE_T* out) { FUN_BASE(_this, size),              out CALL; } END_FUN; \
+MEM_FUN_IMPL(List_##type, size,       int* out) { FUN_BASE(_this, size),              out CALL; } END_FUN; \
 MEM_FUN_IMPL(List_##type, empty,      bool* out)       { FUN_BASE(_this, empty),             out CALL; } END_FUN; \
 MEM_FUN_IMPL(List_##type, clear)                        { FUN_BASE(_this, clear) CALL; } END_FUN;               \
 MEM_FUN_IMPL(List_##type, print)                        { FUN_BASE(_this, print) CALL; } END_FUN;              \

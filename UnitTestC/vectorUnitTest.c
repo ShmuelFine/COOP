@@ -18,7 +18,7 @@ TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
 	}END_LOOP;
 
 	// Assert
-	MEM_SIZE_T curr_size = 0;
+	int curr_size = 0;
 	MFUN(&vec, size), & curr_size CALL;
 	NTEST_ASSERT(curr_size == numElements);
 

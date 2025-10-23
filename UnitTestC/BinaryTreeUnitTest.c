@@ -20,12 +20,12 @@ TEST_FUN_IMPL(BinaryTreeTest, insert_SanityTest)
 
     // Assert
     bool isEmpty = true;
-    MFUN(&bt, is_empty), &isEmpty CALL;
+    MFUN(&bt, empty), &isEmpty CALL;
     NTEST_ASSERT(!isEmpty);
 
-    MEM_SIZE_T size= 0;
-    MFUN(&bt, get_size), &size CALL;
-    NTEST_ASSERT(size == (MEM_SIZE_T)num);
+    int size= 0;
+    MFUN(&bt, size), &size CALL;
+    NTEST_ASSERT(size == num);
 
 } END_FUN
 
@@ -47,8 +47,8 @@ TEST_FUN_IMPL(BinaryTreeTest, removeLeaf_SanityTest)
     // Assert
     NTEST_ASSERT(removed == true);
 
-    MEM_SIZE_T size = 999;
-    MFUN(&bt, get_size), &size CALL;
+    int size = 999;
+    MFUN(&bt, size), &size CALL;
     NTEST_ASSERT(size == 4);
 
     /* Another attempt to delete the same value should return false */
@@ -76,8 +76,8 @@ TEST_FUN_IMPL(BinaryTreeTest, removeRoot_SanityTest)
     // Assert
     NTEST_ASSERT(removed == true);
 
-    MEM_SIZE_T size = 0;
-    MFUN(&bt, get_size), &size CALL;
+    int size = 0;
+    MFUN(&bt, size), &size CALL;
     NTEST_ASSERT(size == 2);
 
     /* After deleting the root, another deletion of 1 should fail */

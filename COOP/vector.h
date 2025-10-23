@@ -9,7 +9,7 @@
 
 
 DEF_DERIVED_CLASS(VectorIter, Iterator);
-MEM_SIZE_T index;
+int index;
 END_DEF_DERIVED(VectorIter);
 
 DERIVED_FUNCTIONS(VectorIter, Iterator, void* container_ptr);
@@ -26,8 +26,8 @@ END_DERIVED_FUNCTIONS(VectorIter);
 
 
 DEF_CLASS(GenericVector);
-MEM_SIZE_T size;
-MEM_SIZE_T capacity;
+int size;
+int capacity;
 MEM_SIZE_T elementSize;
 char* data;
 END_DEF(GenericVector);
@@ -36,24 +36,24 @@ FUNCTIONS(GenericVector, MEM_SIZE_T dataTypeSize);
 
 MEM_FUN_DECL(GenericVector, dataPtr, char** out_ptr);
 
-MEM_FUN_DECL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, char** val_ptr);
-MEM_FUN_DECL(GenericVector, at_int, MEM_SIZE_T i, int** val_ptr);
-MEM_FUN_DECL(GenericVector, at_char, MEM_SIZE_T i, char** val_ptr);
-MEM_FUN_DECL(GenericVector, at_float, MEM_SIZE_T i, float** val_ptr);
-MEM_FUN_DECL(GenericVector, at_objSPtr, MEM_SIZE_T i, objSPtr** val_ptr);
+MEM_FUN_DECL(GenericVector, __at_generic, int i, MEM_SIZE_T data_size, char** val_ptr);
+MEM_FUN_DECL(GenericVector, at_int, int i, int** val_ptr);
+MEM_FUN_DECL(GenericVector, at_char, int i, char** val_ptr);
+MEM_FUN_DECL(GenericVector, at_float, int i, float** val_ptr);
+MEM_FUN_DECL(GenericVector, at_objSPtr, int i, objSPtr** val_ptr);
 
-MEM_FUN_DECL(GenericVector, get_int, MEM_SIZE_T i, int* val);
-MEM_FUN_DECL(GenericVector, get_char, MEM_SIZE_T i, char* val);
-MEM_FUN_DECL(GenericVector, get_float, MEM_SIZE_T i, float* val);
-MEM_FUN_DECL(GenericVector, get_objSPtr, MEM_SIZE_T i, objSPtr* val_ptr);
+MEM_FUN_DECL(GenericVector, get_int, int i, int* val);
+MEM_FUN_DECL(GenericVector, get_char, int i, char* val);
+MEM_FUN_DECL(GenericVector, get_float, int i, float* val);
+MEM_FUN_DECL(GenericVector, get_objSPtr, int i, objSPtr* val_ptr);
 
-MEM_FUN_DECL(GenericVector, set_int, MEM_SIZE_T i, int val);
-MEM_FUN_DECL(GenericVector, set_char, MEM_SIZE_T i, char val);
-MEM_FUN_DECL(GenericVector, set_float, MEM_SIZE_T i, float val);
-MEM_FUN_DECL(GenericVector, set_objSPtr, MEM_SIZE_T i, objSPtr val);
+MEM_FUN_DECL(GenericVector, set_int, int i, int val);
+MEM_FUN_DECL(GenericVector, set_char, int i, char val);
+MEM_FUN_DECL(GenericVector, set_float, int i, float val);
+MEM_FUN_DECL(GenericVector, set_objSPtr, int i, objSPtr val);
 
-MEM_FUN_DECL(GenericVector, resize, MEM_SIZE_T new_capacity);
-MEM_FUN_DECL(GenericVector, size, MEM_SIZE_T* out_size);
+MEM_FUN_DECL(GenericVector, resize, int new_capacity);
+MEM_FUN_DECL(GenericVector, size, int* out_size);
 
 MEM_FUN_DECL(GenericVector, __push_back_generic, char* buff, MEM_SIZE_T buff_size);
 
@@ -85,11 +85,11 @@ DERIVED_FUNCTIONS(Vector_ ##type, GenericVector); \
 MEM_FUN_DECL(Vector_ ##type, dataPtr, type ** out_ptr); \
 MEM_FUN_DECL(Vector_ ##type, push_back, type val); \
 MEM_FUN_DECL(Vector_ ##type, pop_back, type * val); \
-MEM_FUN_DECL(Vector_ ##type, at, MEM_SIZE_T i, type** val_ptr); \
-MEM_FUN_DECL(Vector_ ##type, get, MEM_SIZE_T i, type* val); \
-MEM_FUN_DECL(Vector_ ##type, set, MEM_SIZE_T i, type val); \
-MEM_FUN_DECL(Vector_ ##type, resize, MEM_SIZE_T new_capacity); \
-MEM_FUN_DECL(Vector_ ##type, size, MEM_SIZE_T * out_size); \
+MEM_FUN_DECL(Vector_ ##type, at, int i, type** val_ptr); \
+MEM_FUN_DECL(Vector_ ##type, get, int i, type* val); \
+MEM_FUN_DECL(Vector_ ##type, set, int i, type val); \
+MEM_FUN_DECL(Vector_ ##type, resize, int new_capacity); \
+MEM_FUN_DECL(Vector_ ##type, size, int * out_size); \
 MEM_FUN_DECL(Vector_ ##type, zero_all); \
 MEM_FUN_DECL(Vector_ ##type, print); \
 MEM_FUN_DECL(Vector_ ##type, begin, Iterator **out_it); \

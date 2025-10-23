@@ -51,7 +51,7 @@ MEM_FUN_IMPL(GenericQueue, clear)
 }
 END_FUN;
 
-MEM_FUN_IMPL(GenericQueue, size, MEM_SIZE_T* out_size)
+MEM_FUN_IMPL(GenericQueue, size, int* out_size)
 {
     MFUN(&_this->list, size), out_size CALL;
 }
@@ -183,7 +183,7 @@ MEM_FUN_IMPL(Queue_##type, clear)                                            \
 {                                                                            \
     FUN_BASE(_this, clear) CALL;                                             \
 } END_FUN;                                                                   \
-MEM_FUN_IMPL(Queue_##type, size, MEM_SIZE_T* out_size)                       \
+MEM_FUN_IMPL(Queue_##type, size, int* out_size)                       \
 {                                                                            \
     FUN_BASE(_this, size), out_size CALL;                                    \
 } END_FUN;                                                                   \

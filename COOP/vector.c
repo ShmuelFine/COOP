@@ -35,7 +35,7 @@ END_FUN;
 FUN_OVERRIDE_IMPL(VectorIter, Iterator, next)
 {
 	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
-	MEM_SIZE_T n = 0;
+	int n = 0;
 	MFUN((GenericVector*)_this->_base.container_ptr, size), & n CALL;
 	THROW_MSG_UNLESS(_this->index < n, "Advance past end");
 	_this->index++;
@@ -86,13 +86,13 @@ FUN_OVERRIDE_IMPL(VectorIter, Iterator, advance, ptrdiff_t n)
 {
 	THROW_MSG_UNLESS(_this->_base.container_ptr != NULL, "Iterator not bound");
 
-	MEM_SIZE_T sz = 0;
+	int sz = 0;
 	MFUN((GenericVector*)_this->_base.container_ptr, size), & sz CALL;
 
 	ptrdiff_t target = (ptrdiff_t)_this->index + n;
 	THROW_MSG_UNLESS(target >= 0 && target <= (ptrdiff_t)sz, "Iterator advance out of range");
 
-	_this->index = (MEM_SIZE_T)target;
+	_this->index = target;
 }
 END_FUN;
 
@@ -130,7 +130,7 @@ MEM_FUN_IMPL(GenericVector, dataPtr, char** out_ptr)
 }
 END_FUN;
 
-MEM_FUN_IMPL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, char** val_ptr)
+MEM_FUN_IMPL(GenericVector, __at_generic, int i, MEM_SIZE_T data_size, char** val_ptr)
 {
 	THROW_MSG_UNLESS(data_size == _this->elementSize, "Invalid Data Size");
 	IF(i + 1 > _this->capacity) // same as (i > size - 1), yet remember that capacity can be zero and this is an unsigned type.
@@ -144,7 +144,7 @@ END_FUN;
 
 
 #define IMPL_AT_OF_TYPE(type)\
-MEM_FUN_IMPL(GenericVector, at_ ##type, MEM_SIZE_T i, type ** val_ptr) {\
+MEM_FUN_IMPL(GenericVector, at_ ##type, int i, type ** val_ptr) {\
 	MFUN(_this, __at_generic), i, sizeof(type), ((char**)val_ptr) CALL;\
 }\
 END_FUN;
@@ -156,7 +156,7 @@ IMPL_AT_OF_TYPE(objSPtr);
 
 
 #define IMPL_SET_OF_POD(type) \
-MEM_FUN_IMPL(GenericVector, set_##type, MEM_SIZE_T i, type val) { \
+MEM_FUN_IMPL(GenericVector, set_##type, int i, type val) { \
     type* slot = NULL; \
     MFUN(_this, __at_generic), i, sizeof(type), (char**)&slot CALL; \
     ASSERT_NOT_NULL(slot); \
@@ -167,7 +167,7 @@ IMPL_SET_OF_POD(int)
 IMPL_SET_OF_POD(char)
 IMPL_SET_OF_POD(float)
 
-MEM_FUN_IMPL(GenericVector, set_objSPtr, MEM_SIZE_T i, objSPtr val)
+MEM_FUN_IMPL(GenericVector, set_objSPtr, int i, objSPtr val)
 {
 	objSPtr* slot = NULL;
 	MFUN(_this, __at_generic), i, sizeof(objSPtr), (char**)&slot CALL;
@@ -181,7 +181,7 @@ END_FUN;
 
 
 #define IMPL_GET_OF_TYPE(type)\
-MEM_FUN_IMPL(GenericVector, get_ ##type, MEM_SIZE_T i, type * val) {\
+MEM_FUN_IMPL(GenericVector, get_ ##type, int i, type * val) {\
 	type * val_ptr = NULL;\
 	MFUN(_this, __at_generic), i, sizeof(type), ((char**)&val_ptr) CALL;\
 	ASSERT_NOT_NULL(val_ptr)\
@@ -194,7 +194,7 @@ IMPL_GET_OF_TYPE(char);
 IMPL_GET_OF_TYPE(float);
 IMPL_GET_OF_TYPE(objSPtr);
 
-MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity)
+MEM_FUN_IMPL(GenericVector, resize, int new_capacity)
 {
 	char* new_data = NULL;
 	ALLOC_ARRAY(new_data, char, _this->elementSize * new_capacity);
@@ -209,7 +209,7 @@ MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity)
 }
 END_FUN;
 
-MEM_FUN_IMPL(GenericVector, size, MEM_SIZE_T* out_size)
+MEM_FUN_IMPL(GenericVector, size, int* out_size)
 {
 	*out_size = _this->size;
 }
@@ -220,7 +220,7 @@ MEM_FUN_IMPL(GenericVector, __push_back_generic, char* buff, MEM_SIZE_T buff_siz
 	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 	IF(_this->size >= _this->capacity)
 	{
-		MEM_SIZE_T new_capacity = _this->capacity == 0 ? 1 : _this->capacity * 2;
+		int new_capacity = _this->capacity == 0 ? 1 : _this->capacity * 2;
 
 		MFUN(_this, resize), new_capacity CALL;
 	}END_IF
@@ -238,7 +238,7 @@ MEM_FUN_IMPL(GenericVector, zero_all)
 {
 	IF(_this->size > 0) {
 		IF(_this->elementSize == sizeof(objSPtr)) {
-			FOR(MEM_SIZE_T i = 0; i < _this->size; ++i) {
+			FOR(int i = 0; i < _this->size; ++i) {
 				objSPtr* slot = (objSPtr*)(_this->data + i * _this->elementSize);
 				DESTROY(slot);
 			}END_LOOP
@@ -253,7 +253,7 @@ MEM_FUN_IMPL(GenericVector, __pop_back_generic, char* buff, MEM_SIZE_T buff_size
 	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 	THROW_MSG_UNLESS(_this->size > 0, "Pop from empty vector");
 
-	MEM_SIZE_T last = _this->size - 1;
+	int last = _this->size - 1;
 	char* src = _this->data + (last * _this->elementSize);
 	ASSERT_NOT_NULL(src);
 
@@ -311,7 +311,7 @@ MEM_FUN_IMPL(GenericVector, end, Iterator** out_it)
 	ASSERT_NOT_NULL(vector_it);
 
 	INITIALIZE_INSTANCE(VectorIter, (*vector_it)), _this CALL;/* vTable + CTOR */
-	MEM_SIZE_T n = 0;
+	int n = 0;
 	MFUN(_this, size), & n CALL;
 	vector_it->index = n;                                   /* end = size */
 
@@ -369,11 +369,11 @@ DEF_DERIVED_DTOR(Vector_ ##type, GenericVector) {} END_DERIVED_DTOR
 MEM_FUN_IMPL(Vector_ ##type, dataPtr, type ** out_ptr) { FUN_BASE(_this, dataPtr), (char**) out_ptr CALL; } END_FUN;\
 MEM_FUN_IMPL(Vector_ ##type, push_back, type val) { FUN_BASE(_this, push_back_ ##type), val CALL; } END_FUN;		\
 MEM_FUN_IMPL(Vector_ ##type, pop_back, type * val)	{ FUN_BASE(_this, pop_back_ ##type), val CALL; } END_FUN;		\
-MEM_FUN_IMPL(Vector_ ##type, at, MEM_SIZE_T i, type ** val_ptr) { FUN_BASE(_this, at_ ##type), i, val_ptr CALL; } END_FUN;	\
-MEM_FUN_IMPL(Vector_ ##type, get, MEM_SIZE_T i, type * val) { FUN_BASE(_this, get_ ##type), i, val CALL; } END_FUN;	\
-MEM_FUN_IMPL(Vector_ ##type, set, MEM_SIZE_T i, type val) { FUN_BASE(_this, set_ ##type), i, val CALL; } END_FUN;	\
-MEM_FUN_IMPL(Vector_ ##type, resize, MEM_SIZE_T new_capacity) {FUN_BASE(_this, resize), new_capacity CALL; }END_FUN;\
-MEM_FUN_IMPL(Vector_ ##type, size, MEM_SIZE_T * out_size) {FUN_BASE(_this, size), out_size CALL; }END_FUN;			\
+MEM_FUN_IMPL(Vector_ ##type, at, int i, type ** val_ptr) { FUN_BASE(_this, at_ ##type), i, val_ptr CALL; } END_FUN;	\
+MEM_FUN_IMPL(Vector_ ##type, get, int i, type * val) { FUN_BASE(_this, get_ ##type), i, val CALL; } END_FUN;	\
+MEM_FUN_IMPL(Vector_ ##type, set, int i, type val) { FUN_BASE(_this, set_ ##type), i, val CALL; } END_FUN;	\
+MEM_FUN_IMPL(Vector_ ##type, resize, int new_capacity) {FUN_BASE(_this, resize), new_capacity CALL; }END_FUN;\
+MEM_FUN_IMPL(Vector_ ##type, size, int * out_size) {FUN_BASE(_this, size), out_size CALL; }END_FUN;			\
 MEM_FUN_IMPL(Vector_ ##type, zero_all) {FUN_BASE(_this, zero_all) CALL; }END_FUN;									\
 MEM_FUN_IMPL(Vector_ ##type, begin,Iterator **out_it) {FUN_BASE(_this,begin),out_it CALL;}END_FUN;						\
 MEM_FUN_IMPL(Vector_ ##type, end,Iterator **out_it) {FUN_BASE(_this,end),out_it CALL;}END_FUN;						    \
@@ -421,7 +421,7 @@ IMPL_SPECIFIC_VECTOR_TYPE_FUNCITONS(float);
 DEF_DERIVED_CTOR(Vector_objSPtr, GenericVector) SUPER, sizeof(objSPtr) ME{} END_DERIVED_CTOR
 DEF_DERIVED_DTOR(Vector_objSPtr, GenericVector) {
 
-	MEM_SIZE_T numElements = 0;
+	int numElements = 0;
 	MFUN(_this, size), & numElements CALL;
 	FOR(int i = 0; i < numElements; i++) {
 		objSPtr curr;

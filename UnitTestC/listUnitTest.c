@@ -18,7 +18,7 @@ TEST_FUN_IMPL(ListTest, push_back_SanityTest)
 
     } END_LOOP;
 
-    MEM_SIZE_T curr_size = 0;
+    int curr_size = 0;
     MFUN(&lst_int, size), & curr_size CALL;
     MFUN(&lst_char, size), & curr_size CALL;
     NTEST_ASSERT(curr_size == numElements);
@@ -45,7 +45,7 @@ TEST_FUN_IMPL(ListTest, pop_back_SanityTest)
         NTEST_ASSERT(val == (numElements - 1) - i);
     } END_LOOP;
 
-    MEM_SIZE_T sz = (MEM_SIZE_T)-1;
+    int sz = -1;
     MFUN(&lst, size), & sz CALL;
     NTEST_ASSERT(sz == 0);
 } END_FUN
@@ -60,7 +60,7 @@ TEST_FUN_IMPL(ListTest, push_front_SanityTest)
         MFUN(&lst, push_front), i CALL;
     } END_LOOP;
 
-    MEM_SIZE_T sz = 0;
+    int sz = 0;
     MFUN(&lst, size), & sz CALL; NTEST_ASSERT(sz == 10);
 
     int v = -1;
@@ -82,7 +82,7 @@ TEST_FUN_IMPL(ListTest, pop_front_SanityTest)
         NTEST_ASSERT(val == i);
     } END_LOOP;
 
-    MEM_SIZE_T sz = (MEM_SIZE_T)-1;
+    int sz = -1;
     MFUN(&lst, size), & sz CALL; NTEST_ASSERT(sz == 0);
 } END_FUN
 
@@ -111,7 +111,7 @@ TEST_FUN_IMPL(ListTest, size_empty_clear_SanityTest)
 
     FOR(int i = 0; i < 5; ++i) { MFUN(&lst, push_back), i CALL; } END_LOOP;
 
-    MEM_SIZE_T sz = 0;
+    int sz = 0;
     MFUN(&lst, size), & sz CALL;     NTEST_ASSERT(sz == 5);
     MFUN(&lst, empty), & empty CALL; NTEST_ASSERT(empty == false);
 

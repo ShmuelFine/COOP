@@ -78,12 +78,12 @@ DEF_DTOR(GenericBinaryTree)
 
 	THROW_MSG_UNLESS(_this->size > 0, "size must be positive and accurate");
 
-	MEM_SIZE_T capacity = _this->size;
+	int capacity = _this->size;
 	BTNode **stack1 = NULL;
 	ALLOC_ARRAY(stack1, BTNode*, capacity);
 	BTNode **stack2 = NULL;
 	ALLOC_ARRAY(stack2, BTNode*, capacity);
-	MEM_SIZE_T top1 = 0, top2 = 0;
+	int top1 = 0, top2 = 0;
 
 	stack1[top1++] = _this->root;
 
@@ -129,13 +129,13 @@ DEF_DTOR(GenericBinaryTree)
 }
 END_DTOR
 
-MEM_FUN_IMPL(GenericBinaryTree, is_empty, bool *out)
+MEM_FUN_IMPL(GenericBinaryTree, empty, bool *out)
 {
 	*out = (_this->size == 0);
 }
 END_FUN
 
-MEM_FUN_IMPL(GenericBinaryTree, get_size, MEM_SIZE_T *out)
+MEM_FUN_IMPL(GenericBinaryTree, size, int *out)
 {
 	*out = _this->size;
 }
@@ -155,10 +155,10 @@ MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void *src)
 	}
 	END_IF;
 
-	MEM_SIZE_T capacity = _this->size + 1;
+	int capacity = _this->size + 1;
 	BTNode **queue = NULL;
 	ALLOC_ARRAY(queue, BTNode*, capacity);
-	MEM_SIZE_T head = 0, tail = 0;
+	int head = 0, tail = 0;
 	queue[tail++] = _this->root;
 
 	WHILE(head < tail)
@@ -221,10 +221,10 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *out_rem
 	}
 	END_IF;
 
-	MEM_SIZE_T capacity = _this->size + 1;
+	int capacity = _this->size + 1;
 	BTNode **queue = NULL;
 	ALLOC_ARRAY(queue, BTNode*, capacity);
-	MEM_SIZE_T head = 0, tail = 0;
+	int head = 0, tail = 0;
 	queue[tail++] = _this->root;
 
 	BTNode *target = NULL;
@@ -377,10 +377,10 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_pre, BT_Action action)
 
 	THROW_MSG_UNLESS(_this->size > 0, "size must be positive and accurate");
 
-	MEM_SIZE_T capacity = _this->size;
+	int capacity = _this->size;
 	BTNode **stack = NULL;
 	ALLOC_ARRAY(stack, BTNode*, capacity);
-	MEM_SIZE_T top = 0;
+	int top = 0;
 
 	stack[top++] = _this->root;
 
@@ -441,12 +441,12 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_post, BT_Action action)
 
 	THROW_MSG_UNLESS(_this->size > 0, "size must be positive and accurate");
 
-	MEM_SIZE_T capacity = _this->size;
+	int capacity = _this->size;
 	BTNode **stack1 = NULL;
 	ALLOC_ARRAY(stack1, BTNode*, capacity);
 	BTNode **stack2 = NULL;
 	ALLOC_ARRAY(stack2, BTNode*, capacity);
-	MEM_SIZE_T top1 = 0, top2 = 0;
+	int top1 = 0, top2 = 0;
 
 	stack1[top1++] = _this->root;
 
@@ -537,8 +537,8 @@ END_FUN
 
 
 INIT_CLASS(GenericBinaryTree)
-BIND(GenericBinaryTree, get_size);
-BIND(GenericBinaryTree, is_empty);
+BIND(GenericBinaryTree, size);
+BIND(GenericBinaryTree, empty);
 
 BIND(GenericBinaryTree, __insert_generic);
 BIND(GenericBinaryTree, insert_int);
@@ -833,8 +833,8 @@ END_INIT_CLASS(BTInOrderIterator)
   DEF_DERIVED_DTOR(BTree_##type, GenericBinaryTree) {} END_DERIVED_DTOR
 
 #define IMPL_SPECIFIC_BT_TYPE_FUNCS(type) \
-MEM_FUN_IMPL(BTree_##type, is_empty, bool *out){ FUN_BASE(_this, is_empty), out CALL; } END_FUN \
-MEM_FUN_IMPL(BTree_##type, get_size, MEM_SIZE_T *out){ FUN_BASE(_this, get_size), out CALL; } END_FUN \
+MEM_FUN_IMPL(BTree_##type, empty, bool *out){ FUN_BASE(_this, empty), out CALL; } END_FUN \
+MEM_FUN_IMPL(BTree_##type, size, int *out){ FUN_BASE(_this, size), out CALL; } END_FUN \
 MEM_FUN_IMPL(BTree_##type, insert, type value){ FUN_BASE(_this, insert_##type), value CALL; } END_FUN \
 MEM_FUN_IMPL(BTree_##type, remove, type key, bool *out_removed){ FUN_BASE(_this, remove_##type), key, out_removed CALL; } END_FUN \
 MEM_FUN_IMPL(BTree_##type, print, BT_VisitOrder order){ FUN_BASE(_this, print), order CALL; } END_FUN \
@@ -844,8 +844,8 @@ MEM_FUN_IMPL(BTree_##type, traverse_post, BT_Action action){ FUN_BASE(_this, tra
 MEM_FUN_IMPL(BTree_##type, begin, Iterator **out_it);{FUN_BASE(_this, begin), out_it CALL; } END_FUN \
 MEM_FUN_IMPL(BTree_##type, end, Iterator **out_it);{FUN_BASE(_this, end), out_it CALL; } END_FUN \
 INIT_DERIVED_CLASS(BTree_##type, GenericBinaryTree); \
-BIND(BTree_##type, is_empty); \
-BIND(BTree_##type, get_size); \
+BIND(BTree_##type, empty); \
+BIND(BTree_##type, size); \
 BIND(BTree_##type, insert); \
 BIND(BTree_##type, remove); \
 BIND(BTree_##type, print); \

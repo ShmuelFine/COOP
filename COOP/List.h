@@ -32,7 +32,7 @@ END_DEF_DERIVED(ListIter);
 
 /* ===== GenericList (homogeneous by elementSize) ===== */
 DEF_CLASS(GenericList);
-MEM_SIZE_T size;           /* number of elements */
+int size;           /* number of elements */
 MEM_SIZE_T elementSize;    /* size of each element in bytes */
 ListNode* head;            /* first node */
 ListNode* tail;            /* last node */
@@ -54,7 +54,7 @@ MEM_FUN_DECL(GenericList, __back_generic, char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericList, __make_node, const char* src_bytes, MEM_SIZE_T buff_size, ListNode** out_node);
 
 /* services */
-MEM_FUN_DECL(GenericList, size, MEM_SIZE_T* out_size);
+MEM_FUN_DECL(GenericList, size, int* out_size);
 MEM_FUN_DECL(GenericList, empty, bool* out_is_empty);
 MEM_FUN_DECL(GenericList, clear);
 /* printing */
@@ -127,7 +127,7 @@ MEM_FUN_DECL(List_ ##type, pop_back,      type* out_val);                  \
 MEM_FUN_DECL(List_ ##type, pop_front,     type* out_val);                  \
 MEM_FUN_DECL(List_ ##type, front,         type* out_val);                  \
 MEM_FUN_DECL(List_ ##type, back,          type* out_val);                  \
-MEM_FUN_DECL(List_ ##type, size,          MEM_SIZE_T* out_size);           \
+MEM_FUN_DECL(List_ ##type, size,          int* out_size);           \
 MEM_FUN_DECL(List_ ##type, empty,         bool* out_is_empty);             \
 MEM_FUN_DECL(List_ ##type, clear);                                         \
 MEM_FUN_DECL(List_ ##type, print);	                                       \

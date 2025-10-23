@@ -56,7 +56,7 @@ END_DERIVED_FUNCTIONS(BTInOrderIterator);
 
 DEF_CLASS(GenericBinaryTree);
 BTNode *root;
-MEM_SIZE_T size;
+int size;
 MEM_SIZE_T elementSize;
 BT_ElementType BT_type;
 END_DEF(GenericBinaryTree);
@@ -66,8 +66,8 @@ typedef void (*BT_Action)(GenericBinaryTree *owner, const void *value);
 
 FUNCTIONS(GenericBinaryTree, MEM_SIZE_T elementSize, BT_ElementType BT_type);
 
-MEM_FUN_DECL(GenericBinaryTree, is_empty, bool *out);
-MEM_FUN_DECL(GenericBinaryTree, get_size, MEM_SIZE_T *out);
+MEM_FUN_DECL(GenericBinaryTree, empty, bool *out);
+MEM_FUN_DECL(GenericBinaryTree, size, int *out);
 
 MEM_FUN_DECL(GenericBinaryTree, __insert_generic, const void *src);
 MEM_FUN_DECL(GenericBinaryTree, insert_int, int value);
@@ -102,8 +102,8 @@ DEF_DERIVED_CLASS(BTree_ ##type, GenericBinaryTree);                  \
 END_DEF_DERIVED(BTree_ ##type);                                       \
 																	  \
 DERIVED_FUNCTIONS(BTree_ ##type, GenericBinaryTree);                  \
-MEM_FUN_DECL(BTree_ ##type, is_empty, bool *out);                     \
-MEM_FUN_DECL(BTree_ ##type, get_size, MEM_SIZE_T *out);               \
+MEM_FUN_DECL(BTree_ ##type, empty, bool *out);                     \
+MEM_FUN_DECL(BTree_ ##type, size, int *out);               \
 MEM_FUN_DECL(BTree_ ##type, insert, type value);                      \
 MEM_FUN_DECL(BTree_ ##type, remove, type key, bool *out_removed);     \
 MEM_FUN_DECL(BTree_ ##type, print, BT_VisitOrder order);              \
