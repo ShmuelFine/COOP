@@ -1,44 +1,133 @@
-
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include <string.h>
 
 #include "COOP.h"
 #include "Queue.h"
 
-static uint64_t now_ns(void) {
-    struct timespec ts;
-    clock_gettime(CLOCK_MONOTONIC, &ts);
-    return (uint64_t)ts.tv_sec * 1000000000ull + (uint64_t)ts.tv_nsec;
-}
 
-FUN_IMPL(main, int argc, char** argv) {
 
-    init_global_memory(10, HEAP_BASED_MEMORY);
-    const int N = (argc > 1) ? atoi(argv[1]) : 1000000;
+FUN_IMPL(main, int argc, char** argv)
+{
+    init_global_memory(0, HEAP_BASED_MEMORY);
 
+    const char* phase = (argc > 1) ? argv[1] : "all";
+    int  N = (argc > 2) ? (int)strtoull(argv[2], NULL, 10) : (int)1000000;
+
+    // Create queue of ints
     CREATE(Queue_int, q) CALL;
 
-    uint64_t t0 = now_ns();
-    FOR(int i = 0; i < N; ++i) {
-        MFUN(&q, enqueue), i CALL;
-    } END_LOOP;
-    uint64_t t1 = now_ns();
+    // --------------------------- enqueue ---------------------------
+    IF(strcmp(phase, "enqueue") == 0)
+    {
+        FOR(int i = 0; i < N; ++i)
+        {
+            MFUN(&q, enqueue), (int)i CALL;
+        }
+        END_LOOP;
+    }
+    // --------------------------- dequeue ---------------------------
+    ELSE_IF(strcmp(phase, "dequeue") == 0)
+    {
+        // prefill
+        FOR(int i = 0; i < N; ++i)
+        {
+            MFUN(&q, enqueue), (int)i CALL;
+        }
+        END_LOOP;
 
-    long long sum = 0;
-    ITER_FOR(int, ptr, &q) {
-        sum += ptr;
-    } END_ITER_FOR;
-    uint64_t t2 = now_ns();
-
-    FOR(int i = 0; i < N; ++i) {
+        // then dequeue
         int out = 0;
-        MFUN(&q, dequeue), & out CALL;
-        (void)out;
-    } END_LOOP;
-    uint64_t t3 = now_ns();
+        FOR(int i = 0; i < N; ++i)
+        {
+            MFUN(&q, dequeue), & out CALL;
+            (void)out; // avoid warnings
+        }
+        END_LOOP;
+    }
+    // --------------------------- front -----------------------------
+    ELSE_IF(strcmp(phase, "front") == 0)
+    {
+        int* pFront = NULL;
+        FOR(int i = 0; i < N; ++i)
+        {
+            MFUN(&q, front),&pFront  CALL;
+        }
+        END_LOOP;     
+    }
+    // --------------------------- front_cref ------------------------
+    ELSE_IF(strcmp(phase, "front_cref") == 0)
+    {
+        const int* pcFront = NULL;
+        FOR(int i = 0; i < N; ++i)
+        {
+            MFUN(&q, front_cref), & pcFront CALL;
+        }
+        END_LOOP
+    }
+    // --------------------------- size ------------------------------
+    ELSE_IF(strcmp(phase, "size") == 0)
+    {
+        int size = 0;
+		FOR(int i = 0;i < N; ++i)
+		{
+			MFUN(&q, size), &size CALL;
+		}
+		END_LOOP;
+    }
+    // --------------------------- empty -----------------------------
+    ELSE_IF(strcmp(phase, "empty") == 0)
+    {
+        bool is_empty = false;
 
-    printf("Queue<int>: N=%d, enqueue=%.3f ms, iterate=%.3f ms, dequeue=%.3f ms, sum=%lld\n",
-        N, (t1 - t0) / 1e6, (t2 - t1) / 1e6, (t3 - t2) / 1e6, sum);
-}END_FUN;
+        FOR(int i = 0;i < N; ++i)
+        {
+            MFUN(&q, empty), &is_empty CALL;
+        }
+        END_LOOP;
+    }
+        // --------------------------- clear -----------------------------
+    ELSE_IF(strcmp(phase, "clear") == 0)
+    {
+        // prefill
+        FOR(int i = 0; i < N; ++i)
+        {
+            MFUN(&q, enqueue), (int)i CALL;
+        }
+        END_LOOP;
+
+        MFUN(&q, clear) CALL;
+	}
+        // --------------------------- all (default) ---------------------
+    ELSE
+    {
+        bool is_empty = false;
+        int size = 0;
+        const int* pcFront = NULL;
+        int* pFront = NULL;
+		//check all enqueue, front, size, empty
+        FOR(int i = 0; i < N; ++i)
+        {
+            MFUN(&q, enqueue), (int)i CALL;
+            MFUN(&q, front), & pFront CALL;
+            MFUN(&q, front_cref), & pcFront CALL;
+            MFUN(&q, size), &size CALL;
+            MFUN(&q, empty), & is_empty CALL;
+        }
+        END_LOOP;
+
+
+        // Dequeue all
+        int out = 0;
+        FOR(int i = 0; i < N; ++i)
+        {
+            MFUN(&q, dequeue),& out CALL;
+        }
+        END_LOOP;
+
+        // Clear 
+        MFUN(&q, clear) CALL;
+    }END_IF;
+
+}
+END_FUN
