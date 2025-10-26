@@ -86,7 +86,7 @@ MEM_FUN_DECL(GenericBinaryTree, remove_objSPtr, objSPtr key, bool *out_removed);
 
 MEM_FUN_DECL(GenericBinaryTree, print, BT_VisitOrder order);
 
-MEM_FUN_DECL(GenericBinaryTree, __traverse_pre_recursive,BTNode* currentNode, BT_Action action);
+MEM_FUN_DECL(GenericBinaryTree, __traverse_pre_recursive, BTNode* currentNode, BT_Action action);
 MEM_FUN_DECL(GenericBinaryTree, __traverse_post_recursive, BTNode* currentNode, BT_Action action);
 MEM_FUN_DECL(GenericBinaryTree, traverse_pre, BT_Action action);
 MEM_FUN_DECL(GenericBinaryTree, traverse_in, BT_Action action);

@@ -145,8 +145,6 @@ END_FUN
 encodes a left (0) or right (1) step from the root to the parent of the new node.*/
 MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void *src)
 {
-	//printf("sizeof(MEM_SIZE_T) = %zu\n", sizeof(MEM_SIZE_T));
-
 	/* Empty tree: create a root and return */
 	IF(_this->root == NULL)
 	{
