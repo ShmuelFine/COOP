@@ -62,6 +62,23 @@ set(ALL_FILES
 ################################################################################
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
+#Creates a wide version of the COOP library for benchmarks that need larger index types (MEM_SIZE_T = int)
+add_library(COOP_testing STATIC ${ALL_FILES})
+
+set_target_properties(COOP_testing PROPERTIES OUTPUT_NAME "COOP_testing")
+
+
+#Ensures both library versions (COOP and COOP_testing) share the same header search paths
+target_include_directories(COOP_testing PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+#Allows testing and benchmarks with larger data sizes by redefining MEM_SIZE_T to int
+target_compile_definitions(COOP_testing PUBLIC MEM_SIZE_T=int)
+
+# Keeps Linux builds clean by silencing harmless pointer-type warnings when compiling the wide version
+if(UNIX AND NOT APPLE)
+ target_compile_options(COOP_testing PRIVATE -Wno-incompatible-pointer-types)
+endif()
+
 set(ROOT_NAMESPACE COOP)
 
 
