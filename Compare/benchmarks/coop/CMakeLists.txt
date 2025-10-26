@@ -1,5 +1,4 @@
 # ===== COOP Benchmarks =====
-
 # 1. Define a list of all C source files in the current directory
 # The GLOB command finds all files matching the pattern.
 # We'll use this list for the loop below.
