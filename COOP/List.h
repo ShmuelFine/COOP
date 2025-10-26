@@ -44,7 +44,7 @@ FUNCTIONS(GenericList, MEM_SIZE_T dataTypeSize, List_ElementType enumTag);
 
 /* ---- Generic API ---- */
 MEM_FUN_DECL(GenericList, __push_back_generic, char* buff, MEM_SIZE_T buff_size);
-MEM_FUN_DECL(GenericList, __push_front_generic, char* buff, MEM_SIZE_T buff_size);
+MEM_FUN_DECL(GenericList, __push_front_generic, const char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericList, __pop_back_generic, char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericList, __pop_front_generic, char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericList, __front_generic, char* buff, MEM_SIZE_T buff_size);

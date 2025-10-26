@@ -15,6 +15,6 @@ MEM_FUN_DECL(SharedPodPtr, release);
 MEM_FUN_DECL(SharedPodPtr, isEmpty, bool * out);
 END_FUNCTIONS(SharedPodPtr);
 
-#define GET(s_ptr, Type) ((Type*)(s_ptr.px))
+#define GET(s_ptr, Type) ((Type*)((s_ptr).px))
 
 #endif

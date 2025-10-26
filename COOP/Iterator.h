@@ -2,6 +2,8 @@
 #define __COOP__ITERATOR__H_
 
 #include "COOP.h"
+#include <stddef.h>
+
 typedef enum IteratorCategory {
     ITER_INPUT = 1,
     ITER_OUTPUT,
@@ -30,14 +32,11 @@ MEM_FUN_DECL(Iterator, advance, ptrdiff_t n);
 END_FUNCTIONS(Iterator);
 
 
+
 #define ITER_EQUALS(IT_A, IT_B, OUT_BOOL)         MFUN((IT_A), equals), (IT_B), (OUT_BOOL) CALL
 #define ITER_NEXT(IT)                             MFUN((IT), next) CALL
 #define ITER_PREV(IT)                             MFUN((IT), prev) CALL
-#define ITER_GET_REF(IT, OUT_VOIDPTR)             MFUN((IT), get_ref), (void**)(OUT_VOIDPTR) CALL
 #define ITER_GET_CREF(IT, OUT_CVOIDPTR)           MFUN((IT), get_cref), (const void**)(OUT_CVOIDPTR) CALL
-#define ITER_DISTANCE(IT_A, IT_B, OUT_DIST)       MFUN((IT_A), distance), (IT_B), (OUT_DIST) CALL
-#define ITER_ADVANCE(IT, N)                       MFUN((IT), advance), (N) CALL
-#define ITER_CATEGORY(IT)   ((IT)->_category)
 
 #define ITER_CONTINUE do { goto __ITER_CONTINUE_LABEL__;} while(0)
 
@@ -46,8 +45,8 @@ END_FUNCTIONS(Iterator);
        bool __eq = 0;                                \
        Iterator *_it=NULL;                           \
        Iterator *_end=NULL;                          \
-       MFUN(objPtr,begin),&_it CALL;                 \
-       MFUN(objPtr, end), &_end CALL;                \
+       MFUN((objPtr),begin),&_it CALL;                 \
+       MFUN((objPtr), end), &_end CALL;                \
        FOR (;!(__eq)&&!(IS_BREAKING);) {             \
          ITER_EQUALS(_it,_end,&__eq);                \
          if (__eq||IS_BREAKING){break;}              \
@@ -63,7 +62,6 @@ END_FUNCTIONS(Iterator);
 	    DESTROY(_end);               \
       }                              \
 }
-
 
 
 #endif 

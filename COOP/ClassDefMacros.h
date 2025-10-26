@@ -77,8 +77,8 @@ FUN_IMPL(inner_function_ ##type ##_ ##function_name, type * _this, ##__VA_ARGS__
 		
 // Macro for inner use in INIT_CLASS:
 #define ATTACH_TORs_ToClass(class_name)       \
-V_TABLE_INSTANCE(class_name)._ctor = __ctor__ ##class_name;  \
-V_TABLE_INSTANCE(class_name)._dtor = __dtor__ ##class_name; 
+(V_TABLE_INSTANCE(class_name))._ctor = (__ctor__ ##class_name);  \
+(V_TABLE_INSTANCE(class_name))._dtor = (__dtor__ ##class_name); 
 
 // At the end of the C file, we bind the function implementations to the pointers of the vTable.
 // It begins with:
@@ -92,9 +92,9 @@ V_TABLE_TYPE(type) V_TABLE_INSTANCE(type);			\
 
 
 #define BIND(type, function_name)\
-	V_TABLE_INSTANCE(type).function_name.outer_function = type ##_ ##function_name ##_outer_function;				\
-	V_TABLE_INSTANCE(type).function_name.inner_function = inner_function_ ##type ##_ ##function_name;				\
-	V_TABLE_INSTANCE(type).function_name.next = NULL
+	(V_TABLE_INSTANCE(type)).function_name.outer_function = (type ##_ ##function_name ##_outer_function);				\
+	(V_TABLE_INSTANCE(type)).function_name.inner_function = (inner_function_ ##type ##_ ##function_name);				\
+	(V_TABLE_INSTANCE(type)).function_name.next = NULL
 
 // Finally, it ends with:
 #define END_INIT_CLASS(type) \
