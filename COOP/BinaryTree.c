@@ -141,63 +141,60 @@ MEM_FUN_IMPL(GenericBinaryTree, get_size, MEM_SIZE_T *out)
 }
 END_FUN
 
-/* Move by levels when it finds a right or left that are NULL, inserts there */
+/* The next insertion position is derived from (size + 1). Each bit of this position
+encodes a left (0) or right (1) step from the root to the parent of the new node.*/
 MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void *src)
 {
+	//printf("sizeof(MEM_SIZE_T) = %zu\n", sizeof(MEM_SIZE_T));
+
+	/* Empty tree: create a root and return */
 	IF(_this->root == NULL)
 	{
-		BTNode *new_node = NULL;
-		ALLOC(new_node, BTNode);
-		INITIALIZE_INSTANCE(BTNode, (*new_node)), _this->elementSize, (const void*)src, (BTNode*)NULL CALL;
-		_this->root = new_node;
-		_this->size = 1;
+		BTNode* newNode = NULL;
+		ALLOC(newNode, BTNode);
+		INITIALIZE_INSTANCE(BTNode, (*newNode)), _this->elementSize, (const void*)src, (BTNode*)NULL CALL;
+		_this->root = newNode;
+		_this->size = (MEM_SIZE_T)1;
 		RETURN;
 	}
 	END_IF;
 
-	MEM_SIZE_T capacity = _this->size + (MEM_SIZE_T)1;
-	BTNode **queue = NULL;
-	ALLOC_ARRAY(queue, BTNode*, capacity);
-	MEM_SIZE_T head = 0, tail = 0;
-	queue[tail++] = _this->root;
-
-	WHILE(head < tail)
+	MEM_SIZE_T nextPositionIndex = _this->size + (MEM_SIZE_T)1;
+	MEM_SIZE_T mostSignificantBitIndex = 0U;
+	MEM_SIZE_T positionCopy = nextPositionIndex;
+	WHILE((positionCopy >>= 1U) != 0U)
 	{
-		BTNode *current = queue[head++];
-
-		IF(current->left == NULL)
-		{
-			BTNode *new_node = NULL;
-			ALLOC(new_node, BTNode);
-			INITIALIZE_INSTANCE(BTNode, (*new_node)), _this->elementSize, (const void*)src, current CALL;
-			current->left = new_node;
-			_this->size++;
-			BREAK;
-		}
-		ELSE
-		{
-			queue[tail++] = current->left;
-		}
-		END_IF;
-
-		IF(current->right == NULL)
-		{
-			BTNode *new_node = NULL;
-			ALLOC(new_node, BTNode);
-			INITIALIZE_INSTANCE(BTNode, (*new_node)), _this->elementSize, (const void*)src, current CALL;
-			current->right = new_node;
-			_this->size++;
-			BREAK;
-		}
-		ELSE
-		{
-			queue[tail++] = current->right;
-		}
-		END_IF;
+		mostSignificantBitIndex++;
 	}
 	END_LOOP;
 
-	FREE(queue);
+	BTNode* parentNode = _this->root;
+
+	FOR(MEM_SIZE_T bitIndex = mostSignificantBitIndex; bitIndex-- > 1U; )
+	{
+		int directionBit = (int)((nextPositionIndex >> bitIndex) & (MEM_SIZE_T)1U);
+		parentNode = (directionBit == 0) ? parentNode->left : parentNode->right;
+		THROW_MSG_UNLESS(parentNode != NULL, "BinaryTree structure is inconsistent with its recorded size");
+	}
+	END_LOOP;
+
+	int lastDirectionBit = (int)(nextPositionIndex & (MEM_SIZE_T)1U);
+
+	BTNode* newNode = NULL;
+	ALLOC(newNode, BTNode);
+	INITIALIZE_INSTANCE(BTNode, (*newNode)), _this->elementSize, (const void*)src, parentNode CALL;
+
+	IF(lastDirectionBit == 0)
+	{
+		parentNode->left = newNode;
+	}
+	ELSE
+	{
+		parentNode->right = newNode;
+	}
+	END_IF;
+
+	_this->size++;
 }
 END_FUN
 
@@ -212,115 +209,194 @@ IMPL_INSERT_OF_TYPE(char);
 IMPL_INSERT_OF_TYPE(float);
 IMPL_INSERT_OF_TYPE(objSPtr);
 
-MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *out_removed)
+/* ===== Helpers functions for remove ===== */
+MEM_FUN_IMPL(GenericBinaryTree, __find_node_recursive, BTNode* currentNode, const void* key, BTNode** outNodeFound)
 {
-	*out_removed = false;
-	IF(_this->size == 0)
+	*outNodeFound = NULL;
+
+	IF(currentNode == NULL)
 	{
 		RETURN;
 	}
 	END_IF;
 
-	MEM_SIZE_T capacity = _this->size + (MEM_SIZE_T)1;
-	BTNode **queue = NULL;
-	ALLOC_ARRAY(queue, BTNode*, capacity);
-	MEM_SIZE_T head = 0, tail = 0;
-	queue[tail++] = _this->root;
-
-	BTNode *target = NULL;
-	BTNode *last = NULL;
-
-	WHILE(head < tail)
+	/* compare current node */
+	bool isMatch = false;
+	IF(_this->BT_type == OBJ_SPTR)
 	{
-		BTNode *current = queue[head++];
-
-		bool match = false;
-
-		IF(_this->BT_type == OBJ_SPTR)
-		{
-			bool is_equals = false;
-			MFUN((objSPtr*)current->value, equals), (objSPtr*)key, &is_equals CALL;
-			match = is_equals;
-		}
-		ELSE
-		{
-			match = (memcmp(current->value, key, _this->elementSize) == 0);
-		}
-		END_IF;
-
-		IF(target == NULL && match)
-		{
-			target = current;
-		}
-		END_IF;
-
-		last = current;
-		IF(current->left != NULL)
-		{
-			queue[tail++] = current->left;
-		}
-		END_IF;
-
-		IF(current->right != NULL)
-		{
-			queue[tail++] = current->right;
-		}
-		END_IF;
-	}
-	END_LOOP;
-
-	/* not found */
-	IF(target == NULL)
-	{
-		FREE(queue);
-		RETURN;
-	}
-	END_IF;
-
-	/* Single node tree case */
-	IF(last == target && target->parent == NULL && target->left == NULL && target->right == NULL)
-	{
-		IF(_this->BT_type == OBJ_SPTR && target->value)
-		{
-			DESTROY((objSPtr*)target->value);
-		}
-		END_IF;
-
-		DELETE(target);
-		_this->root = NULL;
-		_this->size = 0;
-		*out_removed = true;
-		FREE(queue);
-		RETURN;
-	}
-	END_IF;
-
-	/* Copy the value of last to the target and detach last from its parent */
-	memcpy(target->value, last->value, _this->elementSize);
-
-	BTNode *parent = last->parent;
-	IF(parent != NULL)
-	{
-		IF(parent->left == last)
-		{
-			parent->left = NULL;
-		}
-		ELSE
-		{
-			parent->right = NULL;
-		}
-		END_IF;
+		bool isEquals = false;
+		MFUN((objSPtr*)currentNode->value, equals), (objSPtr*)key, &isEquals CALL;
+		isMatch = isEquals;
 	}
 	ELSE
 	{
-		_this->root = NULL;
+		isMatch = (memcmp(currentNode->value, key, _this->elementSize) == 0);
 	}
 	END_IF;
 
-	DELETE(last);
+	IF(isMatch)
+	{
+		*outNodeFound = currentNode;
+		RETURN;
+	}
+	END_IF;
+
+	/* recurse left */
+	BTNode* foundLeft = NULL;
+	MFUN(_this, __find_node_recursive), currentNode->left, key, &foundLeft CALL;
+	IF(foundLeft != NULL)
+	{
+		*outNodeFound = foundLeft;
+		RETURN;
+	}
+	END_IF;
+
+	/* recurse right */
+	BTNode* foundRight = NULL;
+	MFUN(_this, __find_node_recursive), currentNode->right, key, &foundRight CALL;
+	IF(foundRight != NULL)
+	{
+		*outNodeFound = foundRight;
+		RETURN;
+	}
+	END_IF;
+}
+END_FUN
+
+MEM_FUN_IMPL(GenericBinaryTree, __get_parent_for_position, MEM_SIZE_T positionIndex, BTNode** outParentNode, int* outLeastSignificantBit)
+{
+	*outParentNode = NULL;
+
+	IF((_this->root == NULL) || (positionIndex <= (MEM_SIZE_T)1))
+	{
+		RETURN;
+	}
+	END_IF;
+
+	MEM_SIZE_T mostSignificantBitIndex = (MEM_SIZE_T)0;
+	MEM_SIZE_T tmpIndex = positionIndex;
+	WHILE((tmpIndex >>= 1U) != 0U)
+	{
+		mostSignificantBitIndex++;
+	}
+	END_LOOP;
+
+	BTNode* parentNode = _this->root;
+
+	FOR(MEM_SIZE_T bitIndex = mostSignificantBitIndex; bitIndex-- > 1U; )
+	{
+		int directionBit = (int)((positionIndex >> bitIndex) & (MEM_SIZE_T)1U);
+		parentNode = (directionBit == 0) ? parentNode->left : parentNode->right;
+		THROW_MSG_UNLESS(parentNode != NULL, "BinaryTree structure is inconsistent with its recorded size");
+	}
+	END_LOOP;
+
+	IF(outLeastSignificantBit != NULL)
+	{
+		*outLeastSignificantBit = (int)(positionIndex & (MEM_SIZE_T)1U);
+	}
+	END_IF;
+
+	*outParentNode = parentNode;
+}
+END_FUN
+
+MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *outRemoved)
+{
+	*outRemoved = false;
+
+	IF(_this->size == (MEM_SIZE_T)0)
+	{
+		RETURN;
+	}
+	END_IF;
+
+	/* Single-node tree: compare and delete root if it matches */
+	IF(_this->size == (MEM_SIZE_T)1)
+	{
+		bool isMatch = false;
+
+		IF(_this->BT_type == OBJ_SPTR)
+		{
+			bool isEquals = false;
+			MFUN((objSPtr*)_this->root->value, equals), (objSPtr*)key, &isEquals CALL;
+			isMatch = isEquals;
+		}
+		ELSE
+		{
+			isMatch = (memcmp(_this->root->value, key, _this->elementSize) == 0);
+		}
+		END_IF;
+
+		IF(!isMatch)
+		{
+			RETURN;
+		}
+		END_IF;
+
+		DELETE(_this->root);
+		_this->root = NULL;
+		_this->size = (MEM_SIZE_T)0;
+		*outRemoved = true;
+		RETURN;
+	}
+	END_IF;
+
+	/* Step 1: recursive DFS search for the target */
+	BTNode* targetNode = NULL;
+	MFUN(_this, __find_node_recursive), _this->root, key, & targetNode CALL;
+	IF(targetNode == NULL)
+	{
+		RETURN;
+	}
+	END_IF;
+
+	/* Step 2: locate the last node */
+	MEM_SIZE_T positionIndex = _this->size;
+	BTNode* parentOfLast = NULL;
+	int leastSignificantBit = 0;
+	MFUN(_this, __get_parent_for_position), positionIndex, & parentOfLast, & leastSignificantBit CALL;
+	THROW_MSG_UNLESS(parentOfLast != NULL, "BinaryTree structure is inconsistent with its recorded size");
+
+	BTNode* lastNode = (leastSignificantBit == 0) ? parentOfLast->left : parentOfLast->right;
+	THROW_MSG_UNLESS(lastNode != NULL, "BinaryTree structure is inconsistent: last node is missing");
+
+	/* Step 3a: if the target is already the last node */
+	IF(targetNode == lastNode)
+	{
+		IF(leastSignificantBit == 0)
+		{
+			parentOfLast->left = NULL;
+		}
+		ELSE
+		{
+			parentOfLast->right = NULL;
+		}
+		END_IF;
+
+		DELETE(lastNode);
+		_this->size--;
+		*outRemoved = true;
+		RETURN;
+	}
+	END_IF;
+
+	/* Step 3b: copy last->value into target->value, then detach + delete last */
+	memcpy(targetNode->value, lastNode->value, (size_t)_this->elementSize);
+
+	IF(leastSignificantBit == 0)
+	{
+		parentOfLast->left = NULL;
+	}
+	ELSE
+	{
+		parentOfLast->right = NULL;
+	}
+	END_IF;
+
+	DELETE(lastNode);
 	_this->size--;
-	*out_removed = true;
-	FREE(queue);
+	*outRemoved = true;
 }
 END_FUN
 
@@ -367,49 +443,54 @@ MEM_FUN_IMPL(GenericBinaryTree, __print_value, const void *value)
 }
 END_FUN
 
+MEM_FUN_IMPL(GenericBinaryTree, __traverse_pre_recursive, BTNode* currentNode, BT_Action action)
+{
+	IF(currentNode == NULL)
+	{
+		RETURN;
+	} 
+	END_IF;
+
+	IF(currentNode->value != NULL)
+	{ 
+		action(_this, currentNode->value); 
+	}
+	END_IF;
+
+	MFUN(_this, __traverse_pre_recursive), currentNode->left, action CALL;
+	MFUN(_this, __traverse_pre_recursive), currentNode->right, action CALL;
+}
+END_FUN
+
+MEM_FUN_IMPL(GenericBinaryTree, __traverse_post_recursive, BTNode* currentNode, BT_Action action)
+{
+	IF(currentNode == NULL) 
+	{
+		RETURN;
+	} 
+	END_IF;
+
+	MFUN(_this, __traverse_post_recursive), currentNode->left, action CALL;
+	MFUN(_this, __traverse_post_recursive), currentNode->right, action CALL;
+
+	IF(currentNode->value != NULL) 
+	{
+		action(_this, currentNode->value); 
+	}
+	END_IF;
+}
+END_FUN
+
+
 MEM_FUN_IMPL(GenericBinaryTree, traverse_pre, BT_Action action)
 {
-	IF(_this->root == NULL)
+	IF((_this == NULL) || (action == NULL) || (_this->root == NULL))
 	{
 		RETURN;
 	}
 	END_IF;
 
-	THROW_MSG_UNLESS(_this->size > 0, "size must be positive and accurate");
-
-	MEM_SIZE_T capacity = _this->size;
-	BTNode **stack = NULL;
-	ALLOC_ARRAY(stack, BTNode*, capacity);
-	MEM_SIZE_T top = 0;
-
-	stack[top++] = _this->root;
-
-	WHILE(top > 0)
-	{
-		BTNode *current = stack[--top];
-
-		IF(current && current->value)
-		{
-			action(_this, (const void*)current->value);
-		}
-		END_IF;
-
-		/* push right then left so left pops first */
-		IF(current && current->right)
-		{
-			stack[top++] = current->right;
-		}
-		END_IF;
-
-		IF(current && current->left)
-		{
-			stack[top++] = current->left;
-		}
-		END_IF;
-	}
-	END_LOOP;
-
-	FREE(stack);
+	MFUN(_this, __traverse_pre_recursive), _this->root, action CALL;
 }
 END_FUN
 
@@ -433,54 +514,13 @@ END_FUN
 
 MEM_FUN_IMPL(GenericBinaryTree, traverse_post, BT_Action action)
 {
-	IF(_this->root == NULL)
+	IF((_this == NULL) || (action == NULL) || (_this->root == NULL))
 	{
 		RETURN;
 	}
 	END_IF;
 
-	THROW_MSG_UNLESS(_this->size > 0, "size must be positive and accurate");
-
-	MEM_SIZE_T capacity = _this->size;
-	BTNode **stack1 = NULL;
-	ALLOC_ARRAY(stack1, BTNode*, capacity);
-	BTNode **stack2 = NULL;
-	ALLOC_ARRAY(stack2, BTNode*, capacity);
-	MEM_SIZE_T top1 = 0, top2 = 0;
-
-	stack1[top1++] = _this->root;
-
-	WHILE(top1 > 0)
-	{
-		BTNode *current = stack1[--top1];
-		stack2[top2++] = current;
-		IF(current->left)
-		{
-			stack1[top1++] = current->left;
-		}
-		END_IF;
-		IF(current->right != NULL)
-		{
-			stack1[top1++] = current->right;
-		}
-		END_IF;
-	}
-	END_LOOP;
-
-	WHILE(top2 > 0)
-	{
-		BTNode *current = stack2[--top2];
-		IF(current && current->value)
-		{
-			action(_this, (const void*)current->value);
-		}
-		END_IF;
-	}
-	END_LOOP;
-
-	FREE(stack1);
-	FREE(stack2);
-
+	MFUN(_this, __traverse_post_recursive), _this->root, action CALL;
 }
 END_FUN
 
@@ -546,6 +586,9 @@ BIND(GenericBinaryTree, insert_char);
 BIND(GenericBinaryTree, insert_float);
 BIND(GenericBinaryTree, insert_objSPtr);
 
+BIND(GenericBinaryTree, __find_node_recursive);
+BIND(GenericBinaryTree, __get_parent_for_position);
+
 BIND(GenericBinaryTree, __remove_generic);
 BIND(GenericBinaryTree, remove_int);
 BIND(GenericBinaryTree, remove_char);
@@ -553,6 +596,8 @@ BIND(GenericBinaryTree, remove_float);
 BIND(GenericBinaryTree, remove_objSPtr);
 
 BIND(GenericBinaryTree, print);
+BIND(GenericBinaryTree, __traverse_pre_recursive);
+BIND(GenericBinaryTree, __traverse_post_recursive);
 BIND(GenericBinaryTree, traverse_pre);
 BIND(GenericBinaryTree, traverse_in);
 BIND(GenericBinaryTree, traverse_post);
