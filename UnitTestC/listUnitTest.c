@@ -7,6 +7,7 @@
 
 TEST_FUN_IMPL(ListTest, push_back_SanityTest)
 {
+    FUN(init_global_memory) 0, HEAP_BASED_MEMORY CALL;
     CREATE(List_int, lst_int) CALL;
     CREATE(List_char, lst_char) CALL;
     int numElements = 54;

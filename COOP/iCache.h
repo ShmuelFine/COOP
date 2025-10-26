@@ -3,7 +3,9 @@
 
 #include "Object.h"
 
-typedef unsigned short MEM_SIZE_T;
+#ifndef MEM_SIZE_T
+#define MEM_SIZE_T unsigned short
+#endif
 
 DEF_CLASS(ICache);
 END_DEF(ICache);

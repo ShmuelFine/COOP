@@ -127,6 +127,7 @@ elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
         "_UNICODE"
     )
 endif()
+target_compile_definitions(${PROJECT_NAME} PRIVATE MEM_SIZE_T=int)
 
 ################################################################################
 # Compile and link options
@@ -196,6 +197,6 @@ endif()
 ################################################################################
 # Link with other targets.
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    COOP
+    COOP_testing
 )
 
