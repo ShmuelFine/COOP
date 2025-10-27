@@ -40,18 +40,14 @@ int main(int argc, char** argv)
         }
     }
     else {
-        for (int i = 0; i < N; ++i)
-            insert(&bt, i);
-
         int size = 0;
-        for (int i = 0; i < N; ++i) {
-            size = get_size(&bt);
-        }
-
 		bool isEmpty = false;
+
         for (int i = 0; i < N; ++i) {
+            insert(&bt, i);
+            size = get_size(&bt);
             isEmpty = is_empty(&bt);
-		}
+        }
 
         for (int i = 0; i < N; ++i){
             bool ok = bt_remove(&bt, i);
