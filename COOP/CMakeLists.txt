@@ -62,21 +62,26 @@ set(ALL_FILES
 ################################################################################
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
-#Creates a wide version of the COOP library for benchmarks that need larger index types (MEM_SIZE_T = int)
-add_library(COOP_testing STATIC ${ALL_FILES})
+# Optional wide-index build for large benchmarks (does not affect default COOP)
+option(COOP_BUILD_TESTING "Build alternate COOP with wider MEM_SIZE_T" OFF)
 
-set_target_properties(COOP_testing PROPERTIES OUTPUT_NAME "COOP_testing")
+if(COOP_BUILD_TESTING)
+    add_library(COOP_testing STATIC ${ALL_FILES})
+    set_target_properties(COOP_testing PROPERTIES OUTPUT_NAME "COOP_testing")
 
+    # Share the same public headers as the main lib
+    target_include_directories(COOP_testing PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-#Ensures both library versions (COOP and COOP_testing) share the same header search paths
-target_include_directories(COOP_testing PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+    # Only this target widens MEM_SIZE_T (exported to dependents that link it)
+    target_compile_definitions(COOP_testing PUBLIC
+        MEM_SIZE_T=int
+        COOP_WIDE_MEMSIZE=1
+    )
 
-#Allows testing and benchmarks with larger data sizes by redefining MEM_SIZE_T to int
-target_compile_definitions(COOP_testing PUBLIC MEM_SIZE_T=int)
-
-# Keeps Linux builds clean by silencing harmless pointer-type warnings when compiling the wide version
-if(UNIX AND NOT APPLE)
- target_compile_options(COOP_testing PRIVATE -Wno-incompatible-pointer-types)
+    # Silence harmless pointer-type warnings on GCC/Clang only
+    if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+        target_compile_options(COOP_testing PRIVATE -Wno-incompatible-pointer-types)
+    endif()
 endif()
 
 set(ROOT_NAMESPACE COOP)
