@@ -39,10 +39,12 @@ void bt_destroy(GenericBinaryTree* tree)
 
 	size_t capacity = (tree->size == 0U ? 1U : tree->size);
 	BTNode** stack1 = (BTNode**)malloc(sizeof(BTNode*) * capacity);
+	if (!stack1) {
+		return;
+	}
 	BTNode** stack2 = (BTNode**)malloc(sizeof(BTNode*) * capacity);
-	if (!stack1 || !stack2) {
+	if (!stack2) {
 		free(stack1);
-		free(stack2);
 		return;
 	}
 
