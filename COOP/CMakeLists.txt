@@ -200,23 +200,4 @@ else(IF UNIX AND NOT APPLE)
     target_compile_options(${PROJECT_NAME} PRIVATE -Wno-incompatible-pointer-types)
 endif()
 
-# ============================================
-# Bench target: bench_queue (Queue benchmark)
-# ============================================
-
-add_executable(bench_queue bench_queue.c )
-
-
-target_link_libraries(bench_queue PRIVATE ${PROJECT_NAME})
-
-target_include_directories(bench_queue PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-
-
-if(UNIX AND NOT APPLE)
-  target_link_libraries(bench_queue PRIVATE m rt)  
-endif()
-
-if(NOT CMAKE_BUILD_TYPE)  
-  set(CMAKE_BUILD_TYPE Release CACHE STRING "" FORCE)  
-endif() 
 
