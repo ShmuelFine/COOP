@@ -2,8 +2,8 @@
  #include <stdlib.h>
  #include <string.h>
 
- #include "COOP/COOP.h"
- #include "COOP/BinaryTree.h"
+ #include "COOP.h"
+ #include "BinaryTree.h"
 
 
  FUN_IMPL(main, int argc, char** argv)
@@ -44,28 +44,31 @@
      else if (strcmp(phase, "size") == 0)
      {
          MEM_SIZE_T s = 0;
-         MFUN(&bt, get_size), & s CALL;       
+         FOR(int i = 0; i < N; i++) {
+             MFUN(&bt, get_size), & s CALL;
+         }END_LOOP;
      }
      // ---- empty (API is_empty) ----
      else if (strcmp(phase, "empty") == 0)
      {
          bool is_empty = false;
-         MFUN(&bt, is_empty), & is_empty CALL;
+         FOR(int i = 0; i < N; i++) {
+             MFUN(&bt, is_empty), & is_empty CALL;
+         }END_LOOP;
      }
      // ---- all ----
      else
      {
+         MEM_SIZE_T s = 0;
+         bool is_empty = false;
+
          FOR(MEM_SIZE_T i = 0; i < N; ++i)
          {
              MFUN(&bt, insert), (int)i CALL;
+             MFUN(&bt, get_size), & s CALL;
+             MFUN(&bt, is_empty), & is_empty CALL;
          }
          END_LOOP;
-
-         MEM_SIZE_T s = 0;
-         MFUN(&bt, get_size), & s CALL;
-
-         bool is_empty = false;
-         MFUN(&bt, is_empty), & is_empty CALL;
 
          FOR(MEM_SIZE_T i = 0; i < N; ++i)
          {
