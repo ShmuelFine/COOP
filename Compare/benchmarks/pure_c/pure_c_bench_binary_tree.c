@@ -28,15 +28,13 @@ int main(int argc, char** argv)
         }
     }
     else if (strcmp(phase, "size") == 0) {
-        int size = 0;
         for (int i = 0; i < N; ++i){
-            size = get_size(&bt);
+            (void)get_size(&bt);
         }
     }
     else if (strcmp(phase, "empty") == 0) {
-        bool isEmpty = false;
         for (int i = 0; i < N; ++i) {
-            isEmpty = is_empty(&bt);
+            (void)is_empty(&bt);
         }
     }
     else {
@@ -50,7 +48,7 @@ int main(int argc, char** argv)
         }
 
         for (int i = 0; i < N; ++i){
-            bool ok = bt_remove(&bt, i);
+            (void)bt_remove(&bt, i);
         }
     }
 
