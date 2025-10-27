@@ -27,7 +27,7 @@ static void phase_dequeue(Queue_int* q, size_t N) {
 }
 
 static void phase_front(Queue_int* q, size_t N) {
-    (void)Queue_int_enqueue(&q, 123);
+    (void)Queue_int_enqueue(q, 123);
     int* pf = NULL;
     for (size_t i = 0; i < N; ++i) {
         Queue_int_front(q, &pf);
@@ -35,12 +35,12 @@ static void phase_front(Queue_int* q, size_t N) {
     }
 }
 
-static void phase_front_cref(const Queue_int* qc, size_t N) {
+static void phase_front_cref( Queue_int* q, size_t N) {
    
-    (void)Queue_int_enqueue(&q, 123);
+    (void)Queue_int_enqueue(q, 123);
     const int* pcref = NULL;
     for (size_t i = 0; i < N; ++i) {
-        Queue_int_front_cref(qc, &pcref);
+        Queue_int_front_cref(q, &pcref);
      }
 }
 

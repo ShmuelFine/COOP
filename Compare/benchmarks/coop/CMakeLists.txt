@@ -4,17 +4,17 @@ project(coop_benchmarks)
 
 set(BenchSources
     "coop_bench_queue.c"
-    # "coop_bench_list.c"
-    # "coop_bench_binary_tree.c"
+   
 )
 
-add_executable(${PROJECT_NAME} ${BenchSources})
+add_executable(coop_benchmarks_short ${BenchSources})
+target_link_libraries(coop_benchmarks_short PRIVATE COOP)
 
-target_include_directories(${PROJECT_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/COOP/COOP
-)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE COOP_testing)
+if(TARGET COOP_testing)
+    add_executable(coop_benchmarks_int ${BenchSources})
+    target_link_libraries(coop_benchmarks_int PRIVATE COOP_testing)
+endif()
 
 
 

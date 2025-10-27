@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../COOP.h"
-#include "../Queue.h"
+#include "COOP.h"
+#include "Queue.h"
 
 
 
