@@ -170,6 +170,7 @@ TEST_FUN_IMPL(ListTest, dtor_freesAllMemory)
 
     FUN(get_total_free_bytes)& free_bytes_at_end CALL;
     NTEST_ASSERT(free_bytes_at_end == free_bytes_at_start);
+    FUN(init_global_memory) 10, HEAP_BASED_MEMORY CALL;
 } END_FUN
 
 TEST_FUN_IMPL(ListTest, print_SanityTest)
