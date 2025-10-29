@@ -62,29 +62,34 @@ set(ALL_FILES
 ################################################################################
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
-# Optional wide-index build for large benchmarks (does not affect default COOP)
-option(COOP_BUILD_TESTING "Build alternate COOP with wider MEM_SIZE_T" OFF)
+################################################################################
+# MEM_SIZE_T configuration
+# - Default: unsigned short
+# - Override by passing -DMEM_SIZE=int to CMake
+################################################################################
 
-if(COOP_BUILD_TESTING)
-    add_library(COOP_testing STATIC ${ALL_FILES})
-    set_target_properties(COOP_testing PROPERTIES OUTPUT_NAME "COOP_testing")
+# Create a configurable cache variable for the user
+set(MEM_SIZE "ushort" CACHE STRING "Type for MEM_SIZE_T (ushort or int)")
+set_property(CACHE MEM_SIZE PROPERTY STRINGS "ushort" "int")
 
-    # Share the same public headers as the main lib
-    target_include_directories(COOP_testing PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
-    # Only this target widens MEM_SIZE_T (exported to dependents that link it)
-    target_compile_definitions(COOP_testing PUBLIC
-        MEM_SIZE_T=int
-        COOP_WIDE_MEMSIZE=1
-    )
-
-    # Silence harmless pointer-type warnings on GCC/Clang only
-    if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
-        target_compile_options(COOP_testing PRIVATE -Wno-incompatible-pointer-types)
-    endif()
+# Map user input to actual C type
+if(MEM_SIZE STREQUAL "int")
+    set(_MEMSIZE_T "int")
+else()
+    set(_MEMSIZE_T "unsigned short")
 endif()
 
+# Export the definition to dependents linking this library
+target_compile_definitions(${PROJECT_NAME} PUBLIC "MEM_SIZE_T=${_MEMSIZE_T}")
+
+# Log configuration at configure time
+message(STATUS "COOP: MEM_SIZE_T is set to '${_MEMSIZE_T}' (MEM_SIZE='${MEM_SIZE}')")
+
+################################################################################
+# Namespace (optional)
+################################################################################
 set(ROOT_NAMESPACE COOP)
+
 
 
 ################################################################################
