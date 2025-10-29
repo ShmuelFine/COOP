@@ -38,7 +38,7 @@ END_FUNCTIONS(Iterator);
 #define ITER_PREV(IT)                             MFUN((IT), prev) CALL
 #define ITER_GET_CREF(IT, OUT_CVOIDPTR)           MFUN((IT), get_cref), (const void**)(OUT_CVOIDPTR) CALL
 
-#define ITER_CONTINUE do { goto __ITER_CONTINUE_LABEL__;} while(0)
+#define ITER_CONTINUE do { ITER_NEXT(_it);CONTINUE;} while(0)
 
 #define ITER_FOR(ElemType, varName, objPtr)          \
 {                                                    \
@@ -55,8 +55,7 @@ END_FUNCTIONS(Iterator);
          ElemType varName = *_p_##varName;           \
 
 #define END_ITER_FOR                 \
-            __ITER_CONTINUE_LABEL__: \
-            ITER_NEXT(_it);          \
+        ITER_NEXT(_it);              \
         END_LOOP                     \
         DESTROY(_it);                \
 	    DESTROY(_end);               \
