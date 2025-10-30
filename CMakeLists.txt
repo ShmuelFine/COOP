@@ -76,3 +76,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_subdirectory(COOP)
 add_subdirectory(UnitTestC)
 
+# ==== [ COOP Benchmark Section ] ====
+
+add_subdirectory(Compare/benchmarks/coop)
+
+message(STATUS "Note: Benchmarks for OOC / GObject / PureC are built externally (via scripts).")
+# ==== [ END COOP Benchmark Section ] ====
