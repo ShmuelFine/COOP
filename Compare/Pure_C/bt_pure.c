@@ -103,7 +103,7 @@ void insert(GenericBinaryTree* tree, int value)
 	}
 
 	BTNode* parent = tree->root;
-	for (size_t bit = msb_index; bit-- > 1U;) {
+	for (size_t bit = msb_index -1; bit > 0U; --bit) {
 		int direction = (int)((next_position >> bit) & 1U);
 		parent = (direction == 0) ? parent->left : parent->right;
 		assert(parent && "Structure inconsistent with recorded size");
@@ -162,7 +162,7 @@ void __get_parent_for_position(GenericBinaryTree* tree, size_t position_index, B
 	}
 
 	BTNode* parent = tree->root;
-	for (size_t bit = msb_index; bit-- > 1U;) {
+	for (size_t bit = msb_index - 1; bit > 0U; --bit) {
 		int direction = (int)((position_index >> bit) & 1U);
 		parent = (direction == 0) ? parent->left : parent->right;
 		assert(parent && "Structure inconsistent with recorded size");
