@@ -88,6 +88,7 @@ message(STATUS "COOP: MEM_SIZE_T is set to '${_MEMSIZE_T}' (MEM_SIZE='${MEM_SIZE
 ################################################################################
 # Namespace (optional)
 ################################################################################
+
 set(ROOT_NAMESPACE COOP)
 
 
