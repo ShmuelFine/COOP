@@ -46,9 +46,9 @@ END_FUNCTIONS(Iterator);
        Iterator *_end=NULL;                          \
        MFUN((objPtr),begin),&_it CALL;                 \
        MFUN((objPtr), end), &_end CALL;                \
-       FOR (;!(__eq)&&!(IS_BREAKING);) {             \
+       FOR (;!(__eq);) {             \
          ITER_EQUALS(_it,_end,&__eq);                \
-         if (__eq){break;}              \
+         IF (__eq){BREAK;} END_IF             \
          const ElemType *_p_##varName = NULL;        \
          ITER_GET_CREF(_it,&_p_##varName);           \
          ElemType varName = *_p_##varName;           \
@@ -56,10 +56,10 @@ END_FUNCTIONS(Iterator);
 #define END_ITER_FOR                 \
         ITER_NEXT(_it);              \
         END_LOOP                     \
+        IF(IS_CONTINUING) {ITER_NEXT(_it);} END_IF  \
+      }                              \
         DESTROY(_it);                \
 	    DESTROY(_end);               \
-        if(IS_CONTINUING) ITER_NEXT(_it);  \
-      }                              \
 }
 
 
