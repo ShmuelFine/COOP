@@ -31,13 +31,13 @@ TEST_FUN_IMPL(IteratorForTest, foreach_ContinueSkips)
 
 	ITER_FOR(int, val, (GenericVector*)&vec)
 	{
-		IF(val == 2 || val == 4) {
-			ITER_CONTINUE;
+		IF(val == 1 || val == 4) {
+			CONTINUE;
 		} END_IF
 
 	sum += val;
 	}END_ITER_FOR
-	ASSERT(sum == (0 + 1 + 3));
+	ASSERT(sum == (0 + 2 + 3));
 }END_FUN;
 
 TEST_FUN_IMPL(IteratorForTest, foreach_BreakStopsEarly)
