@@ -62,7 +62,34 @@ set(ALL_FILES
 ################################################################################
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
+################################################################################
+# MEM_SIZE_T configuration
+# - Default: unsigned short
+# - Override by passing -DMEM_SIZE=int to CMake
+################################################################################
+
+# Create a configurable cache variable for the user
+set(MEM_SIZE "ushort" CACHE STRING "Type for MEM_SIZE_T (ushort or int)")
+set_property(CACHE MEM_SIZE PROPERTY STRINGS "ushort" "int")
+
+# Map user input to actual C type
+if(MEM_SIZE STREQUAL "int")
+    set(_MEMSIZE_T "int")
+else()
+    set(_MEMSIZE_T "unsigned short")
+endif()
+
+# Export the definition to dependents linking this library
+target_compile_definitions(${PROJECT_NAME} PUBLIC "MEM_SIZE_T=${_MEMSIZE_T}")
+
+# Log configuration at configure time
+message(STATUS "COOP: MEM_SIZE_T is set to '${_MEMSIZE_T}' (MEM_SIZE='${MEM_SIZE}')")
+
+################################################################################
+# Namespace (optional)
+################################################################################
 set(ROOT_NAMESPACE COOP)
+
 
 
 ################################################################################
