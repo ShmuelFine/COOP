@@ -75,6 +75,9 @@ MEM_FUN_DECL(GenericBinaryTree, insert_char, char value);
 MEM_FUN_DECL(GenericBinaryTree, insert_float, float value);
 MEM_FUN_DECL(GenericBinaryTree, insert_objSPtr, objSPtr value);
 
+MEM_FUN_DECL(GenericBinaryTree, __find_node_recursive, BTNode* currentNode, const void* key, BTNode** outNodeFound);
+MEM_FUN_DECL(GenericBinaryTree, __get_parent_for_position, MEM_SIZE_T positionIndex, BTNode** outParentNode, int* outLeastSignificantBit);
+
 MEM_FUN_DECL(GenericBinaryTree, __remove_generic, const void *key, bool *out_removed);
 MEM_FUN_DECL(GenericBinaryTree, remove_int, int key, bool *out_removed);
 MEM_FUN_DECL(GenericBinaryTree, remove_char, char key, bool *out_removed);
@@ -83,6 +86,8 @@ MEM_FUN_DECL(GenericBinaryTree, remove_objSPtr, objSPtr key, bool *out_removed);
 
 MEM_FUN_DECL(GenericBinaryTree, print, BT_VisitOrder order);
 
+MEM_FUN_DECL(GenericBinaryTree, __traverse_pre_recursive, BTNode* currentNode, BT_Action action);
+MEM_FUN_DECL(GenericBinaryTree, __traverse_post_recursive, BTNode* currentNode, BT_Action action);
 MEM_FUN_DECL(GenericBinaryTree, traverse_pre, BT_Action action);
 MEM_FUN_DECL(GenericBinaryTree, traverse_in, BT_Action action);
 MEM_FUN_DECL(GenericBinaryTree, traverse_post, BT_Action action);
