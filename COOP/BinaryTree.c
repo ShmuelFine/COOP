@@ -168,7 +168,7 @@ MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void *src)
 
 	BTNode* parentNode = _this->root;
 
-	FOR(MEM_SIZE_T bitIndex = mostSignificantBitIndex; bitIndex-- > 1U; )
+	FOR(MEM_SIZE_T bitIndex = mostSignificantBitIndex - 1U; bitIndex > 0U; --bitIndex)
 	{
 		int directionBit = (int)((nextPositionIndex >> bitIndex) & (MEM_SIZE_T)1U);
 		parentNode = (directionBit == 0) ? parentNode->left : parentNode->right;
@@ -281,7 +281,7 @@ MEM_FUN_IMPL(GenericBinaryTree, __get_parent_for_position, MEM_SIZE_T positionIn
 
 	BTNode* parentNode = _this->root;
 
-	FOR(MEM_SIZE_T bitIndex = mostSignificantBitIndex; bitIndex-- > 1U; )
+	FOR(MEM_SIZE_T bitIndex = mostSignificantBitIndex - 1U; bitIndex > 0U; --bitIndex)
 	{
 		int directionBit = (int)((positionIndex >> bitIndex) & (MEM_SIZE_T)1U);
 		parentNode = (directionBit == 0) ? parentNode->left : parentNode->right;
