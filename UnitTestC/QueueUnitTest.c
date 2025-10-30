@@ -98,7 +98,7 @@ END_FUN
     int sum2 = 0;
     ITER_FOR(int, v, (GenericQueue*)&q) {
         IF(v == 20)
-            ITER_CONTINUE;
+            CONTINUE;
          END_IF
             sum2 += v;
     } END_ITER_FOR

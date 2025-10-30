@@ -32,7 +32,7 @@ TEST_FUN_IMPL(IteratorForTest, foreach_ContinueSkips)
 	ITER_FOR(int, val, (GenericVector*)&vec)
 	{
 		IF(val == 2 || val == 4) {
-			ITER_CONTINUE;
+			CONTINUE;
 		} END_IF
 
 	sum += val;
