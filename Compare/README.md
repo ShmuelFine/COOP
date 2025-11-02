@@ -4,42 +4,7 @@
 
 This document explains how to **build**, **run**, and **measure performance** for the COOP data-structure benchmarks:
 
-- `coop_bench_binary_tree.c`### ⚙️ MEM_SIZE_T (Macro) Configuration
-COOP controls its internal size/index type via a **compile-time macro** MEM_SIZE_T.
-
-Default in source:
-c
-#ifndef MEM_SIZE_T
-#define MEM_SIZE_T unsigned short
-#endif
-
-For example, to build COOP with a wider type int:
-
-
-
-CMake output will confirm the selection:
--- COOP: MEM_SIZE_T is set to 'int' (MEM_SIZE='int')
-
-Options:
-
-MEM_SIZE=ushort → MEM_SIZE_T=unsigned short (default)
-
-MEM_SIZE=int → MEM_SIZE_T=int (for large datasets)
-
-Important:
-After changing the MEM_SIZE value, perform a clean build (delete the build/ directory) to ensure all files recompile correctly.
-Running Benchmarks from Visual Studio
-
-When running COOP benchmarks on Windows (Visual Studio),
-execute the benchmark .exe directly — not the unit test runner.
-
-Example:
-
-out/build/x64-Debug/Compare/benchmarks/coop/coop_bench_queue.exe
-
-
-Run: benchmark .exe (e.g., coop_bench_queue.exe)
-Do NOT run: UnitTestC.exe or RUNNER.exe — those are for unit tests only.
+- `coop_bench_binary_tree.c`
 - `bench_list_ops.c`
 - `coop_bench_queue.c`
 
