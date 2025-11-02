@@ -187,6 +187,12 @@ MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void *src)
 	BTNode* newNode = NULL;
 	ALLOC(newNode, BTNode);
 	INITIALIZE_INSTANCE(BTNode, (*newNode)), _this->elementSize, (const void*)src, parentNode CALL;
+	IF(_this->BT_type == OBJ_SPTR && newNode->value != NULL)
+	{
+		//Increases the refcount
+		MFUN((objSPtr*)newNode->value, copyFrom), (objSPtr const*)newNode->value CALL;
+	}
+	END_IF;
 
 	IF(lastDirectionBit == 0)
 	{
