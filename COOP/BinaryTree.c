@@ -151,6 +151,12 @@ MEM_FUN_IMPL(GenericBinaryTree, __insert_generic, const void *src)
 		BTNode* newNode = NULL;
 		ALLOC(newNode, BTNode);
 		INITIALIZE_INSTANCE(BTNode, (*newNode)), _this->elementSize, (const void*)src, (BTNode*)NULL CALL;
+		IF (_this->BT_type == OBJ_SPTR && newNode->value != NULL)
+		{
+			//Increases the refcount
+			MFUN((objSPtr*)newNode->value, copyFrom), (objSPtr const*)newNode->value CALL;
+		}
+		END_IF;
 		_this->root = newNode;
 		_this->size = (MEM_SIZE_T)1;
 		RETURN;
@@ -332,6 +338,11 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *outRemo
 		}
 		END_IF;
 
+		IF (_this->BT_type == OBJ_SPTR && _this->root->value)
+		{
+			MFUN((objSPtr*)_this->root->value, release) CALL;
+		}
+		END_IF;
 		DELETE(_this->root);
 		_this->root = NULL;
 		_this->size = (MEM_SIZE_T)0;
@@ -372,6 +383,11 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *outRemo
 		}
 		END_IF;
 
+		IF (_this->BT_type == OBJ_SPTR && lastNode->value)
+		{
+			MFUN((objSPtr*)lastNode->value, release) CALL;
+		}
+		END_IF;
 		DELETE(lastNode);
 		_this->size--;
 		*outRemoved = true;
@@ -380,7 +396,22 @@ MEM_FUN_IMPL(GenericBinaryTree, __remove_generic, const void *key, bool *outRemo
 	END_IF;
 
 	/* Step 3b: copy last->value into target->value, then detach + delete last */
-	memcpy(targetNode->value, lastNode->value, (size_t)_this->elementSize);
+	IF (_this->BT_type == OBJ_SPTR) 
+	{
+		IF (targetNode->value)
+		{
+			MFUN((objSPtr*)targetNode->value, release) CALL;
+		}
+		END_IF;
+		*(objSPtr*)targetNode->value = *(objSPtr*)lastNode->value;
+
+		memset(lastNode->value, 0, sizeof(objSPtr));
+	}
+	ELSE 
+	{
+		memcpy(targetNode->value, lastNode->value, (size_t)_this->elementSize);
+	}
+	END_IF;
 
 	IF(leastSignificantBit == 0)
 	{
