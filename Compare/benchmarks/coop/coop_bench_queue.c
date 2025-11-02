@@ -110,7 +110,7 @@ FUN_IMPL(main, int argc, char** argv)
     init_global_memory(0, HEAP_BASED_MEMORY);
 
     const char* phase = (argc > 1) ? argv[1] : "all";
-    int  N = (argc > 2) ? (int)strtoull(argv[2], NULL, 10) : (int)1000000;
+    size_t N = (argc > 2) ? (size_t)strtoull(argv[2], NULL, 10) : (size_t)1000000;
 
     CREATE(Queue_int, q) CALL;
 

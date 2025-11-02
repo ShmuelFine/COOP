@@ -83,7 +83,7 @@ static void phase_all(Queue_int* q, size_t N) {
 int main(int argc, char** argv)
 {
     const char* phase = (argc > 1) ? argv[1] : "all";
-    size_t      N = (argc > 2) ? (size_t)strtoull(argv[2], NULL, 10) : (size_t)100000;
+    size_t  N = (argc > 2) ? (size_t)strtoull(argv[2], NULL, 10) : (size_t)1000000;
 
     Queue_int q;
     Queue_int_ctor(&q);
