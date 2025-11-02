@@ -5,7 +5,105 @@
 #include "COOP.h"
 #include "Queue.h"
 
+// --------------------------- phases ---------------------------
+FUN_IMPL(phase_enqueue, Queue_int* q, int N)
+{
+	FOR(int i = 0; i < N; ++i)
+	{
+		MFUN(q, enqueue), (int)i CALL;
+	}
+	END_LOOP;
+}END_FUN
 
+FUN_IMPL(phase_dequeue, Queue_int* q, int N)
+{
+    int out = 0;
+    FOR(int i = 0; i < N; ++i)
+    {
+        MFUN(q, dequeue), & out CALL;
+        (void)out; // avoid warnings
+    }
+    END_LOOP;
+}END_FUN
+
+FUN_IMPL(phase_front, Queue_int* q, int N)
+{
+    MFUN(q, enqueue), 123 CALL;
+    int* pFront = NULL;
+    FOR(int i = 0; i < N; ++i)
+    {
+        MFUN(q, front), & pFront  CALL;
+    }
+    END_LOOP;
+}END_FUN
+
+FUN_IMPL(phase_front_cref, Queue_int* q, int N)
+{
+    MFUN(q, enqueue), 123 CALL;
+    const int* pcFront = NULL;
+    FOR(int i = 0; i < N; ++i)
+    {
+       MFUN(q, front_cref), & pcFront CALL;
+    }
+    END_LOOP
+}END_FUN
+
+FUN_IMPL(phase_size, Queue_int* q, int N)
+{
+    int size = 0;
+    FOR(int i = 0;i < N; ++i)
+    {
+        MFUN(q, size), & size CALL;
+    }
+    END_LOOP;
+}END_FUN
+
+FUN_IMPL(phase_empty, Queue_int* q, int N)
+{
+    bool is_empty = false;
+
+    FOR(int i = 0;i < N; ++i)
+    {
+        MFUN(q, empty), & is_empty CALL;
+    }
+    END_LOOP;
+}END_FUN
+
+FUN_IMPL(phase_clear, Queue_int* q, int N)
+{
+    MFUN(q, clear) CALL;
+}END_FUN
+
+FUN_IMPL(phase_all, Queue_int* q, int N)
+{
+    bool is_empty = false;
+    int size = 0;
+    const int* pcFront = NULL;
+    int* pFront = NULL;
+    //check all enqueue, front, size, empty
+    FOR(int i = 0; i < N; ++i)
+    {
+        MFUN(q, enqueue), (int)i CALL;
+        MFUN(q, front), & pFront CALL;
+        MFUN(q, front_cref), & pcFront CALL;
+        MFUN(q, size), & size CALL;
+        MFUN(q, empty), & is_empty CALL;
+    }
+    END_LOOP;
+
+    // Dequeue all
+    int out = 0;
+    FOR(int i = 0; i < N; ++i)
+    {
+        MFUN(q, dequeue), & out CALL;
+    }
+    END_LOOP;
+
+    // Clear 
+    MFUN(q, clear) CALL;
+}END_FUN
+
+// --------------------------- main ---------------------------
 
 FUN_IMPL(main, int argc, char** argv)
 {
@@ -14,120 +112,30 @@ FUN_IMPL(main, int argc, char** argv)
     const char* phase = (argc > 1) ? argv[1] : "all";
     int  N = (argc > 2) ? (int)strtoull(argv[2], NULL, 10) : (int)1000000;
 
-    // Create queue of ints
     CREATE(Queue_int, q) CALL;
 
-    // --------------------------- enqueue ---------------------------
     IF(strcmp(phase, "enqueue") == 0)
-    {
-        FOR(int i = 0; i < N; ++i)
-        {
-            MFUN(&q, enqueue), (int)i CALL;
-        }
-        END_LOOP;
+        phase_enqueue(&q, N);
+    ELSE_IF(strcmp(phase, "dequeue") == 0) {
+        phase_enqueue(&q, N);
+        phase_dequeue(&q, N);
     }
-    // --------------------------- dequeue ---------------------------
-    ELSE_IF(strcmp(phase, "dequeue") == 0)
-    {
-        // prefill
-        FOR(int i = 0; i < N; ++i)
-        {
-            MFUN(&q, enqueue), (int)i CALL;
-        }
-        END_LOOP;
-
-        // then dequeue
-        int out = 0;
-        FOR(int i = 0; i < N; ++i)
-        {
-            MFUN(&q, dequeue), & out CALL;
-            (void)out; // avoid warnings
-        }
-        END_LOOP;
-    }
-    // --------------------------- front -----------------------------
     ELSE_IF(strcmp(phase, "front") == 0)
-    {
-        int* pFront = NULL;
-        FOR(int i = 0; i < N; ++i)
-        {
-            MFUN(&q, front),&pFront  CALL;
-        }
-        END_LOOP;     
-    }
-    // --------------------------- front_cref ------------------------
+        phase_front(&q, N);
     ELSE_IF(strcmp(phase, "front_cref") == 0)
-    {
-        const int* pcFront = NULL;
-        FOR(int i = 0; i < N; ++i)
-        {
-            MFUN(&q, front_cref), & pcFront CALL;
-        }
-        END_LOOP
-    }
-    // --------------------------- size ------------------------------
+        phase_front_cref(&q, N);
     ELSE_IF(strcmp(phase, "size") == 0)
-    {
-        int size = 0;
-		FOR(int i = 0;i < N; ++i)
-		{
-			MFUN(&q, size), &size CALL;
-		}
-		END_LOOP;
-    }
-    // --------------------------- empty -----------------------------
+        phase_size(&q, N);
     ELSE_IF(strcmp(phase, "empty") == 0)
-    {
-        bool is_empty = false;
-
-        FOR(int i = 0;i < N; ++i)
-        {
-            MFUN(&q, empty), &is_empty CALL;
-        }
-        END_LOOP;
-    }
-        // --------------------------- clear -----------------------------
+        phase_empty(&q, N);
     ELSE_IF(strcmp(phase, "clear") == 0)
     {
-        // prefill
-        FOR(int i = 0; i < N; ++i)
-        {
-            MFUN(&q, enqueue), (int)i CALL;
-        }
-        END_LOOP;
-
-        MFUN(&q, clear) CALL;
-	}
-        // --------------------------- all (default) ---------------------
+        phase_enqueue(&q, N);
+        phase_clear(&q, N);
+    }
     ELSE
-    {
-        bool is_empty = false;
-        int size = 0;
-        const int* pcFront = NULL;
-        int* pFront = NULL;
-		//check all enqueue, front, size, empty
-        FOR(int i = 0; i < N; ++i)
-        {
-            MFUN(&q, enqueue), (int)i CALL;
-            MFUN(&q, front), & pFront CALL;
-            MFUN(&q, front_cref), & pcFront CALL;
-            MFUN(&q, size), &size CALL;
-            MFUN(&q, empty), & is_empty CALL;
-        }
-        END_LOOP;
-
-
-        // Dequeue all
-        int out = 0;
-        FOR(int i = 0; i < N; ++i)
-        {
-            MFUN(&q, dequeue),& out CALL;
-        }
-        END_LOOP;
-
-        // Clear 
-        MFUN(&q, clear) CALL;
-    }END_IF;
+        phase_all(&q, N);
+    END_IF;
 
 }
 END_FUN
