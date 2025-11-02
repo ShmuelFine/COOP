@@ -69,7 +69,7 @@ FUN_IMPL(phase_empty, Queue_int* q, int N)
     END_LOOP;
 }END_FUN
 
-FUN_IMPL(phase_clear, Queue_int* q, int N)
+FUN_IMPL(phase_clear, Queue_int* q)
 {
     MFUN(q, clear) CALL;
 }END_FUN
@@ -131,7 +131,7 @@ FUN_IMPL(main, int argc, char** argv)
     ELSE_IF(strcmp(phase, "clear") == 0)
     {
         phase_enqueue(&q, N);
-        phase_clear(&q, N);
+        phase_clear(&q);
     }
     ELSE
         phase_all(&q, N);
