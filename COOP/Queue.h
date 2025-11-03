@@ -31,10 +31,10 @@ MEM_FUN_DECL(GenericQueue, empty, bool* out_empty);
 MEM_FUN_DECL(GenericQueue, print);
 
 /* ====== Typed helpers ====== */
-MEM_FUN_DECL(GenericQueue, enqueue_int, int val);
-MEM_FUN_DECL(GenericQueue, enqueue_char, char val);
-MEM_FUN_DECL(GenericQueue, enqueue_float, float val);
-MEM_FUN_DECL(GenericQueue, enqueue_objSPtr, objSPtr val);
+MEM_FUN_DECL(GenericQueue, enqueue_int,const int val);
+MEM_FUN_DECL(GenericQueue, enqueue_char, const char val);
+MEM_FUN_DECL(GenericQueue, enqueue_float, const float val);
+MEM_FUN_DECL(GenericQueue, enqueue_objSPtr, const objSPtr val);
 
 MEM_FUN_DECL(GenericQueue, dequeue_int, int* out_val);
 MEM_FUN_DECL(GenericQueue, dequeue_char, char* out_val);
