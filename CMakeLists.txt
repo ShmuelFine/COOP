@@ -80,5 +80,4 @@ add_subdirectory(UnitTestC)
 
 add_subdirectory(Compare/benchmarks/coop)
 
-message(STATUS "Note: Benchmarks for OOC / GObject / PureC are built externally (via scripts).")
 # ==== [ END COOP Benchmark Section ] ====
