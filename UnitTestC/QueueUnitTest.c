@@ -25,7 +25,7 @@ END_FUN
 /* ============================
  *   FRONT / SIZE / EMPTY
  * ============================ */
-    TEST_FUN_IMPL(QueueTest, Queue_front_size_empty)
+TEST_FUN_IMPL(QueueTest, Queue_front_size_empty)
 {
     CREATE(Queue_int, q) CALL;
 
@@ -49,13 +49,13 @@ END_FUN
 /* ============================
  *   CLEAR BEHAVIOR
  * ============================ */
-    TEST_FUN_IMPL(QueueTest, Queue_clear_resets)
+TEST_FUN_IMPL(QueueTest, Queue_clear_resets)
 {
     CREATE(Queue_int, q) CALL;
 
     FOR(int i = 0; i < 5; ++i) {
         MFUN(&q, enqueue), i CALL;
-    } END_LOOP;
+    }END_LOOP;
 
     MFUN(&q, clear) CALL;
 
@@ -72,14 +72,14 @@ END_FUN
     ITER_FOR(int, v, (GenericQueue*)&q) {
         sum += v;
     } END_ITER_FOR
-        ASSERT(0 == sum);
+    ASSERT(0 == sum);
 }
 END_FUN
 
 /* ============================
  *   ITERATOR FOREACH
  * ============================ */
-    TEST_FUN_IMPL(QueueTest, Queue_iterator_foreach)
+TEST_FUN_IMPL(QueueTest, Queue_iterator_foreach)
 {
     CREATE(Queue_int, q) CALL;
 
@@ -92,28 +92,28 @@ END_FUN
     ITER_FOR(int, v, (GenericQueue*)&q) {
         sum += v;
     } END_ITER_FOR
-        ASSERT(60 == sum);
+    ASSERT(60 == sum);
 
     /* test continue: skip 20 */
-   // int sum2 = 0;
-   // ITER_FOR(int, v, (GenericQueue*)&q) {
-   //     IF(v == 20)
-   //         ITER_CONTINUE;
-   //      END_IF
-   //         sum2 += v;
-   // } END_ITER_FOR
-   //     ASSERT(40 == sum2);
+    int sum2 = 0;
+    ITER_FOR(int, v, (GenericQueue*)&q) {
+        IF(v == 20) {
+            CONTINUE;
+        }END_IF
+        sum2 += v;
+    } END_ITER_FOR
+    ASSERT(40 == sum2);
 
-   // /* test break: stop at first 30 */
-   // int sum3 = 0;
-   //ITER_FOR(int, v, (GenericQueue*)&q) {
-   //     IF(v == 30)
-   //     {
-   //         BREAK;
-   //     } END_IF
-   //         sum3 += v;
-   // } END_ITER_FOR
-   //    ASSERT(30 == sum3);
+    /* test break: stop at first 30 */
+    int sum3 = 0;
+    ITER_FOR(int, v, (GenericQueue*)&q) {
+        IF(v == 30)
+        {
+            BREAK;
+        } END_IF
+        sum3 += v;
+    } END_ITER_FOR
+    ASSERT(30 == sum3);
 }
 END_FUN
 
@@ -140,8 +140,8 @@ END_FUN
 /* ============================
  *   SUITE
  * ============================ */
-    INIT_TEST_SUITE(QueueTest)
-    BIND_TEST(QueueTest, Queue_fifo_order);
+INIT_TEST_SUITE(QueueTest)
+BIND_TEST(QueueTest, Queue_fifo_order);
 BIND_TEST(QueueTest, Queue_front_size_empty);
 BIND_TEST(QueueTest, Queue_clear_resets);
 BIND_TEST(QueueTest, Queue_iterator_foreach);
