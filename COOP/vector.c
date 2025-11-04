@@ -152,6 +152,7 @@ END_FUN;
 IMPL_AT_OF_TYPE(int);
 IMPL_AT_OF_TYPE(char);
 IMPL_AT_OF_TYPE(float);
+IMPL_AT_OF_TYPE(uint8_t);
 IMPL_AT_OF_TYPE(objSPtr);
 
 
@@ -166,6 +167,7 @@ MEM_FUN_IMPL(GenericVector, set_##type, MEM_SIZE_T i, type val) { \
 IMPL_SET_OF_POD(int)
 IMPL_SET_OF_POD(char)
 IMPL_SET_OF_POD(float)
+IMPL_SET_OF_POD(uint8_t)
 
 MEM_FUN_IMPL(GenericVector, set_objSPtr, MEM_SIZE_T i, objSPtr val)
 {
@@ -192,6 +194,7 @@ END_FUN;
 IMPL_GET_OF_TYPE(int);
 IMPL_GET_OF_TYPE(char);
 IMPL_GET_OF_TYPE(float);
+IMPL_GET_OF_TYPE(uint8_t);
 IMPL_GET_OF_TYPE(objSPtr);
 
 MEM_FUN_IMPL(GenericVector, resize, MEM_SIZE_T new_capacity)
@@ -271,6 +274,7 @@ MEM_FUN_IMPL(GenericVector, push_back_ ##type, type val) {\
 IMPL_PUSH_OF_TYPE(int);
 IMPL_PUSH_OF_TYPE(char);
 IMPL_PUSH_OF_TYPE(float);
+IMPL_PUSH_OF_TYPE(uint8_t);
 IMPL_PUSH_OF_TYPE(objSPtr);
 
 
@@ -284,6 +288,7 @@ MEM_FUN_IMPL(GenericVector, pop_back_ ##type, type * val) {\
 IMPL_POP_OF_TYPE(int);
 IMPL_POP_OF_TYPE(char);
 IMPL_POP_OF_TYPE(float);
+IMPL_POP_OF_TYPE(uint8_t);
 IMPL_POP_OF_TYPE(objSPtr);
 
 
@@ -327,16 +332,19 @@ BIND(GenericVector, __at_generic);
 BIND(GenericVector, at_int);
 BIND(GenericVector, at_char);
 BIND(GenericVector, at_float);
+BIND(GenericVector, at_uint8_t);
 BIND(GenericVector, at_objSPtr);
 
 BIND(GenericVector, get_int);
 BIND(GenericVector, get_char);
 BIND(GenericVector, get_float);
+BIND(GenericVector, get_uint8_t);
 BIND(GenericVector, get_objSPtr);
 
 BIND(GenericVector, set_int);
 BIND(GenericVector, set_char);
 BIND(GenericVector, set_float);
+BIND(GenericVector, set_uint8_t);
 BIND(GenericVector, set_objSPtr);
 
 BIND(GenericVector, resize);
@@ -346,12 +354,14 @@ BIND(GenericVector, __push_back_generic);
 BIND(GenericVector, push_back_int);
 BIND(GenericVector, push_back_char);
 BIND(GenericVector, push_back_float);
+BIND(GenericVector, push_back_uint8_t);
 BIND(GenericVector, push_back_objSPtr);
 
 BIND(GenericVector, __pop_back_generic);
 BIND(GenericVector, pop_back_int);
 BIND(GenericVector, pop_back_char);
 BIND(GenericVector, pop_back_float);
+BIND(GenericVector, pop_back_uint8_t);
 BIND(GenericVector, pop_back_objSPtr);
 
 BIND(GenericVector, zero_all);
@@ -416,6 +426,9 @@ IMPL_SPECIFIC_VECTOR_TYPE_FUNCITONS(char);
 
 IMPL_SPECIFIC_VECTOR_TYPE_xTORs(float);
 IMPL_SPECIFIC_VECTOR_TYPE_FUNCITONS(float);
+
+IMPL_SPECIFIC_VECTOR_TYPE_xTORs(uint8_t);
+IMPL_SPECIFIC_VECTOR_TYPE_FUNCITONS(uint8_t);
 
 // obj vector is different:
 DEF_DERIVED_CTOR(Vector_objSPtr, GenericVector) SUPER, sizeof(objSPtr) ME{} END_DERIVED_CTOR
