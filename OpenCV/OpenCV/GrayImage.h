@@ -19,13 +19,13 @@ END_DEF(GrayImage);
 //------
 
 FUNCTIONS(GrayImage, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_vector);
-FUN_DECL(GrayImage_init_copy, GrayImage* _this, GrayImage const* other);
-FUN_DECL(GrayImage_init_move, GrayImage* _this, GrayImage* other);
-FUN_DECL(GrayImage_init_ROI, GrayImage* _this, GrayImage const* other, MEM_SIZE_T row, MEM_SIZE_T col, MEM_SIZE_T ROI_width, MEM_SIZE_T ROI_height);
 MEM_FUN_DECL(GrayImage, get_width, MEM_SIZE_T* width_out);
 MEM_FUN_DECL(GrayImage, get_height, MEM_SIZE_T* height_out);
 MEM_FUN_DECL(GrayImage, get_stride, MEM_SIZE_T* stride_out);
 MEM_FUN_DECL(GrayImage, get_pixel_ptr, MEM_SIZE_T row, MEM_SIZE_T col, uint8_t** out_ptr);
 END_FUNCTIONS(GrayImage);
 
+FUN_DECL(GrayImage_init_copy, GrayImage* _this, GrayImage const* other);
+FUN_DECL(GrayImage_init_move, GrayImage* _this, GrayImage* other);
+FUN_DECL(GrayImage_init_ROI, GrayImage* _this, GrayImage const* other, MEM_SIZE_T row, MEM_SIZE_T col, MEM_SIZE_T ROI_width, MEM_SIZE_T ROI_height);
 #endif

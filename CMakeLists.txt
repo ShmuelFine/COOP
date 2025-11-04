@@ -76,5 +76,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_subdirectory(COOP)
 add_subdirectory(UnitTestC)
 add_subdirectory(OpenCV/OpenCV)
+add_subdirectory(OpenCV/UnitTest)
 
 
