@@ -69,10 +69,6 @@ FUN_IMPL(phase_empty, Queue_int* q, int N)
     END_LOOP;
 }END_FUN
 
-FUN_IMPL(phase_clear, Queue_int* q)
-{
-    MFUN(q, clear) CALL;
-}END_FUN
 
 FUN_IMPL(phase_all, Queue_int* q, int N)
 {
@@ -98,9 +94,7 @@ FUN_IMPL(phase_all, Queue_int* q, int N)
         MFUN(q, dequeue), & out CALL;
     }
     END_LOOP;
-
-    // Clear 
-    MFUN(q, clear) CALL;
+    
 }END_FUN
 
 // --------------------------- main ---------------------------
@@ -128,11 +122,6 @@ FUN_IMPL(main, int argc, char** argv)
         phase_size(&q, N);
     ELSE_IF(strcmp(phase, "empty") == 0)
         phase_empty(&q, N);
-    ELSE_IF(strcmp(phase, "clear") == 0)
-    {
-        phase_enqueue(&q, N);
-        phase_clear(&q);
-    }
     ELSE
         phase_all(&q, N);
     END_IF;

@@ -52,9 +52,6 @@ static void phase_empty(Queue_int* q, size_t N) {
     }
 }
 
-static void phase_clear(Queue_int* q) {
-    Queue_int_clear(q);
-}
 
 static void phase_all(Queue_int* q, size_t N) {
     
@@ -72,12 +69,7 @@ static void phase_all(Queue_int* q, size_t N) {
     for (size_t i = 0; i < N; ++i) {
         int tmp;
         (void)Queue_int_dequeue(q, &tmp);
- }
-    // clear 
-    for (size_t i = 0; i < N; ++i) {
-        (void)Queue_int_enqueue(q, (int)i);
     }
-    Queue_int_clear(q);
 }
 
 int main(int argc, char** argv)
@@ -98,11 +90,7 @@ int main(int argc, char** argv)
     else if (strcmp(phase, "front_cref") == 0) phase_front_cref(&q, N);
     else if (strcmp(phase, "size") == 0) phase_size(&q, N);
     else if (strcmp(phase, "empty") == 0) phase_empty(&q, N);
-    else if (strcmp(phase, "clear") == 0) {
-        phase_enqueue(&q, N);
-        phase_clear(&q);
-    }
-    else                                      phase_all(&q, N);
+    else                                  phase_all(&q, N);
 
     Queue_int_dtor(&q);
     return 0;
