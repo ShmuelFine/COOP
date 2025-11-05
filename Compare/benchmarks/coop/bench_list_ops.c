@@ -54,7 +54,7 @@ FUN_IMPL(pop_front, List_int* lst, int N)
 }END_FUN
 
 
-// front ??
+// front
 FUN_IMPL(front, List_int* lst, int N)
 {
     MFUN(lst, push_back), 123 CALL;
@@ -67,9 +67,10 @@ FUN_IMPL(front, List_int* lst, int N)
     END_LOOP;
 }END_FUN
 
-// back??
+// back
 FUN_IMPL(back, List_int* lst, int N)
 {
+    MFUN(lst, push_back), 123 CALL;
 
     int out_val = 0;
     FOR(int i = 0; i < N; ++i)
