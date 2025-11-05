@@ -51,6 +51,16 @@ Options:
 
 - MEM_SIZE=int → MEM_SIZE_T=int (for large datasets)
 
+**How to build with MEM_SIZE_T=int:**
+
+```bash
+cd ~/COOP
+rm -rf build
+mkdir -p build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DMEM_SIZE=int ..
+cmake --build . -j
+```
+
 Important:
 
 After changing the MEM_SIZE value, perform a clean build (delete the build/ directory) to ensure all files recompile correctly.
@@ -76,7 +86,7 @@ From your COOP root folder:
 cd ~/COOP
 rm -rf build
 mkdir -p build && cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_BUILD_TYPE=Release -DMEM_SIZE=int ..
 cmake --build . -j
 ```
 
@@ -87,9 +97,9 @@ Binaries are created at:
 
 | Benchmark | Executable |
 |------------|-------------|
-| Binary Tree | `coop_bench_binary_tree` |
-| List        | `bench_list_ops` |
-| Queue       | `coop_bench_queue` |
+| Binary Tree | `Benchmarks_coop_bench_binary_tree_ushort` or `Benchmarks_coop_bench_binary_tree_int` |
+| List        | `Benchmarks_bench_list_ops_ushort` or `Benchmarks_bench_list_ops_int` |
+| Queue       | `Benchmarks_coop_bench_queue_ushort` or `Benchmarks_coop_bench_queue_int` |
 
 ---
 
@@ -285,8 +295,11 @@ gcc ooc_bench_queue.c ../../OOC/Queue_ooc.c \
 ---
 
 ### Notes
+- After building with `MEM_SIZE=int`, your executables will include the suffix `_int` (e.g., `Benchmarks_coop_bench_binary_tree_int`).
+- Use `MEM_SIZE=ushort` for small datasets (default) or `MEM_SIZE=int` for large datasets (1M+ elements).
+- Make sure to clean and rebuild when changing `MEM_SIZE`.
+- Measurements use the same procedure (`perf`, `/usr/bin/time`, `du`, `strip`).
 - After building each version, follow **the same measurement steps** as in sections 3–5 (Perf, `/usr/bin/time`, and binary size).  
-- All results can be compared directly in the same summary table.  
 - Ensure that you run all binaries under **the same environment** (same machine, same load).
 
 ---
