@@ -8,42 +8,42 @@
 
 /* ---- phase helpers ---- */
 static void phase_insert(GenericBinaryTree* bt, int N) {
-    for (int i = 0; i < N; ++i) {
-        insert(bt, i);
+    for (size_t i = 0; i < N; ++i) {
+        insert(bt, (int)i);
     }
 }
 
 static void phase_remove(GenericBinaryTree* bt, int N) {
     /* prepare */
-    for (int i = 0; i < N; ++i) {
-        insert(bt, i);
+    for (size_t i = 0; i < N; ++i) {
+        insert(bt, (int)i);
     }
     /* remove */
-    for (int i = 0; i < N; ++i) {
-        (void)bt_remove(bt, i);
+    for (size_t i = 0; i < N; ++i) {
+        (void)bt_remove(bt, (int)i);
     }
 }
 
 static void phase_size(GenericBinaryTree* bt, int N) {
-    for (int i = 0; i < N; ++i) {
+    for (size_t i = 0; i < N; ++i) {
         (void)get_size(bt);
     }
 }
 
 static void phase_empty(GenericBinaryTree* bt, int N) {
-    for (int i = 0; i < N; ++i) {
+    for (size_t i = 0; i < N; ++i) {
         (void)is_empty(bt);
     }
 }
 
 static void phase_all(GenericBinaryTree* bt, int N) {
-    for (int i = 0; i < N; ++i) {
-        insert(bt, i);
+    for (size_t i = 0; i < N; ++i) {
+        insert(bt, (int)i);
         (void)get_size(bt);
         (void)is_empty(bt);
     }
-    for (int i = 0; i < N; ++i) {
-        (void)bt_remove(bt, i);
+    for (size_t i = 0; i < N; ++i) {
+        (void)bt_remove(bt, (int)i);
     }
 }
 
@@ -51,7 +51,7 @@ static void phase_all(GenericBinaryTree* bt, int N) {
 int main(int argc, char** argv)
 {
     const char* phase = (argc > 1) ? argv[1] : "all";
-    int N = (argc > 2) ? (int)strtoull(argv[2], NULL, 10) : 1000000;
+    size_t N = (argc > 2) ? (size_t)strtoull(argv[2], NULL, 10) : (size_t)1000000;
 
     GenericBinaryTree bt;
     bt_init(&bt);
