@@ -19,7 +19,7 @@ END_DTOR
 /* ==== Core ops map directly to List ==== */
 MEM_FUN_IMPL(GenericQueue, enqueue_generic, const char* buff, MEM_SIZE_T buff_size)
 {
-    MFUN(&_this->list, __push_back_generic), (char*)buff, buff_size CALL;
+    MFUN(&_this->list, __push_back_generic), buff, buff_size CALL;
 }
 END_FUN;
 
