@@ -43,7 +43,6 @@ foreach(SOURCE_FILE ${BenchSources})
     set_target_properties(${PROJECT_NAME} PROPERTIES
         VS_GLOBAL_KEYWORD "Win32Proj"
     )
-
     # --- Properties and Definitions (apply to the current target) ---
     
     if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
