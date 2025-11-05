@@ -159,10 +159,14 @@ FUN_IMPL(main, int argc, char** argv)
         push_back(&lst, N);
     ELSE_IF(strcmp(phase, "push_front") == 0)
         push_front(&lst, N);
-    ELSE_IF(strcmp(phase, "pop_back") == 0)
+    ELSE_IF(strcmp(phase, "pop_back") == 0) {
+        push_back(&lst, N);
         pop_back(&lst, N);
-    ELSE_IF(strcmp(phase, "pop_front") == 0)
+    }
+    ELSE_IF(strcmp(phase, "pop_front") == 0) {
+        push_back(&lst, N);
         pop_front(&lst, N);
+    }
     ELSE_IF(strcmp(phase, "front") == 0)
         front(&lst, N);
     ELSE_IF(strcmp(phase, "back") == 0)
