@@ -67,7 +67,7 @@ static void Queue_destructor(Queue self, QueueVtable vtab)
     }
 }
 
-/* NOTE: “copy” copies pointers (not deep copying item bytes), like a shallow copy of a list of nodes. */
+/* NOTE: 'copy' copies pointers (not deep copying item bytes), like a shallow copy of a list of nodes. */
 static int Queue_copy(Queue self, const Queue from)
 {
     self->dtor = from->dtor;
