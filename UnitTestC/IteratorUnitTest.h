@@ -3,8 +3,8 @@
 
 #include "UnitTestsInfra.h"
 #include "COOP.h"
-#include "vector.h"
-#include "iterator.h"
+#include "Vector.h"
+#include "Iterator.h"
 
 DEF_TEST_SUITE(IteratorForTest);
 	ADD_TEST(IteratorForTest, foreach_SumsAll);

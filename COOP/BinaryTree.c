@@ -539,7 +539,7 @@ MEM_FUN_IMPL(GenericBinaryTree, traverse_in, BT_Action action)
 
 	ITER_FOR(const void*, value, _this)
 	{
-		action(_this, (const void*)&value);
+		action(_this, &value);
 	}
 	END_ITER_FOR;
 
