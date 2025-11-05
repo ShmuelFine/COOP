@@ -27,10 +27,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 ################################################################################
 # Dependencies (Link Libraries)
 ################################################################################
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    OpenCV_Lib
-    COOP
-)
+target_link_libraries(${PROJECT_NAME} PRIVATE COOP OpenCV_Lib)
 
 enable_testing()
 add_test(NAME ${PROJECT_NAME}_Run COMMAND ${PROJECT_NAME})

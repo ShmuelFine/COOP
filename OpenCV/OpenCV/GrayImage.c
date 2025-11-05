@@ -11,7 +11,7 @@ DEF_CTOR(GrayImage, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_ve
     ALLOC_ARRAY(_this->image_buffer, uint8_t, height * width);
     ASSERT_NOT_NULL(_this->image_buffer);
 
-    ALLOC(_this->refCount, int);
+    ALLOC(_this->refCount, size_t);
     *(_this->refCount) = 1;
 
     _this->width = width;
@@ -21,13 +21,13 @@ DEF_CTOR(GrayImage, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_ve
 
     IF(data_vector != NULL) 
     {
-        MEM_SIZE_T vec_size = 0;
+        MEM_SIZE_T vec_size;
         MFUN(data_vector, size), & vec_size CALL;
         THROW_MSG_UNLESS(vec_size == (width * height), "Data vector size mismatch");
 
-        uint8_t* vec_data_ptr = NULL;
-        MFUN(data_vector, dataPtr), (char**)&vec_data_ptr CALL;
-        memcpy(_this->image_buffer, vec_data_ptr, vec_size);
+        char* vec_data_ptr = NULL;
+        MFUN(data_vector, dataPtr), &vec_data_ptr CALL;
+        memcpy(_this->image_buffer, (uint8_t*)vec_data_ptr, vec_size);
     }
     ELSE
     {

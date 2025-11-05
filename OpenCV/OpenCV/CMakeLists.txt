@@ -1,4 +1,4 @@
-set(PROJECT_NAME GrayImage) 
+set(PROJECT_NAME OpenCV_Lib) 
 
 ################################################################################
 # Source groups
@@ -21,3 +21,4 @@ add_library(OpenCV_Lib STATIC ${OpenCV_Lib_Sources})
 
 target_include_directories(OpenCV_Lib PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../../COOP")
 
+target_link_libraries(OpenCV_Lib PRIVATE COOP)
