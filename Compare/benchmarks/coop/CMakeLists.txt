@@ -1,5 +1,4 @@
 # ===== COOP Benchmarks =====
-
 # 1. Define a list of all C source files in the current directory
 # The GLOB command finds all files matching the pattern.
 # We'll use this list for the loop below.
@@ -44,7 +43,6 @@ foreach(SOURCE_FILE ${BenchSources})
     set_target_properties(${PROJECT_NAME} PROPERTIES
         VS_GLOBAL_KEYWORD "Win32Proj"
     )
-
     # --- Properties and Definitions (apply to the current target) ---
     
     if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
