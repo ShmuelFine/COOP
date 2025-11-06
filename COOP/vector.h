@@ -1,13 +1,15 @@
 #ifndef __COOP__VECTOR__H_
 #define __COOP__VECTOR__H_
 
-#include "COOP.h"
 #include "SharedObjPtr.h"
 #include "Iterator.h"
+#include "MathUtils.h"
+#include <stdio.h>
 #include <stdbool.h>
 #include <stddef.h> 
 #include <stdint.h>
 
+/* ==== Vector iterator methods (derived from Iterator) ==== */
 
 DEF_DERIVED_CLASS(VectorIter, Iterator);
 MEM_SIZE_T index;
@@ -27,9 +29,9 @@ END_DERIVED_FUNCTIONS(VectorIter);
 
 
 DEF_CLASS(GenericVector);
-MEM_SIZE_T size;
-MEM_SIZE_T capacity;
-MEM_SIZE_T elementSize;
+MEM_SIZE_T size;        /* Number of elements currently stored */
+MEM_SIZE_T capacity;    /* Total allocated slots */
+MEM_SIZE_T elementSize; /* Size (in bytes) of each element */
 char* data;
 END_DEF(GenericVector);
 

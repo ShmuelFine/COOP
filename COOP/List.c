@@ -205,7 +205,7 @@ IMPL_PUSH_BACK_OF_TYPE(float);
 IMPL_PUSH_BACK_OF_TYPE(objSPtr);
 
 /* ---- push_front ---- */
-MEM_FUN_IMPL(GenericList, __push_front_generic, char* buff, MEM_SIZE_T buff_size)
+MEM_FUN_IMPL(GenericList, __push_front_generic, const char* buff, MEM_SIZE_T buff_size)
 {
 	THROW_MSG_UNLESS(buff_size == _this->elementSize, "Invalid Data Size");
 
@@ -234,7 +234,7 @@ END_FUN
 
 #define IMPL_PUSH_FRONT_OF_TYPE(type) \
 MEM_FUN_IMPL(GenericList, push_front_ ##type, type val) { \
-    MFUN(_this, __push_front_generic), (char*)&(val), (MEM_SIZE_T)sizeof(type) CALL; \
+    MFUN(_this, __push_front_generic), (const char*)&(val), (MEM_SIZE_T)sizeof(type) CALL; \
 } END_FUN;
 IMPL_PUSH_FRONT_OF_TYPE(int);
 IMPL_PUSH_FRONT_OF_TYPE(char);

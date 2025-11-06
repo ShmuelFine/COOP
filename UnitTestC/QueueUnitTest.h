@@ -2,12 +2,13 @@
 #define __COOP_TESTS_QUEUE__H__
 
 #include "UnitTestsInfra.h"
-#include "COOP.h"
 #include "Queue.h"
 
 DEF_TEST_SUITE(QueueTest);
 ADD_TEST(QueueTest, Queue_fifo_order);
-ADD_TEST(QueueTest, Queue_front_size_empty);
+ADD_TEST(QueueTest, empty_transitions_on_new_enqueue_clear);
+ADD_TEST(QueueTest, size_reflects_enqueue_dequeue);
+ADD_TEST(QueueTest, front_reflects_fifo_order);
 ADD_TEST(QueueTest, Queue_clear_resets);
 ADD_TEST(QueueTest, Queue_iterator_foreach);
 ADD_TEST(QueueTest, Queue_destroy_frees_memory);
