@@ -15,7 +15,7 @@ typedef enum IteratorCategory {
 /* ===== Base Class: Iterator ===== */
 DEF_CLASS(Iterator);
 IteratorCategory _category;
-void* container_ptr;
+void* container_ptr; /* Pointer to the container (Vector, Queue, List) this iterator belongs to */
 END_DEF(Iterator);
 
 
@@ -44,11 +44,11 @@ END_FUNCTIONS(Iterator);
        bool __eq = 0;                                \
        Iterator *_it=NULL;                           \
        Iterator *_end=NULL;                          \
-       MFUN((objPtr),begin),&_it CALL;                 \
-       MFUN((objPtr), end), &_end CALL;                \
-       FOR (;!(__eq);) {             \
+       MFUN((objPtr),begin),&_it CALL;               \
+       MFUN((objPtr), end), &_end CALL;              \
+       FOR (;!(__eq);) {                             \
          ITER_EQUALS(_it,_end,&__eq);                \
-         IF (__eq){BREAK;} END_IF             \
+         IF (__eq){BREAK;} END_IF                    \
          const ElemType *_p_##varName = NULL;        \
          ITER_GET_CREF(_it,&_p_##varName);           \
          ElemType varName = *_p_##varName;           \

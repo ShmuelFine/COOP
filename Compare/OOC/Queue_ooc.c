@@ -2,10 +2,6 @@
 // File: Queue_ooc.c
 // =============================
 #include "Queue_ooc.h"
-#include <string.h>
-#include <assert.h>
-#include <stdio.h>
-
 /* ---------------- Queue (base) ---------------- */
 ClassMembers(Queue, Base)
 List   list;
@@ -79,8 +75,6 @@ static int Queue_copy(Queue self, const Queue from)
     }
     return OOC_COPY_DONE;
 }
-
-List queue_get_list(Queue self) { return self->list; }
 
 static int Queue_enqueue_copy(Queue self, const void* src, size_t size)
 {

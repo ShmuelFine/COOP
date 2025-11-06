@@ -2,7 +2,9 @@
 #define __COOP_TESTS__VECTOR_TEST__H__
 
 #include "UnitTestsInfra.h"
-#include "COOP.h"
+#include "ExportDefs.h"
+#include "Vector.h"
+#include "ScopeTester.h"
 
 DEF_TEST_SUITE(VectorTest);
 ADD_TEST(VectorTest, push_back_SanityTest);

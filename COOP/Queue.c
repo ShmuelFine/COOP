@@ -1,9 +1,7 @@
 #include "Queue.h"
-#include "MathUtils.h"
-#include <string.h>
 
 /* =============================
- *        GenericQueue
+ *        Generic Queue
  * ============================= */
 DEF_CTOR(GenericQueue)
 {
@@ -16,7 +14,7 @@ DEF_DTOR(GenericQueue)
 }
 END_DTOR
 
-/* ==== Core ops map directly to List ==== */
+/* ==== Core operations  map directly to List ==== */
 MEM_FUN_IMPL(GenericQueue, enqueue_generic, const char* buff, MEM_SIZE_T buff_size)
 {
     MFUN(&_this->list, __push_back_generic), buff, buff_size CALL;

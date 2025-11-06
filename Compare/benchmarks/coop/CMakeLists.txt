@@ -1,18 +1,16 @@
 # ===== COOP Benchmarks =====
 # 1. Define a list of all C source files in the current directory
 # The GLOB command finds all files matching the pattern.
-# We'll use this list for the loop below.
 file(GLOB BenchSources "*.c")
 
-# Set the base project name without the MEM_SIZE suffix for the loop
-# We'll re-apply the full name inside the loop for each target.
+
 set(PROJECT_BASE_NAME Benchmarks)
 
 ################################################################################
 # Source groups
 ################################################################################
-# This is mainly for IDE organization, we can leave it out for a minimal change
-# source_group("" FILES ${BenchSources}) 
+# Source groups are used only for IDE organization (e.g. Visual Studio)
+source_group("Benchmarks" FILES ${BenchSources})
 ################################################################################
 # Include directories
 ################################################################################
@@ -144,5 +142,5 @@ foreach(SOURCE_FILE ${BenchSources})
     ############################################################################
     target_link_libraries(${PROJECT_NAME} PRIVATE COOP)
     
-# End of the loop - repeat for the next source file
+# End of the loop 
 endforeach()

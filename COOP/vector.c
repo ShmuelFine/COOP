@@ -1,6 +1,4 @@
 #include "Vector.h"
-#include "MathUtils.h"
-#include <stdio.h>
 
 
 /* =========================================================
@@ -124,6 +122,7 @@ DEF_DTOR(GenericVector)
 }
 END_DTOR
 
+/* Returns pointer to the vector's internal data buffer */
 MEM_FUN_IMPL(GenericVector, dataPtr, char** out_ptr)
 {
 	*out_ptr = _this->data;
