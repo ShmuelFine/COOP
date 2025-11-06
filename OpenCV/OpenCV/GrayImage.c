@@ -169,10 +169,71 @@ MEM_FUN_IMPL(GrayImage, get_pixel_ptr, MEM_SIZE_T row, MEM_SIZE_T col, uint8_t**
 END_FUN
 
 
+// --- Add this implementation to GrayImage.c ---
+
+MEM_FUN_IMPL(GrayImage, equals, GrayImage const* other, GrayImage** out_comparison_image)
+{
+   
+    THROW_MSG_UNLESS(other != NULL, "Other image cannot be NULL");
+    THROW_MSG_UNLESS(out_comparison_image != NULL, "Output pointer cannot be NULL");
+    THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Image dimensions must match for comparison");
+
+    GrayImage* result_image = NULL;
+
+    
+    ALLOC_ARRAY(result_image, GrayImage, 1);
+    ASSERT_NOT_NULL(result_image);
+
+    ALLOC_ARRAY(result_image->image_buffer, uint8_t, _this->height * _this->width);
+    ASSERT_NOT_NULL(result_image->image_buffer);
+
+    ALLOC(result_image->refCount, size_t);
+    *(result_image->refCount) = 1;
+
+    result_image->width = _this->width;  
+    result_image->height = _this->height;
+    result_image->stride = _this->width; 
+    result_image->offset = 0;            
+
+    // We must iterate by row and column to correctly handle the offset and stride
+    // of *both* input images, which may be different ROIs.
+    FOR(MEM_SIZE_T r = 0; r < _this->height; ++r)
+    {
+        // Get a pointer to the start of the current row for '_this' image
+        uint8_t* this_row = _this->image_buffer + _this->offset + (r * _this->stride);
+
+        // Get a pointer to the start of the current row for the 'other' image
+        uint8_t* other_row = other->image_buffer + other->offset + (r * other->stride);
+
+        // Get a pointer to the start of the current row for the 'result' image
+        uint8_t* result_row = result_image->image_buffer + (r * result_image->stride);
+
+        FOR(MEM_SIZE_T c = 0; c < _this->width; ++c)
+        {
+            IF(this_row[c] == other_row[c])
+            {
+                result_row[c] = 255;
+            }
+            ELSE
+            {
+                result_row[c] = 0;
+            }
+            END_IF;
+        }
+        END_LOOP;
+    }
+    END_LOOP;
+
+    *out_comparison_image = result_image;
+}
+END_FUN
+
+
 INIT_CLASS(GrayImage);
 BIND(GrayImage, get_height);
 BIND(GrayImage, get_stride);
 BIND(GrayImage, get_width);
 BIND(GrayImage, get_pixel_ptr);
 BIND(GrayImage, clone);
+BIND(GrayImage, equals);
 END_INIT_CLASS(GrayImage);
