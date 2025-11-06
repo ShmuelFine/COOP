@@ -2,6 +2,7 @@
 #include "DynamicMemoryManagement.h"
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 
 
 DEF_CTOR(GrayImage, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_vector)
@@ -156,6 +157,168 @@ MEM_FUN_IMPL(GrayImage, get_pixel_ptr, MEM_SIZE_T row, MEM_SIZE_T col, uint8_t**
 }
 END_FUN
 
+MEM_FUN_IMPL(GrayImage, add, GrayImage const* other, GrayImage* out)
+{
+    THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in arithmetic op");
+    THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Size mismatch between inputs");
+    THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
+    
+    MEM_SIZE_T height = _this->height;
+    MEM_SIZE_T width = _this->width;
+
+    FOR (MEM_SIZE_T row = 0; row < height; ++row)
+    {
+        uint8_t* dst = out->image_buffer + out->offset + row * out->stride;
+        uint8_t const* a = _this->image_buffer + _this->offset + row * _this->stride;
+        uint8_t const* b = other->image_buffer + other->offset + row * other->stride;
+
+        FOR (MEM_SIZE_T col = 0; col < width; ++col)
+        {
+            uint16_t s = (uint16_t)a[col] + (uint16_t)b[col];
+            dst[col] = (uint8_t)(s > 255U ? 255U : s);
+        }
+        END_LOOP;
+    }
+	END_LOOP;
+}
+END_FUN
+
+MEM_FUN_IMPL(GrayImage, sub_default, GrayImage const* other, GrayImage* out)
+{
+    THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in arithmetic op");
+    THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Size mismatch between inputs");
+    THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
+
+    MEM_SIZE_T height = _this->height;
+    MEM_SIZE_T width = _this->width;
+
+    FOR (MEM_SIZE_T row = 0; row < height; ++row)
+    {
+        uint8_t* dst = out->image_buffer + out->offset + row * out->stride;
+        uint8_t const* a = _this->image_buffer + _this->offset + row * _this->stride;
+        uint8_t const* b = other->image_buffer + other->offset + row * other->stride;
+
+        FOR (MEM_SIZE_T col = 0; col < width; ++col)
+        {
+            int diff = (int)a[col] - (int)b[col];
+            dst[col] = (diff < 0) ? 0 : (uint8_t)diff;
+        }
+		END_LOOP;
+    }
+	END_LOOP;
+}
+END_FUN
+
+MEM_FUN_IMPL(GrayImage, sub_abs, GrayImage const* other, GrayImage* out)
+{
+    THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in arithmetic op");
+    THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Size mismatch between inputs");
+    THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
+
+    MEM_SIZE_T height = _this->height;
+    MEM_SIZE_T width = _this->width;
+
+    FOR(MEM_SIZE_T row = 0; row < height; ++row)
+    {
+        uint8_t* dst = out->image_buffer + out->offset + row * out->stride;
+        uint8_t const* a = _this->image_buffer + _this->offset + row * _this->stride;
+        uint8_t const* b = other->image_buffer + other->offset + row * other->stride;
+
+        FOR(MEM_SIZE_T col = 0; col < width; ++col)
+        {
+            int diff = (int)a[col] - (int)b[col];
+            dst[col] = (uint8_t)(diff >= 0 ? diff : -diff);
+        }
+		END_LOOP;
+    }
+	END_LOOP;
+}
+END_FUN
+
+MEM_FUN_IMPL(GrayImage, mul_scalar, double alpha, GrayImage* out)
+{
+    THROW_MSG_UNLESS(_this != NULL && out != NULL, "NULL image in mul_scalar");
+    THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
+
+    const MEM_SIZE_T height = _this->height, width = _this->width;
+
+    FOR(MEM_SIZE_T row = 0; row < height; ++row)
+    {
+        uint8_t* dst = out->image_buffer + out->offset + row * out->stride;
+        const uint8_t* src = _this->image_buffer + _this->offset + row * _this->stride;
+
+        FOR(MEM_SIZE_T col = 0; col < width; ++col)
+        {
+            double value = (double)src[col] * alpha;
+
+            IF (!isfinite(value))
+            {
+                value = 0.0;
+            }
+			END_IF;
+
+            long int_value = (long)llround(value);
+            IF(int_value < 0)
+            {
+                int_value = 0;
+            }
+            ELSE_IF(int_value > 255)
+            {
+                int_value = 255;
+            }
+            END_IF;
+            dst[col] = (uint8_t)int_value;
+        }
+        END_LOOP;
+    }
+    END_LOOP;
+}
+END_FUN
+
+/* ===== Linear algebraic matrix-multiply =====
+   A: _this  (H_THIS � W_THIS) | B: other  (W_THIS � W_OTHER) | Out: out  (H_THIS � W_OTHER).
+   Accumulate in 32-bit, clamp to 255 on store (CV_8U semantics). */
+
+MEM_FUN_IMPL(GrayImage, mul_mat, GrayImage const* other, GrayImage* out)
+{
+    THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in mul_mat");
+    /* Dimension check: inner dims must match; output must be H_THIS � W_OTHER */
+    THROW_MSG_UNLESS(_this->width == other->height, "Inner dims mismatch: A.width must equal B.height");
+    THROW_MSG_UNLESS(out->height == _this->height && out->width == other->width, "Output size must be (A.height � B.width)");
+
+    const MEM_SIZE_T H_THIS = _this->height;
+    const MEM_SIZE_T W_THIS = _this->width;     /* also B.height */
+    const MEM_SIZE_T W_OTHER = other->width;    /* also Out.width */
+
+    FOR (MEM_SIZE_T r = 0; r < H_THIS; ++r)
+    {
+        uint8_t* dst_row = out->image_buffer + out->offset + r * out->stride;
+        const uint8_t* a_row = _this->image_buffer + _this->offset + r * _this->stride;
+
+        FOR (MEM_SIZE_T c = 0; c < W_OTHER; ++c)
+        {
+            /* sum over k: A[r,k] * B[k,c] */
+            uint32_t sum = 0U;
+
+            FOR (MEM_SIZE_T k = 0; k < W_THIS; ++k)
+            {
+                const uint8_t a_val = a_row[k];
+                const uint8_t* b_row = other->image_buffer + other->offset + k * other->stride;
+                const uint8_t b_val = b_row[c];
+
+                sum += (uint32_t)a_val * (uint32_t)b_val;  /* up to 255*255*W_THIS */
+            }
+			END_LOOP;
+
+            /* clamp to 0..255 for CV_8U output */
+            dst_row[c] = (uint8_t)(sum > 255U ? 255U : sum);
+        }
+		END_LOOP;
+    }
+	END_LOOP;
+}
+END_FUN
+
 
 // --- Add this implementation to GrayImage.c ---
 
@@ -216,8 +379,13 @@ BIND(GrayImage, get_stride);
 BIND(GrayImage, get_width);
 BIND(GrayImage, get_pixel_ptr);
 BIND(GrayImage, clone);
-BIND(GrayImage, equals);
 BIND(GrayImage, init_copy);
 BIND(GrayImage, init_move);
 BIND(GrayImage, init_ROI);
+BIND(GrayImage, add);
+BIND(GrayImage, sub_default);
+BIND(GrayImage, sub_abs);
+BIND(GrayImage, mul_scalar);
+BIND(GrayImage, mul_mat);
+BIND(GrayImage, equals);
 END_INIT_CLASS(GrayImage);
