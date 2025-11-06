@@ -23,6 +23,11 @@ MEM_FUN_DECL(GrayImage, get_width, MEM_SIZE_T* width_out);
 MEM_FUN_DECL(GrayImage, get_height, MEM_SIZE_T* height_out);
 MEM_FUN_DECL(GrayImage, get_stride, MEM_SIZE_T* stride_out);
 MEM_FUN_DECL(GrayImage, get_pixel_ptr, MEM_SIZE_T row, MEM_SIZE_T col, uint8_t** out_ptr);
+MEM_FUN_DECL(GrayImage, add, GrayImage const* other, GrayImage* out);
+MEM_FUN_DECL(GrayImage, sub_default, GrayImage const* other, GrayImage* out);
+MEM_FUN_DECL(GrayImage, sub_abs, GrayImage const* other, GrayImage* out);
+MEM_FUN_DECL(GrayImage, mul_scalar, double alpha, GrayImage* out);
+MEM_FUN_DECL(GrayImage, mul_mat, GrayImage const* other, GrayImage* out);
 END_FUNCTIONS(GrayImage);
 
 FUN_DECL(GrayImage_init_copy, GrayImage* _this, GrayImage const* other);
