@@ -15,7 +15,6 @@ static void phase_enqueue(Queue_int* q, size_t N) {
 }
 
 static void phase_dequeue(Queue_int* q, size_t N) {
-    // dequeue
     for (size_t i = 0; i < N; ++i) {
         int out = 0;
         (void)Queue_int_dequeue(q, &out);    

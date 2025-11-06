@@ -2,12 +2,15 @@
 // File: Queue_ooc.h
 // =============================
 #ifndef QUEUE_OOC_H
-#define QUEUE_OOC_H 1
+#define QUEUE_OOC_H 
 
 #include "ooc.h"
 #include "list.h"
 #include <stddef.h>
 #include <stdbool.h>
+#include <string.h>
+#include <assert.h>
+#include <stdio.h>
 
 /*
  * OOC-Style Queue + COOP-like C API wrappers
@@ -47,8 +50,6 @@ typedef struct QueueParams_ {
     queue_item_destroyer destroyer; /* ooc_free for POD; (ooc_destroyer)ooc_delete for objects */
 } QueueParams;
 
-/* helper to access underlying list from wrappers */
-List queue_get_list(Queue self);
 
 /* ================== C wrappers (COOP-like) ================== */
 typedef struct Queue_int { QueueInt impl; } Queue_int;

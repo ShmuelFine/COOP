@@ -1,8 +1,4 @@
 #include "VectorUnitTest.h"
-#include "ExportDefs.h"
-#include "Vector.h"
-#include "ScopeTester.h"
-
 
 
 TEST_FUN_IMPL(VectorTest, push_back_SanityTest)
@@ -74,7 +70,6 @@ TEST_FUN_IMPL(VectorTest, set_SanityTest)
 	{
 		MFUN(&vec, push_back), i CALL;
 	}END_LOOP;
-	//MFUN(&v1, print) CALL;
 
 	// Act
 	FOR(int i = 0; i < numElements; i++)
@@ -102,7 +97,6 @@ TEST_FUN_IMPL(VectorTest, get_SanityTest)
 	{
 		MFUN(&vec, push_back), i CALL;
 	}END_LOOP;
-	//MFUN(&v1, print) CALL;
 
 	// Act, Assert
 	FOR(int i = 0; i < numElements; i++)
