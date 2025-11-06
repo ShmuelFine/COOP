@@ -3,7 +3,6 @@
 
 #include "UnitTestsInfra.h"
 #include "Queue.h"
-#include <stdio.h>
 
 DEF_TEST_SUITE(QueueTest);
 ADD_TEST(QueueTest, Queue_fifo_order);

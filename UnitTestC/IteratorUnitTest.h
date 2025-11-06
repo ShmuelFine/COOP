@@ -2,7 +2,6 @@
 #define __COOP_TESTS__ITERATOR_FOR_TEST__H__
 
 #include "UnitTestsInfra.h"
-#include "COOP.h"
 #include "Vector.h"
 #include "Iterator.h"
 
