@@ -105,6 +105,43 @@ FUN_IMPL(GrayImage_init_ROI, GrayImage* _this, GrayImage const* other, MEM_SIZE_
 }
 END_FUN
 
+
+MEM_FUN_IMPL(GrayImage, clone, GrayImage** out_clone)
+{
+    THROW_MSG_UNLESS(out_clone != NULL, "Output pointer cannot be NULL");
+
+    GrayImage* new_image = NULL;
+
+    ALLOC_ARRAY(new_image, GrayImage, 1);
+    ASSERT_NOT_NULL(new_image);
+
+    ALLOC_ARRAY(new_image->image_buffer, uint8_t, _this->height * _this->width);
+    ASSERT_NOT_NULL(new_image->image_buffer);
+
+    ALLOC(new_image->refCount, size_t);
+    *new_image->refCount = 1;
+
+    new_image->width = _this->width;
+    new_image->height = _this->height;
+    new_image->stride = _this->width; //stride = width
+    new_image->offset = 0;
+
+    // 5. copy row - row
+    FOR(MEM_SIZE_T r = 0; r < _this->height; ++r)
+    {
+        //row source
+        uint8_t* src_row_ptr = _this->image_buffer + _this->offset + (r * _this->stride);
+        // row destination
+        uint8_t* dst_row_ptr = new_image->image_buffer + (r * new_image->stride);
+        // copy
+        memcpy(dst_row_ptr, src_row_ptr, _this->width);
+    }
+    END_LOOP;
+
+    *out_clone = new_image;
+}
+END_FUN
+
 MEM_FUN_IMPL(GrayImage, get_width, MEM_SIZE_T* width_out) 
 {
     *width_out = _this->width;
@@ -137,4 +174,5 @@ BIND(GrayImage, get_height);
 BIND(GrayImage, get_stride);
 BIND(GrayImage, get_width);
 BIND(GrayImage, get_pixel_ptr);
+BIND(GrayImage, clone);
 END_INIT_CLASS(GrayImage);
