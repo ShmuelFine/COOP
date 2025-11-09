@@ -6,6 +6,11 @@
 
 DEF_TEST_SUITE(GrayImageTest);
 ADD_TEST(GrayImageTest, create_SanityTest);
+ADD_TEST(GrayImageTest, clone);
+ADD_TEST(GrayImageTest, clone_FromROI);
+ADD_TEST(GrayImageTest, equals);
+ADD_TEST(GrayImageTest, init_copy);
+ADD_TEST(GrayImageTest, init_move); 
 END_TEST_SUITE(GrayImageTest);
 
 #endif

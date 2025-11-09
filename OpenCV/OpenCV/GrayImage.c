@@ -18,6 +18,7 @@ DEF_CTOR(GrayImage, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_ve
     _this->height = height;
     _this->stride = width;
     _this->offset = 0;
+	printf("GrayImage Constructor: width=%zu, height=%zu\n", width, height);
 
     IF(data_vector != NULL) 
     {
@@ -53,8 +54,7 @@ DEF_DTOR(GrayImage)
 }
 END_DTOR
 
-FUN_IMPL(GrayImage_init_copy, GrayImage* _this, GrayImage const* other)
-{
+MEM_FUN_IMPL(GrayImage, init_copy, GrayImage const* other) {
     THROW_MSG_UNLESS(other != NULL, "Source image (other) cannot be NULL");
 
     _this->image_buffer = other->image_buffer;
@@ -68,8 +68,7 @@ FUN_IMPL(GrayImage_init_copy, GrayImage* _this, GrayImage const* other)
 }
 END_FUN
 
-FUN_IMPL(GrayImage_init_move, GrayImage* _this, GrayImage* other)
-{
+MEM_FUN_IMPL(GrayImage, init_move, GrayImage* other) {
     THROW_MSG_UNLESS(other != NULL, "Source image (other) cannot be NULL");
 
     _this->image_buffer = other->image_buffer;
@@ -88,8 +87,7 @@ FUN_IMPL(GrayImage_init_move, GrayImage* _this, GrayImage* other)
 }
 END_FUN
 
-FUN_IMPL(GrayImage_init_ROI, GrayImage* _this, GrayImage const* other, MEM_SIZE_T row, MEM_SIZE_T col, MEM_SIZE_T ROI_width, MEM_SIZE_T ROI_height)
-{
+MEM_FUN_IMPL(GrayImage, init_ROI, GrayImage const* other, MEM_SIZE_T row, MEM_SIZE_T col, MEM_SIZE_T ROI_width, MEM_SIZE_T ROI_height) {
     THROW_MSG_UNLESS(other != NULL, "Source image (other) cannot be NULL");
     THROW_MSG_UNLESS(col + ROI_width <= other->width && row + ROI_height <= other->height, "ROI boundary error");
 
@@ -113,20 +111,10 @@ MEM_FUN_IMPL(GrayImage, clone, GrayImage** out_clone)
     GrayImage* new_image = NULL;
 
     ALLOC_ARRAY(new_image, GrayImage, 1);
+    INITIALIZE_INSTANCE(GrayImage, (*new_image)), _this->width, _this->height, NULL CALL;
     ASSERT_NOT_NULL(new_image);
 
-    ALLOC_ARRAY(new_image->image_buffer, uint8_t, _this->height * _this->width);
-    ASSERT_NOT_NULL(new_image->image_buffer);
-
-    ALLOC(new_image->refCount, size_t);
-    *new_image->refCount = 1;
-
-    new_image->width = _this->width;
-    new_image->height = _this->height;
-    new_image->stride = _this->width; //stride = width
-    new_image->offset = 0;
-
-    // 5. copy row - row
+    // 5.copy row - row
     FOR(MEM_SIZE_T r = 0; r < _this->height; ++r)
     {
         //row source
@@ -179,16 +167,9 @@ MEM_FUN_IMPL(GrayImage, equals, GrayImage const* other, GrayImage** out_comparis
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Image dimensions must match for comparison");
 
     GrayImage* result_image = NULL;
-
-    
     ALLOC_ARRAY(result_image, GrayImage, 1);
+    INITIALIZE_INSTANCE(GrayImage, (*result_image)), _this->width, _this->height, NULL CALL;
     ASSERT_NOT_NULL(result_image);
-
-    ALLOC_ARRAY(result_image->image_buffer, uint8_t, _this->height * _this->width);
-    ASSERT_NOT_NULL(result_image->image_buffer);
-
-    ALLOC(result_image->refCount, size_t);
-    *(result_image->refCount) = 1;
 
     result_image->width = _this->width;  
     result_image->height = _this->height;
@@ -236,4 +217,7 @@ BIND(GrayImage, get_width);
 BIND(GrayImage, get_pixel_ptr);
 BIND(GrayImage, clone);
 BIND(GrayImage, equals);
+BIND(GrayImage, init_copy);
+BIND(GrayImage, init_move);
+BIND(GrayImage, init_ROI);
 END_INIT_CLASS(GrayImage);
