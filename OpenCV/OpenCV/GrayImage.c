@@ -80,7 +80,7 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, init_move, GrayImage* other) {
     THROW_MSG_UNLESS(other != NULL, "Source image (other) cannot be NULL");
-
+    THROW_MSG_UNLESS(other->refCount != NULL, "Source image not properly initialized");
     _this->image_buffer = other->image_buffer;
     _this->width = other->width;
     _this->height = other->height;
@@ -118,7 +118,7 @@ END_FUN
 MEM_FUN_IMPL(GrayImage, clone, GrayImage* out_clone)
 {
     THROW_MSG_UNLESS(out_clone != NULL, "Output pointer cannot be NULL");
-
+    THROW_MSG_UNLESS(_this->refCount != NULL, "Source image not properly initialized");
 	MFUN(out_clone, init), _this->width, _this->height, NULL CALL;
 
     // 5.copy row - row
@@ -329,10 +329,10 @@ END_FUN
 MEM_FUN_IMPL(GrayImage, equals, GrayImage const* other, GrayImage* out_comparison_image)
 {
 
+    THROW_MSG_UNLESS(_this->refCount != NULL, "This image not properly initialized");
     THROW_MSG_UNLESS(other != NULL, "Other image cannot be NULL");
     THROW_MSG_UNLESS(out_comparison_image != NULL, "Output pointer cannot be NULL");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Image dimensions must match for comparison");
-
     THROW_MSG_UNLESS(out_comparison_image->width == _this->width && out_comparison_image->height == _this->height, "Output image dimensions must match inputs");
 
     FOR(MEM_SIZE_T r = 0; r < _this->height; ++r)
