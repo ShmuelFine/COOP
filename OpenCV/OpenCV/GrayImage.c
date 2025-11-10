@@ -606,118 +606,109 @@ MEM_FUN_IMPL(GrayImage, load_from_bmp, const char* path)
     BMP_FILE_HDR fh;
     BMP_INFO_HDR ih;
 
-    IF(fread(&fh, sizeof(fh), 1, f) != 1)
-    {
-        fclose(f);
-        THROW_MSG("Failed to read BMP file header");
-    }
-    END_IF;
+    TRY{
+        THROW_MSG_UNLESS(fread(&fh, sizeof(fh), 1, f) == 1, "Failed to read BMP file header");
+        THROW_MSG_UNLESS(fread(&ih, sizeof(ih), 1, f) == 1, "Failed to read BMP info header");
+        THROW_MSG_UNLESS(fh.signature == (uint16_t)0x4D42, "Not a BMP file ('BM' signature mismatch)");
+        THROW_MSG_UNLESS(ih.headerSize >= (uint32_t)sizeof(BMP_INFO_HDR), "Unsupported BMP info header size (<40)");
+        THROW_MSG_UNLESS(ih.colorPlanes == 1, "Unsupported BMP: colorPlanes != 1");
+        THROW_MSG_UNLESS(ih.compressionMethod == 0U, "Unsupported BMP compression (must be BI_RGB)");
+        THROW_MSG_UNLESS(ih.bitsPerPixel == 8U || ih.bitsPerPixel == 24U, "Only 8-bit or 24-bit BMP is supported");
+        THROW_MSG_UNLESS(ih.imageWidth > 0 && ih.imageHeight != 0, "Invalid BMP dimensions");
 
-    IF(fread(&ih, sizeof(ih), 1, f) != 1)
-    {
-        fclose(f);
-        THROW_MSG("Failed to read BMP info header");
-    }
-    END_IF;
+        const MEM_SIZE_T width = (MEM_SIZE_T)ih.imageWidth;
+        const MEM_SIZE_T height = (MEM_SIZE_T)(ih.imageHeight > 0 ? ih.imageHeight : -ih.imageHeight);
+        const bool bottom_up = (ih.imageHeight > 0);
+        const uint32_t bytesPerPixel = (ih.bitsPerPixel == 24U) ? 3U : 1U;
 
-    THROW_MSG_UNLESS(fh.signature == (uint16_t)0x4D42, "Not a BMP file ('BM' signature mismatch)");
-    THROW_MSG_UNLESS(ih.headerSize >= (uint32_t)sizeof(BMP_INFO_HDR), "Unsupported BMP info header size (<40)");
-    THROW_MSG_UNLESS(ih.colorPlanes == 1, "Unsupported BMP: colorPlanes != 1");
-    THROW_MSG_UNLESS(ih.compressionMethod == 0U, "Unsupported BMP compression (must be BI_RGB)");
-    THROW_MSG_UNLESS(ih.bitsPerPixel == 8U || ih.bitsPerPixel == 24U, "Only 8-bit or 24-bit BMP is supported");
-    THROW_MSG_UNLESS(ih.imageWidth > 0 && ih.imageHeight != 0, "Invalid BMP dimensions");
+        const uint32_t rowSizeFile = (((uint32_t)width * bytesPerPixel + 3U) / 4U) * 4U;
 
-    const MEM_SIZE_T width = (MEM_SIZE_T)ih.imageWidth;
-    const MEM_SIZE_T height = (MEM_SIZE_T)(ih.imageHeight > 0 ? ih.imageHeight : -ih.imageHeight);
-    const bool bottom_up = (ih.imageHeight > 0);
-    const uint32_t bytesPerPixel = (ih.bitsPerPixel == 24U) ? 3U : 1U;
+        THROW_MSG_UNLESS(fseek(f, (long)fh.pixelDataOffset, SEEK_SET) == 0, "Failed to seek to pixel data");
 
-    const uint32_t rowSizeFile = (((uint32_t)width * bytesPerPixel + 3U) / 4U) * 4U;
-    IF(fseek(f, (long)fh.pixelDataOffset, SEEK_SET) != 0)
-    {
-        fclose(f);
-        THROW_MSG("Failed to seek to pixel data");
-    }
-    END_IF;
 
-    IF(_this->refCount != NULL)
-    {
-        (*(_this->refCount))--;
-        IF((*(_this->refCount)) == 0)
+        IF(_this->refCount != NULL)
+        {
+            (*(_this->refCount))--;
+            IF((*(_this->refCount)) == 0)
+            {
+                FREE(_this->image_buffer);
+                FREE(_this->refCount);
+            }
+            END_IF;
+            _this->refCount = NULL;
+            _this->image_buffer = NULL;
+        }
+        END_IF;
+
+        ALLOC_ARRAY(_this->image_buffer, uint8_t, height * width);
+        THROW_MSG_UNLESS(_this->image_buffer != NULL, "Failed to allocate image buffer");
+        ALLOC(_this->refCount, size_t);
+        IF(_this->refCount == NULL)
         {
             FREE(_this->image_buffer);
-            FREE(_this->refCount);
+            THROW_MSG("Failed to allocate refCount");
         }
         END_IF;
-        _this->refCount = NULL;
-        _this->image_buffer = NULL;
-    }
-    END_IF;
+        *(_this->refCount) = 1;
 
-    ALLOC_ARRAY(_this->image_buffer, uint8_t, height* width);
-    ASSERT_NOT_NULL(_this->image_buffer);
-    ALLOC(_this->refCount, size_t);
-    *(_this->refCount) = 1;
+        _this->width = width;
+        _this->height = height;
+        _this->stride = width;
+        _this->offset = 0;
 
-    _this->width = width;
-    _this->height = height;
-    _this->stride = width;
-    _this->offset = 0;
+        uint8_t* fileRow = NULL;
+        ALLOC_ARRAY(fileRow, uint8_t, rowSizeFile);
+        THROW_MSG_UNLESS(fileRow != NULL, "Failed to allocate row buffer");
 
-    uint8_t* fileRow = NULL;
-    ALLOC_ARRAY(fileRow, uint8_t, rowSizeFile);
-    IF(fileRow == NULL)
-    {
-        fclose(f);
-        THROW_MSG("Failed to allocate row buffer");
-    }
-    END_IF;
-
-    FOR(MEM_SIZE_T r = 0; r < height; ++r)
-    {
-        const MEM_SIZE_T src_r = bottom_up ? (height - 1U - r) : r;
-        const long rowOffset = (long)fh.pixelDataOffset + (long)(src_r * rowSizeFile);
-
-        IF(fseek(f, rowOffset, SEEK_SET) != 0)
+        FOR(MEM_SIZE_T r = 0; r < height; ++r)
         {
-            FREE(fileRow);
-            fclose(f);
-            THROW_MSG("Failed to seek to row");
-        }
-        END_IF;
+            const MEM_SIZE_T src_r = bottom_up ? (height - 1U - r) : r;
+            const long rowOffset = (long)fh.pixelDataOffset + (long)(src_r * rowSizeFile);
 
-        IF(fread(fileRow, 1, rowSizeFile, f) != rowSizeFile)
-        {
-            FREE(fileRow);
-            fclose(f);
-            THROW_MSG("Failed to read BMP row");
-        }
-        END_IF;
-
-        uint8_t* dst = _this->image_buffer + _this->offset + r * _this->stride;
-
-        IF(bytesPerPixel == 1U)
-        {
-            memcpy(dst, fileRow, (size_t)width);
-        }
-        ELSE
-        {
-            FOR(MEM_SIZE_T c = 0; c < width; ++c)
+            IF(fseek(f, rowOffset, SEEK_SET) != 0)
             {
-                const uint8_t B = fileRow[c * 3U + 0U];
-                const uint8_t G = fileRow[c * 3U + 1U];
-                const uint8_t R = fileRow[c * 3U + 2U];
-                const uint32_t y = 77U * (uint32_t)R + 150U * (uint32_t)G + 29U * (uint32_t)B + 128U;
-                dst[c] = (uint8_t)(y >> 8);
+                FREE(fileRow);
+                THROW_MSG("Failed to seek to row");
             }
-            END_LOOP;
-        }
-        END_IF;
-    }
-    END_LOOP;
+            END_IF;
 
-    FREE(fileRow);
-    fclose(f);
+            IF(fread(fileRow, 1, rowSizeFile, f) != rowSizeFile)
+            {
+                FREE(fileRow);
+                THROW_MSG("Failed to read BMP row");
+            }
+            END_IF;
+
+            uint8_t* dst = _this->image_buffer + _this->offset + r * _this->stride;
+
+            IF(bytesPerPixel == 1U)
+            {
+                memcpy(dst, fileRow, (size_t)width);
+            }
+            ELSE
+            {
+                FOR(MEM_SIZE_T c = 0; c < width; ++c)
+                {
+                    const uint8_t B = fileRow[c * 3U + 0U];
+                    const uint8_t G = fileRow[c * 3U + 1U];
+                    const uint8_t R = fileRow[c * 3U + 2U];
+                    const uint32_t y = 77U * (uint32_t)R + 150U * (uint32_t)G + 29U * (uint32_t)B + 128U;
+                    dst[c] = (uint8_t)(y >> 8);
+                }
+                END_LOOP;
+            }
+            END_IF;
+        }
+        END_LOOP;
+
+        FREE(fileRow);
+        fclose(f);
+    }
+    CATCH{
+        fclose(f);
+        THROW;
+    }
+    END_TRY;
 }
 END_FUN
 
