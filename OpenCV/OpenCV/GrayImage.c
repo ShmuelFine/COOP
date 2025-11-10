@@ -640,19 +640,24 @@ MEM_FUN_IMPL(GrayImage, load_from_bmp, const char* path)
     }
     END_IF;
 
-    IF(_this->image_buffer == NULL)
-    { 
-        ALLOC_ARRAY(_this->image_buffer, uint8_t, height * width);
-        ASSERT_NOT_NULL(_this->image_buffer);
-	}
+    IF(_this->refCount != NULL)
+    {
+        (*(_this->refCount))--;
+        IF((*(_this->refCount)) == 0)
+        {
+            FREE(_this->image_buffer);
+            FREE(_this->refCount);
+        }
+        END_IF;
+        _this->refCount = NULL;
+        _this->image_buffer = NULL;
+    }
     END_IF;
 
-    IF(_this->refCount == NULL)
-    {
-        ALLOC(_this->refCount, size_t);
-        *(_this->refCount) = 1;
-	}
-    END_IF;
+    ALLOC_ARRAY(_this->image_buffer, uint8_t, height* width);
+    ASSERT_NOT_NULL(_this->image_buffer);
+    ALLOC(_this->refCount, size_t);
+    *(_this->refCount) = 1;
 
     _this->width = width;
     _this->height = height;
@@ -661,7 +666,12 @@ MEM_FUN_IMPL(GrayImage, load_from_bmp, const char* path)
 
     uint8_t* fileRow = NULL;
     ALLOC_ARRAY(fileRow, uint8_t, rowSizeFile);
-    ASSERT_NOT_NULL(fileRow);
+    IF(fileRow == NULL)
+    {
+        fclose(f);
+        THROW_MSG("Failed to allocate row buffer");
+    }
+    END_IF;
 
     FOR(MEM_SIZE_T r = 0; r < height; ++r)
     {
