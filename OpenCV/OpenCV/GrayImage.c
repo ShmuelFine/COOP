@@ -5,37 +5,14 @@
 #include <math.h>
 
 
-DEF_CTOR(GrayImage, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_vector)
+DEF_CTOR(GrayImage)
 {
-    THROW_MSG_UNLESS(width > 0 && height > 0, "Width and Height must be positive");
-
-    ALLOC_ARRAY(_this->image_buffer, uint8_t, height * width);
-    ASSERT_NOT_NULL(_this->image_buffer);
-
-    ALLOC(_this->refCount, size_t);
-    *(_this->refCount) = 1;
-
-    _this->width = width;
-    _this->height = height;
-    _this->stride = width;
+    _this->width = 0;
+    _this->height = 0;
+    _this->stride = 0;
     _this->offset = 0;
-	printf("GrayImage Constructor: width=%zu, height=%zu\n", width, height);
-
-    IF(data_vector != NULL) 
-    {
-        MEM_SIZE_T vec_size;
-        MFUN(data_vector, size), & vec_size CALL;
-        THROW_MSG_UNLESS(vec_size == (width * height), "Data vector size mismatch");
-
-        char* vec_data_ptr = NULL;
-        MFUN(data_vector, dataPtr), &vec_data_ptr CALL;
-        memcpy(_this->image_buffer, (uint8_t*)vec_data_ptr, vec_size);
-    }
-    ELSE
-    {
-        memset(_this->image_buffer, 0, width * height);
-    }
-    END_IF;
+	_this->refCount = NULL;
+	_this->image_buffer = NULL;
 }
 END_CTOR
 
@@ -54,6 +31,37 @@ DEF_DTOR(GrayImage)
     END_IF;
 }
 END_DTOR
+
+MEM_FUN_IMPL(GrayImage, init, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_vector) {
+    THROW_MSG_UNLESS(width > 0 && height > 0, "Width and Height must be positive");
+
+    ALLOC_ARRAY(_this->image_buffer, uint8_t, height * width);
+    ASSERT_NOT_NULL(_this->image_buffer);
+
+    ALLOC(_this->refCount, size_t);
+    *(_this->refCount) = 1;
+
+    _this->width = width;
+    _this->height = height;
+    _this->stride = width;
+    _this->offset = 0;
+
+    IF(data_vector != NULL)
+    {
+        MEM_SIZE_T vec_size;
+        MFUN(data_vector, size), & vec_size CALL;
+        THROW_MSG_UNLESS(vec_size == (width * height), "Data vector size mismatch");
+
+        char* vec_data_ptr = NULL;
+        MFUN(data_vector, dataPtr), &vec_data_ptr CALL;
+        memcpy(_this->image_buffer, (uint8_t*)vec_data_ptr, vec_size);
+    }
+    ELSE
+    {
+        memset(_this->image_buffer, 0, width * height);
+    }
+    END_IF;
+}END_FUN
 
 MEM_FUN_IMPL(GrayImage, init_copy, GrayImage const* other) {
     THROW_MSG_UNLESS(other != NULL, "Source image (other) cannot be NULL");
@@ -105,15 +113,11 @@ MEM_FUN_IMPL(GrayImage, init_ROI, GrayImage const* other, MEM_SIZE_T row, MEM_SI
 END_FUN
 
 
-MEM_FUN_IMPL(GrayImage, clone, GrayImage** out_clone)
+MEM_FUN_IMPL(GrayImage, clone, GrayImage* out_clone)
 {
     THROW_MSG_UNLESS(out_clone != NULL, "Output pointer cannot be NULL");
 
-    GrayImage* new_image = NULL;
-
-    ALLOC_ARRAY(new_image, GrayImage, 1);
-    INITIALIZE_INSTANCE(GrayImage, (*new_image)), _this->width, _this->height, NULL CALL;
-    ASSERT_NOT_NULL(new_image);
+	MFUN(out_clone, init), _this->width, _this->height, NULL CALL;
 
     // 5.copy row - row
     FOR(MEM_SIZE_T r = 0; r < _this->height; ++r)
@@ -121,13 +125,11 @@ MEM_FUN_IMPL(GrayImage, clone, GrayImage** out_clone)
         //row source
         uint8_t* src_row_ptr = _this->image_buffer + _this->offset + (r * _this->stride);
         // row destination
-        uint8_t* dst_row_ptr = new_image->image_buffer + (r * new_image->stride);
-        // copy
+        uint8_t* dst_row_ptr = out_clone->image_buffer + (out_clone->stride * r);  
         memcpy(dst_row_ptr, src_row_ptr, _this->width);
     }
     END_LOOP;
 
-    *out_clone = new_image;
 }
 END_FUN
 
@@ -322,35 +324,22 @@ END_FUN
 
 // --- Add this implementation to GrayImage.c ---
 
-MEM_FUN_IMPL(GrayImage, equals, GrayImage const* other, GrayImage** out_comparison_image)
+MEM_FUN_IMPL(GrayImage, equals, GrayImage const* other, GrayImage* out_comparison_image)
 {
-   
+
     THROW_MSG_UNLESS(other != NULL, "Other image cannot be NULL");
     THROW_MSG_UNLESS(out_comparison_image != NULL, "Output pointer cannot be NULL");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Image dimensions must match for comparison");
 
-    GrayImage* result_image = NULL;
-    ALLOC_ARRAY(result_image, GrayImage, 1);
-    INITIALIZE_INSTANCE(GrayImage, (*result_image)), _this->width, _this->height, NULL CALL;
-    ASSERT_NOT_NULL(result_image);
+    THROW_MSG_UNLESS(out_comparison_image->width == _this->width && out_comparison_image->height == _this->height, "Output image dimensions must match inputs");
 
-    result_image->width = _this->width;  
-    result_image->height = _this->height;
-    result_image->stride = _this->width; 
-    result_image->offset = 0;            
-
-    // We must iterate by row and column to correctly handle the offset and stride
-    // of *both* input images, which may be different ROIs.
     FOR(MEM_SIZE_T r = 0; r < _this->height; ++r)
     {
-        // Get a pointer to the start of the current row for '_this' image
         uint8_t* this_row = _this->image_buffer + _this->offset + (r * _this->stride);
 
-        // Get a pointer to the start of the current row for the 'other' image
         uint8_t* other_row = other->image_buffer + other->offset + (r * other->stride);
 
-        // Get a pointer to the start of the current row for the 'result' image
-        uint8_t* result_row = result_image->image_buffer + (r * result_image->stride);
+        uint8_t* result_row = out_comparison_image->image_buffer + (r * out_comparison_image->stride);
 
         FOR(MEM_SIZE_T c = 0; c < _this->width; ++c)
         {
@@ -368,7 +357,6 @@ MEM_FUN_IMPL(GrayImage, equals, GrayImage const* other, GrayImage** out_comparis
     }
     END_LOOP;
 
-    *out_comparison_image = result_image;
 }
 END_FUN
 
@@ -388,4 +376,5 @@ BIND(GrayImage, sub_abs);
 BIND(GrayImage, mul_scalar);
 BIND(GrayImage, mul_mat);
 BIND(GrayImage, equals);
+BIND(GrayImage, init);
 END_INIT_CLASS(GrayImage);
