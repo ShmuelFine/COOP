@@ -4,10 +4,11 @@
 #include "COOP.h"
 #include "Iterator.h"
 #include "SharedObjPtr.h"
-#include "List.h"   
+#include "List.h"
+#include "MathUtils.h"
 #include <stdbool.h>
 #include <stddef.h>
-#include "SharedObjPtr.h"
+#include <string.h>
 
 /* =============================
  *        Generic Queue
@@ -18,7 +19,7 @@ END_DEF(GenericQueue);
 
 FUNCTIONS(GenericQueue);
 
-/* basic ops (Vector-style generic + typed wrappers) */
+/* =====Generic Queue Methods Declarations ===== */
 MEM_FUN_DECL(GenericQueue, enqueue_generic, const char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericQueue, dequeue_generic, char* out_buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericQueue, front_generic, char** out_ptr);
@@ -31,10 +32,10 @@ MEM_FUN_DECL(GenericQueue, empty, bool* out_empty);
 MEM_FUN_DECL(GenericQueue, print);
 
 /* ====== Typed helpers ====== */
-MEM_FUN_DECL(GenericQueue, enqueue_int, int val);
-MEM_FUN_DECL(GenericQueue, enqueue_char, char val);
-MEM_FUN_DECL(GenericQueue, enqueue_float, float val);
-MEM_FUN_DECL(GenericQueue, enqueue_objSPtr, objSPtr val);
+MEM_FUN_DECL(GenericQueue, enqueue_int,const int val);
+MEM_FUN_DECL(GenericQueue, enqueue_char, const char val);
+MEM_FUN_DECL(GenericQueue, enqueue_float, const float val);
+MEM_FUN_DECL(GenericQueue, enqueue_objSPtr, const objSPtr val);
 
 MEM_FUN_DECL(GenericQueue, dequeue_int, int* out_val);
 MEM_FUN_DECL(GenericQueue, dequeue_char, char* out_val);

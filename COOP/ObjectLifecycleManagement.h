@@ -15,13 +15,13 @@
 
 ///////////////// EXCEPTION HANDLING: /////////////////////////////// <-- note the BREAK
 
-#define TRY IS_BREAKING = false; \
+#define TRY IS_BREAKING = false; IS_CONTINUING=false; \
 for (int i_ ##__LINE__= 0; i_ ##__LINE__ < 1; i_ ##__LINE__++)\
 {
 
-#define BREAK {IS_BREAKING = true; _scope_obj_list_call_dtors(&_scope_obj_list); break;}
+#define BREAK {IS_BREAKING = true;IS_CONTINUING=false; _scope_obj_list_call_dtors(&_scope_obj_list); break;}
 
-#define CONTINUE {IS_BREAKING = false; _scope_obj_list_call_dtors(&_scope_obj_list); break;}
+#define CONTINUE {IS_BREAKING = false;IS_CONTINUING=true; _scope_obj_list_call_dtors(&_scope_obj_list); break;}
 
 #define CATCH												\
 }															\
@@ -30,7 +30,7 @@ else if (IS_IN_THROWING()) { __RET_VAL__ = SUCCESS_VALUE;
 
 #define END_TRY												\
 }															\
-{if (IS_BREAKING || IS_IN_THROWING()) break;}
+{if (IS_BREAKING ||IS_CONTINUING || IS_IN_THROWING()) break;}
 
 #define THROW \
 __RET_VAL__ = IN_THROWING_VALUE; /*__debugbreak()*/; break;
@@ -75,13 +75,13 @@ COOP_API void _scope_obj_list_call_dtors(object* _scope_obj_list);
 ///////////////// CONDITIONS: ///////////////////////////////
 #define IF(...) if (__VA_ARGS__) { SCOPE_START; 
 #define ELSE_IF(...) _scope_obj_list_call_dtors(&_scope_obj_list); SCOPE_END } \
-else if (IS_BREAKING || IS_IN_RETURNING() || IS_IN_THROWING()) break;		\
+else if (IS_BREAKING ||IS_CONTINUING || IS_IN_RETURNING() || IS_IN_THROWING()) break;		\
 else if (__VA_ARGS__) { SCOPE_START; 
 
 #define ELSE ELSE_IF(1)
 
 #define END_IF   _scope_obj_list_call_dtors(&_scope_obj_list); SCOPE_END\
- } if (IS_BREAKING || IS_IN_RETURNING() || IS_IN_THROWING()) break;
+ } if (IS_BREAKING ||IS_CONTINUING || IS_IN_RETURNING() || IS_IN_THROWING()) break;
 
 ///////////////// LOOPS: ///////////////////////////////
 #define FOR(...) for (__VA_ARGS__) { SCOPE_START; 
@@ -103,6 +103,7 @@ int function_name(__VA_ARGS__)					\
 {												\
 int __RET_VAL__ = SUCCESS_VALUE;				\
 int IS_BREAKING = false;						\
+int IS_CONTINUING = false;					    \
 SCOPE_START;
 
 
