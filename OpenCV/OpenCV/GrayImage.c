@@ -165,6 +165,7 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, add, GrayImage const* other, GrayImage* out)
 {
+    THROW_MSG_UNLESS(_this->refCount != NULL && other->refCount != NULL && out->refCount != NULL, "Images not properly initialized");
     THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in arithmetic op");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Size mismatch between inputs");
     THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
@@ -191,6 +192,7 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, sub_default, GrayImage const* other, GrayImage* out)
 {
+    THROW_MSG_UNLESS(_this->refCount != NULL && other->refCount != NULL && out->refCount != NULL, "Images not properly initialized");
     THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in arithmetic op");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Size mismatch between inputs");
     THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
@@ -217,6 +219,7 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, sub_abs, GrayImage const* other, GrayImage* out)
 {
+    THROW_MSG_UNLESS(_this->refCount != NULL && other->refCount != NULL && out->refCount != NULL, "Images not properly initialized");
     THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in arithmetic op");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Size mismatch between inputs");
     THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
@@ -243,6 +246,7 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, mul_scalar, double alpha, GrayImage* out)
 {
+    THROW_MSG_UNLESS(_this->refCount != NULL && out->refCount != NULL, "Images not properly initialized");
     THROW_MSG_UNLESS(_this != NULL && out != NULL, "NULL image in mul_scalar");
     THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
 
@@ -288,9 +292,9 @@ END_FUN
 MEM_FUN_IMPL(GrayImage, mul_mat, GrayImage const* other, GrayImage* out)
 {
     THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in mul_mat");
-    /* Dimension check: inner dims must match; output must be H_THIS � W_OTHER */
+    THROW_MSG_UNLESS(_this->refCount != NULL && other->refCount != NULL && out->refCount != NULL, "Images not properly initialized");
     THROW_MSG_UNLESS(_this->width == other->height, "Inner dims mismatch: A.width must equal B.height");
-    THROW_MSG_UNLESS(out->height == _this->height && out->width == other->width, "Output size must be (A.height � B.width)");
+    THROW_MSG_UNLESS(out->height == _this->height && out->width == other->width, "Output size must be (A.height × B.width)");
 
     const MEM_SIZE_T H_THIS = _this->height;
     const MEM_SIZE_T W_THIS = _this->width;     /* also B.height */
@@ -335,7 +339,7 @@ MEM_FUN_IMPL(GrayImage, equals, GrayImage const* other, GrayImage* out_compariso
     THROW_MSG_UNLESS(other->refCount != NULL, "Other image not properly initialized");
     THROW_MSG_UNLESS(out_comparison_image != NULL, "Output pointer cannot be NULL");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Image dimensions must match for comparison");
-    THROW_MSG_UNLESS(out_comparison_image->width == _this->width && out_comparison_image->height == _this->height, "Output image dimensions must match inputs"); THROW_MSG_UNLESS(out_comparison_image->width == _this->width && out_comparison_image->height == _this->height, "Output image dimensions must match inputs");
+    THROW_MSG_UNLESS(out_comparison_image->width == _this->width && out_comparison_image->height == _this->height, "Output image dimensions must match inputs");
 
     FOR(MEM_SIZE_T r = 0; r < _this->height; ++r)
     {
