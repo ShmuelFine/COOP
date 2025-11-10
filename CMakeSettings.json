@@ -9,11 +9,6 @@
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
-      "ctestCommandArgs": "",
-      "variables": [
-        {
-          "name": "MEM_SIZE",
-          "value": "int",
       "ctestCommandArgs": ""
     }
   ]
