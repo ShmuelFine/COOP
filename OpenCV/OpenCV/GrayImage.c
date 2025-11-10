@@ -647,7 +647,7 @@ MEM_FUN_IMPL(GrayImage, load_from_bmp, const char* path)
 	}
     END_IF;
 
-    IF(_this->refCount != NULL)
+    IF(_this->refCount == NULL)
     {
         ALLOC(_this->refCount, size_t);
         *(_this->refCount) = 1;
