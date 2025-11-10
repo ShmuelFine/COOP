@@ -560,11 +560,11 @@ MEM_FUN_IMPL(GrayImage, save_to_bmp, const char* filePath)
     uint32_t totalFileSizeBytes = 0;
     uint32_t pixelDataOffsetBytes = 0;
 
-    FUN(_bmp_calc_sizes)
-        imageWidth, imageHeight,
-        & paletteSizeBytes, & alignedRowSizeBytes,
-        & imageDataSizeBytes, & totalFileSizeBytes, & pixelDataOffsetBytes CALL;
     TRY{
+        FUN(_bmp_calc_sizes)
+        imageWidth, imageHeight,
+        & paletteSizeBytes,& alignedRowSizeBytes,
+        & imageDataSizeBytes,& totalFileSizeBytes,& pixelDataOffsetBytes CALL;
         // -------------------------
         // Prepare BMP headers
         // -------------------------
