@@ -626,7 +626,8 @@ TEST_FUN_IMPL(GrayImageTest, save_img_to_bmp)
 	CREATE(Vector_uint8_t, vec) CALL;
 	FUN(fill_coop_logo) &vec, 256, 256 CALL;
 
-	CREATE(GrayImage, img), 256, 256, & vec CALL;
+	CREATE(GrayImage, img) CALL;
+	MFUN(&img, init), 256, 256, & vec CALL;
 	const char* path = "test_output.bmp";
 	// Act
 	MFUN(&img, save_to_bmp), path CALL;
