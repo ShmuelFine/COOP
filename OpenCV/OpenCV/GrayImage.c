@@ -640,7 +640,24 @@ MEM_FUN_IMPL(GrayImage, load_from_bmp, const char* path)
     }
     END_IF;
 
-    MFUN(_this, init), width, height, NULL CALL;
+    IF(_this->image_buffer == NULL)
+    { 
+        ALLOC_ARRAY(_this->image_buffer, uint8_t, height * width);
+        ASSERT_NOT_NULL(_this->image_buffer);
+	}
+    END_IF;
+
+    IF(_this->refCount != NULL)
+    {
+        ALLOC(_this->refCount, size_t);
+        *(_this->refCount) = 1;
+	}
+    END_IF;
+
+    _this->width = width;
+    _this->height = height;
+    _this->stride = width;
+    _this->offset = 0;
 
     uint8_t* fileRow = NULL;
     ALLOC_ARRAY(fileRow, uint8_t, rowSizeFile);

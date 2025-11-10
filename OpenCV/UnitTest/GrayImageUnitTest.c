@@ -625,10 +625,11 @@ TEST_FUN_IMPL(GrayImageTest, save_img_to_bmp)
 
 	CREATE(GrayImage, img) CALL;
 	MFUN(&img, init), 256, 256, & vec CALL;
-	const char* path = "C:\\bootcamp_project\\COOP\\OpenCV\\OpenCV\\test1_output.bmp";
+	const char* path = "test_coop_output.bmp";
 	// Act
 	MFUN(&img, save_to_bmp), path CALL;
 
+	// Assert - check BMP signature
     FILE* f = fopen(path, "rb");
     ASSERT(f != NULL);
 
@@ -645,13 +646,28 @@ TEST_FUN_IMPL(GrayImageTest, load_img_from_bmp)
 {
 	// Arrange
     CREATE(GrayImage, img) CALL;
-    const char* path_from = "C:\\bootcamp_project\\COOP\\OpenCV\\OpenCV\\test_input.bmp";
-    const char* path_to = "C:\\bootcamp_project\\COOP\\OpenCV\\OpenCV\\test_output.bmp";
+
+    /* The path should be the path of the
+       folder where your image is located,
+       where the image name is test_input.bmp. */
+    const char* path_from = "test_input.bmp";
+    const char* path_to = "test_output.bmp";
 
 	// Act
 	MFUN(&img, load_from_bmp), path_from CALL;
 
     MFUN(&img, save_to_bmp), path_to CALL;
+
+    // Assert - check BMP signature
+    FILE* f = fopen(path_to, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
 
 } END_FUN
 
