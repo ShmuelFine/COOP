@@ -79,3 +79,9 @@ add_subdirectory(OpenCV/OpenCV)
 add_subdirectory(OpenCV/UnitTest)
 
 
+
+# ==== [ COOP Benchmark Section ] ====
+
+add_subdirectory(Compare/benchmarks/coop)
+
+# ==== [ END COOP Benchmark Section ] ====

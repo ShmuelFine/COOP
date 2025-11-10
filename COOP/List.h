@@ -43,7 +43,7 @@ END_DEF(GenericList);
 FUNCTIONS(GenericList, MEM_SIZE_T dataTypeSize, List_ElementType enumTag);
 
 /* ---- Generic API ---- */
-MEM_FUN_DECL(GenericList, __push_back_generic, char* buff, MEM_SIZE_T buff_size);
+MEM_FUN_DECL(GenericList, __push_back_generic, const char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericList, __push_front_generic, const char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericList, __pop_back_generic, char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericList, __pop_front_generic, char* buff, MEM_SIZE_T buff_size);
@@ -62,32 +62,32 @@ MEM_FUN_DECL(GenericList, __print_value, const void* p); /* helper for single el
 MEM_FUN_DECL(GenericList, print);                        /* print entire list using iterators */
 
 /* ---- Typed wrappers ON BASE (int) ---- */
-MEM_FUN_DECL(GenericList, push_back_int, int val);
-MEM_FUN_DECL(GenericList, push_front_int, int val);
+MEM_FUN_DECL(GenericList, push_back_int, const int val);
+MEM_FUN_DECL(GenericList, push_front_int, const int val);
 MEM_FUN_DECL(GenericList, pop_back_int, int* out_val);
 MEM_FUN_DECL(GenericList, pop_front_int, int* out_val);
 MEM_FUN_DECL(GenericList, front_int, int* out_val);
 MEM_FUN_DECL(GenericList, back_int, int* out_val);
 
 /* ---- Typed wrappers ON BASE (char) ---- */
-MEM_FUN_DECL(GenericList, push_back_char, char val);
-MEM_FUN_DECL(GenericList, push_front_char, char val);
+MEM_FUN_DECL(GenericList, push_back_char, const char val);
+MEM_FUN_DECL(GenericList, push_front_char, const char val);
 MEM_FUN_DECL(GenericList, pop_back_char, char* out_val);
 MEM_FUN_DECL(GenericList, pop_front_char, char* out_val);
 MEM_FUN_DECL(GenericList, front_char, char* out_val);
 MEM_FUN_DECL(GenericList, back_char, char* out_val);
 
 /* ---- Typed wrappers ON BASE (float) ---- */
-MEM_FUN_DECL(GenericList, push_back_float, float val);
-MEM_FUN_DECL(GenericList, push_front_float, float val);
+MEM_FUN_DECL(GenericList, push_back_float, const float val);
+MEM_FUN_DECL(GenericList, push_front_float, const float val);
 MEM_FUN_DECL(GenericList, pop_back_float, float* out_val);
 MEM_FUN_DECL(GenericList, pop_front_float, float* out_val);
 MEM_FUN_DECL(GenericList, front_float, float* out_val);
 MEM_FUN_DECL(GenericList, back_float, float* out_val);
 
 /* ---- Typed wrappers ON BASE (objSPtr) ---- */
-MEM_FUN_DECL(GenericList, push_back_objSPtr, objSPtr val);
-MEM_FUN_DECL(GenericList, push_front_objSPtr, objSPtr val);
+MEM_FUN_DECL(GenericList, push_back_objSPtr, const objSPtr val);
+MEM_FUN_DECL(GenericList, push_front_objSPtr, const objSPtr val);
 MEM_FUN_DECL(GenericList, pop_back_objSPtr, objSPtr* out_val);
 MEM_FUN_DECL(GenericList, pop_front_objSPtr, objSPtr* out_val);
 MEM_FUN_DECL(GenericList, front_objSPtr, objSPtr* out_val);
