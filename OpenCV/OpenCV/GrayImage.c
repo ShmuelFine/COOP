@@ -595,6 +595,105 @@ MEM_FUN_IMPL(GrayImage, save_to_bmp, const char* filePath)
 }
 END_FUN
 
+MEM_FUN_IMPL(GrayImage, load_from_bmp, const char* path)
+{
+    THROW_MSG_UNLESS(path != NULL, "Path cannot be NULL");
+    THROW_MSG_UNLESS(_this != NULL, "out_img cannot be NULL");
+
+    FILE* f = fopen(path, "rb");
+    THROW_MSG_UNLESS(f != NULL, "Failed to open file for reading");
+
+    BMP_FILE_HDR fh;
+    BMP_INFO_HDR ih;
+
+    IF(fread(&fh, sizeof(fh), 1, f) != 1)
+    {
+        fclose(f);
+        THROW_MSG("Failed to read BMP file header");
+    }
+    END_IF;
+
+    IF(fread(&ih, sizeof(ih), 1, f) != 1)
+    {
+        fclose(f);
+        THROW_MSG("Failed to read BMP info header");
+    }
+    END_IF;
+
+    THROW_MSG_UNLESS(fh.signature == (uint16_t)0x4D42, "Not a BMP file ('BM' signature mismatch)");
+    THROW_MSG_UNLESS(ih.headerSize >= (uint32_t)sizeof(BMP_INFO_HDR), "Unsupported BMP info header size (<40)");
+    THROW_MSG_UNLESS(ih.colorPlanes == 1, "Unsupported BMP: colorPlanes != 1");
+    THROW_MSG_UNLESS(ih.compressionMethod == 0U, "Unsupported BMP compression (must be BI_RGB)");
+    THROW_MSG_UNLESS(ih.bitsPerPixel == 8U || ih.bitsPerPixel == 24U, "Only 8-bit or 24-bit BMP is supported");
+    THROW_MSG_UNLESS(ih.imageWidth > 0 && ih.imageHeight != 0, "Invalid BMP dimensions");
+
+    const MEM_SIZE_T width = (MEM_SIZE_T)ih.imageWidth;
+    const MEM_SIZE_T height = (MEM_SIZE_T)(ih.imageHeight > 0 ? ih.imageHeight : -ih.imageHeight);
+    const bool bottom_up = (ih.imageHeight > 0);
+    const uint32_t bytesPerPixel = (ih.bitsPerPixel == 24U) ? 3U : 1U;
+
+    const uint32_t rowSizeFile = (((uint32_t)width * bytesPerPixel + 3U) / 4U) * 4U;
+    IF(fseek(f, (long)fh.pixelDataOffset, SEEK_SET) != 0)
+    {
+        fclose(f);
+        THROW_MSG("Failed to seek to pixel data");
+    }
+    END_IF;
+
+    MFUN(_this, init), width, height, NULL CALL;
+
+    uint8_t* fileRow = NULL;
+    ALLOC_ARRAY(fileRow, uint8_t, rowSizeFile);
+    ASSERT_NOT_NULL(fileRow);
+
+    FOR(MEM_SIZE_T r = 0; r < height; ++r)
+    {
+        const MEM_SIZE_T src_r = bottom_up ? (height - 1U - r) : r;
+        const long rowOffset = (long)fh.pixelDataOffset + (long)(src_r * rowSizeFile);
+
+        IF(fseek(f, rowOffset, SEEK_SET) != 0)
+        {
+            FREE(fileRow);
+            fclose(f);
+            THROW_MSG("Failed to seek to row");
+        }
+        END_IF;
+
+        IF(fread(fileRow, 1, rowSizeFile, f) != rowSizeFile)
+        {
+            FREE(fileRow);
+            fclose(f);
+            THROW_MSG("Failed to read BMP row");
+        }
+        END_IF;
+
+        uint8_t* dst = _this->image_buffer + _this->offset + r * _this->stride;
+
+        IF(bytesPerPixel == 1U)
+        {
+            memcpy(dst, fileRow, (size_t)width);
+        }
+        ELSE
+        {
+            FOR(MEM_SIZE_T c = 0; c < width; ++c)
+            {
+                const uint8_t B = fileRow[c * 3U + 0U];
+                const uint8_t G = fileRow[c * 3U + 1U];
+                const uint8_t R = fileRow[c * 3U + 2U];
+                const uint32_t y = 77U * (uint32_t)R + 150U * (uint32_t)G + 29U * (uint32_t)B + 128U;
+                dst[c] = (uint8_t)(y >> 8);
+            }
+            END_LOOP;
+        }
+        END_IF;
+    }
+    END_LOOP;
+
+    FREE(fileRow);
+    fclose(f);
+}
+END_FUN
+
 
 INIT_CLASS(GrayImage);
 BIND(GrayImage, get_height);
@@ -606,6 +705,7 @@ BIND(GrayImage, init_copy);
 BIND(GrayImage, init_move);
 BIND(GrayImage, init_ROI);
 BIND(GrayImage, save_to_bmp);
+BIND(GrayImage, load_from_bmp);
 BIND(GrayImage, add);
 BIND(GrayImage, sub_default);
 BIND(GrayImage, sub_abs);
