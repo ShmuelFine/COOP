@@ -44,16 +44,23 @@ typedef struct {
 #pragma pack(pop)
 
 
-FUNCTIONS(GrayImage, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_vector);
+
+FUNCTIONS(GrayImage);
+MEM_FUN_DECL(GrayImage, init, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_vector);
 MEM_FUN_DECL(GrayImage, get_width, MEM_SIZE_T* width_out);
 MEM_FUN_DECL(GrayImage, get_height, MEM_SIZE_T* height_out);
 MEM_FUN_DECL(GrayImage, get_stride, MEM_SIZE_T* stride_out);
 MEM_FUN_DECL(GrayImage, get_pixel_ptr, MEM_SIZE_T row, MEM_SIZE_T col, uint8_t** out_ptr);
-MEM_FUN_DECL(GrayImage, clone, GrayImage** out_clone);
-MEM_FUN_DECL(GrayImage, equals, GrayImage const* other, GrayImage** out_comparison_image);
+MEM_FUN_DECL(GrayImage, clone, GrayImage* out_clone); 
+MEM_FUN_DECL(GrayImage, equals, GrayImage const* other, GrayImage* out_comparison_image);
 MEM_FUN_DECL(GrayImage, init_copy, GrayImage const* other);
 MEM_FUN_DECL(GrayImage, init_move, GrayImage* other);
 MEM_FUN_DECL(GrayImage, init_ROI, GrayImage const* other, MEM_SIZE_T row, MEM_SIZE_T col, MEM_SIZE_T ROI_width, MEM_SIZE_T ROI_height);
 MEM_FUN_DECL(GrayImage, save_to_bmp, const char *path);
+MEM_FUN_DECL(GrayImage, add, GrayImage const* other, GrayImage* out);
+MEM_FUN_DECL(GrayImage, sub_default, GrayImage const* other, GrayImage* out);
+MEM_FUN_DECL(GrayImage, sub_abs, GrayImage const* other, GrayImage* out);
+MEM_FUN_DECL(GrayImage, mul_scalar, double alpha, GrayImage* out);
+MEM_FUN_DECL(GrayImage, mul_mat, GrayImage const* other, GrayImage* out);
 END_FUNCTIONS(GrayImage);
 #endif
