@@ -34,6 +34,7 @@ END_DTOR
 
 MEM_FUN_IMPL(GrayImage, init, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_vector) {
     THROW_MSG_UNLESS(width > 0 && height > 0, "Width and Height must be positive");
+    THROW_MSG_UNLESS(_this->refCount == NULL && _this->image_buffer == NULL, "Image already initialized - cannot init twice");
 
     ALLOC_ARRAY(_this->image_buffer, uint8_t, height * width);
     ASSERT_NOT_NULL(_this->image_buffer);
@@ -155,6 +156,7 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, get_pixel_ptr, MEM_SIZE_T row, MEM_SIZE_T col, uint8_t** out_ptr)
 {
+    THROW_MSG_UNLESS(_this->refCount != NULL, "Image not properly initialized");
     THROW_MSG_UNLESS(row < _this->height && col < _this->width, "Pixel out of bounds");
 
     *out_ptr = _this->image_buffer + _this->offset + (row * _this->stride) + col;
@@ -328,12 +330,12 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, equals, GrayImage const* other, GrayImage* out_comparison_image)
 {
-
     THROW_MSG_UNLESS(_this->refCount != NULL, "This image not properly initialized");
     THROW_MSG_UNLESS(other != NULL, "Other image cannot be NULL");
+    THROW_MSG_UNLESS(other->refCount != NULL, "Other image not properly initialized");
     THROW_MSG_UNLESS(out_comparison_image != NULL, "Output pointer cannot be NULL");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Image dimensions must match for comparison");
-    THROW_MSG_UNLESS(out_comparison_image->width == _this->width && out_comparison_image->height == _this->height, "Output image dimensions must match inputs");
+    THROW_MSG_UNLESS(out_comparison_image->width == _this->width && out_comparison_image->height == _this->height, "Output image dimensions must match inputs"); THROW_MSG_UNLESS(out_comparison_image->width == _this->width && out_comparison_image->height == _this->height, "Output image dimensions must match inputs");
 
     FOR(MEM_SIZE_T r = 0; r < _this->height; ++r)
     {
