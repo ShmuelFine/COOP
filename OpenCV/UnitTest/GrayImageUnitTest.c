@@ -420,7 +420,6 @@ TEST_FUN_IMPL(GrayImageTest, init_copy)
     IF(true)
     {
         CREATE(GrayImage, img2) CALL;
-        MFUN(&img2, init), 10, 5, NULL CALL;
         MFUN(&img2, init_copy), & img1 CALL;
 
         // Assert inside scope

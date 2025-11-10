@@ -65,6 +65,7 @@ MEM_FUN_IMPL(GrayImage, init, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_
 
 MEM_FUN_IMPL(GrayImage, init_copy, GrayImage const* other) {
     THROW_MSG_UNLESS(other != NULL, "Source image (other) cannot be NULL");
+    THROW_MSG_UNLESS(other->refCount != NULL, "Source image not properly initialized");
 
     _this->image_buffer = other->image_buffer;
     _this->width = other->width;
@@ -98,6 +99,7 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, init_ROI, GrayImage const* other, MEM_SIZE_T row, MEM_SIZE_T col, MEM_SIZE_T ROI_width, MEM_SIZE_T ROI_height) {
     THROW_MSG_UNLESS(other != NULL, "Source image (other) cannot be NULL");
+    THROW_MSG_UNLESS(other->refCount != NULL, "Source image not properly initialized");
     THROW_MSG_UNLESS(col + ROI_width <= other->width && row + ROI_height <= other->height, "ROI boundary error");
 
     _this->image_buffer = other->image_buffer;
