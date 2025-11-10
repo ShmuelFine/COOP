@@ -11,6 +11,7 @@ ADD_TEST(GrayImageTest, clone_FromROI);
 ADD_TEST(GrayImageTest, equals);
 ADD_TEST(GrayImageTest, init_copy);
 ADD_TEST(GrayImageTest, init_move); 
+ADD_TEST(GrayImageTest, save_img_to_bmp);
 END_TEST_SUITE(GrayImageTest);
 
 #endif

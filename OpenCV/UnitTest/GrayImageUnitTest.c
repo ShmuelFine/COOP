@@ -1,4 +1,4 @@
-#include "GrayImage.h"
+﻿#include "GrayImage.h"
 #include "GrayImageUnitTest.h"
 #include "ExportDefs.h"
 #include "DynamicMemoryManagement.h"
@@ -264,6 +264,92 @@ TEST_FUN_IMPL(GrayImageTest, equals)
 }
 END_FUN
 
+// Helper: Checks if (x,y) is inside the rectangle defined by (x0,y0) - (x1,y1)
+static inline int in_rect(int x, int y, int x0, int y0, int x1, int y1)
+{
+    return (x >= x0) && (x < x1) && (y >= y0) && (y < y1);
+}
+// Generates a white background with black "COOP" text in the center.
+FUN_IMPL(fill_coop_logo, Vector_uint8_t* vec, int W, int H)
+{
+    // Letter geometry
+    const int letterW = 48;
+    const int letterH = 96;
+    const int stroke  = 10;   // stroke thickness
+    const int spacing = 18;   // space between letters
+
+    const int totalW = 4*letterW + 3*spacing;    // "C O O P"
+    const int startX = (W - totalW)/2;
+    const int startY = (H - letterH)/2;
+
+    // Precompute letter x origins
+    const int xC = startX;
+    const int xO1 = xC + letterW + spacing;
+    const int xO2 = xO1 + letterW + spacing;
+    const int xP  = xO2 + letterW + spacing;
+
+    FOR (int y = 0; y < H; ++y)
+    {
+        FOR (int x = 0; x < W; ++x)
+        {
+            int black = 0; // 0=white, 1=black
+
+            // --- 'C' ---
+            black |= in_rect(x, y, xC, startY, xC+stroke, startY+letterH);
+            black |= in_rect(x, y, xC, startY, xC+letterW, startY+stroke);
+            black |= in_rect(x, y, xC, startY+letterH-stroke, xC+letterW, startY+letterH);
+
+            // --- 'O' #1 ---
+            black |= in_rect(x, y, xO1, startY, xO1+stroke, startY+letterH);
+            black |= in_rect(x, y, xO1+letterW-stroke, startY, xO1+letterW, startY+letterH);
+            black |= in_rect(x, y, xO1, startY, xO1+letterW, startY+stroke);
+            black |= in_rect(x, y, xO1, startY+letterH-stroke, xO1+letterW, startY+letterH);
+
+            // --- 'O' #2 ---
+            black |= in_rect(x, y, xO2, startY, xO2+stroke, startY+letterH);
+            black |= in_rect(x, y, xO2+letterW-stroke, startY, xO2+letterW, startY+letterH);
+            black |= in_rect(x, y, xO2, startY, xO2+letterW, startY+stroke);
+            black |= in_rect(x, y, xO2, startY+letterH-stroke, xO2+letterW, startY+letterH);
+
+            // --- 'P' ---
+            black |= in_rect(x, y, xP, startY, xP+stroke, startY+letterH);
+            black |= in_rect(x, y, xP, startY, xP+letterW, startY+stroke);
+            black |= in_rect(x, y, xP, startY + (letterH/2) - (stroke/2),
+                                   xP+letterW, startY + (letterH/2) + (stroke/2));
+            black |= in_rect(x, y, xP+letterW-stroke, startY,
+                                   xP+letterW, startY + (letterH/2));
+
+            // Push pixel: white (255) or black (0)
+            MFUN(vec, push_back), (uint8_t)(black ? 0 : 255) CALL;
+        }
+        END_LOOP;
+    }
+    END_LOOP;
+}
+END_FUN
+
+TEST_FUN_IMPL(GrayImageTest, save_img_to_bmp)
+{
+	// Arrange
+	CREATE(Vector_uint8_t, vec) CALL;
+	FUN(fill_coop_logo) &vec, 256, 256 CALL;
+
+	CREATE(GrayImage, img), 256, 256, & vec CALL;
+	const char* path = "test_output.bmp";
+	// Act
+	MFUN(&img, save_to_bmp), path CALL;
+
+    FILE* f = fopen(path, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
+} 
+END_FUN
 
 /* ========= Suite Binding ========= */
 // Binds all tests to the suite
@@ -274,4 +360,5 @@ BIND_TEST(GrayImageTest, clone_FromROI);
 BIND_TEST(GrayImageTest, equals);
 BIND_TEST(GrayImageTest, init_copy);
 BIND_TEST(GrayImageTest, init_move);
+BIND_TEST(GrayImageTest, save_img_to_bmp);
 END_INIT_TEST_SUITE(GrayImageTest)
