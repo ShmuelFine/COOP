@@ -14,9 +14,7 @@
         {
           "name": "MEM_SIZE",
           "value": "int",
-          "type": "STRING"
-        }
-      ]
+      "ctestCommandArgs": ""
     }
   ]
 }
