@@ -22,6 +22,8 @@ ADD_TEST(GrayImageTest, gaussian_blur);
 ADD_TEST(GrayImageTest, sobel_x_y);
 ADD_TEST(GrayImageTest, sobel);
 ADD_TEST(GrayImageTest, non_maximum_suppression);
+ADD_TEST(GrayImageTest, hysteresis_thresholding);
+ADD_TEST(GrayImageTest, canny_test);
 END_TEST_SUITE(GrayImageTest);
 
 #endif

@@ -3,7 +3,7 @@
 #include "ExportDefs.h"
 #include "DynamicMemoryManagement.h"
 #include "vector.h"
-#include "Functions.c"
+#include "Functions.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -811,6 +811,7 @@ TEST_FUN_IMPL(GrayImageTest, sobel)
     ASSERT(signature[0] == 'B' && signature[1] == 'M');
 
 } END_FUN
+
 TEST_FUN_IMPL(GrayImageTest, non_maximum_suppression)
 {
     // Arrange
@@ -847,6 +848,80 @@ TEST_FUN_IMPL(GrayImageTest, non_maximum_suppression)
 
 } END_FUN
 
+TEST_FUN_IMPL(GrayImageTest, hysteresis_thresholding)
+{
+    // Arrange
+    CREATE(GrayImage, img) CALL;
+
+    char path_from[SIZE_PATH], path_to[SIZE_PATH];
+    strcpy_s(path_from, sizeof path_from, PATH);
+    strcat_s(path_from, sizeof path_from, "test_input.bmp");
+
+    strcpy_s(path_to, sizeof path_to, PATH);
+    strcat_s(path_to, sizeof path_to, "thresholding_output.bmp");
+
+    MFUN(&img, load_from_bmp), path_from CALL;
+	FUN(__gaussian_blur) &img CALL;
+
+	CREATE(GrayImage, img_dir) CALL;
+
+	FUN(__sobel_filter) &img, &img_dir CALL;
+	FUN(__non_maximum_suppression) &img, &img_dir CALL;
+
+	int high_threshold = 200;
+	int low_threshold = 50;
+    // Act
+
+	FUN(__hysteresis_thresholding)& img, low_threshold, high_threshold CALL;
+    MFUN(&img, save_to_bmp), path_to CALL;
+
+    // Assert - check BMP signature
+    FILE* f = fopen(path_to, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
+
+} END_FUN
+
+TEST_FUN_IMPL(GrayImageTest, canny_test)
+{
+    // Arrange
+    CREATE(GrayImage, img) CALL;
+
+    char path_from[SIZE_PATH], path_to[SIZE_PATH];
+    strcpy_s(path_from, sizeof path_from, PATH);
+    strcat_s(path_from, sizeof path_from, "test_tiger.bmp");
+
+    strcpy_s(path_to, sizeof path_to, PATH);
+    strcat_s(path_to, sizeof path_to, "canny_output.bmp");
+
+    MFUN(&img, load_from_bmp), path_from CALL;
+
+	int high_threshold = 200;
+	int low_threshold = 50;
+
+    // Act
+	MFUN(&img,canny), low_threshold, high_threshold CALL;
+    MFUN(&img, save_to_bmp), path_to CALL;
+
+    // Assert - check BMP signature
+    FILE* f = fopen(path_to, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
+
+} END_FUN
+
 
 /* ========= Suite Binding ========= */
 INIT_TEST_SUITE(GrayImageTest)
@@ -867,4 +942,6 @@ BIND_TEST(GrayImageTest, gaussian_blur);
 BIND_TEST(GrayImageTest, sobel_x_y);
 BIND_TEST(GrayImageTest, sobel);
 BIND_TEST(GrayImageTest, non_maximum_suppression);
+BIND_TEST(GrayImageTest, hysteresis_thresholding);
+BIND_TEST(GrayImageTest, canny_test);
 END_INIT_TEST_SUITE(GrayImageTest)

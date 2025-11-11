@@ -1,5 +1,6 @@
-﻿#include "GrayImage.h"
+﻿#include "Functions.h"
 #include <stdint.h>
+
 // Static kernels for Gaussian Blur operation
 static const uint8_t GAUSSIAN_KERNEL_VALS[3][3] = { {1, 2, 1}, {2, 4, 2}, {1, 2, 1} };
 static const int GAUSSIAN_DIVISOR = 16;
@@ -12,6 +13,11 @@ static const int8_t SOBEL_GY_KERNEL[3][3] = { {-1, -2, -1}, {0, 0, 0}, {1, 2, 1}
 //gradient direction (based on tan(22.5) ≈ 41/100)
 static const long TAN_APPROX_NUMERATOR = 41L; // The numerator of the approximation (41)
 static const long TAN_APPROX_DENOMINATOR = 100L; // The denominator of the approximation (100)
+
+// Hysteresis edge classification values
+static const uint8_t HYST_EDGE_STRONG = 255;
+static const uint8_t HYST_EDGE_WEAK = 128;
+static const uint8_t HYST_EDGE_NONE = 0;
 
 FUN_IMPL(__gaussian_blur, GrayImage* img)
 {
@@ -63,7 +69,7 @@ FUN_IMPL(__sobel_filter, GrayImage * img, GrayImage* out_dir) {
     MFUN(img, get_width), & width CALL;
     MFUN(img, get_height), & height CALL;
 
-	MFUN(out_dir, init), width, width, NULL CALL;
+	MFUN(out_dir, init), width, height, NULL CALL;
 
     THROW_MSG_UNLESS(width >= 3 && height >= 3, "Image dimensions must be at least 3x3 for a 3x3 Sobel kernel.");
 
@@ -363,3 +369,171 @@ FUN_IMPL(__non_maximum_suppression, GrayImage* img, GrayImage const* img_dir)
     END_LOOP;
 
 }END_FUN
+
+FUN_IMPL(__hysteresis_thresholding, GrayImage* img, uint8_t low_thresh, uint8_t high_thresh)
+{
+    THROW_MSG_UNLESS(img, "Input image pointer is NULL");
+    THROW_MSG_UNLESS(low_thresh <= high_thresh, "low_threshold cannot be greater than high_threshold");
+
+    MEM_SIZE_T width = 0, height = 0;
+    MFUN(img, get_width), & width CALL;
+    MFUN(img, get_height), & height CALL;
+    THROW_MSG_UNLESS(width >= 3 && height >= 3, "Image must be at least 3x3 for neighborhood processing");
+
+    CREATE(GrayImage, temp_mag_src) CALL;
+    MFUN(img, clone), & temp_mag_src CALL;
+
+    // First pass: Pixel classification
+    // Classify each pixel as STRONG, WEAK, or NONE, based on the thresholds.
+    FOR(MEM_SIZE_T r = 0; r < height; ++r)
+    {
+        FOR(MEM_SIZE_T c = 0; c < width; ++c)
+        {
+            uint8_t* mag_pixel_ptr = NULL;
+            MFUN(&temp_mag_src, get_pixel_ptr), r, c, & mag_pixel_ptr CALL;
+            const uint8_t mag = *mag_pixel_ptr;
+
+            uint8_t* dst_pixel_ptr = NULL;
+            MFUN(img, get_pixel_ptr), r, c, & dst_pixel_ptr CALL;
+
+            IF(mag >= high_thresh)
+            {
+                *dst_pixel_ptr = HYST_EDGE_STRONG;
+            }
+            ELSE_IF(mag >= low_thresh)
+            {
+                *dst_pixel_ptr = HYST_EDGE_WEAK;
+            }
+            ELSE
+            {
+                *dst_pixel_ptr = HYST_EDGE_NONE;
+            }
+            END_IF;
+        }
+        END_LOOP;
+    }
+    END_LOOP;
+
+    // Second pass: Hysteresis
+    // We will continue to loop as long as we find weak pixels to become strong.
+    bool changed_in_pass = true;
+    WHILE(changed_in_pass)
+    {
+        changed_in_pass = false;
+
+        FOR(MEM_SIZE_T r = 1; r < height - 1; ++r)
+        {
+            FOR(MEM_SIZE_T c = 1; c < width - 1; ++c)
+            {
+                uint8_t* center_pixel_ptr = NULL;
+                MFUN(img, get_pixel_ptr), r, c, & center_pixel_ptr CALL;
+
+                IF(*center_pixel_ptr == HYST_EDGE_WEAK)
+                {
+                    bool found_strong_neighbor = false;
+                    FOR(int kr = -1; kr <= 1; ++kr)
+                    {
+                        FOR(int kc = -1; kc <= 1; ++kc)
+                        {
+                            IF(kr != 0 || kc != 0)
+                            {
+                                uint8_t* neighbor_ptr = NULL;
+                                MFUN(img, get_pixel_ptr), r + kr, c + kc, & neighbor_ptr CALL;
+
+                                IF(*neighbor_ptr == HYST_EDGE_STRONG)
+                                {
+                                    found_strong_neighbor = true;
+                                    BREAK;
+                                }
+                                END_IF;
+                            }
+                            END_IF;
+                        }
+                        END_LOOP;
+
+                        IF(found_strong_neighbor)
+                        {
+                            BREAK;
+                        }
+                        END_IF;
+                    }
+                    END_LOOP;
+
+                    IF(found_strong_neighbor)
+                    {
+                        *center_pixel_ptr = HYST_EDGE_STRONG;
+                        changed_in_pass = true;
+                    }
+                    END_IF;
+                }
+                END_IF;
+            }
+            END_LOOP;
+        }
+        END_LOOP;
+    }
+    END_LOOP;
+
+    // Third pass: Cleanup
+    // Any pixel that is still marked as WEAK (128) is not connected to any strong edge.
+    // Therefore, we will delete it (turn it into NONE).
+    FOR(MEM_SIZE_T r = 0; r < height; ++r)
+    {
+        FOR(MEM_SIZE_T c = 0; c < width; ++c)
+        {
+            uint8_t* pixel_ptr = NULL;
+            MFUN(img, get_pixel_ptr), r, c, & pixel_ptr CALL;
+
+            IF(*pixel_ptr == HYST_EDGE_WEAK)
+            {
+                *pixel_ptr = HYST_EDGE_NONE;
+            }
+            END_IF;
+        }
+        END_LOOP;
+    }
+    END_LOOP;
+
+}END_FUN
+
+FUN_IMPL(__zero_border, GrayImage* img)
+{
+    THROW_MSG_UNLESS(img, "Input image pointer is NULL");
+
+    MEM_SIZE_T width = 0, height = 0;
+    MFUN(img, get_width), & width CALL;
+    MFUN(img, get_height), & height CALL;
+
+    IF(width < 2 || height < 2)
+    {
+        RETURN;
+    }
+    END_IF;
+
+    const MEM_SIZE_T r_top = 0;
+    const MEM_SIZE_T r_bottom = height - 1;
+    const MEM_SIZE_T c_left = 0;
+    const MEM_SIZE_T c_right = width - 1;
+    uint8_t* p = NULL;
+    FOR(MEM_SIZE_T c = 0; c < width; ++c)
+    {
+        
+        MFUN(img, get_pixel_ptr), r_top, c, & p CALL;
+        *p = 0;
+        MFUN(img, get_pixel_ptr), r_bottom, c, & p CALL;
+        *p = 0;
+    }
+    END_LOOP;
+
+    FOR(MEM_SIZE_T r = 1; r < r_bottom; ++r)
+    {
+        uint8_t* p = NULL;
+        MFUN(img, get_pixel_ptr), r, c_left, & p CALL;
+        *p = 0;
+        MFUN(img, get_pixel_ptr), r, c_right, & p CALL;
+        *p = 0;
+    }
+    END_LOOP;
+
+}END_FUN
+
