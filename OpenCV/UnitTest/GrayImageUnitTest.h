@@ -19,6 +19,8 @@ ADD_TEST(GrayImageTest, sub_abs_matches_absdiff_3x3);
 ADD_TEST(GrayImageTest, mul_scalar_round_and_saturate_3x3);
 ADD_TEST(GrayImageTest, mul_mat_linear_multiply_2x2);
 ADD_TEST(GrayImageTest, gaussian_blur);
+ADD_TEST(GrayImageTest, sobel_x_y);
+ADD_TEST(GrayImageTest, sobel);
 END_TEST_SUITE(GrayImageTest);
 
 #endif
