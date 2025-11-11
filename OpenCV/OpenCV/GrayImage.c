@@ -560,38 +560,47 @@ MEM_FUN_IMPL(GrayImage, save_to_bmp, const char* filePath)
     uint32_t totalFileSizeBytes = 0;
     uint32_t pixelDataOffsetBytes = 0;
 
-    FUN(_bmp_calc_sizes)
+    TRY{
+        FUN(_bmp_calc_sizes)
         imageWidth, imageHeight,
-        & paletteSizeBytes, & alignedRowSizeBytes,
-        & imageDataSizeBytes, & totalFileSizeBytes, & pixelDataOffsetBytes CALL;
+        & paletteSizeBytes,& alignedRowSizeBytes,
+        & imageDataSizeBytes,& totalFileSizeBytes,& pixelDataOffsetBytes CALL;
+        // -------------------------
+        // Prepare BMP headers
+        // -------------------------
+        BMP_FILE_HDR fileHeader;
+        BMP_INFO_HDR infoHeader;
 
-    // -------------------------
-    // Prepare BMP headers
-    // -------------------------
-    BMP_FILE_HDR fileHeader;
-    BMP_INFO_HDR infoHeader;
+        // Fill both headers with all necessary metadata
+        FUN(_bmp_fill_file_header)
+            & fileHeader, totalFileSizeBytes, pixelDataOffsetBytes CALL;
 
-    // Fill both headers with all necessary metadata
-    FUN(_bmp_fill_file_header)
-        & fileHeader, totalFileSizeBytes, pixelDataOffsetBytes CALL;
+        FUN(_bmp_fill_info_header)
+            & infoHeader, imageWidth, imageHeight, imageDataSizeBytes CALL;
 
-    FUN(_bmp_fill_info_header)
-        & infoHeader, imageWidth, imageHeight, imageDataSizeBytes CALL;
+        // -------------------------
+        // Write all BMP sections sequentially:
+        // [File Header] → [Info Header] → [Palette] → [Pixel Rows]
+        // -------------------------
+        FUN(_bmp_write_file_header)      outFile,& fileHeader CALL;
+        FUN(_bmp_write_info_header)      outFile,& infoHeader CALL;
+        FUN(_bmp_write_palette_256_gray) outFile CALL;
+        FUN(_bmp_write_rows_8bit)
+            outFile, _this, imageWidth, imageHeight, alignedRowSizeBytes CALL;
 
-    // -------------------------
-    // Write all BMP sections sequentially:
-    // [File Header] → [Info Header] → [Palette] → [Pixel Rows]
-    // -------------------------
-    FUN(_bmp_write_file_header)      outFile, & fileHeader CALL;
-    FUN(_bmp_write_info_header)      outFile, & infoHeader CALL;
-    FUN(_bmp_write_palette_256_gray) outFile CALL;
-    FUN(_bmp_write_rows_8bit)
-        outFile, _this, imageWidth, imageHeight, alignedRowSizeBytes CALL;
-
-    // -------------------------
-    // Finalize file and clean up
-    // -------------------------
-    fclose(outFile);
+        // -------------------------
+        // Finalize file and clean up
+        // -------------------------
+        fclose(outFile);
+		outFile = NULL;
+    }
+    CATCH{
+         IF(outFile) {
+          fclose(outFile);
+         }END_IF
+        THROW;   
+    }
+    END_TRY;
 }
 END_FUN
 
