@@ -21,6 +21,7 @@ ADD_TEST(GrayImageTest, mul_mat_linear_multiply_2x2);
 ADD_TEST(GrayImageTest, gaussian_blur);
 ADD_TEST(GrayImageTest, sobel_x_y);
 ADD_TEST(GrayImageTest, sobel);
+ADD_TEST(GrayImageTest, non_maximum_suppression);
 END_TEST_SUITE(GrayImageTest);
 
 #endif

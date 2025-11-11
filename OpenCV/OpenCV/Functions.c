@@ -3,9 +3,15 @@
 // Static kernels for Gaussian Blur operation
 static const uint8_t GAUSSIAN_KERNEL_VALS[3][3] = { {1, 2, 1}, {2, 4, 2}, {1, 2, 1} };
 static const int GAUSSIAN_DIVISOR = 16;
+
 // Static kernels for Sobel operation
 static const int8_t SOBEL_GX_KERNEL[3][3] = { {-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1} };
 static const int8_t SOBEL_GY_KERNEL[3][3] = { {-1, -2, -1}, {0, 0, 0}, {1, 2, 1} };
+
+//Constants for calculating a fast approximation of the 
+//gradient direction (based on tan(22.5) ≈ 41/100)
+static const long TAN_APPROX_NUMERATOR = 41L; // The numerator of the approximation (41)
+static const long TAN_APPROX_DENOMINATOR = 100L; // The denominator of the approximation (100)
 
 FUN_IMPL(__gaussian_blur, GrayImage* img)
 {
@@ -50,12 +56,15 @@ FUN_IMPL(__gaussian_blur, GrayImage* img)
 
 }END_FUN
 
-//The function calculates Gx kernel and Gy kernel together to save runtime.
-FUN_IMPL(__sobel_filter, GrayImage * img) {
-    THROW_MSG_UNLESS(img, "Input image pointer is NULL");
+FUN_IMPL(__sobel_filter, GrayImage * img, GrayImage* out_dir) {
+    THROW_MSG_UNLESS(img && out_dir, "Input image pointer is NULL");
+
     MEM_SIZE_T width = 0, height = 0;
     MFUN(img, get_width), & width CALL;
     MFUN(img, get_height), & height CALL;
+
+	MFUN(out_dir, init), width, width, NULL CALL;
+
     THROW_MSG_UNLESS(width >= 3 && height >= 3, "Image dimensions must be at least 3x3 for a 3x3 Sobel kernel.");
 
     CREATE(GrayImage, temp_img) CALL;
@@ -97,6 +106,40 @@ FUN_IMPL(__sobel_filter, GrayImage * img) {
             uint8_t* dst_pixel = NULL;
             MFUN(img, get_pixel_ptr), r, c, & dst_pixel CALL;
             *dst_pixel = new_val;
+
+			// Store direction in out_dir image
+            uint8_t dir = 0;
+            const int32_t abs_x = abs(sum_x);
+            const int32_t abs_y = abs(sum_y);
+
+            /* 
+                dir = 0: Horizontal (slope < 22.5°)
+                dir = 2: Vertical (slope > 67.5°)
+                dir = 1: Positive Diagonal (45°, same signs)
+                dir = 3: Negative Diagonal (135°, opposite signs) 
+             */
+            IF ((abs_y * TAN_APPROX_DENOMINATOR) <= (abs_x * TAN_APPROX_NUMERATOR))
+            {
+                dir = 0;
+            }
+            ELSE_IF((abs_x * TAN_APPROX_DENOMINATOR) <= (abs_y * TAN_APPROX_NUMERATOR))
+            {
+                dir = 2;
+            }
+            ELSE_IF((sum_x > 0 && sum_y > 0) || (sum_x < 0 && sum_y < 0))
+            {
+                dir = 1;
+            }
+            ELSE
+            {
+                dir = 3;
+            }                            
+            END_IF;
+
+            uint8_t* dst_dir_pixel = NULL;
+            MFUN(out_dir, get_pixel_ptr), r, c,& dst_dir_pixel CALL;
+            *dst_dir_pixel = dir;
+            
         }
         END_LOOP;
     }
@@ -236,5 +279,87 @@ FUN_IMPL(__sobel_filter_split, GrayImage* img)
     FUN(__sobel_convolve_y) img, & img_y CALL;
 
     FUN(__sobel_magnitude)& img_x, & img_y, img CALL;
+
+}END_FUN
+
+FUN_IMPL(__non_maximum_suppression, GrayImage* img, GrayImage const* img_dir)
+{
+    THROW_MSG_UNLESS(img && img_dir, "NULL image pointer");
+    MEM_SIZE_T width = 0, height = 0;
+    MFUN(img, get_width), & width CALL;
+    MFUN(img, get_height), & height CALL;
+
+    MEM_SIZE_T dir_w, dir_h;
+    MFUN(img_dir, get_width), & dir_w CALL;
+    MFUN(img_dir, get_height), & dir_h CALL;
+
+    THROW_MSG_UNLESS(width >= 3 && height >= 3, "Image must be at least 3x3");
+    THROW_MSG_UNLESS(width == dir_w && height == dir_h, "Direction image size mismatch");
+
+    CREATE(GrayImage, temp_mag_src) CALL;
+    MFUN(img, clone), & temp_mag_src CALL;
+
+    FOR(MEM_SIZE_T r = 1; r < height - 1; ++r)
+    {
+        FOR(MEM_SIZE_T c = 1; c < width - 1; ++c)
+        {
+            uint8_t* center_mag_ptr = NULL;
+            MFUN(&temp_mag_src, get_pixel_ptr), r, c, & center_mag_ptr CALL;
+            const uint8_t center_mag = *center_mag_ptr;
+
+            uint8_t* dir_ptr = NULL;
+            MFUN(img_dir, get_pixel_ptr), r, c, & dir_ptr CALL;
+            const uint8_t dir = *dir_ptr;
+
+            IF(center_mag == 0)
+            {
+                uint8_t* dst_pixel_ptr = NULL;
+                MFUN(img, get_pixel_ptr), r, c, & dst_pixel_ptr CALL;
+                *dst_pixel_ptr = 0;
+                CONTINUE;
+            }
+            END_IF;
+
+            uint8_t* neighbor1_ptr = NULL;
+            uint8_t* neighbor2_ptr = NULL;
+
+            switch (dir)
+            {
+            case 0:
+                MFUN(&temp_mag_src, get_pixel_ptr), r, c - 1, & neighbor1_ptr CALL;
+                MFUN(&temp_mag_src, get_pixel_ptr), r, c + 1, & neighbor2_ptr CALL;
+                break;
+            case 1:
+                MFUN(&temp_mag_src, get_pixel_ptr), r - 1, c + 1, & neighbor1_ptr CALL;
+                MFUN(&temp_mag_src, get_pixel_ptr), r + 1, c - 1, & neighbor2_ptr CALL;
+                break;
+            case 2:
+                MFUN(&temp_mag_src, get_pixel_ptr), r - 1, c, & neighbor1_ptr CALL;
+                MFUN(&temp_mag_src, get_pixel_ptr), r + 1, c, & neighbor2_ptr CALL;
+                break;
+            case 3:
+                MFUN(&temp_mag_src, get_pixel_ptr), r - 1, c - 1, & neighbor1_ptr CALL;
+                MFUN(&temp_mag_src, get_pixel_ptr), r + 1, c + 1, & neighbor2_ptr CALL;
+                break;
+            }
+
+
+            IF(center_mag >= (*neighbor1_ptr) && center_mag >= (*neighbor2_ptr))
+            {
+                uint8_t* dst_pixel_ptr = NULL;
+                MFUN(img, get_pixel_ptr), r, c, & dst_pixel_ptr CALL;
+                *dst_pixel_ptr = center_mag;
+            }
+            ELSE
+            {
+                uint8_t * dst_pixel_ptr = NULL;
+                MFUN(img, get_pixel_ptr), r, c,& dst_pixel_ptr CALL;
+                *dst_pixel_ptr = 0;
+            }
+            END_IF;
+        }
+        END_LOOP;
+    }
+    END_LOOP;
 
 }END_FUN
