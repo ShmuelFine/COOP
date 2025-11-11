@@ -6,7 +6,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdint.h>
 
 
 DEF_CLASS(GrayImage);
@@ -57,6 +56,7 @@ MEM_FUN_DECL(GrayImage, init_copy, GrayImage const* other);
 MEM_FUN_DECL(GrayImage, init_move, GrayImage* other);
 MEM_FUN_DECL(GrayImage, init_ROI, GrayImage const* other, MEM_SIZE_T row, MEM_SIZE_T col, MEM_SIZE_T ROI_width, MEM_SIZE_T ROI_height);
 MEM_FUN_DECL(GrayImage, save_to_bmp, const char *path);
+MEM_FUN_DECL(GrayImage, load_from_bmp, const char* path);
 MEM_FUN_DECL(GrayImage, add, GrayImage const* other, GrayImage* out);
 MEM_FUN_DECL(GrayImage, sub_default, GrayImage const* other, GrayImage* out);
 MEM_FUN_DECL(GrayImage, sub_abs, GrayImage const* other, GrayImage* out);

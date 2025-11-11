@@ -27,6 +27,78 @@ TEST_FUN_IMPL(GrayImageTest, create_SanityTest)
 } END_FUN
 
 //
+// Test: init_copy_IncrementsAndDecrementsRefCount
+// Verifies that init_copy() correctly
+//
+TEST_FUN_IMPL(GrayImageTest, init_copy)
+{
+    // Arrange
+    CREATE(GrayImage, img1) CALL;
+    MFUN(&img1, init), 10, 5, NULL CALL;
+    size_t* original_ref_count_ptr = img1.refCount;
+    NTEST_ASSERT(*original_ref_count_ptr == 1);
+
+    // Act
+    IF(true)
+    {
+        CREATE(GrayImage, img2) CALL;
+        MFUN(&img2, init), 10, 5, NULL CALL;
+        MFUN(&img2, init_copy), & img1 CALL;
+
+        // Assert inside scope
+        MEM_SIZE_T dest_w = 0;
+        MFUN(&img2, get_width), & dest_w CALL;
+        NTEST_ASSERT(dest_w == 10);
+        NTEST_ASSERT(img2.refCount == original_ref_count_ptr);
+        NTEST_ASSERT(*original_ref_count_ptr == 2);
+    } END_IF
+
+        // Assert - ref count after scope
+        NTEST_ASSERT(*original_ref_count_ptr == 1);
+
+    MEM_SIZE_T src_w_after = 0;
+    MFUN(&img1, get_width), & src_w_after CALL;
+    NTEST_ASSERT(src_w_after == 10);
+}
+END_FUN
+
+
+//
+// Test: init_move_TransfersOwnershipAndNullifiesSource
+// Verifies that init_move() transfers ownership and clears the source image.
+//
+TEST_FUN_IMPL(GrayImageTest, init_move)
+{
+    // Arrange
+    CREATE(GrayImage, img1) CALL;
+    MFUN(&img1, init), 10, 5, NULL CALL;
+    size_t* original_ref_count_ptr = img1.refCount;
+    uint8_t* original_buffer_ptr = img1.image_buffer;
+    MEM_SIZE_T original_w = 0;
+    MFUN(&img1, get_width), & original_w CALL;
+    NTEST_ASSERT(original_w == 10);
+
+    // Act
+    CREATE(GrayImage, img2) CALL;
+    MFUN(&img2, init_move), & img1 CALL;
+
+    // Assert
+    MEM_SIZE_T dest_w = 0;
+    MFUN(&img2, get_width), & dest_w CALL;
+    NTEST_ASSERT(dest_w == 10);
+    NTEST_ASSERT(img2.refCount == original_ref_count_ptr);
+    NTEST_ASSERT(img2.image_buffer == original_buffer_ptr);
+    NTEST_ASSERT(*img2.refCount == 1);
+
+    // Assert - source cleared
+    MEM_SIZE_T src_w_after = 99;
+    MFUN(&img1, get_width), & src_w_after CALL;
+    NTEST_ASSERT(src_w_after == 0);
+    NTEST_ASSERT(img1.refCount == NULL);
+    NTEST_ASSERT(img1.image_buffer == NULL);
+}
+END_FUN
+//
 // Test: clone_CreatesIndependentDeepCopy
 // Verifies that clone() creates a true deep copy.
 //
@@ -75,6 +147,47 @@ TEST_FUN_IMPL(GrayImageTest, clone)
     NTEST_ASSERT(*clone_pixel_ptr == original_value);
 }
 END_FUN
+
+//
+// Test: clone_FromROI_IsCorrectAndContiguous
+// Ensures that cloning from a Region of Interest (ROI) produces a proper contiguous image.
+//
+TEST_FUN_IMPL(GrayImageTest, clone_FromROI)
+{
+    // Arrange
+    CREATE(Vector_uint8_t, vec) CALL;
+    FOR(int i = 1; i <= 2073600; ++i)
+    {
+        MFUN(&vec, push_back), i % 255 CALL;
+    }
+    END_LOOP;
+    CREATE(GrayImage, img) CALL;
+    MFUN(&img, init), 1920, 1080, & vec CALL;
+    // Act
+    CREATE(GrayImage, img_clone) CALL;
+    CREATE(GrayImage, img_roi) CALL;
+    MFUN(&img_roi, init_ROI), & img, 5, 5, 10, 10 CALL;
+    MFUN(&img_roi, clone), & img_clone CALL;
+
+    // Assert
+    // Check clone dimensions and buffer independence
+    NTEST_ASSERT(img_clone.width == 10);
+    NTEST_ASSERT(img_clone.height == 10);
+    NTEST_ASSERT(img_clone.stride == 10);
+    NTEST_ASSERT(img_clone.offset == 0);
+    NTEST_ASSERT(img_clone.image_buffer != img.image_buffer);
+
+    uint8_t* clone_ptr = NULL;
+    MFUN(&img_clone, get_pixel_ptr), 0, 0, & clone_ptr CALL;
+    NTEST_ASSERT(*clone_ptr == 171);
+    MFUN(&img_clone, get_pixel_ptr), 9, 9, & clone_ptr CALL;
+    NTEST_ASSERT(*clone_ptr == 120);
+
+    // Assert - base image remains unchanged
+    uint8_t* base_ptr = NULL;
+    MFUN(&img, get_pixel_ptr), 0, 0, & base_ptr CALL;
+    NTEST_ASSERT(*base_ptr == 1);
+} END_FUN
 
 TEST_FUN_IMPL(GrayImageTest, add_saturate_basic3x3)
 {
@@ -361,122 +474,6 @@ TEST_FUN_IMPL(GrayImageTest, mul_mat_linear_multiply_2x2)
 }
 END_FUN
 
-/* ========= Suite Binding ========= */
-
-//
-// Test: clone_FromROI_IsCorrectAndContiguous
-// Ensures that cloning from a Region of Interest (ROI) produces a proper contiguous image.
-//
-TEST_FUN_IMPL(GrayImageTest, clone_FromROI)
-{
-    // Arrange
-    CREATE(Vector_uint8_t, vec) CALL;
-    FOR(int i = 1; i <= 2073600; ++i)
-    {
-        MFUN(&vec, push_back), i % 255 CALL;
-    }
-    END_LOOP;
-    CREATE(GrayImage, img) CALL;
-    MFUN(&img, init), 1920, 1080, & vec CALL;
-    // Act
-    CREATE(GrayImage, img_clone) CALL;
-    CREATE(GrayImage, img_roi) CALL;
-    MFUN(&img_roi, init_ROI), & img, 5, 5, 10, 10 CALL;
-    MFUN(&img_roi, clone), & img_clone CALL;
-
-    // Assert
-    // Check clone dimensions and buffer independence
-    NTEST_ASSERT(img_clone.width == 10);
-    NTEST_ASSERT(img_clone.height == 10);
-    NTEST_ASSERT(img_clone.stride == 10);
-    NTEST_ASSERT(img_clone.offset == 0);
-    NTEST_ASSERT(img_clone.image_buffer != img.image_buffer);
-
-    uint8_t* clone_ptr = NULL;
-    MFUN(&img_clone, get_pixel_ptr), 0, 0, & clone_ptr CALL;
-    NTEST_ASSERT(*clone_ptr == 171);
-    MFUN(&img_clone, get_pixel_ptr), 9, 9, & clone_ptr CALL;
-    NTEST_ASSERT(*clone_ptr == 120);
-
-    // Assert - base image remains unchanged
-    uint8_t* base_ptr = NULL;
-    MFUN(&img, get_pixel_ptr), 0, 0, & base_ptr CALL;
-    NTEST_ASSERT(*base_ptr == 1);
-} END_FUN
-
-//
-// Test: init_copy_IncrementsAndDecrementsRefCount
-// Verifies that init_copy() correctly
-//
-TEST_FUN_IMPL(GrayImageTest, init_copy)
-{
-    // Arrange
-    CREATE(GrayImage, img1) CALL;
-    MFUN(&img1, init), 10, 5, NULL CALL;
-    size_t* original_ref_count_ptr = img1.refCount;
-    NTEST_ASSERT(*original_ref_count_ptr == 1);
-
-    // Act
-    IF(true)
-    {
-        CREATE(GrayImage, img2) CALL;
-        MFUN(&img2, init), 10, 5, NULL CALL;
-        MFUN(&img2, init_copy), & img1 CALL;
-
-        // Assert inside scope
-        MEM_SIZE_T dest_w = 0;
-        MFUN(&img2, get_width), & dest_w CALL;
-        NTEST_ASSERT(dest_w == 10);
-        NTEST_ASSERT(img2.refCount == original_ref_count_ptr);
-        NTEST_ASSERT(*original_ref_count_ptr == 2);
-    } END_IF
-
-        // Assert - ref count after scope
-        NTEST_ASSERT(*original_ref_count_ptr == 1);
-
-    MEM_SIZE_T src_w_after = 0;
-    MFUN(&img1, get_width), & src_w_after CALL;
-    NTEST_ASSERT(src_w_after == 10);
-}
-END_FUN
-
-
-//
-// Test: init_move_TransfersOwnershipAndNullifiesSource
-// Verifies that init_move() transfers ownership and clears the source image.
-//
-TEST_FUN_IMPL(GrayImageTest, init_move)
-{
-    // Arrange
-    CREATE(GrayImage, img1) CALL;
-    MFUN(&img1, init), 10, 5, NULL CALL;
-    size_t* original_ref_count_ptr = img1.refCount;
-    uint8_t* original_buffer_ptr = img1.image_buffer;
-    MEM_SIZE_T original_w = 0;
-    MFUN(&img1, get_width), & original_w CALL;
-    NTEST_ASSERT(original_w == 10);
-
-    // Act
-    CREATE(GrayImage, img2) CALL;
-    MFUN(&img2, init_move), & img1 CALL;
-
-    // Assert
-    MEM_SIZE_T dest_w = 0;
-    MFUN(&img2, get_width), & dest_w CALL;
-    NTEST_ASSERT(dest_w == 10);
-    NTEST_ASSERT(img2.refCount == original_ref_count_ptr);
-    NTEST_ASSERT(img2.image_buffer == original_buffer_ptr);
-    NTEST_ASSERT(*img2.refCount == 1);
-
-    // Assert - source cleared
-    MEM_SIZE_T src_w_after = 99;
-    MFUN(&img1, get_width), & src_w_after CALL;
-    NTEST_ASSERT(src_w_after == 0);
-    NTEST_ASSERT(img1.refCount == NULL);
-    NTEST_ASSERT(img1.image_buffer == NULL);
-}
-END_FUN
-
 
 //
 // Test: equals_CorrectlyComparesPixels
@@ -628,10 +625,11 @@ TEST_FUN_IMPL(GrayImageTest, save_img_to_bmp)
 
 	CREATE(GrayImage, img) CALL;
 	MFUN(&img, init), 256, 256, & vec CALL;
-	const char* path = "test_output.bmp";
+	const char* path = "test_coop_output.bmp";
 	// Act
 	MFUN(&img, save_to_bmp), path CALL;
 
+	// Assert - check BMP signature
     FILE* f = fopen(path, "rb");
     ASSERT(f != NULL);
 
@@ -644,6 +642,36 @@ TEST_FUN_IMPL(GrayImageTest, save_img_to_bmp)
 } 
 END_FUN
 
+TEST_FUN_IMPL(GrayImageTest, load_img_from_bmp)
+{
+	// Arrange
+    CREATE(GrayImage, img) CALL;
+
+    /* The path should be the path of the
+       folder where your image is located,
+       where the image name is test_input.bmp. */
+    const char* path_from = "test_input.bmp";
+    const char* path_to = "test_output.bmp";
+
+	// Act
+	MFUN(&img, load_from_bmp), path_from CALL;
+
+    MFUN(&img, save_to_bmp), path_to CALL;
+
+    // Assert - check BMP signature
+    FILE* f = fopen(path_to, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
+
+} END_FUN
+
+
 /* ========= Suite Binding ========= */
 INIT_TEST_SUITE(GrayImageTest)
 BIND_TEST(GrayImageTest, create_SanityTest);
@@ -653,6 +681,7 @@ BIND_TEST(GrayImageTest, equals);
 BIND_TEST(GrayImageTest, init_copy);
 BIND_TEST(GrayImageTest, init_move);
 BIND_TEST(GrayImageTest, save_img_to_bmp);
+BIND_TEST(GrayImageTest, load_img_from_bmp);
 BIND_TEST(GrayImageTest, add_saturate_basic3x3);
 BIND_TEST(GrayImageTest, sub_default_zero_3x3);
 BIND_TEST(GrayImageTest, sub_abs_matches_absdiff_3x3);

@@ -34,6 +34,7 @@ END_DTOR
 
 MEM_FUN_IMPL(GrayImage, init, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_t* data_vector) {
     THROW_MSG_UNLESS(width > 0 && height > 0, "Width and Height must be positive");
+    THROW_MSG_UNLESS(_this->refCount == NULL && _this->image_buffer == NULL, "Image already initialized - cannot init twice");
 
     ALLOC_ARRAY(_this->image_buffer, uint8_t, height * width);
     ASSERT_NOT_NULL(_this->image_buffer);
@@ -65,6 +66,7 @@ MEM_FUN_IMPL(GrayImage, init, MEM_SIZE_T width, MEM_SIZE_T height, Vector_uint8_
 
 MEM_FUN_IMPL(GrayImage, init_copy, GrayImage const* other) {
     THROW_MSG_UNLESS(other != NULL, "Source image (other) cannot be NULL");
+    THROW_MSG_UNLESS(other->refCount != NULL, "Source image not properly initialized");
 
     _this->image_buffer = other->image_buffer;
     _this->width = other->width;
@@ -79,7 +81,7 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, init_move, GrayImage* other) {
     THROW_MSG_UNLESS(other != NULL, "Source image (other) cannot be NULL");
-
+    THROW_MSG_UNLESS(other->refCount != NULL, "Source image not properly initialized");
     _this->image_buffer = other->image_buffer;
     _this->width = other->width;
     _this->height = other->height;
@@ -98,6 +100,7 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, init_ROI, GrayImage const* other, MEM_SIZE_T row, MEM_SIZE_T col, MEM_SIZE_T ROI_width, MEM_SIZE_T ROI_height) {
     THROW_MSG_UNLESS(other != NULL, "Source image (other) cannot be NULL");
+    THROW_MSG_UNLESS(other->refCount != NULL, "Source image not properly initialized");
     THROW_MSG_UNLESS(col + ROI_width <= other->width && row + ROI_height <= other->height, "ROI boundary error");
 
     _this->image_buffer = other->image_buffer;
@@ -116,7 +119,7 @@ END_FUN
 MEM_FUN_IMPL(GrayImage, clone, GrayImage* out_clone)
 {
     THROW_MSG_UNLESS(out_clone != NULL, "Output pointer cannot be NULL");
-
+    THROW_MSG_UNLESS(_this->refCount != NULL, "Source image not properly initialized");
 	MFUN(out_clone, init), _this->width, _this->height, NULL CALL;
 
     // 5.copy row - row
@@ -135,24 +138,29 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, get_width, MEM_SIZE_T* width_out) 
 {
+    THROW_MSG_UNLESS(width_out != NULL, "Output pointer cannot be NULL");
     *width_out = _this->width;
 } 
 END_FUN
 
 MEM_FUN_IMPL(GrayImage, get_height, MEM_SIZE_T* height_out) 
 {
+	THROW_MSG_UNLESS(height_out != NULL, "Output pointer cannot be NULL");
     *height_out = _this->height;
 } 
 END_FUN
 
 MEM_FUN_IMPL(GrayImage, get_stride, MEM_SIZE_T* stride_out)
 {
+	THROW_MSG_UNLESS(stride_out != NULL, "Output pointer cannot be NULL");
     *stride_out = _this->stride;
 }
 END_FUN
 
 MEM_FUN_IMPL(GrayImage, get_pixel_ptr, MEM_SIZE_T row, MEM_SIZE_T col, uint8_t** out_ptr)
 {
+    THROW_MSG_UNLESS(out_ptr != NULL, "Output pointer cannot be NULL");
+    THROW_MSG_UNLESS(_this->refCount != NULL, "Image not properly initialized");
     THROW_MSG_UNLESS(row < _this->height && col < _this->width, "Pixel out of bounds");
 
     *out_ptr = _this->image_buffer + _this->offset + (row * _this->stride) + col;
@@ -162,6 +170,7 @@ END_FUN
 MEM_FUN_IMPL(GrayImage, add, GrayImage const* other, GrayImage* out)
 {
     THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in arithmetic op");
+    THROW_MSG_UNLESS(_this->refCount != NULL && other->refCount != NULL && out->refCount != NULL, "Images not properly initialized");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Size mismatch between inputs");
     THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
     
@@ -188,6 +197,7 @@ END_FUN
 MEM_FUN_IMPL(GrayImage, sub_default, GrayImage const* other, GrayImage* out)
 {
     THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in arithmetic op");
+    THROW_MSG_UNLESS(_this->refCount != NULL && other->refCount != NULL && out->refCount != NULL, "Images not properly initialized");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Size mismatch between inputs");
     THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
 
@@ -214,6 +224,7 @@ END_FUN
 MEM_FUN_IMPL(GrayImage, sub_abs, GrayImage const* other, GrayImage* out)
 {
     THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in arithmetic op");
+    THROW_MSG_UNLESS(_this->refCount != NULL && other->refCount != NULL && out->refCount != NULL, "Images not properly initialized");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Size mismatch between inputs");
     THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
 
@@ -240,6 +251,7 @@ END_FUN
 MEM_FUN_IMPL(GrayImage, mul_scalar, double alpha, GrayImage* out)
 {
     THROW_MSG_UNLESS(_this != NULL && out != NULL, "NULL image in mul_scalar");
+    THROW_MSG_UNLESS(_this->refCount != NULL && out->refCount != NULL, "Images not properly initialized");
     THROW_MSG_UNLESS(out->width == _this->width && out->height == _this->height, "Output size mismatch");
 
     const MEM_SIZE_T height = _this->height, width = _this->width;
@@ -284,9 +296,9 @@ END_FUN
 MEM_FUN_IMPL(GrayImage, mul_mat, GrayImage const* other, GrayImage* out)
 {
     THROW_MSG_UNLESS(_this != NULL && other != NULL && out != NULL, "NULL image in mul_mat");
-    /* Dimension check: inner dims must match; output must be H_THIS � W_OTHER */
+    THROW_MSG_UNLESS(_this->refCount != NULL && other->refCount != NULL && out->refCount != NULL, "Images not properly initialized");
     THROW_MSG_UNLESS(_this->width == other->height, "Inner dims mismatch: A.width must equal B.height");
-    THROW_MSG_UNLESS(out->height == _this->height && out->width == other->width, "Output size must be (A.height � B.width)");
+    THROW_MSG_UNLESS(out->height == _this->height && out->width == other->width, "Output size must be (A.height × B.width)");
 
     const MEM_SIZE_T H_THIS = _this->height;
     const MEM_SIZE_T W_THIS = _this->width;     /* also B.height */
@@ -326,11 +338,11 @@ END_FUN
 
 MEM_FUN_IMPL(GrayImage, equals, GrayImage const* other, GrayImage* out_comparison_image)
 {
-
+    THROW_MSG_UNLESS(_this->refCount != NULL, "This image not properly initialized");
     THROW_MSG_UNLESS(other != NULL, "Other image cannot be NULL");
+    THROW_MSG_UNLESS(other->refCount != NULL, "Other image not properly initialized");
     THROW_MSG_UNLESS(out_comparison_image != NULL, "Output pointer cannot be NULL");
     THROW_MSG_UNLESS(_this->width == other->width && _this->height == other->height, "Image dimensions must match for comparison");
-
     THROW_MSG_UNLESS(out_comparison_image->width == _this->width && out_comparison_image->height == _this->height, "Output image dimensions must match inputs");
 
     FOR(MEM_SIZE_T r = 0; r < _this->height; ++r)
@@ -604,6 +616,123 @@ MEM_FUN_IMPL(GrayImage, save_to_bmp, const char* filePath)
 }
 END_FUN
 
+MEM_FUN_IMPL(GrayImage, load_from_bmp, const char* path)
+{
+    THROW_MSG_UNLESS(path != NULL, "Path cannot be NULL");
+    THROW_MSG_UNLESS(_this != NULL, "out_img cannot be NULL");
+
+    FILE* f = fopen(path, "rb");
+    THROW_MSG_UNLESS(f != NULL, "Failed to open file for reading");
+
+    BMP_FILE_HDR fh;
+    BMP_INFO_HDR ih;
+
+    TRY{
+        THROW_MSG_UNLESS(fread(&fh, sizeof(fh), 1, f) == 1, "Failed to read BMP file header");
+        THROW_MSG_UNLESS(fread(&ih, sizeof(ih), 1, f) == 1, "Failed to read BMP info header");
+        THROW_MSG_UNLESS(fh.signature == (uint16_t)0x4D42, "Not a BMP file ('BM' signature mismatch)");
+        THROW_MSG_UNLESS(ih.headerSize >= (uint32_t)sizeof(BMP_INFO_HDR), "Unsupported BMP info header size (<40)");
+        THROW_MSG_UNLESS(ih.colorPlanes == 1, "Unsupported BMP: colorPlanes != 1");
+        THROW_MSG_UNLESS(ih.compressionMethod == 0U, "Unsupported BMP compression (must be BI_RGB)");
+        THROW_MSG_UNLESS(ih.bitsPerPixel == 8U || ih.bitsPerPixel == 24U, "Only 8-bit or 24-bit BMP is supported");
+        THROW_MSG_UNLESS(ih.imageWidth > 0 && ih.imageHeight != 0, "Invalid BMP dimensions");
+
+        const MEM_SIZE_T width = (MEM_SIZE_T)ih.imageWidth;
+        const MEM_SIZE_T height = (MEM_SIZE_T)(ih.imageHeight > 0 ? ih.imageHeight : -ih.imageHeight);
+        const bool bottom_up = (ih.imageHeight > 0);
+        const uint32_t bytesPerPixel = (ih.bitsPerPixel == 24U) ? 3U : 1U;
+
+        const uint32_t rowSizeFile = (((uint32_t)width * bytesPerPixel + 3U) / 4U) * 4U;
+
+        THROW_MSG_UNLESS(fseek(f, (long)fh.pixelDataOffset, SEEK_SET) == 0, "Failed to seek to pixel data");
+
+
+        IF(_this->refCount != NULL)
+        {
+            (*(_this->refCount))--;
+            IF((*(_this->refCount)) == 0)
+            {
+                FREE(_this->image_buffer);
+                FREE(_this->refCount);
+            }
+            END_IF;
+            _this->refCount = NULL;
+            _this->image_buffer = NULL;
+        }
+        END_IF;
+
+        ALLOC_ARRAY(_this->image_buffer, uint8_t, height * width);
+        THROW_MSG_UNLESS(_this->image_buffer != NULL, "Failed to allocate image buffer");
+        ALLOC(_this->refCount, size_t);
+        IF(_this->refCount == NULL)
+        {
+            FREE(_this->image_buffer);
+            THROW_MSG("Failed to allocate refCount");
+        }
+        END_IF;
+        *(_this->refCount) = 1;
+
+        _this->width = width;
+        _this->height = height;
+        _this->stride = width;
+        _this->offset = 0;
+
+        uint8_t* fileRow = NULL;
+        ALLOC_ARRAY(fileRow, uint8_t, rowSizeFile);
+        THROW_MSG_UNLESS(fileRow != NULL, "Failed to allocate row buffer");
+
+        FOR(MEM_SIZE_T r = 0; r < height; ++r)
+        {
+            const MEM_SIZE_T src_r = bottom_up ? (height - 1U - r) : r;
+            const long rowOffset = (long)fh.pixelDataOffset + (long)(src_r * rowSizeFile);
+
+            IF(fseek(f, rowOffset, SEEK_SET) != 0)
+            {
+                FREE(fileRow);
+                THROW_MSG("Failed to seek to row");
+            }
+            END_IF;
+
+            IF(fread(fileRow, 1, rowSizeFile, f) != rowSizeFile)
+            {
+                FREE(fileRow);
+                THROW_MSG("Failed to read BMP row");
+            }
+            END_IF;
+
+            uint8_t* dst = _this->image_buffer + _this->offset + r * _this->stride;
+
+            IF(bytesPerPixel == 1U)
+            {
+                memcpy(dst, fileRow, (size_t)width);
+            }
+            ELSE
+            {
+                FOR(MEM_SIZE_T c = 0; c < width; ++c)
+                {
+                    const uint8_t B = fileRow[c * 3U + 0U];
+                    const uint8_t G = fileRow[c * 3U + 1U];
+                    const uint8_t R = fileRow[c * 3U + 2U];
+                    const uint32_t y = 77U * (uint32_t)R + 150U * (uint32_t)G + 29U * (uint32_t)B + 128U;
+                    dst[c] = (uint8_t)(y >> 8);
+                }
+                END_LOOP;
+            }
+            END_IF;
+        }
+        END_LOOP;
+
+        FREE(fileRow);
+        fclose(f);
+    }
+    CATCH{
+        fclose(f);
+        THROW;
+    }
+    END_TRY;
+}
+END_FUN
+
 
 INIT_CLASS(GrayImage);
 BIND(GrayImage, get_height);
@@ -615,6 +744,7 @@ BIND(GrayImage, init_copy);
 BIND(GrayImage, init_move);
 BIND(GrayImage, init_ROI);
 BIND(GrayImage, save_to_bmp);
+BIND(GrayImage, load_from_bmp);
 BIND(GrayImage, add);
 BIND(GrayImage, sub_default);
 BIND(GrayImage, sub_abs);

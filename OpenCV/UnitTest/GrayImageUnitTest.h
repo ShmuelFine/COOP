@@ -12,6 +12,7 @@ ADD_TEST(GrayImageTest, equals);
 ADD_TEST(GrayImageTest, init_copy);
 ADD_TEST(GrayImageTest, init_move); 
 ADD_TEST(GrayImageTest, save_img_to_bmp);
+ADD_TEST(GrayImageTest, load_img_from_bmp);
 ADD_TEST(GrayImageTest, add_saturate_basic3x3);
 ADD_TEST(GrayImageTest, sub_default_zero_3x3);
 ADD_TEST(GrayImageTest, sub_abs_matches_absdiff_3x3);
