@@ -1,5 +1,6 @@
 ﻿#include "GrayImage.h"
 #include "DynamicMemoryManagement.h"
+#include "Functions.h"
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
@@ -733,6 +734,36 @@ MEM_FUN_IMPL(GrayImage, load_from_bmp, const char* path)
 }
 END_FUN
 
+MEM_FUN_IMPL(GrayImage, canny, uint8_t low_thresh, uint8_t high_thresh)
+{
+    THROW_MSG_UNLESS(_this->refCount != NULL, "Canny: Source image not initialized properly");
+    THROW_MSG_UNLESS(low_thresh <= high_thresh, "Canny: The low threshold cannot be higher than the high threshold");
+
+    MEM_SIZE_T width = _this->width;
+    MEM_SIZE_T height = _this->height;
+
+    THROW_MSG_UNLESS(width >= 3 && height >= 3, "Canny: Image dimensions must be at least 3x3");
+
+    // Create a reference image to store the gradient directions
+    CREATE(GrayImage, direction_image) CALL;
+
+    // Step 1: Gaussian Blur (Noise Reduction)
+    FUN(__gaussian_blur) _this CALL;
+
+    // Step 2: Sobel Filter (Gradient Calculation)
+    FUN(__sobel_filter) _this, & direction_image CALL;
+
+    // Stage 3: Non-Maximum Suppression (NMS)
+    FUN(__non_maximum_suppression) _this, & direction_image CALL;
+
+    // Step 4: Double Threshold (Hysteresis)
+    FUN(__hysteresis_thresholding) _this, low_thresh, high_thresh CALL;
+
+    // Step 5: Reset the picture frame
+    FUN(__zero_border) _this CALL;
+}
+END_FUN
+
 
 INIT_CLASS(GrayImage);
 BIND(GrayImage, get_height);
@@ -745,6 +776,7 @@ BIND(GrayImage, init_move);
 BIND(GrayImage, init_ROI);
 BIND(GrayImage, save_to_bmp);
 BIND(GrayImage, load_from_bmp);
+BIND(GrayImage, canny);
 BIND(GrayImage, add);
 BIND(GrayImage, sub_default);
 BIND(GrayImage, sub_abs);

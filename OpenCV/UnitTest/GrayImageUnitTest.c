@@ -3,6 +3,14 @@
 #include "ExportDefs.h"
 #include "DynamicMemoryManagement.h"
 #include "vector.h"
+#include "Functions.h"
+#include <string.h>
+#include <stdio.h>
+
+// The path should be the path of the folder where your image is located.
+#define PATH  "C:\\bootcamp_project\\COOP\\OpenCV\\UnitTest\\Images\\"
+#define SIZE_PATH 512
+
 
 //
 // Test: create_SanityTest
@@ -625,7 +633,11 @@ TEST_FUN_IMPL(GrayImageTest, save_img_to_bmp)
 
 	CREATE(GrayImage, img) CALL;
 	MFUN(&img, init), 256, 256, & vec CALL;
-	const char* path = "test_coop_output.bmp";
+
+    char path[SIZE_PATH];
+    strcpy_s(path, sizeof path, PATH);
+    strcat_s(path, sizeof path, "test_coop_output.bmp");
+
 	// Act
 	MFUN(&img, save_to_bmp), path CALL;
 
@@ -647,15 +659,254 @@ TEST_FUN_IMPL(GrayImageTest, load_img_from_bmp)
 	// Arrange
     CREATE(GrayImage, img) CALL;
 
-    /* The path should be the path of the
-       folder where your image is located,
-       where the image name is test_input.bmp. */
-    const char* path_from = "test_input.bmp";
-    const char* path_to = "test_output.bmp";
+    char path_from[SIZE_PATH], path_to[SIZE_PATH];
+    strcpy_s(path_from, sizeof path_from, PATH);
+    strcat_s(path_from, sizeof path_from, "test_input.bmp");
+    
+    strcpy_s(path_to, sizeof path_to, PATH);
+    strcat_s(path_to, sizeof path_to,"test_output.bmp");
 
 	// Act
 	MFUN(&img, load_from_bmp), path_from CALL;
 
+    MFUN(&img, save_to_bmp), path_to CALL;
+
+    // Assert - check BMP signature
+    FILE* f = fopen(path_to, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
+
+} END_FUN
+
+TEST_FUN_IMPL(GrayImageTest, gaussian_blur)
+{
+    // Arrange
+    CREATE(GrayImage, img) CALL;
+
+    char path_from[SIZE_PATH], path_to[SIZE_PATH];
+    strcpy_s(path_from, sizeof path_from, PATH);
+    strcat_s(path_from, sizeof path_from, "test_input.bmp");
+
+    strcpy_s(path_to, sizeof path_to, PATH);
+    strcat_s(path_to, sizeof path_to, "gaussian_output.bmp");
+     
+    // Act
+    MFUN(&img, load_from_bmp), path_from CALL;
+	FUN(__gaussian_blur) &img CALL;
+    MFUN(&img, save_to_bmp), path_to CALL;
+
+    // Assert - check BMP signature
+    FILE* f = fopen(path_to, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
+
+} END_FUN
+
+TEST_FUN_IMPL(GrayImageTest, sobel_x_y)
+{
+    // Arrange
+    CREATE(GrayImage, img) CALL;
+	CREATE(GrayImage, img_x) CALL;
+	CREATE(GrayImage, img_y) CALL;
+
+    char path_from[SIZE_PATH], path_to[SIZE_PATH],path_to_x[SIZE_PATH],path_to_y[SIZE_PATH];
+
+    strcpy_s(path_from, sizeof path_from, PATH);
+    strcat_s(path_from, sizeof path_from, "test_input.bmp");
+
+    strcpy_s(path_to, sizeof path_to, PATH);
+    strcat_s(path_to, sizeof path_to, "sobel_output.bmp");
+
+    strcpy_s(path_to_x, sizeof path_to_x, PATH);
+    strcat_s(path_to_x, sizeof path_to_x, "sobel_output_x.bmp");
+
+    strcpy_s(path_to_y, sizeof path_to_y, PATH);
+    strcat_s(path_to_y, sizeof path_to_y, "sobel_output_y.bmp");
+    
+    MFUN(&img, load_from_bmp), path_from CALL;
+    MFUN(&img_x, init), img.width, img.height, NULL CALL;
+    MFUN(&img_y, init), img.width, img.height, NULL CALL;
+    FUN(__gaussian_blur) &img CALL;
+    // Act
+    FUN(__sobel_convolve_x) &img, &img_x CALL;
+    FUN(__sobel_convolve_y) &img, &img_y CALL;
+    FUN(__sobel_magnitude) &img_x, &img_y, &img CALL;
+
+    MFUN(&img, save_to_bmp), path_to CALL;
+    MFUN(&img_x, save_to_bmp), path_to_x CALL;
+    MFUN(&img_y, save_to_bmp), path_to_y CALL;
+
+    // Assert - check BMP signature
+    FILE* f_x = fopen(path_to_x, "rb");
+    ASSERT(f_x != NULL);
+
+    uint8_t signature_x[2];
+    size_t readCount_x = fread(signature_x, 1, 2, f_x);
+    fclose(f_x);
+
+    ASSERT(readCount_x == 2);
+    ASSERT(signature_x[0] == 'B' && signature_x[1] == 'M');
+
+    FILE* f_y = fopen(path_to_y, "rb");
+    ASSERT(f_y != NULL);
+
+    uint8_t signature_y[2];
+    size_t readCount_y = fread(signature_y, 1, 2, f_y);
+    fclose(f_y);
+
+    ASSERT(readCount_y == 2);
+    ASSERT(signature_y[0] == 'B' && signature_y[1] == 'M');
+
+    FILE* f = fopen(path_to, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
+
+} END_FUN
+
+TEST_FUN_IMPL(GrayImageTest, sobel)
+{
+    // Arrange
+    CREATE(GrayImage, img) CALL;
+
+    char path_from[SIZE_PATH], path_to[SIZE_PATH];
+    strcpy_s(path_from, sizeof path_from, PATH);
+    strcat_s(path_from, sizeof path_from, "test_input.bmp");
+
+    strcpy_s(path_to, sizeof path_to, PATH);
+    strcat_s(path_to, sizeof path_to, "sobel_split_output.bmp");
+
+    // Act
+    MFUN(&img, load_from_bmp), path_from CALL;
+	FUN(__gaussian_blur) &img CALL;
+	FUN(__sobel_filter_split) &img CALL;
+    MFUN(&img, save_to_bmp), path_to CALL;
+
+    // Assert - check BMP signature
+    FILE* f = fopen(path_to, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
+
+} END_FUN
+
+TEST_FUN_IMPL(GrayImageTest, non_maximum_suppression)
+{
+    // Arrange
+    CREATE(GrayImage, img) CALL;
+
+    char path_from[SIZE_PATH], path_to[SIZE_PATH];
+    strcpy_s(path_from, sizeof path_from, PATH);
+    strcat_s(path_from, sizeof path_from, "test_input.bmp");
+
+    strcpy_s(path_to, sizeof path_to, PATH);
+    strcat_s(path_to, sizeof path_to, "nms_output.bmp");
+
+    MFUN(&img, load_from_bmp), path_from CALL;
+	FUN(__gaussian_blur) &img CALL;
+
+	CREATE(GrayImage, img_dir) CALL;
+
+	FUN(__sobel_filter) &img, &img_dir CALL;
+
+    // Act
+	FUN(__non_maximum_suppression) &img, &img_dir CALL;
+    MFUN(&img, save_to_bmp), path_to CALL;
+
+    // Assert - check BMP signature
+    FILE* f = fopen(path_to, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
+
+} END_FUN
+
+TEST_FUN_IMPL(GrayImageTest, hysteresis_thresholding)
+{
+    // Arrange
+    CREATE(GrayImage, img) CALL;
+
+    char path_from[SIZE_PATH], path_to[SIZE_PATH];
+    strcpy_s(path_from, sizeof path_from, PATH);
+    strcat_s(path_from, sizeof path_from, "test_input.bmp");
+
+    strcpy_s(path_to, sizeof path_to, PATH);
+    strcat_s(path_to, sizeof path_to, "thresholding_output.bmp");
+
+    MFUN(&img, load_from_bmp), path_from CALL;
+	FUN(__gaussian_blur) &img CALL;
+
+	CREATE(GrayImage, img_dir) CALL;
+
+	FUN(__sobel_filter) &img, &img_dir CALL;
+	FUN(__non_maximum_suppression) &img, &img_dir CALL;
+
+	int high_threshold = 200;
+	int low_threshold = 50;
+    // Act
+
+	FUN(__hysteresis_thresholding)& img, low_threshold, high_threshold CALL;
+    MFUN(&img, save_to_bmp), path_to CALL;
+
+    // Assert - check BMP signature
+    FILE* f = fopen(path_to, "rb");
+    ASSERT(f != NULL);
+
+    uint8_t signature[2];
+    size_t readCount = fread(signature, 1, 2, f);
+    fclose(f);
+
+    ASSERT(readCount == 2);
+    ASSERT(signature[0] == 'B' && signature[1] == 'M');
+
+} END_FUN
+
+TEST_FUN_IMPL(GrayImageTest, canny_test)
+{
+    // Arrange
+    CREATE(GrayImage, img) CALL;
+
+    char path_from[SIZE_PATH], path_to[SIZE_PATH];
+    strcpy_s(path_from, sizeof path_from, PATH);
+    strcat_s(path_from, sizeof path_from, "test_tiger.bmp");
+
+    strcpy_s(path_to, sizeof path_to, PATH);
+    strcat_s(path_to, sizeof path_to, "canny_output.bmp");
+
+    MFUN(&img, load_from_bmp), path_from CALL;
+
+	int high_threshold = 200;
+	int low_threshold = 50;
+
+    // Act
+	MFUN(&img,canny), low_threshold, high_threshold CALL;
     MFUN(&img, save_to_bmp), path_to CALL;
 
     // Assert - check BMP signature
@@ -687,4 +938,10 @@ BIND_TEST(GrayImageTest, sub_default_zero_3x3);
 BIND_TEST(GrayImageTest, sub_abs_matches_absdiff_3x3);
 BIND_TEST(GrayImageTest, mul_scalar_round_and_saturate_3x3);
 BIND_TEST(GrayImageTest, mul_mat_linear_multiply_2x2);
+BIND_TEST(GrayImageTest, gaussian_blur);
+BIND_TEST(GrayImageTest, sobel_x_y);
+BIND_TEST(GrayImageTest, sobel);
+BIND_TEST(GrayImageTest, non_maximum_suppression);
+BIND_TEST(GrayImageTest, hysteresis_thresholding);
+BIND_TEST(GrayImageTest, canny_test);
 END_INIT_TEST_SUITE(GrayImageTest)

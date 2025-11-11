@@ -7,6 +7,8 @@ set(PROJECT_NAME OpenCV_Lib)
 set(OpenCV_Lib_Sources
     "GrayImage.c"
     "GrayImage.h"
+    "Functions.c"
+    "Functions.h"
 )
 source_group("OpenCV_Lib" FILES ${OpenCV_Lib_Sources})
 
