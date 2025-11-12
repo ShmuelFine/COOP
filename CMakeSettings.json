@@ -13,7 +13,7 @@
       "variables": [
         {
           "name": "MEM_SIZE",
-          "value": "ushort",
+          "value": "int",
           "type": "STRING"
         }
       ]
