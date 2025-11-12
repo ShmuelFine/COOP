@@ -1,6 +1,13 @@
 ﻿#include "GrayImage.h"
 #include "DynamicMemoryManagement.h"
-#include "Functions.h"
+
+#include "ImageProcessor.h"
+#include "GaussianProcessor.h"
+#include "SobelProcessor.h"
+#include "NMSProcessor.h"
+#include "ThresholdProcessor.h"
+#include "BorderProcessor.h"
+
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
@@ -744,26 +751,34 @@ MEM_FUN_IMPL(GrayImage, canny, uint8_t low_thresh, uint8_t high_thresh)
 
     THROW_MSG_UNLESS(width >= 3 && height >= 3, "Canny: Image dimensions must be at least 3x3");
 
-    // Create a reference image to store the gradient directions
     CREATE(GrayImage, direction_image) CALL;
+    //MFUN(&direction_image, init), width, height, NULL CALL;
 
-    // Step 1: Gaussian Blur (Noise Reduction)
-    FUN(__gaussian_blur) _this CALL;
+    CREATE(GaussianProcessor, p_gauss) CALL;
+    CREATE(SobelProcessor, p_sobel), & direction_image CALL;
+    CREATE(NMSProcessor, p_nms), & direction_image CALL;
+    CREATE(ThresholdProcessor, p_thresh), low_thresh, high_thresh CALL;
+    CREATE(BorderProcessor, p_border) CALL;
 
-    // Step 2: Sobel Filter (Gradient Calculation)
-    FUN(__sobel_filter) _this, & direction_image CALL;
+    // Pipeline
+    ImageProcessor* pipeline[] = {
+        (ImageProcessor*)&p_gauss,
+        (ImageProcessor*)&p_sobel,
+        (ImageProcessor*)&p_nms,
+        (ImageProcessor*)&p_thresh,
+        (ImageProcessor*)&p_border
+    };
+    const MEM_SIZE_T pipeline_size = sizeof(pipeline) / sizeof(pipeline[0]);
 
-    // Stage 3: Non-Maximum Suppression (NMS)
-    FUN(__non_maximum_suppression) _this, & direction_image CALL;
+    
+    FOR(MEM_SIZE_T i = 0; i < pipeline_size; ++i)
+    {
+        MFUN(pipeline[i], process), _this CALL;
+    }
+    END_LOOP;
 
-    // Step 4: Double Threshold (Hysteresis)
-    FUN(__hysteresis_thresholding) _this, low_thresh, high_thresh CALL;
-
-    // Step 5: Reset the picture frame
-    FUN(__zero_border) _this CALL;
 }
 END_FUN
-
 
 INIT_CLASS(GrayImage);
 BIND(GrayImage, get_height);

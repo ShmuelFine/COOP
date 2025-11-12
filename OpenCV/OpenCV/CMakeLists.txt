@@ -7,8 +7,18 @@ set(PROJECT_NAME OpenCV_Lib)
 set(OpenCV_Lib_Sources
     "GrayImage.c"
     "GrayImage.h"
-    "Functions.c"
-    "Functions.h"
+    "ImageProcessor.h"
+    "ImageProcessor.c"
+    "GaussianProcessor.h"
+    "GaussianProcessor.c"
+    "SobelProcessor.h"
+    "SobelProcessor.c"
+    "NMSProcessor.h"
+    "NMSProcessor.c"
+    "ThresholdProcessor.h"
+    "ThresholdProcessor.c"
+    "BorderProcessor.h"
+    "BorderProcessor.c"
 )
 source_group("OpenCV_Lib" FILES ${OpenCV_Lib_Sources})
 

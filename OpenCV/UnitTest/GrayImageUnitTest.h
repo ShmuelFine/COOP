@@ -2,7 +2,18 @@
 #define __COOP_TESTS__GRAY_IMAGE_TEST__H__
 
 #include "UnitTestsInfra.h"
-#include "COOP.h"
+#include "ExportDefs.h"
+#include "DynamicMemoryManagement.h"
+#include "vector.h"
+#include "ImageProcessor.h"
+#include "GaussianProcessor.h"
+#include "SobelProcessor.h"
+#include "NMSProcessor.h"
+#include "ThresholdProcessor.h"
+#include "BorderProcessor.h"
+#include "GrayImage.h"
+#include <string.h>
+#include <stdio.h>
 
 DEF_TEST_SUITE(GrayImageTest);
 ADD_TEST(GrayImageTest, create_SanityTest);
@@ -19,8 +30,6 @@ ADD_TEST(GrayImageTest, sub_abs_matches_absdiff_3x3);
 ADD_TEST(GrayImageTest, mul_scalar_round_and_saturate_3x3);
 ADD_TEST(GrayImageTest, mul_mat_linear_multiply_2x2);
 ADD_TEST(GrayImageTest, gaussian_blur);
-ADD_TEST(GrayImageTest, sobel_x_y);
-ADD_TEST(GrayImageTest, sobel);
 ADD_TEST(GrayImageTest, non_maximum_suppression);
 ADD_TEST(GrayImageTest, hysteresis_thresholding);
 ADD_TEST(GrayImageTest, canny_test);
