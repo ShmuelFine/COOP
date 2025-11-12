@@ -35,7 +35,6 @@ FUN_IMPL(__zero_border, GrayImage* img)
 
     FOR(MEM_SIZE_T r = 1; r < r_bottom; ++r)
     {
-        uint8_t* p = NULL;
         MFUN(img, get_pixel_ptr), r, c_left, & p CALL;
         *p = 0;
         MFUN(img, get_pixel_ptr), r, c_right, & p CALL;
