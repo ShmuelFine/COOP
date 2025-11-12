@@ -15,8 +15,6 @@ FUN_IMPL(__sobel_filter, GrayImage* img, GrayImage* out_dir) {
     MFUN(img, get_width), & width CALL;
     MFUN(img, get_height), & height CALL;
 
-    MFUN(out_dir, init), width, height, NULL CALL;
-
     THROW_MSG_UNLESS(width >= 3 && height >= 3, "Image dimensions must be at least 3x3 for a 3x3 Sobel kernel.");
 
     CREATE(GrayImage, temp_img) CALL;

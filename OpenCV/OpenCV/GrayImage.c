@@ -752,7 +752,7 @@ MEM_FUN_IMPL(GrayImage, canny, uint8_t low_thresh, uint8_t high_thresh)
     THROW_MSG_UNLESS(width >= 3 && height >= 3, "Canny: Image dimensions must be at least 3x3");
 
     CREATE(GrayImage, direction_image) CALL;
-    //MFUN(&direction_image, init), width, height, NULL CALL;
+    MFUN(&direction_image, init), width, height, NULL CALL;
 
     CREATE(GaussianProcessor, p_gauss) CALL;
     CREATE(SobelProcessor, p_sobel), & direction_image CALL;

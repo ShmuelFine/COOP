@@ -727,6 +727,7 @@ TEST_FUN_IMPL(GrayImageTest, non_maximum_suppression)
     MFUN(&p_gauss, process), & img CALL
 
 	CREATE(GrayImage, img_dir) CALL;
+    MFUN(&img_dir,init), img.width, img.height , NULL CALL
 
     CREATE(SobelProcessor, p_sobel), & img_dir CALL;
     MFUN(&p_sobel, process), & img CALL;
@@ -766,6 +767,7 @@ TEST_FUN_IMPL(GrayImageTest, hysteresis_thresholding)
     MFUN(&p_gauss, process), & img CALL;
 
 	CREATE(GrayImage, img_dir) CALL;
+    MFUN(&img_dir, init), img.width, img.height, NULL CALL
 
     CREATE(SobelProcessor, p_sobel), & img_dir CALL;
     MFUN(&p_sobel, process), & img CALL;
