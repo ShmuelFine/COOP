@@ -8,7 +8,7 @@ The `OpenCV` directory contains a self-contained, COOP-styled image-processing p
 >
 > 1.  Open `OpenCV/UnitTest/GrayImageUnitTest.c`.
 > 2.  At the top of the file, find the `#define PATH` macro.
-> 3.  Change the default path to the **absolute path** of the COOP project name directory on your local CP.
+> 3.  Change the default path to the **absolute path** of the COOP project name directory on your local PC.
 >
 > **Example:**
 > ```c
