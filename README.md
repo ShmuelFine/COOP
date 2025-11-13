@@ -128,7 +128,7 @@ This benchmark highlights the quality of COOP's generated code. While a Pure C i
 
 ![](List.png)
 
- The benchmarking methodology, hardware notes, and reproduction steps are documented in [`COMPARE/README.md`](COMPARE/README.md). Raw datasets and additional comparisons live in `COMPARE/`.
+ The benchmarking methodology, hardware notes, and reproduction steps are documented in [`Compare/README.md`](Compare/README.md). Raw datasets and additional comparisons live in `Compare/`.
 
 ## Safety and Compliance
 
