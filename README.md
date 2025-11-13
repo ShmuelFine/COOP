@@ -16,7 +16,7 @@ You will find a usage cheat sheet in `The COOP Cheat Sheet.docx`, and the `UnitT
 ## Object-Oriented Principles in COOP
 - **Class construction macros** (`DEF_CLASS`, `END_DEF`, `FUNCTIONS`) generate a strongly typed struct together with constructor and destructor declarations and the associated method tables.
 
-- **Inheritance and polymorphism** rely on `DEF_DERIVED_CLASS`, `DERIVED_FUNCTIONS`, and `FUN_OVERRIDE`, which expand into virtual table definitions and override-safe call-sites.This mechanism allows code written against a base type to dispatch dynamically to derived implementations, substitutability across the hierarchy.
+- **Inheritance and polymorphism** rely on `DEF_DERIVED_CLASS`, `DERIVED_FUNCTIONS`, and `FUN_OVERRIDE`, which expand into virtual table definitions and override-safe call-sites. This mechanism allows code written against a base type to dispatch dynamically to derived implementations, substitutability across the hierarchy.
 
 - **Deterministic lifetime management** uses constructor/destructor macros (`INIT_CLASS`, `END_FUNCTIONS`) and shared-ownership helpers (`SharedObjPtr`, `SharedPodPtr`) to express ownership semantics that mirror RAII.
 
