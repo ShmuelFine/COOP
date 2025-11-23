@@ -1,10 +1,10 @@
-set(PROJECT_NAME OpenCV_Lib) 
+set(PROJECT_NAME CV_Lib) 
 
 ################################################################################
 # Source groups
 ################################################################################
 
-set(OpenCV_Lib_Sources
+set(CV_Lib_Sources
     "GrayImage.c"
     "GrayImage.h"
     "ImageProcessor.h"
@@ -20,17 +20,17 @@ set(OpenCV_Lib_Sources
     "BorderProcessor.h"
     "BorderProcessor.c"
 )
-source_group("OpenCV_Lib" FILES ${OpenCV_Lib_Sources})
+source_group("CV_Lib" FILES ${CV_Lib_Sources})
 
 set(ALL_FILES
-    ${OpenCV_Lib_Sources}
+    ${CV_Lib_Sources}
 )
 
 ################################################################################
 # Library Target 
 ################################################################################
-add_library(OpenCV_Lib STATIC ${OpenCV_Lib_Sources})
+add_library(CV_Lib STATIC ${CV_Lib_Sources})
 
-target_include_directories(OpenCV_Lib PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../../COOP")
+target_include_directories(CV_Lib PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../../COOP")
 
-target_link_libraries(OpenCV_Lib PRIVATE COOP)
+target_link_libraries(CV_Lib PRIVATE COOP)

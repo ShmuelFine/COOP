@@ -141,8 +141,8 @@ This benchmark highlights the quality of COOP's generated code. While a Pure C i
 
 
 ## Computer Vision Extensions
-- The `OpenCV` directory packages a COOP-based image-processing toolkit that mirrors key OpenCV primitives (grayscale buffers, Sobel, Gaussian, thresholding, non-maximum suppression). A dedicated guide with module walkthroughs and integration notes is available in [`OpenCV/README.md`](OpenCV/README.md).
-- Unit tests under `OpenCV/UnitTest` exercise GrayImage pipelines end to end, providing ready-to-run validation on sample BMP assets.
+- The `CV` directory packages a COOP-based image-processing toolkit that mirrors key CV primitives (grayscale buffers, Sobel, Gaussian, thresholding, non-maximum suppression). A dedicated guide with module walkthroughs and integration notes is available in [`CV/README.md`](CV/README.md).
+- Unit tests under `CV/UnitTest` exercise GrayImage pipelines end to end, providing ready-to-run validation on sample BMP assets.
 
 ---
 

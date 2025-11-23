@@ -1,12 +1,12 @@
-# COOP OpenCV Modules
+# COOP CV Modules
 
-The `OpenCV` directory contains a self-contained, COOP-styled image-processing pipeline that mirrors a subset of the classic OpenCV toolbox.
+The `CV` directory contains a self-contained, COOP-styled image-processing pipeline that mirrors a subset of the classic Computer Vision toolbox.
 
-> ### **Configuration Required for OpenCV Unit Tests**
+> ### **Configuration Required for CV Unit Tests**
 >
 > To run the `GrayImageUnitTest` successfully, you must first update a hardcoded file path inside the test file.
 >
-> 1.  Open `OpenCV/UnitTest/GrayImageUnitTest.c`.
+> 1.  Open `CV/UnitTest/GrayImageUnitTest.c`.
 > 2.  At the top of the file, find the `#define PATH` macro.
 > 3.  Change the default path to the **absolute path** of the COOP project name directory on your local PC.
 >
@@ -18,11 +18,11 @@ The `OpenCV` directory contains a self-contained, COOP-styled image-processing p
 >
 > The tests use this `PATH` macro to locate and load the sample images (like `tiger_input.bmp`) from the `UnitTest/Images/` folder. If this is not updated, the tests will fail to load the images.
 
-- **`OpenCV/OpenCV`** classes:
+- **`CV/CV`** classes:
   - `GrayImage` wraps grayscale rasters with safe constructors, bounds-checked pixel access, and automatic memory ownership.
   - `GaussianProcessor`, `SobelProcessor`, `BorderProcessor`, `ThresholdProcessor`, and `NMSProcessor` model each stage of an edge-detection pipeline as composable classes with explicit lifetimes.
   - `ImageProcessor` orchestrates multi-step operations.
-- **`OpenCV/UnitTest`** provides test runners and fixtures (`GrayImageUnitTest.c`, `_RUNNER_.c`) that validate each stage on sample BMP frames stored under `UnitTest/Images/`
+- **`CV/UnitTest`** provides test runners and fixtures (`GrayImageUnitTest.c`, `_RUNNER_.c`) that validate each stage on sample BMP frames stored under `UnitTest/Images/`
 
 ### GrayImage Class API
 

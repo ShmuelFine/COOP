@@ -1,7 +1,7 @@
 ﻿#include "GrayImageUnitTest.h"
 
 // The path should be the path of the folder where your image is located.
-#define PATH  "C:\\Projects\\OpenCV\\"
+#define PATH  "C:\\Projects\\CV\\"
 #define SIZE_PATH 512
 
 
@@ -629,7 +629,7 @@ TEST_FUN_IMPL(GrayImageTest, save_img_to_bmp)
 
     char path[SIZE_PATH];
     strcpy_s(path, sizeof path, PATH);
-    strcat_s(path, sizeof path, "OpenCV\\UnitTest\\Images\\test_coop_output.bmp");
+    strcat_s(path, sizeof path, "CV\\UnitTest\\Images\\test_coop_output.bmp");
 
 	// Act
 	MFUN(&img, save_to_bmp), path CALL;
@@ -654,10 +654,10 @@ TEST_FUN_IMPL(GrayImageTest, load_img_from_bmp)
 
     char path_from[SIZE_PATH], path_to[SIZE_PATH];
     strcpy_s(path_from, sizeof path_from, PATH);
-    strcat_s(path_from, sizeof path_from, "OpenCV\\UnitTest\\Images\\test_input.bmp");
+    strcat_s(path_from, sizeof path_from, "CV\\UnitTest\\Images\\test_input.bmp");
     
     strcpy_s(path_to, sizeof path_to, PATH);
-    strcat_s(path_to, sizeof path_to,"OpenCV\\UnitTest\\Images\\test_output.bmp");
+    strcat_s(path_to, sizeof path_to,"CV\\UnitTest\\Images\\test_output.bmp");
 
 	// Act
 	MFUN(&img, load_from_bmp), path_from CALL;
@@ -684,10 +684,10 @@ TEST_FUN_IMPL(GrayImageTest, gaussian_blur)
 
     char path_from[SIZE_PATH], path_to[SIZE_PATH];
     strcpy_s(path_from, sizeof path_from, PATH);
-    strcat_s(path_from, sizeof path_from, "OpenCV\\UnitTest\\Images\\test_input.bmp");
+    strcat_s(path_from, sizeof path_from, "CV\\UnitTest\\Images\\test_input.bmp");
 
     strcpy_s(path_to, sizeof path_to, PATH);
-    strcat_s(path_to, sizeof path_to, "OpenCV\\UnitTest\\Images\\gaussian_output.bmp");
+    strcat_s(path_to, sizeof path_to, "CV\\UnitTest\\Images\\gaussian_output.bmp");
      
     MFUN(&img, load_from_bmp), path_from CALL;
     CREATE(GaussianProcessor, p_gauss) CALL;
@@ -716,10 +716,10 @@ TEST_FUN_IMPL(GrayImageTest, non_maximum_suppression)
 
     char path_from[SIZE_PATH], path_to[SIZE_PATH];
     strcpy_s(path_from, sizeof path_from, PATH);
-    strcat_s(path_from, sizeof path_from, "OpenCV\\UnitTest\\Images\\test_input.bmp");
+    strcat_s(path_from, sizeof path_from, "CV\\UnitTest\\Images\\test_input.bmp");
 
     strcpy_s(path_to, sizeof path_to, PATH);
-    strcat_s(path_to, sizeof path_to, "OpenCV\\UnitTest\\Images\\nms_output.bmp");
+    strcat_s(path_to, sizeof path_to, "CV\\UnitTest\\Images\\nms_output.bmp");
 
     MFUN(&img, load_from_bmp), path_from CALL;
 
@@ -757,10 +757,10 @@ TEST_FUN_IMPL(GrayImageTest, hysteresis_thresholding)
 
     char path_from[SIZE_PATH], path_to[SIZE_PATH];
     strcpy_s(path_from, sizeof path_from, PATH);
-    strcat_s(path_from, sizeof path_from, "OpenCV\\UnitTest\\Images\\test_input.bmp");
+    strcat_s(path_from, sizeof path_from, "CV\\UnitTest\\Images\\test_input.bmp");
 
     strcpy_s(path_to, sizeof path_to, PATH);
-    strcat_s(path_to, sizeof path_to, "OpenCV\\UnitTest\\Images\\thresholding_output.bmp");
+    strcat_s(path_to, sizeof path_to, "CV\\UnitTest\\Images\\thresholding_output.bmp");
 
     MFUN(&img, load_from_bmp), path_from CALL;
     CREATE(GaussianProcessor, p_gauss) CALL;
@@ -805,10 +805,10 @@ TEST_FUN_IMPL(GrayImageTest, canny_test)
 
     char path_from[SIZE_PATH], path_to[SIZE_PATH];
     strcpy_s(path_from, sizeof path_from, PATH);
-    strcat_s(path_from, sizeof path_from, "OpenCV\\UnitTest\\Images\\test_input.bmp");
+    strcat_s(path_from, sizeof path_from, "CV\\UnitTest\\Images\\test_input.bmp");
 
     strcpy_s(path_to, sizeof path_to, PATH);
-    strcat_s(path_to, sizeof path_to, "OpenCV\\UnitTest\\Images\\canny_output.bmp");
+    strcat_s(path_to, sizeof path_to, "CV\\UnitTest\\Images\\canny_output.bmp");
 
     MFUN(&img, load_from_bmp), path_from CALL;
 

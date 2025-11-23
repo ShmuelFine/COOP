@@ -20,14 +20,14 @@ add_executable(${PROJECT_NAME} ${TEST_SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/.."
     "${CMAKE_CURRENT_SOURCE_DIR}/../../COOP"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../OpenCV"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../CV"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../UnitTestC"
 )
 
 ################################################################################
 # Dependencies (Link Libraries)
 ################################################################################
-target_link_libraries(${PROJECT_NAME} PRIVATE COOP OpenCV_Lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE COOP CV_Lib)
 
 # ======================================================================
 # Debug build configuration for Visual Studio (MSVC)
