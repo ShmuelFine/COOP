@@ -5,7 +5,6 @@
 
 // Static kernels for Gaussian Blur operation
 static const uint8_t GAUSSIAN_KERNEL_VALS[3][3] = { {1, 2, 1}, {2, 4, 2}, {1, 2, 1} };
-static const int GAUSSIAN_DIVISOR = 16;
 
 DEF_DERIVED_CLASS(GaussianProcessor, ImageProcessor);
 END_DEF_DERIVED(GaussianProcessor);
