@@ -75,6 +75,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ################################################################################
 add_subdirectory(COOP)
 add_subdirectory(UnitTestC)
+add_subdirectory(CV/CV)
+add_subdirectory(CV/UnitTest)
+
 
 
 # ==== [ COOP Benchmark Section ] ====

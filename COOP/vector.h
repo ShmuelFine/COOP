@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stddef.h> 
+#include <stdint.h>
 
 /* ==== Vector iterator methods (derived from Iterator) ==== */
 
@@ -42,16 +43,19 @@ MEM_FUN_DECL(GenericVector, __at_generic, MEM_SIZE_T i, MEM_SIZE_T data_size, ch
 MEM_FUN_DECL(GenericVector, at_int, MEM_SIZE_T i, int** val_ptr);
 MEM_FUN_DECL(GenericVector, at_char, MEM_SIZE_T i, char** val_ptr);
 MEM_FUN_DECL(GenericVector, at_float, MEM_SIZE_T i, float** val_ptr);
+MEM_FUN_DECL(GenericVector, at_uint8_t, MEM_SIZE_T i, uint8_t** val_ptr);
 MEM_FUN_DECL(GenericVector, at_objSPtr, MEM_SIZE_T i, objSPtr** val_ptr);
 
 MEM_FUN_DECL(GenericVector, get_int, MEM_SIZE_T i, int* val);
 MEM_FUN_DECL(GenericVector, get_char, MEM_SIZE_T i, char* val);
 MEM_FUN_DECL(GenericVector, get_float, MEM_SIZE_T i, float* val);
+MEM_FUN_DECL(GenericVector, get_uint8_t, MEM_SIZE_T i, uint8_t* val);
 MEM_FUN_DECL(GenericVector, get_objSPtr, MEM_SIZE_T i, objSPtr* val_ptr);
 
 MEM_FUN_DECL(GenericVector, set_int, MEM_SIZE_T i, int val);
 MEM_FUN_DECL(GenericVector, set_char, MEM_SIZE_T i, char val);
 MEM_FUN_DECL(GenericVector, set_float, MEM_SIZE_T i, float val);
+MEM_FUN_DECL(GenericVector, set_uint8_t, MEM_SIZE_T i, uint8_t val);
 MEM_FUN_DECL(GenericVector, set_objSPtr, MEM_SIZE_T i, objSPtr val);
 
 MEM_FUN_DECL(GenericVector, resize, MEM_SIZE_T new_capacity);
@@ -62,12 +66,14 @@ MEM_FUN_DECL(GenericVector, __push_back_generic, char* buff, MEM_SIZE_T buff_siz
 MEM_FUN_DECL(GenericVector, push_back_int, int val);
 MEM_FUN_DECL(GenericVector, push_back_char, char val);
 MEM_FUN_DECL(GenericVector, push_back_float, float val);
+MEM_FUN_DECL(GenericVector, push_back_uint8_t, uint8_t val);
 MEM_FUN_DECL(GenericVector, push_back_objSPtr, objSPtr val);
 
 MEM_FUN_DECL(GenericVector, __pop_back_generic, char* buff, MEM_SIZE_T buff_size);
 MEM_FUN_DECL(GenericVector, pop_back_int, int* val);
 MEM_FUN_DECL(GenericVector, pop_back_char, char* val);
 MEM_FUN_DECL(GenericVector, pop_back_float, float* val);
+MEM_FUN_DECL(GenericVector, pop_back_uint8_t, uint8_t* val);
 MEM_FUN_DECL(GenericVector, pop_back_objSPtr, objSPtr* val);
 
 MEM_FUN_DECL(GenericVector, zero_all);
@@ -101,6 +107,7 @@ END_DERIVED_FUNCTIONS(Vector_ ##type);
 DECLARE_SPECIFIC_VECTOR_TYPE(int);
 DECLARE_SPECIFIC_VECTOR_TYPE(char);
 DECLARE_SPECIFIC_VECTOR_TYPE(float);
+DECLARE_SPECIFIC_VECTOR_TYPE(uint8_t);
 DECLARE_SPECIFIC_VECTOR_TYPE(objSPtr);
 
 #endif
